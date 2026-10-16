@@ -3,8 +3,6 @@ import { unzipSync } from '../vendor/fflate/fflate.mjs';
 import { danReferenceCopyLines } from './dan-reference.js';
 import { danEstimateCopyLines } from './dan-estimate.js';
 
-export const STAR_NOTE_JACK =
-  'jack/chordjack 较多：按 acc 定义，读数通常比段位手感低约 1 段';
 export const SEG_CAPTION =
   '分段曲线：每 10 秒一段，按旧公共星数刻度，只用来看起伏，不等于总星数';
 
@@ -163,11 +161,6 @@ export function unreliableReasons(result) {
   return out;
 }
 
-export function jackHint(result) {
-  if (!result || !result.ok || !result.flags || !result.flags.jackHeavy) return null;
-  return STAR_NOTE_JACK;
-}
-
 /** 「复制读数信息」的多行文本。ver 为 ready 消息的 {version, frozen}。 */
 export function buildCopyText(result, header, fileName, ver, references, ladderLine = null, withSub = true, dan = null) {
   const meta = mergeMeta(header, result);
@@ -192,8 +185,6 @@ export function buildCopyText(result, header, fileName, ver, references, ladderL
     rs.forEach((r) => lines.push(`  - ${r}`));
   }
   if (result && result.ok) lines.push(...danEstimateCopyLines(dan));
-  const jh = jackHint(result);
-  if (jh) lines.push(`提示：${jh}`);
   if (withSub) for (const r of subRows(result)) lines.push(`${r.label}：${r.star === null ? r.text : fmtStar(r.star) + (r.text ? `（${r.text}）` : '')}`);
   if (result && result.ok && result.rate === 0.75) lines.push(`提示：${HT_NOTE}`);
   if (result && result.ok && ladderLine) lines.push(ladderLine);

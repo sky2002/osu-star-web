@@ -5,7 +5,7 @@ import {
 } from './dan-reference.js';
 import {
   listOsz, parseOsuHeader, decodeText, skipReason, mergeMeta, displayName,
-  unreliableReasons, jackHint, buildCopyText, buildSegmentsSvg, fmtStar, fmtTime, SEG_CAPTION,
+  unreliableReasons, buildCopyText, buildSegmentsSvg, fmtStar, fmtTime, SEG_CAPTION,
   MOD_SHORT, HT_NOTE, modLabel, subRows, SUB_NOTE,
 } from './ui-lib.js';
 import {
@@ -393,8 +393,6 @@ function renderItem(it) {
         h('span', { class: 'tag', text: '不可靠' }),
         h('ul', null, reasons.map((x) => h('li', { text: x })))));
     }
-    const jh = jackHint(r);
-    if (jh) extra.push(h('div', { class: 'note', text: jh }));
     if (r.rate === 0.75) extra.push(h('div', { class: 'note', text: HT_NOTE }));
     if (state.experimental) {
       extra.push(ladderPanel(r, it));
