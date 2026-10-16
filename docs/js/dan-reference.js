@@ -1,6 +1,6 @@
 export const DAN_REFERENCE_NOTE = '只比较本模型的谱面读数，不代表能通过对应段位；题型不同，手感也可能不同。';
-export const LN_REFERENCE_NOTE = '这一列按 LN 段位的标准（97% ScoreV2）读数：这张谱和 LN 段位谱都按这个标准算，和面段位同一标准，不和总星数直接比。LN 5 段及以下不列。';
-export const LN_REFERENCE_MIN_DAN = 6;   // 与面段位一致：LN 5 段及以下社区没有定论，不列
+export const LN_REFERENCE_NOTE = '这一列按 LN 段位的标准（97% ScoreV2）读数：这张谱和 LN 段位谱都按这个标准算，和面段位同一标准，不和总星数直接比。LN 4 段及以下不列。';
+export const LN_REFERENCE_MIN_DAN = 5;   // 与面段位一致：LN 4 段及以下社区没有定论，不列
 export const DAN_REFERENCE_WARNING = '当前谱面读数不可靠，附近参考也请谨慎看待。';
 
 export function validateDanReferences(data) {
@@ -32,7 +32,7 @@ export function referencesForModel(data, model) {
 }
 
 // REFORM 组：这张谱的总星数（96% ScoreV1）对段位谱的 star；LN 组：这张谱的整谱 97% ScoreV2 读数（result.v2.star）
-// 对段位谱的 starV2，只列 6 段起。返回的 matches 里 star 是该组所用标准下的段位谱读数。
+// 对段位谱的 starV2，只列 5 段起。返回的 matches 里 star 是该组所用标准下的段位谱读数。
 function groupReading(result, group) {
   if (group.id !== 'ln') return result.star;
   const v = result.v2 && result.v2.star;

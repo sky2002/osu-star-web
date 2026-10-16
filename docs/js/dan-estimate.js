@@ -1,19 +1,22 @@
 // 米段位 / 面段位估计（纯函数，不碰 DOM，Node 里可直接 import 测试）。
 // 米段位：这张谱的总星数（96% ScoreV1）对 REFORM 1st…Eta 段位谱（Marathon 整段，不含 INTRO）的同标准读数。
-// 面段位：这张谱的整谱 97% ScoreV2 读数对 LN Dan Courses v2 6th…15th（Marathon 整段）的同标准读数；5 段及以下不用。
-// 规则（研究仓库 docs/dan-estimate-r1-results-2026-10-15.md）：
+// 面段位：这张谱的整谱 97% ScoreV2 读数对 LN Dan Courses v2 5th…15th（Marathon 整段）的同标准读数；4 段及以下不用。
+// 规则（研究仓库 docs/dan-estimate-r1-results-2026-10-15.md；段内方位词按 benchmark runner.md §3.1）：
 //   1. 参照读数按段位顺序做单调化（pool-adjacent-violators，违序的相邻段合并成一档，读数取平均）；
-//   2. 相邻两档读数差 < DAN_MERGE_GAP（重训波动量级）时合并成一档，例如 REFORM 2nd 2.88 / 3rd 2.90 → “2nd–3rd”；
-//   3. 谱面读数落在两档之间：线性插值位置，离某档 15% 以内写“≈ 该档”，否则前三分之一“偏下一档”、后三分之一“偏上一档”、中间“居中”；
-//   4. 高于最高档：“高于 Eta（外推）”；低于最低档：“低于 1st”/“LN 6 段以下”。
+//   2. 相邻两档读数差 < DAN_MERGE_GAP（重训波动量级）时合并成一档；REFORM 3rd 用替代锚读数（见下）后 2nd/3rd
+//      自然分开，LN 14th–15th（读数差 0.038）仍合并为“14th–15th”；
+//   3. 谱面读数落在两档之间：线性插值位置，取最近的档位锚点，按偏差给段内方位词（左开右闭）：(−0.5,−0.3]=low、
+//      (−0.3,−0.1]=mid/low、(−0.1,+0.1]=mid、(+0.1,+0.3]=mid/high、(+0.3,+0.5]=high；括号数值保留两位小数；
+//   4. 高于最高档：“!17+”（!+刻度上限，米 17=Eta、LN 15）；低于最低档：“1st 以下”/“LN5 以下”。
 
 export const DAN_MERGE_GAP = 0.05;
+// REFORM 3rd 的替代锚读数：原始 3rd 与 2nd 的读数只差 0.016 星（重训波动内，会触发合并成“2nd–3rd”且无法插值），
+// benchmark（runner/map.mjs）改用同模型的 3dan 谱（REFORM 1st Pack v2 (DDMythical) ~ 3rd ~，reliable）作 3rd 档锚点。
+export const DAN_REFORM_3RD_SUBSTITUTE_STAR = 3.0585190895872016;
 // 长条很少：长条数 / 物件数 < 0.15 时面段位变灰（Mixed 估计器把 ≤0.15 判为米图；REFORM 等米图参照的 95% 分位 0.143，
 // LN 段位谱最低 0.245；研究仓库 docs/analysis/rice-ln-classification-2026-10-11/README.md §1.2、§4.1）
 export const DAN_LN_FEW = 0.15;
-export const LN_MIN_DAN = 6;
-// 读数离某一档很近（两档间距的 15% 以内）时直接写“≈ 该档”，例如段位谱读它自己显示“≈ LN 9th”
-export const DAN_AT = 0.15;
+export const LN_MIN_DAN = 5;
 
 const REFORM_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta'];
 const REFORM_SHORT = { alpha: 'Alpha', beta: 'Beta', gamma: 'Gamma', delta: 'Delta', epsilon: 'Epsilon', zeta: 'Zeta', eta: 'Eta' };
@@ -21,7 +24,7 @@ const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st',
 
 export const DAN_ESTIMATE_NOTE =
   '米 / 面段位：把这张谱和 REFORM / LN 段位谱用同一模型、同一标准比较，看它排在哪两段之间；不代表能通过对应段位。' +
-  '米按总星数（96% ScoreV1）和 REFORM 1st–Eta 比；面按整张谱 97% ScoreV2 的读数和 LN 6th–15th 比（LN 5 段及以下社区没有定论，不用）。';
+  '米按总星数（96% ScoreV1）和 REFORM 1st–Eta 比；面按整张谱 97% ScoreV2 的读数和 LN 5th–15th 比（LN 4 段及以下社区没有定论，不用）。';
 export const DAN_RATE_NOTE = (mod) => `${mod}：用这个倍速下的读数和 NoMod 段位谱比较，段位谱本身不变速。`;
 export const DAN_FEW_LN_NOTE = '长条很少，仅供参考';
 export const DAN_UNRELIABLE_NOTE = '星数不可靠，段位也不可靠';
@@ -37,7 +40,8 @@ export function danPoints(data, group) {
       const k = e.id.slice('reform-'.length);
       const i = REFORM_ORDER.indexOf(k);
       if (i < 0 || !Number.isFinite(e.star)) continue;   // INTRO 不用
-      pts.push({ pos: i + 1, label: REFORM_SHORT[k] || k, star: e.star });
+      // 3rd 用替代锚读数（原始 3rd 与 2nd 只差 0.016 星，无法插值）
+      pts.push({ pos: i + 1, label: REFORM_SHORT[k] || k, star: k === '3rd' ? DAN_REFORM_3RD_SUBSTITUTE_STAR : e.star });
     } else if (group === 'ln') {
       const n = Number(e.id.slice('ln-'.length));
       if (!(n >= LN_MIN_DAN) || !Number.isFinite(e.starV2)) continue;
@@ -110,18 +114,21 @@ export function locateDan(star, tiers) {
   return { kind: 'between', lo, hi, frac, lean, pos: lo.pos + frac * (hi.pos - lo.pos), extrapolated: false };
 }
 
-/** 位置 → 一句白话，例如“7th–8th 之间（偏 8th）”。prefix：'' 或 'LN '。 */
-export function danText(loc, { prefix = '', belowText = null } = {}) {
+/** 位置 → 段内方位词。相对最近档位锚点 d，左开右闭：(−0.5,−0.3]=low、(−0.3,−0.1]=mid/low、(−0.1,+0.1]=mid、
+ *  (+0.1,+0.3]=mid/high、(+0.3,+0.5]=high。prefix：'' 或 'LN'（档名去序数后缀，如 “8th–9th” → “LN8-9”）；
+ *  量程外不判方位：上方 “!刻度上限+”，下方 “X 以下”。 */
+export function danText(loc, { prefix = '' } = {}) {
   if (!loc) return '暂无';
-  const L = (t) => prefix + t.label;
-  if (loc.kind === 'below') return belowText || `低于 ${L(loc.hi)}`;
-  if (loc.kind === 'above') return `高于 ${L(loc.lo)}（外推）`;
-  if (loc.frac <= DAN_AT) return `≈ ${L(loc.lo)}`;
-  if (loc.frac >= 1 - DAN_AT) return `≈ ${L(loc.hi)}`;
-  const single = !loc.lo.merged && !loc.hi.merged;
-  const span = single ? `${prefix}${loc.lo.label}–${loc.hi.label} 之间` : `${L(loc.lo)} 与 ${L(loc.hi)} 之间`;
-  const lean = loc.lean === 'mid' ? '居中' : `偏 ${(loc.lean === 'lo' ? loc.lo : loc.hi).label}`;
-  return `${span}（${lean}）`;
+  const L = (t) => prefix + (prefix ? t.label.replace(/(\d+)(st|nd|rd|th)/g, '$1') : t.label);
+  const p = loc.pos.toFixed(2);
+  if (loc.kind === 'below') return `${L(loc.hi)} 以下`;
+  if (loc.kind === 'above') return `!${loc.lo.members[loc.lo.members.length - 1].pos}+`;   // 量程上方：!刻度上限+，不渲染外推数字
+  const E = 5e-7;
+  const dLo = loc.pos - loc.lo.pos, dHi = loc.hi.pos - loc.pos;
+  const near = dLo <= dHi + E ? loc.lo : loc.hi;   // ±0.5 接缝归下档（下档 high 含 +0.5，上档 low 不含 −0.5）
+  const d = loc.pos - near.pos;
+  const q = d <= -0.3 + E ? 'low' : d <= -0.1 + E ? 'mid/low' : d <= 0.1 + E ? 'mid' : d <= 0.3 + E ? 'mid/high' : 'high';
+  return `${L(near)} ${q}（${p}）`;
 }
 
 /** 小数位置的显示：REFORM 11–17 = Alpha–Eta；LN 直接用段数。 */
@@ -150,7 +157,7 @@ export function danEstimate(result, data) {
   if (v2 !== null && lnTiers.length) {
     const loc = locateDan(v2, lnTiers);
     const few = lnFrac !== null && lnFrac < DAN_LN_FEW;
-    face = { group: 'ln', label: '面', text: danText(loc, { prefix: 'LN ', belowText: `LN ${LN_MIN_DAN} 段以下` }), loc, muted: few, note: few ? DAN_FEW_LN_NOTE : '' };
+    face = { group: 'ln', label: '面', text: danText(loc, { prefix: 'LN' }), loc, muted: few, note: few ? DAN_FEW_LN_NOTE : '' };
   }
   const rate = result.rate || 1;
   const rateNote = rate === 1 ? '' : DAN_RATE_NOTE(rate === 1.5 ? 'DT' : rate === 0.75 ? 'HT' : `${rate} 倍`);

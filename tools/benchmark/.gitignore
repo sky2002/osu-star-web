@@ -1,0 +1,6 @@
+scores-*.json
+anchors.json
+feats.json
+mapped-*.json
+*.log
+benchmark-report.html

@@ -4,7 +4,7 @@ import { danReferenceCopyLines } from './dan-reference.js';
 import { danEstimateCopyLines } from './dan-estimate.js';
 
 export const STAR_NOTE_JACK =
-  'jack/chordjack 较多：按 acc 定义，读数通常比段位手感低约 1 段';
+  'jack/chordjack 较多（jackheavy）';
 export const SEG_CAPTION =
   '分段曲线：每 10 秒一段，按旧公共星数刻度，只用来看起伏，不等于总星数';
 

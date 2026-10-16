@@ -119,9 +119,9 @@ test('low and high LN readings leave the group empty when no course is near', ()
   assert.ok(danReferenceCopyLines(selectDanReferences(result(8.1), catalog)).some((line) => line.includes('LN Dan Courses v2：暂无接近的参考谱')));
 });
 
-test('LN list uses 97% V2 readings from 6th up, and is empty without a V2 reading', () => {
+test('LN list uses 97% V2 readings from 5th up, and is empty without a V2 reading', () => {
   const view = selectDanReferences(result(4.8, true, 5.4), catalog);
-  assert.deepEqual(identifiers(view.groups[1]), ['ln-6']);   // LN 5th (V2 5.42) is closer but not listed
+  assert.deepEqual(identifiers(view.groups[1]), ['ln-5', 'ln-6']);   // LN 5th (V2 5.42) is closest, listed from 5th up
   assert.match(view.groups[1].note, /97% ScoreV2/u);
   assert.equal(selectDanReferences(result(3.0, true, 3.9), catalog).groups[1].matches.length, 0);
   assert.equal(selectDanReferences({ ok: true, star: 6.7, reliable: true }, catalog).groups[1].matches.length, 0);

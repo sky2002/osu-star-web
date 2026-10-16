@@ -366,7 +366,7 @@ function render() {
       if (res.flags.outOfRangeReasons && res.flags.outOfRangeReasons.length) why.push(res.flags.outOfRangeReasons[0]);
       tags.push(['bad', '不可靠：' + why.join('、')]);
     }
-    if (res.flags.jackHeavy) tags.push(['warn', 'jack 很多：这类谱读数常偏低约一段']);
+    if (res.flags.jackHeavy) tags.push(['warn', 'jack 很多（jackheavy）']);
     dan = danEstimate(res, S.dans);
   } else if (res) status = res.message;
   else if (S.playing) status = '打歌中：暂停计算，回到选歌界面后再算';
