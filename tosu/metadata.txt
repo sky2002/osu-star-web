@@ -1,6 +1,6 @@
 Usecase: ingame, obs-overlay
 Name: osu!mania 4K 星数（P1h）
-Version: 0.3
+Version: 0.4
 Author: sky2002
 CompatibleWith: tosu
 Resolution: 380 x 220
