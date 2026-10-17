@@ -92,6 +92,12 @@ h2 { font-size: 1.1rem; margin: 0; }
 .exp { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin: -4px 0 12px; font-size: 0.9rem; cursor: pointer; }
 .exp input { margin: 0; transform: translateY(2px); accent-color: var(--accent); }
 .exp small { color: var(--muted); font-size: 0.78rem; }
+.od-ctl[hidden] { display: none; }
+.od-ctl small { color: var(--muted); font-size: 0.78rem; flex-basis: 100%; line-height: 1.5; }
+.od-ctl[data-custom="false"] .slider-pair { opacity: .6; }
+.slider-pair { display: inline-flex; align-items: center; gap: 6px; }
+.slider-pair input[type="range"] { width: 180px; max-width: 42vw; accent-color: var(--accent); margin: 0; }
+.slider-pair input[type="number"] { width: 4.6em; font: inherit; font-size: 0.9rem; padding: 2px 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--text); }
 .mod {
   font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text);
   padding: 4px 14px; border-radius: 999px; min-height: 34px; font-size: 0.92rem;
@@ -163,7 +169,9 @@ h2 { font-size: 1.1rem; margin: 0; }
 .ladder-tab td { padding: 3px 14px 3px 0; vertical-align: middle; }
 .ladder-tab tr.is96 td { font-weight: 700; }
 .ladder-tab tr.custom td { border-top: 1px solid var(--line); padding-top: 6px; }
-.ladder-tab input { width: 5.2em; font: inherit; padding: 2px 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--text); margin-right: 2px; }
+.ladder-tab tr.custom-slider td { padding-top: 0; }
+.ladder-tab input[type="range"] { width: 100%; min-width: 160px; padding: 0; border: 0; margin: 0; accent-color: var(--accent); background: transparent; }
+.ladder-tab input[type="number"] { width: 5.2em; font: inherit; padding: 2px 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--text); margin-right: 2px; }
 .ladder-star { color: var(--star); white-space: nowrap; }
 .ladder-tag { display: inline-block; padding: 0 6px; border-radius: 4px; font-size: 0.75rem; line-height: 1.6; cursor: help; }
 .ladder-tag.observed { background: var(--note-bg); color: var(--text); }

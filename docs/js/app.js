@@ -16,7 +16,9 @@ import { danEstimate, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE } from '
 
 const RATES = [1, 0.75, 1.5];
 const MOD_KEY = 'osu-star-web.mod';
-// 不随倍速变化的拒绝原因：算一次就够，三档共用
+const OD_KEY = 'osu-star-web.od';   // 只记住滑条上的值；是否自定义不记，每次打开都从谱面文件 OD 开始
+const OD_RANGE = [0, 10];
+// 不随倍速、OD 变化的拒绝原因：算一次就够，所有设置共用
 const RATE_FREE_REJECT = ['not_mania', 'not_4k', 'too_few_notes'];
 
 export const FEEDBACK_URL = 'https://github.com/sky2002/osu-star-web/issues/new';
@@ -51,6 +53,8 @@ const state = {
   job: 0,
   mod: loadMod(),
   experimental: loadExperimental(),
+  odCustom: false, // 实验性功能：true 时用 odValue 代替谱面文件 OD
+  odValue: loadOd(),
   references: null,
   referencesPhase: 'loading',
   ladder: null,
@@ -76,9 +80,31 @@ function loadExperimental() {
 function saveExperimental(on) {
   try { localStorage.setItem(EXP_KEY, on ? '1' : '0'); } catch { /* 不记住也没关系 */ }
 }
-// 该倍速的结果是否已经够用：开着实验性功能时，没有分项（关着时算的）的结果要重算
-function hasUsableResult(it, rate) {
-  const res = it.results.get(rate);
+function loadOd() {
+  try {
+    const v = parseOd(localStorage.getItem(OD_KEY));
+    return v === null ? 8 : v;
+  } catch { return 8; }
+}
+function saveOd(v) {
+  try { localStorage.setItem(OD_KEY, String(v)); } catch { /* 不记住也没关系 */ }
+}
+// 输入框文字 → OD（0–10，取一位小数）；不合法返回 null
+function parseOd(text) {
+  if (text === null || text === undefined || String(text).trim() === '') return null;
+  const x = Number(String(text).trim());
+  if (!Number.isFinite(x) || x < OD_RANGE[0] || x > OD_RANGE[1]) return null;
+  return Math.round(x * 10) / 10;
+}
+// 当前生效的 OD：只有开着实验性功能且选了"自定义"时才覆盖谱面文件 OD
+function activeOd() { return state.experimental && state.odCustom ? state.odValue : null; }
+// 结果按 (倍速, OD) 分开记住，来回切换不用重算
+function settingKey(rate = state.mod, od = activeOd()) { return `${rate}|${od === null ? 'file' : od.toFixed(1)}`; }
+function resultFor(it, key) { return it.rejectAll || it.results.get(key) || null; }
+
+// 该设置的结果是否已经够用：开着实验性功能时，没有分项（关着时算的）的结果要重算
+function hasUsableResult(it, key) {
+  const res = resultFor(it, key);
   if (!res) return false;
   if (!res.ok || !state.experimental) return true;
   return !!res.subComputed;   // 关着开关时算出的结果没有分项，开着时要重算
@@ -176,7 +202,7 @@ function onWorkerMessage(ev) {
     }
   } else if (m.type === 'progress') {
     const cur = state.current;
-    const it = cur && cur.job === m.id && cur.rate === state.mod ? cur.it : null;
+    const it = cur && cur.job === m.id && cur.key === settingKey() ? cur.it : null;
     if (it && it.status === 'running') {
       it.stage = m.stage || '';
       it.pct = Math.max(0, Math.min(100, Number(m.pct) || 0));
@@ -188,21 +214,21 @@ function onWorkerMessage(ev) {
   }
 }
 
-// 只算当前 Mod 还没有结果的谱；谱面字节留在页面里，换 Mod 时再送一份副本
+// 只算当前 Mod / OD 还没有结果的谱；谱面字节留在页面里，换设置时再送一份副本
 function pump() {
   if (state.phase !== 'ready' || state.current) return;
-  const rate = state.mod;
-  const next = state.items.find((x) => x.bytes && !x.failed && !hasUsableResult(x, rate));
+  const rate = state.mod, od = activeOd(), key = settingKey(rate, od);
+  const next = state.items.find((x) => x.bytes && !x.failed && !hasUsableResult(x, key));
   if (!next) return;
   const job = ++state.job;
-  state.current = { it: next, rate, job, withSub: state.experimental };
+  state.current = { it: next, rate, od, key, job, withSub: state.experimental };
   next.status = 'running';
   next.stage = '开始';
   next.pct = 0;
   renderItem(next);
   const bytes = next.bytes.slice();
   state.worker.postMessage(
-    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, withSub: state.experimental },
+    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, odOverride: od, withSub: state.experimental },
     [bytes.buffer],
   );
 }
@@ -214,9 +240,10 @@ function finishCurrent(result) {
     const it = cur.it;
     const res = result || { ok: false, reason: 'parse_error', message: '没有收到计算结果' };
     if (res.ok) res.subComputed = !!cur.withSub;
-    if (!res.ok && RATE_FREE_REJECT.includes(res.reason)) for (const r of RATES) it.results.set(r, res);
-    else it.results.set(cur.rate, res);
-    if (cur.rate === state.mod) {
+    if (!res.ok && RATE_FREE_REJECT.includes(res.reason)) it.rejectAll = res;
+    else it.results.set(cur.key, res);
+    // 算的过程中设置变了（换了 Mod / OD，或刚打开实验性功能）就不显示，pump 会按新设置排队
+    if (cur.key === settingKey() && hasUsableResult(it, cur.key)) {
       it.status = 'done';
       it.result = res;
       renderItem(it);
@@ -233,48 +260,73 @@ function failItem(it, message) {
   renderItem(it);
 }
 
-function setMod(rate) {
-  if (!RATES.includes(rate)) return;
-  state.mod = rate;
-  saveMod(rate);
-  syncModButtons();
+// 设置（Mod、OD、实验性功能）变了以后：有结果的直接显示，没有的排队；正在算的那一局符合新设置就继续显示进度
+function applySetting() {
+  const key = settingKey();
   for (const it of state.items) {
     if (it.status === 'skipped' || it.failed) continue;
     const cur = state.current;
-    if (hasUsableResult(it, rate)) { it.status = 'done'; it.result = it.results.get(rate); }
-    else if (cur && cur.it === it && cur.rate === rate) { it.status = 'running'; it.result = null; }
+    if (hasUsableResult(it, key)) { it.status = 'done'; it.result = resultFor(it, key); }
+    else if (cur && cur.it === it && cur.key === key && (cur.withSub || !state.experimental)) { it.status = 'running'; it.result = null; }
     else { it.status = 'queued'; it.result = null; }
     renderItem(it);
   }
   pump();
 }
 
+function setMod(rate) {
+  if (!RATES.includes(rate)) return;
+  state.mod = rate;
+  saveMod(rate);
+  syncModButtons();
+  applySetting();
+}
+
+// 关掉时结果保留，只是不再显示分项；自定义 OD 不再生效，回到谱面文件 OD 的结果
 function setExperimental(on) {
   state.experimental = !!on;
   saveExperimental(state.experimental);
   const box = document.querySelector('#experimental');
   if (box) box.checked = state.experimental;
-  if (!state.experimental) {
-    for (const it of state.items) if (it.status === 'done') renderItem(it);   // 只是不再显示，结果保留
-    return;
-  }
-  // 开启：当前倍速下没有分项的结果重算（其它倍速的在切换时按同一规则补算）
-  const rate = state.mod;
-  for (const it of state.items) {
-    if (it.status === 'skipped' || it.failed) continue;
-    if (hasUsableResult(it, rate)) { renderItem(it); continue; }
-    const cur = state.current;
-    if (cur && cur.it === it && cur.rate === rate) continue;   // 正在算的那一局是按旧设置算的，算完会再排队
-    it.status = 'queued'; it.result = null;
-    renderItem(it);
-  }
-  pump();
+  syncOdUi();
+  applySetting();
+}
+
+function setOdCustom(on) {
+  if (state.odCustom === !!on) return;
+  state.odCustom = !!on;
+  syncOdUi();
+  applySetting();
+}
+
+// 滑条松手或输入框确认后才重算（拖动过程中只同步数字）
+function commitOd(v, keepNumber = false) {
+  if (v === null) return;
+  const changed = v !== state.odValue || !state.odCustom;
+  state.odValue = v;
+  state.odCustom = true;
+  saveOd(v);
+  syncOdUi(keepNumber);
+  if (changed) applySetting();
 }
 
 function syncModButtons() {
   for (const b of document.querySelectorAll('#mods [data-rate]')) {
     b.setAttribute('aria-pressed', String(Number(b.dataset.rate) === state.mod));
   }
+}
+
+// keepNumber：用户正在输入框里打字时不改写输入框
+function syncOdUi(keepNumber = false) {
+  const box = $('#od-ctl');
+  if (!box) return;
+  box.hidden = !state.experimental;
+  box.dataset.custom = String(state.odCustom);
+  for (const b of box.querySelectorAll('[data-od]')) {
+    b.setAttribute('aria-pressed', String((b.dataset.od === 'custom') === state.odCustom));
+  }
+  $('#od-range').value = String(state.odValue);
+  if (!keepNumber) $('#od-num').value = state.odValue.toFixed(1);
 }
 
 // ---------------------------------------------------------------- 添加文件
@@ -383,7 +435,7 @@ function renderItem(it) {
     const tag = MOD_SHORT[r.rate || 1];
     side = h('div', { class: 'star' }, '★ ' + fmtStar(r.star), tag ? h('span', { class: 'mod-tag', text: tag }) : null);
     if (state.experimental && r.sub && r.sub.v2 && Number.isFinite(r.sub.v2.star)) {
-      side.append(h('span', { class: 'star-alt', title: '整谱按 97% ScoreV2（LN 段位口径，OD 用谱面文件）读出的星数，约定换算，仅供参考',
+      side.append(h('span', { class: 'star-alt', title: `整谱按 97% ScoreV2（LN 段位口径，${odSource(r)}）读出的星数，约定换算，仅供参考`,
         text: 'LN 口径 ★ ' + fmtStar(r.sub.v2.star) }));
     }
     const de = danEstimateRow(r);
@@ -441,6 +493,7 @@ function danEstimateRow(result) {
   const notes = [];
   if (est.unreliable) notes.push(DAN_UNRELIABLE_NOTE);
   if (est.rateNote) notes.push(est.rateNote);
+  if (Number.isFinite(result.odOverride)) notes.push(`自定义 OD ${Number(result.odOverride).toFixed(1)}：用这个 OD 下的读数和段位谱（按各自谱面文件 OD）比较。`);
   return h('div', { class: 'dan-est', title: DAN_ESTIMATE_NOTE },
     h('div', { class: 'dan-est-items' }, chip(est.rice), chip(est.face)),
     notes.length ? h('div', { class: est.unreliable ? 'dan-est-caution' : 'dan-est-sub muted', text: notes.join(' ') }) : null);
@@ -517,6 +570,10 @@ function ladderPanel(result, it) {
     type: 'number', min: String(P.input_range[0]), max: String(P.input_range[1]), step: '0.1', inputmode: 'decimal',
     value: String(it.ladderT ?? 96), 'aria-label': '自定义 acc（%）',
   });
+  const slider = h('input', {
+    type: 'range', min: String(P.input_range[0]), max: String(P.input_range[1]), step: '0.1',
+    value: String(it.ladderT ?? 96), 'aria-label': '自定义 acc（%，滑条）',
+  });
   const outStar = h('td', { class: 'ladder-star' });
   const outTag = h('td');
   const outNote = h('p', { class: 'ladder-rev muted' });
@@ -530,6 +587,7 @@ function ladderPanel(result, it) {
       return;
     }
     it.ladderT = t;
+    slider.value = String(t);
     const row = ladder(P, result.star, t, rate);
     outStar.textContent = fmtLadderStar(row);
     outTag.append(tag(row));
@@ -538,7 +596,10 @@ function ladderPanel(result, it) {
     if (rn) outNote.className = 'ladder-rev ' + (rn.level === 'bad' ? 'dan-caution' : 'muted');
   };
   input.addEventListener('input', update);
-  tbody.append(h('tr', { class: 'custom' }, h('td', null, input, '%'), outStar, outTag));
+  // 滑条只改输入框的数字，换算仍走同一个 update（只依赖总星数，拖动时实时更新）
+  slider.addEventListener('input', () => { input.value = Number(slider.value).toFixed(1); update(); });
+  tbody.append(h('tr', { class: 'custom' }, h('td', null, input, '%'), outStar, outTag),
+    h('tr', { class: 'custom-slider' }, h('td', { colspan: '3' }, slider)));
   update();
   panel.append(
     h('p', { class: 'muted dan-caption', text: LADDER_CAPTION }),
@@ -563,10 +624,17 @@ function subline(it, meta) {
   if (r && r.ok) {
     if ((r.rate || 1) !== 1) bits.push(modLabel(r.rate));
     if (Number.isFinite(r.durationS)) bits.push(`时长 ${fmtTime(r.durationS)}`);
-    if (Number.isFinite(r.od)) bits.push(`OD ${Number(r.od).toFixed(1)}`);
+    if (Number.isFinite(r.odOverride)) {
+      const fileOd = it.header && Number.isFinite(it.header.od) ? `；谱面 ${Number(it.header.od).toFixed(1)}` : '';
+      bits.push(`OD ${Number(r.odOverride).toFixed(1)}（自定义${fileOd}）`);
+    } else if (Number.isFinite(r.od)) bits.push(`OD ${Number(r.od).toFixed(1)}`);
     if (Number.isFinite(r.seconds)) bits.push(`计算 ${r.seconds.toFixed(1)} 秒`);
   }
   return bits.join(' · ');
+}
+
+function odSource(r) {
+  return Number.isFinite(r.odOverride) ? `自定义 OD ${Number(r.odOverride).toFixed(1)}` : 'OD 用谱面文件';
 }
 
 function copyRow(it) {
@@ -649,6 +717,29 @@ function setupUi() {
     expBox.checked = state.experimental;
     expBox.addEventListener('change', () => setExperimental(expBox.checked));
   }
+
+  // OD：滑条和输入框并存。拖动滑条只同步数字，松手才重算；输入框停顿 0.6 秒或确认（回车 / 离开）后重算
+  for (const b of document.querySelectorAll('#od-ctl [data-od]')) {
+    b.addEventListener('click', () => setOdCustom(b.dataset.od === 'custom'));
+  }
+  const odRange = $('#od-range'), odNum = $('#od-num');
+  odRange.addEventListener('input', () => { odNum.value = Number(odRange.value).toFixed(1); });
+  odRange.addEventListener('change', () => commitOd(parseOd(odRange.value)));
+  let odTimer = null;
+  odNum.addEventListener('input', () => {
+    clearTimeout(odTimer);
+    const v = parseOd(odNum.value);
+    if (v === null) return;
+    odRange.value = String(v);
+    odTimer = setTimeout(() => commitOd(v, true), 600);
+  });
+  odNum.addEventListener('change', () => {
+    clearTimeout(odTimer);
+    const v = parseOd(odNum.value);
+    if (v === null) syncOdUi();   // 不合法：退回当前值
+    else commitOd(v);
+  });
+  syncOdUi();
 
   $('#clear').addEventListener('click', () => {
     state.items = state.items.filter((x) => state.current && x === state.current.it);

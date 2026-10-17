@@ -33,8 +33,19 @@
   <label class="exp" for="experimental">
     <input id="experimental" type="checkbox">
     <span>实验性功能</span>
-    <small>达成水平表、米 / 面分项、OD8 口径（约定换算，不影响总星数；开启后已算好的谱会补算）</small>
+    <small>可调 OD、达成水平表（可调 acc）、米 / 面分项、OD8 口径（约定换算；开启后已算好的谱会补算）</small>
   </label>
+
+  <div id="od-ctl" class="mods od-ctl" role="group" aria-label="OD（实验性功能）" data-custom="false" hidden>
+    <span class="mods-label">OD</span>
+    <button type="button" class="mod" data-od="file" aria-pressed="true">谱面文件</button>
+    <button type="button" class="mod" data-od="custom" aria-pressed="false">自定义</button>
+    <span class="slider-pair">
+      <input id="od-range" type="range" min="0" max="10" step="0.1" value="8" aria-label="自定义 OD（滑条）">
+      <input id="od-num" type="number" min="0" max="10" step="0.1" value="8" inputmode="decimal" aria-label="自定义 OD">
+    </span>
+    <small>自定义时按这个 OD 换判定窗口和 OD 特征，重算全部谱（类似 lazer 的 Difficulty Adjust）；模型训练时只见过谱面自带的 OD，仅供参考。关掉实验性功能后回到谱面文件 OD。</small>
+  </div>
 
   <label id="drop" class="drop" for="file-input">
     <input id="file-input" type="file" accept=".osu,.osz" multiple hidden>
@@ -55,7 +66,7 @@
     <h2>说明</h2>
     <details open>
       <summary>星数是什么意思</summary>
-      <p>平均要多强的玩家，才能在这张谱上打到 96% 的准确率（stable ScoreV1 口径，用谱面文件里的 OD）。数越大越难。</p>
+      <p>平均要多强的玩家，才能在这张谱上打到 96% 的准确率（stable ScoreV1 口径，默认用谱面文件里的 OD）。数越大越难。</p>
     </details>
     <details open>
       <summary>米段位 / 面段位</summary>
@@ -79,11 +90,20 @@
     </details>
     <details>
       <summary>HT / DT</summary>
-      <p>在上方选 Mod 后，所有谱面会按这个倍速重新计算（算过的会记住，来回切换不用重算）。DT/NC 固定 1.5 倍，HT 固定 0.75 倍；判定窗口按 stable 的 DT / HT 规则换算，OD 仍用谱面文件里的值。</p>
+      <p>在上方选 Mod 后，所有谱面会按这个倍速重新计算（算过的会记住，来回切换不用重算）。DT/NC 固定 1.5 倍，HT 固定 0.75 倍；判定窗口按 stable 的 DT / HT 规则换算，OD 用谱面文件里的值（或实验性功能里自定义的 OD）。</p>
       <ul>
         <li>DT：模型训练时用过官方成绩库里的 DT 成绩，DT 读数经过和 NoMod 同类的检验。</li>
         <li>HT：官方成绩库里的 HT 成绩不可靠（多半是练习或试玩），没有用来训练和检验。HT 读数只是“把谱放慢到 0.75 倍”后按同一方法算出来的，仅供参考。</li>
         <li>分段曲线的时间轴是变速后的实际时间。附近段位参考谱、米 / 面段位用的仍是各段位谱的 NoMod 读数（谱面按所选倍速算，段位谱不变速）。</li>
+      </ul>
+    </details>
+    <details>
+      <summary>自定义 OD / acc（实验性功能）</summary>
+      <ul>
+        <li>打开实验性功能后，Mod 下面多一行 OD：选“自定义”，拖滑条或直接输入（0–10，一位小数），松手或停止输入后所有谱面按这个 OD 重算。判定窗口和模型的 OD 特征一起换掉，类似 lazer 的 Difficulty Adjust；可以和 HT / DT 同时用。</li>
+        <li>模型训练时只见过谱面自带的 OD，自定义 OD 的读数没有单独检验过，只供参考。每张谱的结果卡会标出“OD x（自定义；谱面 y）”，复制读数信息里也会写上。</li>
+        <li>选回“谱面文件”或关掉实验性功能，就回到谱面文件里的 OD。算过的 OD 会记住，来回切换不用重算。</li>
+        <li>达成水平表最下面一行的 acc 也可以拖滑条或输入（85–99.5%），不用重算，拖动时直接更新。</li>
       </ul>
     </details>
     <details>

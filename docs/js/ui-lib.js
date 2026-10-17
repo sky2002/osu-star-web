@@ -16,7 +16,7 @@ export const HT_NOTE =
 export function modLabel(rate) { return MOD_LABELS[rate] || `${rate} 倍`; }
 
 export const SUB_NOTE =
-  '分项与 OD 口径为约定换算，不参与总星数。LN 口径是整谱按 97% ScoreV2（LN 段位的计分口径，OD 用谱面文件）读出的星数；米分项只看单点（96% ScoreV1）；面分项只看长条头尾，按 97% ScoreV2，' +
+  '分项与 OD 口径为约定换算，不参与总星数。LN 口径是整谱按 97% ScoreV2（LN 段位的计分口径，OD 同总星数）读出的星数；米分项只看单点（96% ScoreV1）；面分项只看长条头尾，按 97% ScoreV2，' +
   '这条线比 96% ScoreV1 严，所以面分项通常比总星数高；OD 口径把判定窗换成 OD8（6.3 星以上用 OD9）重算';
 
 /** 米 / 面分项与 OD 口径的三行：[{ key, label, star|null, text }]。result.sub 缺失时返回 []。 */
@@ -33,9 +33,10 @@ export function subRows(result) {
     ? { key: 'face', label: '面', star: s.face.star, text: '97% ScoreV2' + edge(s.face.flag) }
     : { key: 'face', label: '面', star: null, text: '长条太少' });
   const odName = `OD${s.od.od} 口径`;
+  const src = Number.isFinite(result.odOverride) ? '自定义' : '谱面文件';   // 网页实验性功能可改 OD；fileOd 是总星数用的 OD
   rows.push(s.od.changed
-    ? { key: 'od', label: odName, star: s.od.star, text: `谱面文件 OD ${Number(s.od.fileOd).toFixed(1)}` + edge(s.od.flag) }
-    : { key: 'od', label: odName, star: s.od.star, text: `谱面文件已是 OD${s.od.od}` });
+    ? { key: 'od', label: odName, star: s.od.star, text: `${src} OD ${Number(s.od.fileOd).toFixed(1)}` + edge(s.od.flag) }
+    : { key: 'od', label: odName, star: s.od.star, text: `${src}已是 OD${s.od.od}` });
   return rows;
 }
 
@@ -46,7 +47,7 @@ export function decodeText(u8) {
 /** 读 .osu 头部字段（Mode、CircleSize、Title、Artist、Version 等）并数物件行数。 */
 export function parseOsuHeader(text) {
   const out = {
-    mode: 0, circleSize: null, title: '', artist: '', version: '', creator: '',
+    mode: 0, circleSize: null, od: null, title: '', artist: '', version: '', creator: '',
     beatmapId: null, beatmapSetId: null, nObjects: 0,
   };
   let section = '';
@@ -64,6 +65,7 @@ export function parseOsuHeader(text) {
       if (k === 'Mode') out.mode = parseInt(v, 10) || 0;
     } else if (section === 'Difficulty') {
       if (k === 'CircleSize') { const x = parseFloat(v); out.circleSize = Number.isFinite(x) ? x : null; }
+      else if (k === 'OverallDifficulty') { const x = parseFloat(v); out.od = Number.isFinite(x) ? x : null; }
     } else if (section === 'Metadata') {
       if (k === 'Title') out.title = v;
       else if (k === 'Artist') out.artist = v;
@@ -175,6 +177,10 @@ export function buildCopyText(result, header, fileName, ver, references, ladderL
   if (result && result.ok) {
     lines.push(`星数：${fmtStar(result.star)}`);
     lines.push(`Mod：${modLabel(result.rate || 1)}`);
+    if (Number.isFinite(result.odOverride)) {
+      const fileOd = header && Number.isFinite(header.od) ? `，谱面文件 OD ${Number(header.od).toFixed(1)}` : '';
+      lines.push(`OD：${Number(result.odOverride).toFixed(1)}（自定义${fileOd}）`);
+    }
   } else {
     lines.push(`星数：无（${(result && result.message) || '未计算'}）`);
   }

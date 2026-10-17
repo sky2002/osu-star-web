@@ -5,7 +5,7 @@
 
 export const LADDER_TITLE = '达成水平';
 export const LADDER_CAPTION =
-  '打到某个 acc（stable ScoreV1，OD 按谱面文件）平均需要多强，用总星数同一刻度表示；96% 一行就是总星数。'
+  '打到某个 acc（stable ScoreV1，OD 同总星数）平均需要多强，用总星数同一刻度表示；96% 一行就是总星数。'
   + '只按难度换算台阶，不看键型。';
 export const LADDER_LABEL = {
   observed: { text: '观测', title: '打过这张谱的玩家里，有人的水平落在这条线附近，有成绩直接支撑' },
