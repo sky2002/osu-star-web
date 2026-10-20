@@ -270,7 +270,10 @@ export class Reader {
 
   // per-action v1 scores (float32) for profiles p0..p1-1 of one orientation: S[(p-p0)*A + a].
   // rate != 1 (analysis/web-rate-r1, = dt-crowd r1 ps_rate): scored in map time, mu and sigma x rate against the mod windows
-  secondLayerRange(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '') {
+  // cal (key-pattern items, pattern-items.js calibInputs): arm C of research pattern-items r1 pi_engine.PIEngine.second, the
+  // jack-calib term (per profile) and the burst-trill-calib arm L term added to the log-scale and miss logit of presses
+  // dbg (tests only): { sig, pi } Float32Arrays [(p1 - p0) * A] receive the per-action sigma and miss probability
+  secondLayerRange(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '', cal = null, dbg = null) {
     const A = comp.length, T = this.terms;
     const w = v1Windows(od, rate, hit);
     const W = w.slice(0, 5).map(v => f32(v + 0.5));
@@ -285,6 +288,22 @@ export class Reader {
         const k = p * 2 + ci;
         const lk = ci ? l[a * 2 + 1] : l[a * 2];
         let ls = T.ls0[k] + T.ls1[k] * lk;
+        if (cal) {
+          let lg = T.lg0[k] + T.lg1[k] * lk;
+          if (!ci) {
+            const J = cal.J, g = cal.jg[a];
+            const kk = (1 / (1 + Math.exp(-(((J[0] + J[1] * this.R.theta_grid[p]) - g) / J[2])))) * (g < J[11] ? 1 : 0);
+            ls = ls + kk * (((J[3] + J[4] * cal.jr[a]) + J[5] * cal.jc[a]) + J[6] * cal.jl[a]);
+            lg = lg + kk * (((J[7] + J[8] * cal.jr[a]) + J[9] * cal.jc[a]) + J[10] * cal.jl[a]);
+            ls = ls + cal.dsb[a];
+            lg = lg + cal.dpb[a];
+          }
+          if (ls < -5) ls = -5; else if (ls > 8) ls = 8;
+          sig[a] = f32(Math.exp(ls));
+          mu[a] = f32(T.mu0[k] + T.mu1[k] * lk);
+          pi[a] = f32(1 / (1 + Math.exp(-lg)));
+          continue;
+        }
         if (ls < -5) ls = -5; else if (ls > 8) ls = 8;
         sig[a] = f32(Math.exp(ls));
         mu[a] = f32(T.mu0[k] + T.mu1[k] * lk);
@@ -292,6 +311,7 @@ export class Reader {
         pi[a] = f32(1 / (1 + Math.exp(-(T.lg0[k] + T.lg1[k] * lk))));
       }
       const row = (p - p0) * A;
+      if (dbg) { dbg.sig.set(sig, row); dbg.pi.set(pi, row); }
       for (let a = 0; a < A; a++) {
         if (comp[a] || isLnHead[a]) continue;
         S[row + a] = f32(this.headScore(mu[a], sig[a], p * 2, W) * f32(1 - pi[a]));
@@ -310,18 +330,18 @@ export class Reader {
     for (let i = 0; i < S.length; i++) v1a[o + i] += 0.5 * S[i];
   }
 
-  // all profiles of one orientation, locally or split over a helper pool (pool.run(l, comp, lnH, lnT, od, p0, p1, rate, hit) -> S)
-  async secondLayer(l, tk, od, v1a, pool, rate = 1, hit = '') {
+  // all profiles of one orientation, locally or split over a helper pool (pool.run(l, comp, lnH, lnT, od, p0, p1, rate, hit, cal) -> S)
+  async secondLayer(l, tk, od, v1a, pool, rate = 1, hit = '', cal = null) {
     const A = tk.nActions, P = this.P;
     if (!pool || !pool.size) {
-      Reader.accumulate(v1a, this.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, od, 0, P, rate, hit), 0, A);
+      Reader.accumulate(v1a, this.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, od, 0, P, rate, hit, cal), 0, A);
       return;
     }
     const k = Math.min(pool.size, P);
     const parts = [];
     for (let i = 0; i < k; i++) {
       const p0 = Math.floor(i * P / k), p1 = Math.floor((i + 1) * P / k);
-      parts.push(pool.run(l, tk.comp, tk.lnH, tk.lnT, od, p0, p1, rate, hit).then(S => ({ S, p0 })));
+      parts.push(pool.run(l, tk.comp, tk.lnH, tk.lnT, od, p0, p1, rate, hit, cal).then(S => ({ S, p0 })));
     }
     for (const { S, p0 } of await Promise.all(parts)) Reader.accumulate(v1a, S, p0, A);
   }

@@ -7,6 +7,7 @@ import { prepareFeatureNotes, feats } from './features.js';
 import { predictTree } from './tree.js';
 import { Reader, RATE_MIN, RATE_MAX } from './reader.js';
 import { md5Hex } from './md5.js';
+import { classifyNotes, calibInputs, itemReadouts } from './pattern-items.js';
 
 export const VERSION = '树星数 v1 (P1h)';
 export const FROZEN = '2026-10-14';
@@ -39,14 +40,15 @@ const FEATURE_LABEL = {
 
 export async function createEngine({ ort, loadBytes, loadJson, makePool = null }) {
   const t0 = performance.now();
-  const [R, tree, support, supportDt, onnx] = await Promise.all([loadJson('model/reader.json'), loadJson('model/tree.json'),
-    loadJson('model/support.json'), loadJson('model/support-dt.json'), loadBytes('model/encoder.onnx')]);
+  const [R, tree, support, supportDt, onnx, patternItems] = await Promise.all([loadJson('model/reader.json'), loadJson('model/tree.json'),
+    loadJson('model/support.json'), loadJson('model/support-dt.json'), loadBytes('model/encoder.onnx'), loadJson('model/pattern-items.json')]);
   const session = await ort.InferenceSession.create(onnx, { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });
   const table = buildTable(R.t_nus, R.t_grid, R.t_c);
   const reader = new Reader(R, table, session, ort);
   const pool = makePool ? await makePool(R) : null;
   const eng = new Engine(R, tree, support, reader, performance.now() - t0);
   eng.supportDt = supportDt;
+  eng.patternItems = patternItems;
   eng.pool = pool;
   return eng;
 }
@@ -62,8 +64,9 @@ export class Engine {
   // NoMod and 1.5x answers only.
   // withV2: the whole-chart 97 % ScoreV2 reading (LN dan estimate; ScoreV2 of every action, no re-judging) -> result.v2.
   // withSub: the experimental items (rice / face / OD8-OD9 re-judge) -> result.sub; implies withV2.
+  // withItems: the key-pattern items (beta; NoMod 1.0x, no hit mod, file OD only) -> result.items, else result.items = null.
   async scoreBytes(bytes, { oszHasOsb = false, onProgress = null, withSegments = true, rate = 1, withSub = true, withV2 = true, hit = '',
-    odOverride = null } = {}) {
+    odOverride = null, withItems = true } = {}) {
     const t0 = performance.now();
     const text = new TextDecoder('utf-8').decode(bytes);
     const meta = metadata(text);
@@ -71,7 +74,7 @@ export class Engine {
       beatmapSetId: meta.beatmapSetId, md5: md5Hex(bytes), mode: meta.mode, keys: meta.keys };
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
-      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride });
+      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride, withItems });
       return { ok: true, ...base, ...r, seconds: (performance.now() - t0) / 1000 };
     } catch (e) {
       const reason = e instanceof ChartError ? e.reason : 'parse_error';
@@ -83,7 +86,7 @@ export class Engine {
     }
   }
 
-  async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null }) {
+  async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null, withItems = true }) {
     // 1. hand features (same order as the reference: parse_osu checks mode / keys / note count first); times / rate, file OD
     const pf = parseOsuFeat(text);
     if (odOverride !== null) pf.od = odOverride;
@@ -105,6 +108,9 @@ export class Engine {
     // 4. whole-chart 97 % ScoreV2 reading (LN dan estimate), then the experimental rice / face items and the OD8 (OD9) reading
     const v2 = withSub || withV2 ? this.v2Reading({ tk, lnV2, tapV2, theta, star }) : null;
     const sub = withSub ? await this.subReadings({ tk, od, v1a, lnV2, tapV2, ls, theta, flag, star, rate, hit, pool: usePool ? this.pool : null, v2 }) : null;
+    // 5. key-pattern items (beta): only where they were checked (NoMod 1.0x, file OD)
+    const items = withItems && rate === 1 && hit === '' && odOverride === null
+      ? await this.patternItemReadings({ tk, notes, od, v1a, ls, star, pool: usePool ? this.pool : null }) : null;
     // flags
     const sv = svFracSafe(text);
     const sb = sbLines(text);
@@ -136,7 +142,20 @@ export class Engine {
     let tmax = 0;
     for (const n of notes) tmax = Math.max(tmax, n[1], n[0]);
     return { rate, hit, odOverride, star, reading, theta, thetaFlag: flag, nNotes: tk.nNotes, nActions: tk.nActions, od, durationS: tmax / 1000 / rate,
-      features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub };
+      features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub, items };
+  }
+
+  // key-pattern items (route A, arm C2; research repo analysis/web-items-r1/wi_ref.py): a second pass of the second layer with
+  // the jack and burst-trill calibration terms on the same encoder outputs, then per-class readouts (pattern-items.js)
+  async patternItemReadings({ tk, notes, od, v1a, ls, star, pool }) {
+    const t0 = performance.now();
+    const PI = this.patternItems;
+    const cls = classifyNotes(notes);
+    const cal = calibInputs(tk, PI);
+    const v1c = new Float64Array(this.reader.P * tk.nActions);
+    for (const l of ls) await this.reader.secondLayer(l, tk, od, v1c, pool, 1, '', cal);
+    const r = itemReadouts({ PI, reader: this.reader, tk, cls, v1a, v1c, star });
+    return { ...r, version: PI.version, ms: performance.now() - t0 };
   }
 
   // research repo analysis/rice-ln-od-r1/rlo_core.readings: rice = taps (not LN head, not release) on the ScoreV1 curve at 96 %;

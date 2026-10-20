@@ -40,6 +40,50 @@ export function subRows(result) {
   return rows;
 }
 
+export const ITEMS_NOTE =
+  '测试版：只在 NoMod、非变速谱上检验过，读数可能调整。分项★ = 平均要多强才能在这张谱的【这类键】上打到 96%（和总星数同一刻度），' +
+  '不是加起来等于总星数。“叠”只算同列紧挨着、间隔 <200 ms 的连按，快切不算叠。长条★ 暂不显示。详见页面下方说明。';
+export const ITEMS_TECH_NOTE = '节奏不规则较多（tech）：串里的分音突然变化，比如 1/4 接 1/3';
+
+const pctText = (x) => (Number.isFinite(x) ? `${Math.round(x * 100)}%` : '—');
+
+/**
+ * 键型分项（测试版）的显示内容。只在 NoMod、谱面文件 OD、非变速谱上给读数；其余情况给一句说明（state 'off'）。
+ * 返回 null 表示没有可说的（未算或失败）。rows: [{ key, label, star|null, share, text }]。
+ */
+export function patternItemView(result) {
+  if (!result || !result.ok) return null;
+  if ((result.rate || 1) !== 1) return { state: 'off', text: 'HT / DT 下不给键型分项：分项只在 NoMod 下检验过。切回 NoMod 可以看到。' };
+  if (Number.isFinite(result.odOverride)) return { state: 'off', text: '自定义 OD 下不给键型分项：分项只按谱面文件 OD 检验过。' };
+  const it = result.items;
+  if (!it || !it.items) return null;
+  if (result.flags && result.flags.sv) return { state: 'off', text: '变速谱不给键型分项：分项只在非变速谱上检验过。' };
+  const x = it.items;
+  const edge = (f) => (String(f || '').startsWith('censored') ? '（超出参照范围）' : '');
+  const row = (key, label, few) => {
+    const v = x[key];
+    const ok = v.display && Number.isFinite(v.star);
+    return { key, label, star: ok ? v.star : null, share: v.s, text: ok ? edge(v.flag) : few };
+  };
+  const rows = [row('jack', '叠（jack）', '叠键太少'), row('speed', '速度', '快键太少'), row('trill_tA', '切（串里的同手来回）', '切太少')];
+  const other = (Number.isFinite(x.other.s) ? x.other.s : 0) + (Number.isFinite(x.trill.s) ? x.trill.s : 0);
+  const mix = [['叠', x.jack.s], ['速度', x.speed.s], ['长条', x.ln.s], ['卡手', x.kashou.s], ['其他', other]];
+  const overlap = [['切', x.trill_tA.s], ['节奏不规则', x.tech_rA.s]];
+  return {
+    state: 'ok', rows, tech: !!it.techTag,
+    mixText: '失分构成：' + mix.map(([k, v]) => `${k} ${pctText(v)}`).join(' · '),
+    overlapText: `其中 ${overlap.map(([k, v]) => `${k} ${pctText(v)}`).join('、')}（与上面几类重叠）`,
+  };
+}
+
+export function patternItemCopyLines(result) {
+  const v = patternItemView(result);
+  if (!v) return [];
+  if (v.state !== 'ok') return [`键型分项（测试版）：${v.text}`];
+  const one = (r) => `${r.star === null ? r.text : r.label.replace(/（.*）/, '') + ' ★' + fmtStar(r.star) + r.text}（失分 ${pctText(r.share)}）`;
+  return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；tech 较多' : ''}`];
+}
+
 export function decodeText(u8) {
   return new TextDecoder('utf-8').decode(u8); // 默认会去掉 BOM
 }
@@ -191,6 +235,7 @@ export function buildCopyText(result, header, fileName, ver, references, ladderL
     rs.forEach((r) => lines.push(`  - ${r}`));
   }
   if (result && result.ok) lines.push(...danEstimateCopyLines(dan));
+  lines.push(...patternItemCopyLines(result));
   if (withSub) for (const r of subRows(result)) lines.push(`${r.label}：${r.star === null ? r.text : fmtStar(r.star) + (r.text ? `（${r.text}）` : '')}`);
   if (result && result.ok && result.rate === 0.75) lines.push(`提示：${HT_NOTE}`);
   if (result && result.ok && ladderLine) lines.push(ladderLine);

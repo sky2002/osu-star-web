@@ -75,6 +75,17 @@ async function score(msg) {
         od: { od: star >= 6.3 ? 9 : 8, fileOd: 8, theta: 0, flag: '', star: star >= 6.3 ? star + 0.25 : star, changed: star >= 6.3 },
         ms: 1,
       },
+      items: rate !== 1 ? null : (() => {
+        const it = (s, st, n, f = '') => ({ n, share: n / h.nObjects, display: n >= 50 && n / h.nObjects >= 0.05, theta: 0, flag: f, s, star: st });
+        return {
+          thetaU: 0, flagU: '', kMain: 1.8, thetaAll: 0, flagAll: '', techTag: b % 4 === 0, ms: 1,
+          items: {
+            jack: it(0.32, star + 0.8, b % 6 === 0 ? 10 : 400), speed: it(0.41, star - 0.3, 900), trill_tA: it(0.2, star + 0.1, 300),
+            ln: it(0.15, star + 0.7, 200), kashou: it(0.05, star + 0.5, 60), trill: it(0.01, star, 5), other: it(0.07, NaN, 100),
+            tech_rA: it(0.12, star - 0.2, 150),
+          },
+        };
+      })(),
     };
   }
   self.postMessage({ type: 'result', id, result });

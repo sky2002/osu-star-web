@@ -51,6 +51,7 @@ async function handle(m) {
         hit: m.hit || '',
         odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
         withSub: !!m.withSub,
+        withItems: !!m.withItems,   // key-pattern items (beta): the web page asks for them; the tosu counter does not
         onProgress: (stage, pct) => {
           const p = Math.round(pct);
           if (p !== last) { last = p; self.postMessage({ type: 'progress', id, stage, pct: p }); }

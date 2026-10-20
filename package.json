@@ -10,6 +10,7 @@
     "test:ladder": "node --test tests/acc-ladder.mjs",
     "test:items": "node tests/rice-ln-od.mjs",
     "test:mods": "node tests/compare_mods.mjs",
+    "test:pattern-items": "node tests/compare_items.mjs --mode e2e",
     "build:tosu": "node tools/build-tosu.mjs",
     "test:dan": "node --test tests/dan-estimate.mjs",
     "test:tosu": "node tools/build-tosu.mjs && node --test tests/tosu-player.mjs"

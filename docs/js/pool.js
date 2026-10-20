@@ -38,12 +38,12 @@ export async function createPool(R, ports, timeoutMs = 20000) {
   }
   return {
     size: live.length,
-    run(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '') {
+    run(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '', cal = null) {
       const id = ++job;
       const p = live[next++ % live.length];
       return new Promise((res, rej) => {
         pending.set(id, { res, rej });
-        p.postMessage({ type: 'run', job: id, l, comp, lnH, lnT, od, p0, p1, rate, hit });
+        p.postMessage({ type: 'run', job: id, l, comp, lnH, lnT, od, p0, p1, rate, hit, cal });
       });
     },
   };

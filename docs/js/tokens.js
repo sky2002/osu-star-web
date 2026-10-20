@@ -132,5 +132,7 @@ export function tokensFromNotes(notesIn, rate = 1) {
   for (let k = 0; k < A; k++) { if (comp[k] === 0) headNew[note[k]] = inv[k]; else tailNew[note[k]] = inv[k]; }
   const lnH = new Int32Array(held.length), lnT = new Int32Array(held.length);
   held.forEach((i, j) => { lnH[j] = headNew[i]; lnT[j] = tailNew[i]; });
-  return { tokens: out, times: tN, comp: compN, lnH, lnT, nNotes: N, nActions: A };
+  const noteOf = new Int32Array(A);          // note index (chart order) of every action, new order
+  for (let k = 0; k < A; k++) noteOf[k] = note[perm[k]];
+  return { tokens: out, times: tN, comp: compN, lnH, lnT, noteOf, nNotes: N, nActions: A };
 }

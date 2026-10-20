@@ -10,7 +10,7 @@ function handle(port, m) {
       reader = new Reader(m.R, buildTable(m.R.t_nus, m.R.t_grid, m.R.t_c), null, null);
       port.postMessage({ type: 'ready' });
     } else if (m.type === 'run') {
-      const S = reader.secondLayerRange(m.l, m.comp, m.lnH, m.lnT, m.od, m.p0, m.p1, m.rate || 1, m.hit || '');
+      const S = reader.secondLayerRange(m.l, m.comp, m.lnH, m.lnT, m.od, m.p0, m.p1, m.rate || 1, m.hit || '', m.cal || null);
       port.postMessage({ type: 'done', job: m.job, S }, [S.buffer]);
     }
   } catch (e) {

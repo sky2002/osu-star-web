@@ -6,7 +6,7 @@ import {
 import {
   listOsz, parseOsuHeader, decodeText, skipReason, mergeMeta, displayName,
   unreliableReasons, buildCopyText, buildSegmentsSvg, fmtStar, fmtTime, SEG_CAPTION,
-  MOD_SHORT, HT_NOTE, modLabel, subRows, SUB_NOTE,
+  MOD_SHORT, HT_NOTE, modLabel, subRows, SUB_NOTE, patternItemView, ITEMS_NOTE, ITEMS_TECH_NOTE,
 } from './ui-lib.js';
 import {
   validateLadder, ladder, parseAcc, reverseNote, reverseCaption, lnNote, fmtLadderStar, ladderCopyLine,
@@ -228,7 +228,7 @@ function pump() {
   renderItem(next);
   const bytes = next.bytes.slice();
   state.worker.postMessage(
-    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, odOverride: od, withSub: state.experimental },
+    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, odOverride: od, withSub: state.experimental, withItems: true },
     [bytes.buffer],
   );
 }
@@ -446,6 +446,8 @@ function renderItem(it) {
         h('ul', null, reasons.map((x) => h('li', { text: x })))));
     }
     if (r.rate === 0.75) extra.push(h('div', { class: 'note', text: HT_NOTE }));
+    const pp = patternPanel(r);
+    if (pp) extra.push(pp);
     if (state.experimental) {
       extra.push(ladderPanel(r, it));
       const sp = subPanel(r);
@@ -497,6 +499,29 @@ function danEstimateRow(result) {
   return h('div', { class: 'dan-est', title: DAN_ESTIMATE_NOTE },
     h('div', { class: 'dan-est-items' }, chip(est.rice), chip(est.face)),
     notes.length ? h('div', { class: est.unreliable ? 'dan-est-caution' : 'dan-est-sub muted', text: notes.join(' ') }) : null);
+}
+
+// 键型分项（测试版）：叠 / 速度 / 切★ 与失分构成，单独一块，不和米 / 面分项混在一起
+function patternPanel(result) {
+  const v = patternItemView(result);
+  if (!v) return null;
+  const head = h('h3', null, '键型分项', h('span', { class: 'beta-tag', text: '测试版' }));
+  if (v.state !== 'ok') {
+    return h('section', { class: 'sub-items pattern-items off', 'aria-label': '键型分项（测试版）' }, head, h('p', { class: 'muted sub-caption', text: v.text }));
+  }
+  const list = h('ul', { class: 'sub-list' });
+  for (const r of v.rows) {
+    list.append(h('li', { class: r.star === null ? 'none' : null },
+      h('span', { class: 'sub-label', text: r.label }),
+      h('strong', { class: 'sub-star', text: r.star === null ? '—' : '★ ' + fmtStar(r.star) }),
+      h('span', { class: 'sub-text muted', text: (r.text ? r.text + ' · ' : '') + `占失分 ${Number.isFinite(r.share) ? Math.round(r.share * 100) + '%' : '—'}` })));
+  }
+  return h('section', { class: 'sub-items pattern-items', 'aria-label': '键型分项（测试版）' },
+    head, list,
+    h('p', { class: 'pattern-mix', text: v.mixText }),
+    h('p', { class: 'pattern-mix muted', text: v.overlapText }),
+    v.tech ? h('p', { class: 'pattern-tech', text: ITEMS_TECH_NOTE }) : null,
+    h('p', { class: 'muted sub-caption', text: ITEMS_NOTE }));
 }
 
 function subPanel(result) {
