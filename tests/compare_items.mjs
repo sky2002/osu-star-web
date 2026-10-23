@@ -5,6 +5,9 @@
 //         match bit for bit (stars, shares, thetas, flags, display decisions, tech tag); exit 1 on any difference.
 // e2e:    the whole browser pipeline (ONNX encoder included); reports the largest differences, exit 1 if a display decision,
 //         flag or tech tag differs or a star differs by more than --tol (default 1e-6).
+// Both modes also check the "X 苦手要小心" hints (docs/js/ui-lib.js patternHints on the JS items and total star) against the
+// Python rule in tests/fixtures/reference-hints.json (tools/hint-reference.py): key, percent, jack number and star range must be
+// equal (a difference is a mismatch, exit 1). e2e also counts the charts whose hints the page hides (variable-speed charts).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,6 +18,7 @@ import { loadChart } from '../docs/js/osu.js';
 import { tokensFromNotes } from '../docs/js/tokens.js';
 import { classifyNotes, calibInputs, itemReadouts } from '../docs/js/pattern-items.js';
 import { Reader } from '../docs/js/reader.js';
+import { patternHints, PATTERN_HINTS } from '../docs/js/ui-lib.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const docs = path.join(here, '..', 'docs');
@@ -28,6 +32,8 @@ ort.env.wasm.numThreads = 1;
 
 const refDir = path.join(root, 'data', 'web-items-r1');
 const ref = JSON.parse(fs.readFileSync(path.join(refDir, 'reference-items.json'), 'utf8'));
+const hintRef = new Map(JSON.parse(fs.readFileSync(path.join(here, 'fixtures', 'reference-hints.json'), 'utf8')).charts.map(c => [c.i, c]));
+const hintKey = hs => JSON.stringify(hs.map(x => [x.key, x.pct, x.delta, x.range]));
 const engine = await createEngine({
   ort,
   loadBytes: async p => new Uint8Array(fs.readFileSync(path.join(docs, p))),
@@ -132,13 +138,13 @@ for (const c of ref.charts) {
   if (c.i % NSH !== SH) continue;
   if (n++ >= LIMIT) break;
   const t0 = performance.now();
-  let it, jsStar = null;
+  let it, jsStar = null, sv = null;
   try {
     if (MODE === 'inject') it = await injected(c, chartBytes(c));
     else {
       const r = await engine.scoreBytes(chartBytes(c), { withSegments: false, withSub: false, withV2: false });
       if (!r.ok) throw new Error(r.detail || r.message);
-      it = r.items; jsStar = r.star;
+      it = r.items; jsStar = r.star; sv = !!(r.flags && r.flags.sv);
     }
   } catch (e) { rows.push({ i: c.i, source: c.source, member: c.member, error: String(e && e.message || e) }); continue; }
   const row = { i: c.i, set: c.set, source: c.source, member: c.member, ms: performance.now() - t0, diffs: {}, mismatch: [] };
@@ -159,6 +165,20 @@ for (const c of ref.charts) {
     if (a.flag !== b.flag) row.mismatch.push(`${k}.flag`);
   }
   if (it.techTag !== c.tech_tag) row.mismatch.push('tech_tag');
+  // hints: JS rule on the JS items (and the JS total star in e2e, the Python star in inject) vs the Python rule on the Python items
+  const hr = hintRef.get(c.i);
+  const hs = patternHints(it.items, jsStar !== null ? jsStar : c.star);
+  row.hints = hs.map(x => [x.key, x.pct, x.delta, x.range]);
+  row.sv = sv;
+  if (!hr || hintKey(hs) !== hintKey(hr.hints)) row.mismatch.push('hints');
+  // margins (informational): share distance from each threshold's rounding edge (e.g. 44.5 % for jack), and for a shown jack
+  // hint the total star's distance from the 3–7 range edges (2.995 / 7.005)
+  row.hintEdge = Math.min(...Object.entries(PATTERN_HINTS).map(([k, H]) => {
+    const v = it.items[k].s;
+    return Number.isFinite(v) ? Math.abs(v - (H.min - 0.5) / 100) : Infinity;
+  }));
+  const st = jsStar !== null ? jsStar : c.star;
+  row.starEdge = hs.some(x => x.key === 'jack') ? Math.min(Math.abs(st - 2.995), Math.abs(st - 7.005)) : Infinity;
   rows.push(row);
 }
 const ok = rows.filter(r => !r.error);
@@ -172,6 +192,14 @@ const summary = {
   mismatches: ok.filter(r => r.mismatch.length).map(r => [r.i, r.source, r.member, r.mismatch]),
   largest_three_items: ok.map(r => [r.i, Math.max(...starKeys.map(k => r.diffs[k]))]).sort((a, b) => b[1] - a[1]).slice(0, 5),
   ms_median: ok.map(r => r.ms).sort((a, b) => a - b)[Math.floor(ok.length / 2)], tol: TOL,
+  hints: {
+    charts_with_hint: Object.fromEntries(['jack', 'speed', 'ln'].map(k => [k, ok.filter(r => r.hints.some(x => x[0] === k)).length])),
+    jack_with_number: ok.filter(r => r.hints.some(x => x[0] === 'jack' && x[2] !== null)).length,
+    mismatch: ok.filter(r => r.mismatch.includes('hints')).length,
+    sv_charts_hidden_on_page: MODE === 'e2e' ? ok.filter(r => r.sv && r.hints.length).length : null,
+    min_share_margin_to_threshold_edge: Math.min(...ok.map(r => r.hintEdge)),
+    min_star_margin_to_range_edge: Math.min(...ok.map(r => r.starEdge)),
+  },
 };
 fs.mkdirSync(path.join(here, 'out'), { recursive: true });
 fs.writeFileSync(path.join(here, 'out', `compare-items-${MODE}-${SH}of${NSH}.json`), JSON.stringify({ summary, rows }, null, 0));

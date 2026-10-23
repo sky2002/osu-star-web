@@ -12,7 +12,7 @@ import {
   validateLadder, ladder, parseAcc, reverseNote, reverseCaption, lnNote, fmtLadderStar, ladderCopyLine,
   LADDER_TITLE, LADDER_CAPTION, LADDER_LABEL, LADDER_UNRELIABLE_NOTE,
 } from './acc-ladder.js';
-import { danEstimate, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE } from './dan-estimate.js';
+import { danEstimate, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_TITLE } from './dan-estimate.js';
 
 const RATES = [1, 0.75, 1.5];
 const MOD_KEY = 'osu-star-web.mod';
@@ -484,11 +484,11 @@ function danEstimateRow(result) {
   }
   const est = danEstimate(result, data);
   if (!est) return null;
-  const chip = (x) => {
+  const chip = (x, label = x && x.label + '段位', title = '') => {
     if (!x) return null;
     const muted = x.muted || est.unreliable;
-    return h('div', { class: 'dan-est-item' + (muted ? ' muted-item' : ''), title: `段位位置 ${fmtDanPos(x.loc, x.group)}` },
-      h('span', { class: 'dan-est-label', text: x.label + '段位' }),
+    return h('div', { class: 'dan-est-item' + (muted ? ' muted-item' : ''), title: `${title}段位位置 ${fmtDanPos(x.loc, x.group)}` },
+      h('span', { class: 'dan-est-label', text: label }),
       h('strong', { class: 'dan-est-text', text: x.text }),
       x.note ? h('span', { class: 'dan-est-note', text: x.note }) : null);
   };
@@ -498,6 +498,8 @@ function danEstimateRow(result) {
   if (Number.isFinite(result.odOverride)) notes.push(`自定义 OD ${Number(result.odOverride).toFixed(1)}：用这个 OD 下的读数和段位谱（按各自谱面文件 OD）比较。`);
   return h('div', { class: 'dan-est', title: DAN_ESTIMATE_NOTE },
     h('div', { class: 'dan-est-items' }, chip(est.rice), chip(est.face)),
+    // 米段位第二行：按 REFORM 官方单曲换算（主读数仍是上面按整段的那一个）
+    est.single ? h('div', { class: 'dan-est-single' }, chip(est.single, est.single.label, DAN_SINGLE_TITLE + '\n')) : null,
     notes.length ? h('div', { class: est.unreliable ? 'dan-est-caution' : 'dan-est-sub muted', text: notes.join(' ') }) : null);
 }
 
@@ -520,6 +522,9 @@ function patternPanel(result) {
     head, list,
     h('p', { class: 'pattern-mix', text: v.mixText }),
     h('p', { class: 'pattern-mix muted', text: v.overlapText }),
+    // “苦手要小心”：某类键失分占比很高时；悬停看数字来源与检验范围
+    v.hints.map((x) => h('p', { class: 'pattern-hint', title: x.title },
+      h('span', { class: 'hint-tag', text: x.tag }), x.text, x.note ? h('span', { class: 'hint-note', text: x.note }) : null)),
     v.tech ? h('p', { class: 'pattern-tech', text: ITEMS_TECH_NOTE }) : null,
     h('p', { class: 'muted sub-caption', text: ITEMS_NOTE }));
 }

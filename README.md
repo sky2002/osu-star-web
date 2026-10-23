@@ -23,6 +23,7 @@
 结果卡在谱名下面同时显示 **米段位** 和 **面段位**：把这张谱和 REFORM / LN 段位谱用同一模型、同一标准比较，看它排在哪两段之间（如“7th–8th 之间（偏 8th）”）；不代表能通过对应段位。
 米段位用总星数（96% ScoreV1）对 REFORM 1st–Eta 的 Marathon 整段读数；面段位用整谱 97% ScoreV2 读数对 LN Dan Courses v2 6th–15th 的同标准读数（5 段及以下不用，显示“LN 6 段以下”）。
 参照读数先按段位顺序单调化，相邻两段相差不到 0.05 星时合成一档；高于最高段标“外推”。长条占物件不到 15% 的谱面段位变灰；HT / DT 下用该倍速读数对 NoMod 段位谱。整谱 97% ScoreV2 读数总是计算（单线程多花约 3–9% 时间），不依赖实验性功能开关。
+米段位下面另有一行 **按单曲换算**：同一个总星数对 REFORM 官方单曲（60 首，每段 2–6 首，`docs/data/dan-references.json` 的 `reformSingles`，P1h、谱面文件 OD）按段平均的读数，读法同上；主读数仍是整段。误差约 ±0.15 段，Eta 没有单曲，高于 Zeta 为外推。依据研究仓库 `analysis/bias-multidim-r1/A`（实验 A）。
 
 结果卡会分组显示 **REFORM 主线**和 **LN Dan Courses v2** 的附近参考谱：每组最多两张，与当前总星数相差不超过 0.5 星，使用同一版 P1h 读数。它只帮助理解这把星数尺子，不代表玩家能通过对应段位。LN 课程的计分口径与当前 96% ScoreV1 不同，部分相邻段位的模型排序也有倒挂，请结合题型与手感判断；没有接近的参考谱时会直接说明。
 
@@ -31,6 +32,7 @@
 它来自研究仓库的“路线 A”（`docs/pattern-items-route-a-final-2026-10-19.md`）：用规则给每个音符分类，再用同一个 s29 模型逐音符的失分算分项，配置 C2（jack 校准、爆发 / 切校准、卡手失分 ×1.27）；总星数不变。
 三个分项在 62 组群友和 8 名新玩家的“同人两张谱谁打得更差”检验上都比只看总星数准。
 **只在 NoMod、谱面文件 OD、非变速谱上给出**；HT / DT、自定义 OD 和变速谱下只显示一句说明。某类键少于 50 个或不到 5% 时不给这一项的星数。长条★ 还没定，暂不显示。
+失分构成下面会出 **“X 苦手要小心”** 提示：叠 ≥45%、速度 ≥90%、长条 ≥30%（按卡片上显示的整数百分比）。叠在总星数 3–7 星内另给“大约觉得难 0.722 × 占比 星”（四舍五入到 0.1，群体平均）；速度、长条只给文字。依据研究仓库 `data/loss-share-hint-r1/RESULTS.md`，规则常量在 `docs/js/ui-lib.js` 的 `PATTERN_HINTS`。
 它和实验性功能里的米 / 面分项是两套换算，不要混着比较。计算时要多做一遍第二层：单线程实测 4 张谱多花 17–84% 时间（长条多的谱最多，长谱在网页里会分给辅助 worker）；tosu 插件不算分项。
 
 Mod 按钮下面有一个 **实验性功能** 开关（默认关闭，浏览器会记住）。打开后结果卡多出下面几块，它们都是约定换算，不影响总星数；开关打开时，已经算好的谱会补算一次分项。
@@ -111,6 +113,8 @@ node tools/serve.mjs 8790
 已有样本检查验证了浏览器移植结果与 Python 参考读数的一致性；这不等于模型对所有谱面的难度判断都准确。
 `npm run test:references` 可独立检查段位参考数据与匹配逻辑，无需安装依赖或提供谱面文件。
 `npm run test:ladder` 可独立检查达成水平表与 Python 参照实现（研究仓库 `analysis/acc-ladder-r1/ladder_ref.py`）逐位一致，同样无需谱面文件。
+`npm run test:dan` 检查米 / 面段位与“按单曲换算”一行（单曲尺子对研究仓库 `analysis/bias-multidim-r1/A` 的 Python 结果差 ≤1e-6）；
+`npm run test:hints` 检查键型分项的“苦手要小心”提示，并在 442 张参照谱上对照独立的 Python 规则（`tools/hint-reference.py` 生成 `tests/fixtures/reference-hints.json`）。两者都无需谱面文件。
 `npm test` **不是独立可运行的公开测试集**：它需要研究项目中未随本仓库发布的谱面文件，并通过 `OSU_DIFF_ROOT` 指定位置。
 具备这些文件时，可在 PowerShell 中运行：
 
@@ -128,5 +132,7 @@ node tests/compare_items.mjs --mode e2e      # 整条网页流水线（含 ONNX 
 node tests/compare_items.mjs --mode inject   # 注入 Python 编码器输出，只比编码器之后
 node tests/compare_items.mjs --mode layers   # 逐层：sigma / 漏按率、逐动作得分、从 Python 得分出发的读数
 ```
+
+e2e 与 inject 两种模式也会核对“苦手要小心”提示（出现与否、百分比、叠的星数）是否与 `tests/fixtures/reference-hints.json` 一致。
 
 检查结果写入 `tests/out/`。普通使用者直接打开在线工具或本地预览即可。

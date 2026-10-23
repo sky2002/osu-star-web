@@ -1,4 +1,10 @@
+import { REFORM_ORDER } from './dan-estimate.js';
+
 export const DAN_REFERENCE_NOTE = '只比较本模型的谱面读数，不代表能通过对应段位；题型不同，手感也可能不同。';
+// REFORM 官方单曲（米段位第二行“按单曲换算”的尺子）：60 首，1st–Zeta，Eta 没有单曲
+export const REFORM_SINGLES_COUNT = 60;
+const SINGLE_PATTERNS = ['jack', 'speed', 'stamina', 'tech'];
+const BEATMAP_URL = /^https:\/\/osu\.ppy\.sh\/beatmaps\/[1-9]\d*$/;
 export const LN_REFERENCE_NOTE = '这一列按 LN 段位的标准（97% ScoreV2）读数：这张谱和 LN 段位谱都按这个标准算，和面段位同一标准，不和总星数直接比。LN 5 段及以下不列。';
 export const LN_REFERENCE_MIN_DAN = 6;   // 与面段位一致：LN 5 段及以下社区没有定论，不列
 export const DAN_REFERENCE_WARNING = '当前谱面读数不可靠，附近参考也请谨慎看待。';
@@ -14,12 +20,28 @@ export function validateDanReferences(data) {
       throw new Error('段位参考分组不正确');
     }
     for (const entry of group.entries) {
-      if (!entry || typeof entry.id !== 'string' || !entry.id.startsWith(group.id + '-') || identifiers.has(entry.id) || typeof entry.label !== 'string' || !entry.label.trim() || !Number.isFinite(entry.star) || entry.star < 0 || typeof entry.reliable !== 'boolean' || (entry.url !== undefined && !/^https:\/\/osu\.ppy\.sh\/beatmaps\/[1-9]\d*$/.test(entry.url))) {
+      if (!entry || typeof entry.id !== 'string' || !entry.id.startsWith(group.id + '-') || identifiers.has(entry.id) || typeof entry.label !== 'string' || !entry.label.trim() || !Number.isFinite(entry.star) || entry.star < 0 || typeof entry.reliable !== 'boolean' || (entry.url !== undefined && !BEATMAP_URL.test(entry.url))) {
         throw new Error('段位参考条目不正确');
       }
       // starV2：整谱 97% ScoreV2 读数（面段位用），LN 组每条都要有，REFORM 组不带
       if (group.id === 'ln' ? !(Number.isFinite(entry.starV2) && entry.starV2 >= 0) : entry.starV2 !== undefined) {
         throw new Error('段位参考的 97% ScoreV2 读数不正确');
+      }
+      identifiers.add(entry.id);
+    }
+  }
+  // reformSingles 可以没有（旧版数据：不出“按单曲换算”一行），有就必须完整
+  if (data.reformSingles !== undefined) {
+    const s = data.reformSingles;
+    if (!s || typeof s.label !== 'string' || !s.label.trim() || typeof s.line !== 'string' || !Array.isArray(s.entries) || s.entries.length !== REFORM_SINGLES_COUNT) {
+      throw new Error('REFORM 单曲参照格式不正确');
+    }
+    for (const entry of s.entries) {
+      const dan = entry && REFORM_ORDER.indexOf(entry.dan);
+      if (!entry || typeof entry.id !== 'string' || !entry.id.startsWith('single-') || identifiers.has(entry.id) || !(dan >= 0 && entry.dan !== 'eta')
+        || typeof entry.label !== 'string' || !entry.label.trim() || !SINGLE_PATTERNS.includes(entry.pattern) || !Number.isFinite(entry.od)
+        || !Number.isFinite(entry.star) || entry.star < 0 || (entry.url !== undefined && !BEATMAP_URL.test(entry.url))) {
+        throw new Error('REFORM 单曲参照条目不正确');
       }
       identifiers.add(entry.id);
     }

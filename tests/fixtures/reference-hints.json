@@ -1,0 +1,6906 @@
+{
+ "info": {
+  "source": "research repo data/web-items-r1/reference-items.json (Python items of tests/compare_items.mjs)",
+  "generator": "tools/hint-reference.py",
+  "rule": {
+   "thresholds_pct": {
+    "jack": 45,
+    "speed": 90,
+    "ln": 30
+   },
+   "jack_k": 0.722,
+   "jack_star": [
+    3.0,
+    7.0
+   ]
+  },
+  "charts": 442,
+  "charts_with_hint": {
+   "jack": 40,
+   "speed": 72,
+   "ln": 113,
+   "jack_with_number": 21
+  }
+ },
+ "charts": [
+  {
+   "i": 0,
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -/Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [14th Dan - Yami (Marathon)].osu",
+   "member": null,
+   "star": 7.4150867777609895,
+   "s": {
+    "jack": 0.04443702972543824,
+    "speed": 0.34984575278545726,
+    "ln": 0.35404311920289
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 35,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 1,
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -/Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [15th Dan - Yume (Marathon)].osu",
+   "member": null,
+   "star": 7.466040173196552,
+   "s": {
+    "jack": 0.04417879823099246,
+    "speed": 0.300839679526533,
+    "ln": 0.40080152783662926
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 40,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 2,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [1st Dan (Marathon)].osu",
+   "member": null,
+   "star": 3.777575189790848,
+   "s": {
+    "jack": 0.0355123563133921,
+    "speed": 0.015580291582809044,
+    "ln": 0.5786367090980932
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 58,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 3,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [2nd Dan (Marathon)].osu",
+   "member": null,
+   "star": 4.448944417680536,
+   "s": {
+    "jack": 0.005717961707641303,
+    "speed": 0.03165671510701479,
+    "ln": 0.7713741225367122
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 77,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 4,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [3rd Dan (Marathon)].osu",
+   "member": null,
+   "star": 4.337743357064524,
+   "s": {
+    "jack": 0.03914117260456946,
+    "speed": 0.18073907500124417,
+    "ln": 0.4906647396398407
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 49,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 5,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [4th Dan (Marathon)].osu",
+   "member": null,
+   "star": 4.728096227026027,
+   "s": {
+    "jack": 0.009059567625977151,
+    "speed": 0.06480672105304391,
+    "ln": 0.6308147868922542
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 63,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 6,
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -/Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [5th Dan (Marathon)].osu",
+   "member": null,
+   "star": 4.603128683212556,
+   "s": {
+    "jack": 0.04001796948699375,
+    "speed": 0.08510212126212219,
+    "ln": 0.6622220227256908
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 66,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 7,
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -/Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [6th Dan (Marathon)].osu",
+   "member": null,
+   "star": 4.932527173345459,
+   "s": {
+    "jack": 0.04527369601492018,
+    "speed": 0.19740690603298797,
+    "ln": 0.5076817125524264
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 51,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 8,
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -/Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [7th Dan (Marathon)].osu",
+   "member": null,
+   "star": 5.210547105273954,
+   "s": {
+    "jack": 0.04946878414875799,
+    "speed": 0.24398485116327168,
+    "ln": 0.3829126623087301
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 38,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 9,
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -/Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [10th Dan (Marathon)].osu",
+   "member": null,
+   "star": 5.931702548257773,
+   "s": {
+    "jack": 0.0375643537723584,
+    "speed": 0.30926123205988226,
+    "ln": 0.3634024220840516
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 36,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 10,
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -/Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [8th Dan (Marathon)].osu",
+   "member": null,
+   "star": 5.3772580150365386,
+   "s": {
+    "jack": 0.04131871174676455,
+    "speed": 0.24580170230128573,
+    "ln": 0.3854539457979407
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 39,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 11,
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -/Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [9th Dan (Marathon)].osu",
+   "member": null,
+   "star": 5.627429749145348,
+   "s": {
+    "jack": 0.024965412119963327,
+    "speed": 0.3662357190379858,
+    "ln": 0.3302838885212917
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 33,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 12,
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -/Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [11th Dan - Yoake (Marathon)].osu",
+   "member": null,
+   "star": 6.283572794045977,
+   "s": {
+    "jack": 0.03663978664883368,
+    "speed": 0.2715146593592606,
+    "ln": 0.367885302336495
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 37,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 13,
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -/Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [12th Dan - Yuugure (Marathon)].osu",
+   "member": null,
+   "star": 6.504571742211992,
+   "s": {
+    "jack": 0.040102172456750185,
+    "speed": 0.18886486167010724,
+    "ln": 0.4319082545951062
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 14,
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -/Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [13th Dan - Yoru (Marathon)].osu",
+   "member": null,
+   "star": 6.877191146436715,
+   "s": {
+    "jack": 0.027406561848387963,
+    "speed": 0.3931273098158166,
+    "ln": 0.3402190727255426
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 34,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 15,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Analepsy - Apocalyptic Premonition ( 1.05x  cut ) ~ Zeta Tech ~].osu",
+   "member": null,
+   "star": 9.051186747364254,
+   "s": {
+    "jack": 0.1407011159366362,
+    "speed": 0.8496419308817086,
+    "ln": 0.0029624250460264932
+   },
+   "hints": []
+  },
+  {
+   "i": 16,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [DJ Myosuke - Collapse of Ego ~ Eta Stamina ~].osu",
+   "member": null,
+   "star": 8.737972035896329,
+   "s": {
+    "jack": 0.014473653510151844,
+    "speed": 0.9761146263528506,
+    "ln": 0.0036033334635316564
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 17,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [DJ TECHNORCH - Nijuu ~ Zeta Stamina ~].osu",
+   "member": null,
+   "star": 8.452367993770713,
+   "s": {
+    "jack": 0.06894821617354616,
+    "speed": 0.9277489943316571,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 93,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 18,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Laur - Exitium ~ Eta Tech ~].osu",
+   "member": null,
+   "star": 9.657019610129748,
+   "s": {
+    "jack": 0.15886733647623358,
+    "speed": 0.835417163039411,
+    "ln": 0.0021428971774598163
+   },
+   "hints": []
+  },
+  {
+   "i": 19,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [LV.4 - Angel Dust (2016 Radio Mix) ~ Zeta Jack (Old ver.) ~].osu",
+   "member": null,
+   "star": 7.912998264188712,
+   "s": {
+    "jack": 0.7341670009180666,
+    "speed": 0.2586206923000075,
+    "ln": 0.0008234941499948474
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 73,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 20,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [LV.4 - Angel Dust (2016 Radio Mix) ~ Zeta Jack ~].osu",
+   "member": null,
+   "star": 7.757647736414945,
+   "s": {
+    "jack": 0.7618373498099508,
+    "speed": 0.22802871367133803,
+    "ln": 0.0024808518880504314
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 76,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 21,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Manabu Namiki - ]-[34#! ~ Zeta Speed ~].osu",
+   "member": null,
+   "star": 8.452130570622709,
+   "s": {
+    "jack": 0.004149210423192669,
+    "speed": 0.9798573661569474,
+    "ln": 0.0024765111847397593
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 22,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [S.S.H. - Intersect Thunderbolt-Remix ~ Eta Speed ~].osu",
+   "member": null,
+   "star": 8.698302045909152,
+   "s": {
+    "jack": 0.01661866595248269,
+    "speed": 0.978363210329032,
+    "ln": 0.002115544297041172
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 23,
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Suicidal Angels - Torment Payback ( Edited ) ~ Eta Jack ~].osu",
+   "member": null,
+   "star": 9.551350942800404,
+   "s": {
+    "jack": 0.691295862185291,
+    "speed": 0.29665295439347705,
+    "ln": 0.0004405660990751933
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 69,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 24,
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [JACK - Vertex Beta].osu",
+   "member": null,
+   "star": 8.450722591060446,
+   "s": {
+    "jack": 0.48195530949145227,
+    "speed": 0.5076734498549408,
+    "ln": 0.0025736320422786014
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 48,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 25,
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [SPEED - Finixe].osu",
+   "member": null,
+   "star": 7.979858887700352,
+   "s": {
+    "jack": 0.05140294196687313,
+    "speed": 0.9091194215995776,
+    "ln": 0.02945031561577975
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 91,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 26,
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [STAMINA - Angel Dust].osu",
+   "member": null,
+   "star": 8.547613853353713,
+   "s": {
+    "jack": 0.0025637336047050394,
+    "speed": 0.992854313996242,
+    "ln": 0.0008789832852566859
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 99,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 27,
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [TECH - Weird Autumn].osu",
+   "member": null,
+   "star": 8.868818829656492,
+   "s": {
+    "jack": 0.20237438366376098,
+    "speed": 0.7724042445489179,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 28,
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [VIBRO (BOSS) - CYBER INDUCTANCE (Kazoo Cover)].osu",
+   "member": null,
+   "star": 8.453620846404819,
+   "s": {
+    "jack": 0.8057827852889705,
+    "speed": 0.1563134529194512,
+    "ln": 0.02857266879144211
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 81,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 29,
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [~ EXTRA-ZETA ~ (Marathon) EXTENSION].osu",
+   "member": null,
+   "star": 8.890160020862135,
+   "s": {
+    "jack": 0.2778607396439613,
+    "speed": 0.6977755322002344,
+    "ln": 0.0135383208253433
+   },
+   "hints": []
+  },
+  {
+   "i": 30,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Aquaris ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.097732816905134,
+   "s": {
+    "jack": 0.5124909336335417,
+    "speed": 0.4796795504581521,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 51,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 31,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Break ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.5852869462475745,
+   "s": {
+    "jack": 0.6271702148266196,
+    "speed": 0.3222379811525295,
+    "ln": 0.028086916029696023
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 63,
+     "delta": 0.5,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 32,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Can't Take my Eyes ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.598679607868451,
+   "s": {
+    "jack": 0.3671466262988554,
+    "speed": 0.6187446601706298,
+    "ln": 0.0012936533853464215
+   },
+   "hints": []
+  },
+  {
+   "i": 33,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [CrossOver ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.5043894065801493,
+   "s": {
+    "jack": 0.23152137036391143,
+    "speed": 0.5459796355789269,
+    "ln": 0.04529005144179363
+   },
+   "hints": []
+  },
+  {
+   "i": 34,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Dark Sambaland ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.04291075457381,
+   "s": {
+    "jack": 0.5767942043788976,
+    "speed": 0.3557089414914077,
+    "ln": 0.033630806511507294
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 58,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 35,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Dimension Tripper!!!! ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.373102050123758,
+   "s": {
+    "jack": 0.16018623117308894,
+    "speed": 0.18330606550323353,
+    "ln": 0.021643626760909467
+   },
+   "hints": []
+  },
+  {
+   "i": 36,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Energy Flower 3007 ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.894424460701238,
+   "s": {
+    "jack": 0.26131820797396765,
+    "speed": 0.618587782379498,
+    "ln": 0.004590431337141446
+   },
+   "hints": []
+  },
+  {
+   "i": 37,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Flashes ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.050745770418876,
+   "s": {
+    "jack": 0.061542851497664704,
+    "speed": 0.7120304856802671,
+    "ln": 0.06273408905337755
+   },
+   "hints": []
+  },
+  {
+   "i": 38,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Last Chance ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.329634225654388,
+   "s": {
+    "jack": 0.3454120895499593,
+    "speed": 0.5525441608167206,
+    "ln": 0.006024070019260094
+   },
+   "hints": []
+  },
+  {
+   "i": 39,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Miracle Chance ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.25364057504141,
+   "s": {
+    "jack": 0.22250146117885114,
+    "speed": 0.025523509109937302,
+    "ln": 0.08929223751042242
+   },
+   "hints": []
+  },
+  {
+   "i": 40,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Paradigm Shift ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.236146671573987,
+   "s": {
+    "jack": 0.44776506399044186,
+    "speed": 0.5013566533070819,
+    "ln": 0.02079654053240291
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 45,
+     "delta": 0.3,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 41,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Rose Quartz ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.834656638411669,
+   "s": {
+    "jack": 0.6145177348011478,
+    "speed": 0.3750940167567882,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 61,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 42,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Sweet Cherry X ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.290472526880603,
+   "s": {
+    "jack": 0.201563250873447,
+    "speed": 0.649069124894226,
+    "ln": 0.0043947091383944445
+   },
+   "hints": []
+  },
+  {
+   "i": 43,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [The Lost Dedicated ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.7437916184572995,
+   "s": {
+    "jack": 0.6256493561785603,
+    "speed": 0.3257401572092511,
+    "ln": 0.022667061507926505
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 63,
+     "delta": 0.5,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 44,
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [To The Limit ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.079383060602422,
+   "s": {
+    "jack": 0.4678526140814484,
+    "speed": 0.5306503139651295,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 47,
+     "delta": 0.3,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 45,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Blue Planet ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.315294249493494,
+   "s": {
+    "jack": 0.15809316852771974,
+    "speed": 0.8288959154700744,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 46,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Brainfog ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.8321377762435667,
+   "s": {
+    "jack": 0.08245685818287994,
+    "speed": 0.7446912867491413,
+    "ln": 0.04672315294929918
+   },
+   "hints": []
+  },
+  {
+   "i": 47,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Cicadidae ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.570325007250047,
+   "s": {
+    "jack": 0.07282784761319959,
+    "speed": 0.8146646197337529,
+    "ln": 0.018398099572668726
+   },
+   "hints": []
+  },
+  {
+   "i": 48,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Crescent Moon Boss Battle ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.284547325463267,
+   "s": {
+    "jack": 0.05644927129941036,
+    "speed": 0.937546737840111,
+    "ln": 0.0009522976891697908
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 94,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 49,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Ephemera ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.7707813191500748,
+   "s": {
+    "jack": 0.05698707707195823,
+    "speed": 0.6942919242573626,
+    "ln": 0.06690539382104076
+   },
+   "hints": []
+  },
+  {
+   "i": 50,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Fastest Crash ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.776782255425171,
+   "s": {
+    "jack": 0.0761504112611119,
+    "speed": 0.9112334215919429,
+    "ln": 0.0017839111019880265
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 91,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 51,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Forgotten ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.821465478196133,
+   "s": {
+    "jack": 0.3005770348274074,
+    "speed": 0.69257461902242,
+    "ln": 0.0010544248985867783
+   },
+   "hints": []
+  },
+  {
+   "i": 52,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Kirlian Shores ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.5487584718859986,
+   "s": {
+    "jack": 0.10024134572172821,
+    "speed": 0.3906248073256876,
+    "ln": 0.01816264034511894
+   },
+   "hints": []
+  },
+  {
+   "i": 53,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Odoru Mizushibuki ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.1962187502698685,
+   "s": {
+    "jack": 0.2497380414985181,
+    "speed": 0.7494870227498556,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 54,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [RATO ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.473600007017417,
+   "s": {
+    "jack": 0.009804343557416788,
+    "speed": 0.8930987700331403,
+    "ln": 0.021348651518079596
+   },
+   "hints": []
+  },
+  {
+   "i": 55,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Rave 7 1.1x ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.105497214386874,
+   "s": {
+    "jack": 0.08998053431364708,
+    "speed": 0.8457107761792914,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 56,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [The Bird's Midair Heatstroke ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.2435185623706415,
+   "s": {
+    "jack": 0.09878234882943421,
+    "speed": 0.7870342407020544,
+    "ln": 0.007144960180337028
+   },
+   "hints": []
+  },
+  {
+   "i": 57,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Vermillion ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.865874562477694,
+   "s": {
+    "jack": 0.015073041931742717,
+    "speed": 0.6956391194085138,
+    "ln": 0.03777991733109086
+   },
+   "hints": []
+  },
+  {
+   "i": 58,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Want U 2 ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.569592873124104,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.49295261473524266,
+    "ln": 0.168866465157397
+   },
+   "hints": []
+  },
+  {
+   "i": 59,
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [WAVE ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.9682424663686415,
+   "s": {
+    "jack": 0.12068798625788235,
+    "speed": 0.7617338476758984,
+    "ln": 0.047418016376209036
+   },
+   "hints": []
+  },
+  {
+   "i": 60,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Angel Of Darkness ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.746754372856925,
+   "s": {
+    "jack": 0.016526781083011526,
+    "speed": 0.8551556516159379,
+    "ln": 0.04170120845306315
+   },
+   "hints": []
+  },
+  {
+   "i": 61,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Anguish ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.28851028776509,
+   "s": {
+    "jack": 0.020297024749923512,
+    "speed": 0.9280966785607014,
+    "ln": 0.0045351138048568725
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 93,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 62,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Chandelier ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.878494543437752,
+   "s": {
+    "jack": 0.019220404359077667,
+    "speed": 0.9366348307892023,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 94,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 63,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Elektric U-Phoria ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.379795036451078,
+   "s": {
+    "jack": 0.007856769537277814,
+    "speed": 0.9454409604532863,
+    "ln": 0.009652963678629913
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 64,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Eternal Drain ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.9006518579397813,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.9527824809039771,
+    "ln": 0.004458210732473272
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 65,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Firmament Castle Velier ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.888423203744331,
+   "s": {
+    "jack": 0.0012132683105200376,
+    "speed": 0.9868594701262621,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 99,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 66,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Future Dominators ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.52803877472435,
+   "s": {
+    "jack": 0.0009915364238109305,
+    "speed": 0.9935859470940572,
+    "ln": 0.003740356515741426
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 99,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 67,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Hitsugi to Futago ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.989301432339961,
+   "s": {
+    "jack": 0.016233851652300176,
+    "speed": 0.9757186588613773,
+    "ln": 0.00028844506912981057
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 68,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Hymn ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.999590197181571,
+   "s": {
+    "jack": 0.018729834126039055,
+    "speed": 0.9178943129632603,
+    "ln": 0.005139687090197464
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 92,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 69,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [LazorBeamz ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.204244812962374,
+   "s": {
+    "jack": 0.014217151282541748,
+    "speed": 0.9736598945873388,
+    "ln": 0.007096044698157181
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 70,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [M-A ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.682569425094117,
+   "s": {
+    "jack": 0.0025763774030947936,
+    "speed": 0.9793978208785469,
+    "ln": 0.007172218331301334
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 71,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Time to Say Goodbye ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.377672640480069,
+   "s": {
+    "jack": 0.01758981619582366,
+    "speed": 0.9622201501026522,
+    "ln": 0.006483623744745171
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 72,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Tommorow Perfume ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.6710970222215917,
+   "s": {
+    "jack": 0.0687738977542667,
+    "speed": 0.6704090530429595,
+    "ln": 0.02738477042619521
+   },
+   "hints": []
+  },
+  {
+   "i": 73,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [True Blue ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.0938258085754917,
+   "s": {
+    "jack": 0.039842293769838374,
+    "speed": 0.8307257952327273,
+    "ln": 0.025421139029624618
+   },
+   "hints": []
+  },
+  {
+   "i": 74,
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [We Luv Lama ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.7735014268858675,
+   "s": {
+    "jack": 0.019609224788021455,
+    "speed": 0.978164158047533,
+    "ln": 0.0012945743142279656
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 75,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Amber Starlight ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.349941793911093,
+   "s": {
+    "jack": 0.08293254279764799,
+    "speed": 0.8994184220457977,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 90,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 76,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Disconnected Trance ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.375227718735997,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.9957978388078524,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 100,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 77,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Entelechia ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.96342031635999,
+   "s": {
+    "jack": 0.06953711489087047,
+    "speed": 0.6818226025839272,
+    "ln": 0.05391026373089672
+   },
+   "hints": []
+  },
+  {
+   "i": 78,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Five Five Five Guys ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.021076519608591,
+   "s": {
+    "jack": 0.04473326891758713,
+    "speed": 0.8961795663915256,
+    "ln": 0.0383699519393299
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 90,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 79,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Luv Lab 22ate! ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.8834963187012015,
+   "s": {
+    "jack": 0.01902040177563426,
+    "speed": 0.8588660669841959,
+    "ln": 0.01336075710541299
+   },
+   "hints": []
+  },
+  {
+   "i": 80,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Makiba ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.457678355260764,
+   "s": {
+    "jack": 0.0126169449134523,
+    "speed": 0.9627105055857175,
+    "ln": 0.009137924186990212
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 81,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Mario Paint ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "star": 8.387502979275029,
+   "s": {
+    "jack": 0.005101089639154374,
+    "speed": 0.9832208616559369,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 82,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Oh Curry! ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.548298353742081,
+   "s": {
+    "jack": 0.023323667871521202,
+    "speed": 0.8933845270063088,
+    "ln": 0.02833145903994063
+   },
+   "hints": []
+  },
+  {
+   "i": 83,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Palette GAMMA ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.481501650451389,
+   "s": {
+    "jack": 0.10125071726225196,
+    "speed": 0.8485126606319245,
+    "ln": 0.020460222640470684
+   },
+   "hints": []
+  },
+  {
+   "i": 84,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Reflec Streamz ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.0696633843955805,
+   "s": {
+    "jack": 0.05813538280648907,
+    "speed": 0.885132944360681,
+    "ln": 0.018082794059511638
+   },
+   "hints": []
+  },
+  {
+   "i": 85,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Shannon's Theorem ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.925493829393093,
+   "s": {
+    "jack": 0.04521631693425986,
+    "speed": 0.899227819999499,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 90,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 86,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Shelter ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.534076706570928,
+   "s": {
+    "jack": 0.005956168754135376,
+    "speed": 0.3557173708141877,
+    "ln": 0.10620735769915277
+   },
+   "hints": []
+  },
+  {
+   "i": 87,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Snow Storm ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.711149949450369,
+   "s": {
+    "jack": 0.01864982714841998,
+    "speed": 0.6626706768775533,
+    "ln": 0.034558361112957924
+   },
+   "hints": []
+  },
+  {
+   "i": 88,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [SOS ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.566935197620316,
+   "s": {
+    "jack": 0.0017967096911966328,
+    "speed": 0.9397790752561203,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 94,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 89,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [TDPDG ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.050861631225111,
+   "s": {
+    "jack": 0.029330479876126987,
+    "speed": 0.7964726156175178,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 90,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Trickstarz ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.388430675919301,
+   "s": {
+    "jack": 0.005523711938337435,
+    "speed": 0.9201594215849414,
+    "ln": 0.006048584988906059
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 92,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 91,
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Volcanic ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.433749312944419,
+   "s": {
+    "jack": 0.060198747568996694,
+    "speed": 0.920230369621103,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 92,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 92,
+   "source": "test_beatmap/osz/2369185 Laur - Executioner/Laur - Executioner (kilotek) [Harbinger of Death].osu",
+   "member": null,
+   "star": 7.2871277338433185,
+   "s": {
+    "jack": 0.04277986328623865,
+    "speed": 0.4709250486375069,
+    "ln": 0.3370586415586287
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 34,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 93,
+   "source": "test_beatmap/osz/2513401 Laur - SEV-26/Laur - SEV-26 (Yutori Natsu) [Deranged Desire  feat. Auros].osu",
+   "member": null,
+   "star": 6.949417004130812,
+   "s": {
+    "jack": 0.137191033018528,
+    "speed": 0.4421962027590466,
+    "ln": 0.26195374442562624
+   },
+   "hints": []
+  },
+  {
+   "i": 94,
+   "source": "test_beatmap/osz/2559951 Hexacube - Luminous Memory (Hexacube's OVERSHINE Remix)/Hexacube - Luminous Memory (Hexacube's OVERSHINE Remix) (nyamushi) [Becoming Myself].osu",
+   "member": null,
+   "star": 6.401349514178308,
+   "s": {
+    "jack": 0.08842224447132772,
+    "speed": 0.37942549554952376,
+    "ln": 0.3330398587706109
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 33,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 95,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.621182028344216,
+   "s": {
+    "jack": 0.06471867015163327,
+    "speed": 0.4558356751482622,
+    "ln": 0.08505921264958906
+   },
+   "hints": []
+  },
+  {
+   "i": 96,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.8844685667522376,
+   "s": {
+    "jack": 0.024441113957324772,
+    "speed": 0.7784481709746909,
+    "ln": 0.03391472995848282
+   },
+   "hints": []
+  },
+  {
+   "i": 97,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.900542901668368,
+   "s": {
+    "jack": 0.07598860237264923,
+    "speed": 0.6332156713534925,
+    "ln": 0.03117114002048842
+   },
+   "hints": []
+  },
+  {
+   "i": 98,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "star": 3.601225917805801,
+   "s": {
+    "jack": 0.06911044461547838,
+    "speed": 0.7757715019209963,
+    "ln": 0.03258889236363801
+   },
+   "hints": []
+  },
+  {
+   "i": 99,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.1966099541044555,
+   "s": {
+    "jack": 0.12158798531347798,
+    "speed": 0.7495069824193724,
+    "ln": 0.017906683010698508
+   },
+   "hints": []
+  },
+  {
+   "i": 100,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.580144073119622,
+   "s": {
+    "jack": 0.05032383079045609,
+    "speed": 0.8816753495627854,
+    "ln": 0.004446615738467574
+   },
+   "hints": []
+  },
+  {
+   "i": 101,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ INTRO-1st ~ (Marathon)].osu",
+   "member": null,
+   "star": 1.4297224115168565,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.17754747236374163
+   },
+   "hints": []
+  },
+  {
+   "i": 102,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ INTRO-2nd ~ (Marathon)].osu",
+   "member": null,
+   "star": 1.555753918980229,
+   "s": {
+    "jack": 0.024194541769569974,
+    "speed": 0.007086762710968318,
+    "ln": 0.1976756283008729
+   },
+   "hints": []
+  },
+  {
+   "i": 103,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ INTRO-3rd ~ (Marathon)].osu",
+   "member": null,
+   "star": 2.454824096842106,
+   "s": {
+    "jack": 0.0759009860958974,
+    "speed": 0.4028104004264448,
+    "ln": 0.04776530554525929
+   },
+   "hints": []
+  },
+  {
+   "i": 104,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.9506231050427125,
+   "s": {
+    "jack": 0.17343586758605706,
+    "speed": 0.7724007486355701,
+    "ln": 0.008311088007077456
+   },
+   "hints": []
+  },
+  {
+   "i": 105,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "star": 4.676470452452296,
+   "s": {
+    "jack": 0.057308144180111834,
+    "speed": 0.8569350213298979,
+    "ln": 0.008184055653684125
+   },
+   "hints": []
+  },
+  {
+   "i": 106,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.08293399602718,
+   "s": {
+    "jack": 0.0973397369989643,
+    "speed": 0.8294354381112687,
+    "ln": 0.020611985895564393
+   },
+   "hints": []
+  },
+  {
+   "i": 107,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.444362960800007,
+   "s": {
+    "jack": 0.1299384040907094,
+    "speed": 0.8098184773616193,
+    "ln": 0.004990714215965282
+   },
+   "hints": []
+  },
+  {
+   "i": 108,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "star": 5.768447199481068,
+   "s": {
+    "jack": 0.09927174013460159,
+    "speed": 0.8655526915173751,
+    "ln": 0.004341485363371613
+   },
+   "hints": []
+  },
+  {
+   "i": 109,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-ALPHA ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.324007134179466,
+   "s": {
+    "jack": 0.14829656720268855,
+    "speed": 0.8284608500183147,
+    "ln": 0.010842504785673971
+   },
+   "hints": []
+  },
+  {
+   "i": 110,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-BETA ~ (Marathon)].osu",
+   "member": null,
+   "star": 6.411102001894303,
+   "s": {
+    "jack": 0.16631231892264503,
+    "speed": 0.8080601969862778,
+    "ln": 0.007092292212367623
+   },
+   "hints": []
+  },
+  {
+   "i": 111,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-DELTA ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.409529163033522,
+   "s": {
+    "jack": 0.09815813423132602,
+    "speed": 0.8909384811560669,
+    "ln": 0.0014014794998084609
+   },
+   "hints": []
+  },
+  {
+   "i": 112,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-EPSILON ~ (Marathon)].osu",
+   "member": null,
+   "star": 8.243952071740724,
+   "s": {
+    "jack": 0.1848771825458225,
+    "speed": 0.8056240385401803,
+    "ln": 0.0003942522903759964
+   },
+   "hints": []
+  },
+  {
+   "i": 113,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-GAMMA ~ (Marathon)].osu",
+   "member": null,
+   "star": 7.000828376244918,
+   "s": {
+    "jack": 0.13507209732209752,
+    "speed": 0.8400546646636439,
+    "ln": 0.008926128855084235
+   },
+   "hints": []
+  },
+  {
+   "i": 114,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ FINAL ([GB]Thaumiel) [~ FINAL - ETA ~ ( Marathon )].osu",
+   "member": null,
+   "star": 9.785724465518784,
+   "s": {
+    "jack": 0.18675562478442678,
+    "speed": 0.8053570973421388,
+    "ln": 0.002147204394685806
+   },
+   "hints": []
+  },
+  {
+   "i": 115,
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ FINAL ([GB]Thaumiel) [~ FINAL - ZETA ~ ( Marathon )].osu",
+   "member": null,
+   "star": 8.65073472075541,
+   "s": {
+    "jack": 0.19515014857594395,
+    "speed": 0.7946034926066425,
+    "ln": 0.0020944949947264706
+   },
+   "hints": []
+  },
+  {
+   "i": 116,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-1 v3].osu",
+   "member": null,
+   "star": 5.991152051533576,
+   "s": {
+    "jack": 0.12905558140707474,
+    "speed": 0.8349682261892503,
+    "ln": 0.0037732385675486556
+   },
+   "hints": []
+  },
+  {
+   "i": 117,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-2 v3].osu",
+   "member": null,
+   "star": 6.145725632272216,
+   "s": {
+    "jack": 0.11747911055485766,
+    "speed": 0.8593106046543442,
+    "ln": 0.003375050420459482
+   },
+   "hints": []
+  },
+  {
+   "i": 118,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-3 v3].osu",
+   "member": null,
+   "star": 6.443977911570704,
+   "s": {
+    "jack": 0.12768074217428532,
+    "speed": 0.8507913851316832,
+    "ln": 0.0019301741777916794
+   },
+   "hints": []
+  },
+  {
+   "i": 119,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-4 v3].osu",
+   "member": null,
+   "star": 6.569626694844178,
+   "s": {
+    "jack": 0.15446105280080458,
+    "speed": 0.8262316366030664,
+    "ln": 0.0010842160519106722
+   },
+   "hints": []
+  },
+  {
+   "i": 120,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-5 v3].osu",
+   "member": null,
+   "star": 6.792313683028117,
+   "s": {
+    "jack": 0.13709577952817995,
+    "speed": 0.839166726879577,
+    "ln": 0.0050381511145980076
+   },
+   "hints": []
+  },
+  {
+   "i": 121,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Ex-Final v3].osu",
+   "member": null,
+   "star": 8.670060552711982,
+   "s": {
+    "jack": 0.11735988276072763,
+    "speed": 0.8718213513104677,
+    "ln": 0.0013262745659465905
+   },
+   "hints": []
+  },
+  {
+   "i": 122,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-6 v3].osu",
+   "member": null,
+   "star": 7.0774734294244475,
+   "s": {
+    "jack": 0.11969150976027199,
+    "speed": 0.868289456826445,
+    "ln": 0.00160460012281865
+   },
+   "hints": []
+  },
+  {
+   "i": 123,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-7 v3].osu",
+   "member": null,
+   "star": 7.601245903808067,
+   "s": {
+    "jack": 0.13772010948628222,
+    "speed": 0.8504976648253827,
+    "ln": 0.0013990505422984756
+   },
+   "hints": []
+  },
+  {
+   "i": 124,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-8 v3].osu",
+   "member": null,
+   "star": 7.8539529829611805,
+   "s": {
+    "jack": 0.14527034695131344,
+    "speed": 0.847087711528386,
+    "ln": 0.001061433484835239
+   },
+   "hints": []
+  },
+  {
+   "i": 125,
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-9 v3].osu",
+   "member": null,
+   "star": 8.073461766271862,
+   "s": {
+    "jack": 0.17709713019670592,
+    "speed": 0.8106544984297147,
+    "ln": 0.0008184272309392289
+   },
+   "hints": []
+  },
+  {
+   "i": 126,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-0].osu",
+   "member": null,
+   "star": 2.5078857699146813,
+   "s": {
+    "jack": 0.06326533608948227,
+    "speed": 0.08908994109062925,
+    "ln": 0.32071006211244896
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 32,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 127,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-1].osu",
+   "member": null,
+   "star": 2.892229073541879,
+   "s": {
+    "jack": 0.08316222505144791,
+    "speed": 0.36183942946453956,
+    "ln": 0.16303270171117598
+   },
+   "hints": []
+  },
+  {
+   "i": 128,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-2].osu",
+   "member": null,
+   "star": 3.1014628744571606,
+   "s": {
+    "jack": 0.14481167669353043,
+    "speed": 0.38736788685421464,
+    "ln": 0.16996073647766158
+   },
+   "hints": []
+  },
+  {
+   "i": 129,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-3].osu",
+   "member": null,
+   "star": 3.561968068535258,
+   "s": {
+    "jack": 0.15502676543374455,
+    "speed": 0.5934390779767091,
+    "ln": 0.06204288113252868
+   },
+   "hints": []
+  },
+  {
+   "i": 130,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-4].osu",
+   "member": null,
+   "star": 3.505635574325897,
+   "s": {
+    "jack": 0.10293700518284293,
+    "speed": 0.6739691845370477,
+    "ln": 0.010145173358528697
+   },
+   "hints": []
+  },
+  {
+   "i": 131,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-10].osu",
+   "member": null,
+   "star": 5.716415021450372,
+   "s": {
+    "jack": 0.1384528584046277,
+    "speed": 0.8032333545149457,
+    "ln": 0.011800639788664432
+   },
+   "hints": []
+  },
+  {
+   "i": 132,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-5].osu",
+   "member": null,
+   "star": 4.231396092036694,
+   "s": {
+    "jack": 0.10238791666382271,
+    "speed": 0.7630404182153693,
+    "ln": 0.02324132993448114
+   },
+   "hints": []
+  },
+  {
+   "i": 133,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-6].osu",
+   "member": null,
+   "star": 4.546910784196638,
+   "s": {
+    "jack": 0.09579126968438212,
+    "speed": 0.8023457015539016,
+    "ln": 0.0016234467649129105
+   },
+   "hints": []
+  },
+  {
+   "i": 134,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-7].osu",
+   "member": null,
+   "star": 4.786745364418853,
+   "s": {
+    "jack": 0.1081449473582194,
+    "speed": 0.8273547839035589,
+    "ln": 0.016764705361985197
+   },
+   "hints": []
+  },
+  {
+   "i": 135,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-8].osu",
+   "member": null,
+   "star": 5.300058353377803,
+   "s": {
+    "jack": 0.12141684565664633,
+    "speed": 0.816387883332341,
+    "ln": 0.010395792343655176
+   },
+   "hints": []
+  },
+  {
+   "i": 136,
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-9].osu",
+   "member": null,
+   "star": 5.498457091714273,
+   "s": {
+    "jack": 0.10742898974625631,
+    "speed": 0.8474147127676088,
+    "ln": 0.018190599792112832
+   },
+   "hints": []
+  },
+  {
+   "i": 137,
+   "source": "test_beatmap/Various Artists - Zeta Sample Dan v2 (Brunliko) [~ EXTRA-ZETA ~ (Marathon) (real chart) (credit to emik)].osu",
+   "member": null,
+   "star": 9.149517308828742,
+   "s": {
+    "jack": 0.136595879997129,
+    "speed": 0.8413396496530011,
+    "ln": 0.010583018019271959
+   },
+   "hints": []
+  },
+  {
+   "i": 138,
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [14th Dan - Yami (Marathon)].osu",
+   "star": 7.4150867777609895,
+   "s": {
+    "jack": 0.04443702972543824,
+    "speed": 0.34984575278545726,
+    "ln": 0.35404311920289
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 35,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 139,
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [15th Dan - Yume (Marathon)].osu",
+   "star": 7.466040173196552,
+   "s": {
+    "jack": 0.04417879823099246,
+    "speed": 0.300839679526533,
+    "ln": 0.40080152783662926
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 40,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 140,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [1st Dan (Marathon)].osu",
+   "star": 3.777575189790848,
+   "s": {
+    "jack": 0.0355123563133921,
+    "speed": 0.015580291582809044,
+    "ln": 0.5786367090980932
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 58,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 141,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [2nd Dan (Marathon)].osu",
+   "star": 4.448944417680536,
+   "s": {
+    "jack": 0.005717961707641303,
+    "speed": 0.03165671510701479,
+    "ln": 0.7713741225367122
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 77,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 142,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [3rd Dan (Marathon)].osu",
+   "star": 4.337743357064524,
+   "s": {
+    "jack": 0.03914117260456946,
+    "speed": 0.18073907500124417,
+    "ln": 0.4906647396398407
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 49,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 143,
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [4th Dan (Marathon)].osu",
+   "star": 4.728096227026027,
+   "s": {
+    "jack": 0.009059567625977151,
+    "speed": 0.06480672105304391,
+    "ln": 0.6308147868922542
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 63,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 144,
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [5th Dan (Marathon)].osu",
+   "star": 4.603128683212556,
+   "s": {
+    "jack": 0.04001796948699375,
+    "speed": 0.08510212126212219,
+    "ln": 0.6622220227256908
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 66,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 145,
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [6th Dan (Marathon)].osu",
+   "star": 4.932527173345459,
+   "s": {
+    "jack": 0.04527369601492018,
+    "speed": 0.19740690603298797,
+    "ln": 0.5076817125524264
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 51,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 146,
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [7th Dan (Marathon)].osu",
+   "star": 5.210547105273954,
+   "s": {
+    "jack": 0.04946878414875799,
+    "speed": 0.24398485116327168,
+    "ln": 0.3829126623087301
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 38,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 147,
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [10th Dan (Marathon)].osu",
+   "star": 5.931702548257773,
+   "s": {
+    "jack": 0.0375643537723584,
+    "speed": 0.30926123205988226,
+    "ln": 0.3634024220840516
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 36,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 148,
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [8th Dan (Marathon)].osu",
+   "star": 5.3772580150365386,
+   "s": {
+    "jack": 0.04131871174676455,
+    "speed": 0.24580170230128573,
+    "ln": 0.3854539457979407
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 39,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 149,
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [9th Dan (Marathon)].osu",
+   "star": 5.627429749145348,
+   "s": {
+    "jack": 0.024965412119963327,
+    "speed": 0.3662357190379858,
+    "ln": 0.3302838885212917
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 33,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 150,
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [11th Dan - Yoake (Marathon)].osu",
+   "star": 6.283572794045977,
+   "s": {
+    "jack": 0.03663978664883368,
+    "speed": 0.2715146593592606,
+    "ln": 0.367885302336495
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 37,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 151,
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [12th Dan - Yuugure (Marathon)].osu",
+   "star": 6.504571742211992,
+   "s": {
+    "jack": 0.040102172456750185,
+    "speed": 0.18886486167010724,
+    "ln": 0.4319082545951062
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 152,
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [13th Dan - Yoru (Marathon)].osu",
+   "star": 6.877191146436715,
+   "s": {
+    "jack": 0.027406561848387963,
+    "speed": 0.3931273098158166,
+    "ln": 0.3402190727255426
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 34,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 153,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-10 Hiensou  Hinaka_Yuki].osu",
+   "star": 5.493423370325295,
+   "s": {
+    "jack": 0.5110311686550669,
+    "speed": 0.47911380794882685,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 51,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 154,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-3 Koi Kou Enishi  DongShaoZhou].osu",
+   "star": 3.6464356607790336,
+   "s": {
+    "jack": 0.28832121978259145,
+    "speed": 0.5599570762714733,
+    "ln": 0.013846008456954424
+   },
+   "hints": []
+  },
+  {
+   "i": 155,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-4 Umiyuri Kaiteitan  MACKEREL].osu",
+   "star": 3.024316884993157,
+   "s": {
+    "jack": 0.32468172666313605,
+    "speed": 0.0,
+    "ln": 0.003510696845077265
+   },
+   "hints": []
+  },
+  {
+   "i": 156,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-5 Platinum Disco  mas3].osu",
+   "star": 3.5919303388642314,
+   "s": {
+    "jack": 0.36830332320279086,
+    "speed": 0.28354369008660724,
+    "ln": 0.07079976712986324
+   },
+   "hints": []
+  },
+  {
+   "i": 157,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-6 Chocolate Disco  Oekakizuki].osu",
+   "star": 3.878541895543039,
+   "s": {
+    "jack": 0.3694883700454151,
+    "speed": 0.6092385658967161,
+    "ln": 0.00324651621216392
+   },
+   "hints": []
+  },
+  {
+   "i": 158,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-7 Don't Stop The Music  7912].osu",
+   "star": 4.183653854438441,
+   "s": {
+    "jack": 0.35237502537891136,
+    "speed": 0.5508675004173522,
+    "ln": 0.0698034062279436
+   },
+   "hints": []
+  },
+  {
+   "i": 159,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-8 Don't let you down  OxalicAcid vs. crazyImmortals].osu",
+   "star": 4.994183787148536,
+   "s": {
+    "jack": 0.3613715407572253,
+    "speed": 0.5483336023198164,
+    "ln": 0.03714540137398761
+   },
+   "hints": []
+  },
+  {
+   "i": 160,
+   "source": "test_beatmap/osz/1701660 Various Artists - Malody 4K Regular Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Jack (Muses) [Reg-9 Kikai Shoujo Gensou  Hylotl].osu",
+   "star": 4.853739330960819,
+   "s": {
+    "jack": 0.5513462910350413,
+    "speed": 0.39975502496015486,
+    "ln": 0.009693613731530746
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 55,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 162,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-10 Rocky Buinne  tera].osu",
+   "star": 5.596503199801438,
+   "s": {
+    "jack": 0.12053978260759075,
+    "speed": 0.8240945105120351,
+    "ln": 0.006553006235095512
+   },
+   "hints": []
+  },
+  {
+   "i": 163,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-3 Onegai! Kon Kon Oinari-sama  Endermeng].osu",
+   "star": 3.6036032184061177,
+   "s": {
+    "jack": 0.22387298271751305,
+    "speed": 0.3298029437766915,
+    "ln": 0.1688011411009949
+   },
+   "hints": []
+  },
+  {
+   "i": 164,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-4 Fire in the sky  XingRen].osu",
+   "star": 3.0951993711633463,
+   "s": {
+    "jack": 0.1103532238539299,
+    "speed": 0.6819294174513579,
+    "ln": 0.004173918722696599
+   },
+   "hints": []
+  },
+  {
+   "i": 165,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-5 Cute na Kanojo  tyrcs].osu",
+   "star": 4.471926497679231,
+   "s": {
+    "jack": 0.1411476287920084,
+    "speed": 0.7245035856298812,
+    "ln": 0.01571072736806834
+   },
+   "hints": []
+  },
+  {
+   "i": 166,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-6 Call Me, Beep Me (If You Wanna Reap Me)  DongShaoZhou].osu",
+   "star": 4.4738409076373,
+   "s": {
+    "jack": 0.11604394557177782,
+    "speed": 0.690009620965345,
+    "ln": 0.0018060487698481236
+   },
+   "hints": []
+  },
+  {
+   "i": 167,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-7 Six Acid Strings  Mipha-].osu",
+   "star": 4.750379551469408,
+   "s": {
+    "jack": 0.23303078779781686,
+    "speed": 0.6549711554602491,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 168,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-8 Yoru ni Kakeru (1.05x)  tera].osu",
+   "star": 5.140297530356148,
+   "s": {
+    "jack": 0.10350703101382432,
+    "speed": 0.8605531884678149,
+    "ln": 0.004126181743766565
+   },
+   "hints": []
+  },
+  {
+   "i": 169,
+   "source": "test_beatmap/osz/1701662 Various Artists - Malody 4K Regular Dan v3-Technical.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Technical (Muses) [Reg-9 Cold Planet  Hinaka_Yuki].osu",
+   "star": 5.2352686548981735,
+   "s": {
+    "jack": 0.005371608688091412,
+    "speed": 0.977785619353283,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 171,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-10 Yue Ai Yue Ye  YuzakiNASB].osu",
+   "star": 5.551749482798675,
+   "s": {
+    "jack": 0.018525160264089617,
+    "speed": 0.9311054673399776,
+    "ln": 0.00347656767433121
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 93,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 172,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-3 The Last Page  Oekakizuki vs. Hylotl].osu",
+   "star": 3.3807379654014387,
+   "s": {
+    "jack": 0.0540070519954308,
+    "speed": 0.7380285058209183,
+    "ln": 0.031502449799186094
+   },
+   "hints": []
+  },
+  {
+   "i": 173,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-4 Icyxis  tyrcs].osu",
+   "star": 3.962872289454034,
+   "s": {
+    "jack": 0.02153463817640052,
+    "speed": 0.88902952934995,
+    "ln": 0.010314649331401915
+   },
+   "hints": []
+  },
+  {
+   "i": 174,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-5 Reimei Sketchbook  Benson_].osu",
+   "star": 4.332725947629386,
+   "s": {
+    "jack": 0.028652022823782562,
+    "speed": 0.8504902348659203,
+    "ln": 0.013575054468588652
+   },
+   "hints": []
+  },
+  {
+   "i": 175,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-6 DIE IN THE SEA  XingRen].osu",
+   "star": 4.435981487663729,
+   "s": {
+    "jack": 0.03996224067766948,
+    "speed": 0.8328230337854308,
+    "ln": 0.0023943849696257454
+   },
+   "hints": []
+  },
+  {
+   "i": 176,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-7 Arkadia [Illusion] (1.05x)  Oekakizuki].osu",
+   "star": 4.859918117538222,
+   "s": {
+    "jack": 0.007313261715205027,
+    "speed": 0.947781923522018,
+    "ln": 0.016956850716392764
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 177,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-8 Snow Veil -Shoujo to Kemono no Mori-  MACKEREL].osu",
+   "star": 5.163203671804328,
+   "s": {
+    "jack": 0.044409046013395174,
+    "speed": 0.8938253088986587,
+    "ln": 0.005753852124419144
+   },
+   "hints": []
+  },
+  {
+   "i": 178,
+   "source": "test_beatmap/osz/1701664 Various Artists - Malody 4K Regular Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Speed (Muses) [Reg-9 Stray Star  Sorakaru_].osu",
+   "star": 5.487450121123629,
+   "s": {
+    "jack": 0.009184231028430643,
+    "speed": 0.9639113621851253,
+    "ln": 0.011631324839686139
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 180,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-10 Spin Eternally  Oekakizuki].osu",
+   "star": 5.525288653502661,
+   "s": {
+    "jack": 0.0346163386227846,
+    "speed": 0.8651041038538895,
+    "ln": 0.03667125689362098
+   },
+   "hints": []
+  },
+  {
+   "i": 181,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-3 Hoshi ga Furanai Machi  Hylotl].osu",
+   "star": 3.238420607545624,
+   "s": {
+    "jack": 0.06033126139112152,
+    "speed": 0.776729845402892,
+    "ln": 0.014909473008030834
+   },
+   "hints": []
+  },
+  {
+   "i": 182,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-4 The Crimson Empire (1.1x)  Oekakizuki].osu",
+   "star": 3.552129858254001,
+   "s": {
+    "jack": 0.05084667346783486,
+    "speed": 0.8441814608859535,
+    "ln": 0.016611378712112206
+   },
+   "hints": []
+  },
+  {
+   "i": 183,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-5 Joker  HarKIn].osu",
+   "star": 4.068266506721894,
+   "s": {
+    "jack": 0.014433349356402439,
+    "speed": 0.9478653069498705,
+    "ln": 0.017103280799337317
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 184,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-6 unhappy century  tera].osu",
+   "star": 4.567427206218703,
+   "s": {
+    "jack": 0.012745541195139232,
+    "speed": 0.9341542662215105,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 93,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 185,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-7 Valkyrie Revolutia  OxalicAcid vs. Hylotl].osu",
+   "star": 4.873962698051776,
+   "s": {
+    "jack": 0.011492472705736861,
+    "speed": 0.9584555596841474,
+    "ln": 0.004649354105244229
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 186,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-8 Positive Dance Time  Hinaka_Yuki].osu",
+   "star": 5.051217712433857,
+   "s": {
+    "jack": 0.04502057830841411,
+    "speed": 0.894279551242401,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 187,
+   "source": "test_beatmap/osz/1701667 Various Artists - Malody 4K Regular Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Regular Dan v3-Stream (Muses) [Reg-9 Unleashed World  Amekaze].osu",
+   "star": 5.527051967064975,
+   "s": {
+    "jack": 0.03321996208519265,
+    "speed": 0.8703348515872215,
+    "ln": 0.05198904054998813
+   },
+   "hints": []
+  },
+  {
+   "i": 189,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-1 Eiya no Parade (1.05x)  Houraisan Kaguya].osu",
+   "star": 6.092343193963017,
+   "s": {
+    "jack": 0.004259845192825853,
+    "speed": 0.9761930739410565,
+    "ln": 0.0006871811713210069
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 190,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-2 Torikago  Hylotl vs. OxalicAcid].osu",
+   "star": 6.0696316703949025,
+   "s": {
+    "jack": 0.02836666166085361,
+    "speed": 0.9504075563297423,
+    "ln": 0.0028176678207468163
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 191,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-3 Euthanasia (1.05x)  tera].osu",
+   "star": 6.5110193973146995,
+   "s": {
+    "jack": 0.0017107836593716105,
+    "speed": 0.979286339986847,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 192,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-4 Pure Ruby  Hylotl].osu",
+   "star": 6.533398301688284,
+   "s": {
+    "jack": 0.0034379389071787394,
+    "speed": 0.9864050511377289,
+    "ln": 0.00012720256948654462
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 99,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 193,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-5 Electric Angel (1.2x)  Sorakaru_ & Hinaka_Yuki].osu",
+   "star": 6.728129213522676,
+   "s": {
+    "jack": 0.028695446850602938,
+    "speed": 0.9569206877706169,
+    "ln": 0.0012199372181400652
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 194,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-6 Pastel Subliminal  OxalicAcid].osu",
+   "star": 6.963303034408973,
+   "s": {
+    "jack": 0.0020276479484970544,
+    "speed": 0.9846217281968302,
+    "ln": 0.0021756193858247664
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 195,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-7 Stay Alive (Zekk Remix) (1.25x)  Hylotl].osu",
+   "star": 7.596473445470426,
+   "s": {
+    "jack": 0.01883979335304515,
+    "speed": 0.9680989202885235,
+    "ln": 0.0015049694993309068
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 196,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-8 Amatsukami (1.15x)  Hinaka_Yuki].osu",
+   "star": 7.862125246468086,
+   "s": {
+    "jack": 0.0359893425915565,
+    "speed": 0.9477726036225967,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 197,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-9 Shuuten  Hinaka_Yuki].osu",
+   "star": 7.975371399011403,
+   "s": {
+    "jack": 0.04886640911053185,
+    "speed": 0.9266990585259047,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 93,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 198,
+   "source": "test_beatmap/osz/1701675 Various Artists - Malody 4K Extra Dan v3-Speed.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Speed ([GS]hina) [Extra-Final Kizuato (1.3x)  tera].osu",
+   "star": 8.624804774571988,
+   "s": {
+    "jack": 0.010726602817633556,
+    "speed": 0.9753336646652656,
+    "ln": 0.0016093764384659444
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 200,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-1 Scorpion Dance  XingRen].osu",
+   "star": 5.538053800582962,
+   "s": {
+    "jack": 0.6133887030750177,
+    "speed": 0.3406184351555293,
+    "ln": 0.0032918461185893633
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 61,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 201,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-2 Moments (1.05x)  Amekaze].osu",
+   "star": 5.848332887802239,
+   "s": {
+    "jack": 0.4981415745859926,
+    "speed": 0.49413681200076465,
+    "ln": 0.0035097835098542485
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 50,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 202,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-3 Edison (1.15x)  Hinaka_Yuki].osu",
+   "star": 6.022299991784613,
+   "s": {
+    "jack": 0.533563965065206,
+    "speed": 0.43126604917592415,
+    "ln": 0.000593573128372984
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 53,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 203,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-4 ZENITHALIZE  Hinaka_Yuki].osu",
+   "star": 6.35210947598093,
+   "s": {
+    "jack": 0.5249172185317669,
+    "speed": 0.45653499641541495,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 52,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 204,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-5 Bring Our Ignition Back (1.1x)  Oekakizuki].osu",
+   "star": 6.48714266381183,
+   "s": {
+    "jack": 0.43867797623890514,
+    "speed": 0.5011776109955556,
+    "ln": 0.016219432364958587
+   },
+   "hints": []
+  },
+  {
+   "i": 205,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-6 Defeat awaken battle ship  Hylotl].osu",
+   "star": 6.588504818363096,
+   "s": {
+    "jack": 0.49554387883862444,
+    "speed": 0.4833773858092356,
+    "ln": 0.005584203252460612
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 50,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 206,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-7 LiFE Garden (1.05x)  YuzakiNASB].osu",
+   "star": 6.78351339169312,
+   "s": {
+    "jack": 0.6991158380823992,
+    "speed": 0.2957416584086945,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 70,
+     "delta": 0.5,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 207,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-8 Hayabusa  Hylotl].osu",
+   "star": 7.094438648847917,
+   "s": {
+    "jack": 0.6431143535142481,
+    "speed": 0.35005921853283106,
+    "ln": 0.0010412940536650467
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 64,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 208,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-9 crazy_tek (DJ Noriken Remix)  tera].osu",
+   "star": 7.5462598250031965,
+   "s": {
+    "jack": 0.6444322171035918,
+    "speed": 0.3463842549320003,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 64,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 209,
+   "source": "test_beatmap/osz/1701677 Various Artists - Malody 4K Extra Dan v3-Jack.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Jack ([GS]hina) [Extra-Final Infinity Heaven  tera].osu",
+   "star": 7.994274729117138,
+   "s": {
+    "jack": 0.7354699854372073,
+    "speed": 0.24713348997143458,
+    "ln": 0.0006501506733279675
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 74,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 211,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-1 Tailin no Soul (1.2x)  Oekakizuki].osu",
+   "star": 5.9466678969605775,
+   "s": {
+    "jack": 0.11967259277063956,
+    "speed": 0.8384040274765658,
+    "ln": 0.010256475205160018
+   },
+   "hints": []
+  },
+  {
+   "i": 212,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-2 Towards the Horizon  Hinaka_Yuki].osu",
+   "star": 6.083970437967491,
+   "s": {
+    "jack": 0.10919397597809427,
+    "speed": 0.8508027022395898,
+    "ln": 0.007806927721254343
+   },
+   "hints": []
+  },
+  {
+   "i": 213,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-3 INTERNET OVERDOSE (1.05x)  Hylotl].osu",
+   "star": 6.293799455217033,
+   "s": {
+    "jack": 0.10578331617590797,
+    "speed": 0.871809606473906,
+    "ln": 0.005561444707005886
+   },
+   "hints": []
+  },
+  {
+   "i": 214,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-4 Asymmetrical Grooves  tera].osu",
+   "star": 6.5099411045877424,
+   "s": {
+    "jack": 0.14852410201303087,
+    "speed": 0.8106193599465653,
+    "ln": 0.004327817347277131
+   },
+   "hints": []
+  },
+  {
+   "i": 215,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-5 Unsan-musho  hinako1804].osu",
+   "star": 6.755852072096669,
+   "s": {
+    "jack": 0.1839041606180696,
+    "speed": 0.7987821901186553,
+    "ln": 0.0014171700957828044
+   },
+   "hints": []
+  },
+  {
+   "i": 216,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-6 Extraction  Oekakizuki].osu",
+   "star": 7.073840802308345,
+   "s": {
+    "jack": 0.09047863308577922,
+    "speed": 0.8968225718724165,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 90,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 217,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-7 Alpha  Zetsfy].osu",
+   "star": 7.37931463948407,
+   "s": {
+    "jack": 0.06697079744422213,
+    "speed": 0.9249985246909389,
+    "ln": 0.002528768503619273
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 92,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 218,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-8 Shuu no hazama  tera].osu",
+   "star": 8.108782161481784,
+   "s": {
+    "jack": 0.041922487963655754,
+    "speed": 0.9525864639982886,
+    "ln": 0.0020315748739573886
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 219,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-9 Nhelv  tera].osu",
+   "star": 8.019328672881844,
+   "s": {
+    "jack": 0.2160041493135372,
+    "speed": 0.7804601276894738,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 220,
+   "source": "test_beatmap/osz/1701680 Various Artists - Malody 4K Extra Dan v3-Tech.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Tech ([GS]hina) [Extra-Final NEURO-CLOUD-9  tera].osu",
+   "star": 9.148374965573835,
+   "s": {
+    "jack": 0.01812552243722192,
+    "speed": 0.9734847974240562,
+    "ln": 0.002447610760494422
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 222,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-1 Onsoku Uchuu Ryokou  tera].osu",
+   "star": 6.008335560849773,
+   "s": {
+    "jack": 0.006042120292056814,
+    "speed": 0.9655372039008235,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 223,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-2 Frontier Explorer (1.15x)  tera].osu",
+   "star": 6.093267953424657,
+   "s": {
+    "jack": 0.011805666471676348,
+    "speed": 0.9675838889308015,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 224,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-3 Fin.ArcDeaR  Amekaze].osu",
+   "star": 6.144508012246763,
+   "s": {
+    "jack": 0.005111544802790487,
+    "speed": 0.985658612025017,
+    "ln": 0.0011234869302912602
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 99,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 225,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-4 EVERLASTING HAPPiNESS  crazyImmortals].osu",
+   "star": 6.3238215689989286,
+   "s": {
+    "jack": 0.03183482377365429,
+    "speed": 0.9604504477189453,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 226,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-5 Kegare Naki Bara Juuji  MintApril_].osu",
+   "star": 6.512753371691422,
+   "s": {
+    "jack": 0.0014060675418053293,
+    "speed": 0.9875377973271492,
+    "ln": 0.004546750432329688
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 99,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 227,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-6 Synthesized Fortress  tera].osu",
+   "star": 6.875407671963387,
+   "s": {
+    "jack": 0.061618997755927725,
+    "speed": 0.9351156788181568,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 94,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 228,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-7 Heaven's Fall (1.4x)  tera].osu",
+   "star": 7.58321054571169,
+   "s": {
+    "jack": 0.01669715646764873,
+    "speed": 0.9697362258263955,
+    "ln": 0.0002039761951285907
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 229,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-8 CRIMSON FIGHTER (1.15x)  OxalicAcid].osu",
+   "star": 7.8062052380409135,
+   "s": {
+    "jack": 0.025928107681534276,
+    "speed": 0.9711871764251924,
+    "ln": 0.0006575532667836849
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 230,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-9 Deadly force - Put an end  Sorakaru_ & Hinaka_Yuki].osu",
+   "star": 8.545508792073417,
+   "s": {
+    "jack": 0.006515201944328232,
+    "speed": 0.9844410836476666,
+    "ln": 0.0025408776125519263
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 231,
+   "source": "test_beatmap/osz/1701684 Various Artists - Malody 4K Extra Dan v3-Stream.osz",
+   "member": "Various Artists - Malody 4K Extra Dan v3-Stream ([GS]hina) [Extra-Final Runengon  tera].osu",
+   "star": 8.534893316763172,
+   "s": {
+    "jack": 0.021049025262789303,
+    "speed": 0.9773932930378012,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 233,
+   "source": "test_beatmap/osz/2369095 Unknown artist - Vend.osz",
+   "member": "Unknown artist - Vend (QingShanErdi) [Longer Jack].osu",
+   "star": 6.568694573729234,
+   "s": {
+    "jack": 0.6757889302982364,
+    "speed": 0.17306451464368164,
+    "ln": 0.12769324524313239
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 68,
+     "delta": 0.5,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 234,
+   "source": "test_beatmap/osz/2581581 LV.4 - Radiation 239.osz",
+   "member": "LV.4 - Radiation 239 ([GB]LumiereLP) [p l a y t r i l l s [cut]].osu",
+   "star": 4.078829796668403,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.8076922178327672,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 235,
+   "source": "test_beatmap/osz/2581581 LV.4 - Radiation 239.osz",
+   "member": "LV.4 - Radiation 239 ([GB]LumiereLP) [p l a y t r i l l s].osu",
+   "star": 4.945736803559482,
+   "s": {
+    "jack": 0.0010088369316094234,
+    "speed": 0.8304682502890776,
+    "ln": 0.0007204530826177565
+   },
+   "hints": []
+  },
+  {
+   "i": 236,
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t (nsv) 0.8x].osu",
+   "star": 7.728961763467071,
+   "s": {
+    "jack": 0.5142234271575271,
+    "speed": 0.45225777937014794,
+    "ln": 0.0006396650644615908
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 51,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 237,
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t (nsv)].osu",
+   "star": 7.892724095868064,
+   "s": {
+    "jack": 0.504639702384436,
+    "speed": 0.48391632434241516,
+    "ln": 0.0006930405425450342
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 50,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 238,
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t 0.8x].osu",
+   "star": 7.728961763467071,
+   "s": {
+    "jack": 0.5142234271575271,
+    "speed": 0.45225777937014794,
+    "ln": 0.0006396650644615908
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 51,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 239,
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t].osu",
+   "star": 7.892724095868064,
+   "s": {
+    "jack": 0.504639702384436,
+    "speed": 0.48391632434241516,
+    "ln": 0.0006930405425450342
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 50,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 240,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [13# Towards The Horizon - Camellia].osu",
+   "star": 6.008234173466665,
+   "s": {
+    "jack": 0.5280915696376294,
+    "speed": 0.4335745383252589,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 53,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 241,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [14# Infinity Heaven - HyuN].osu",
+   "star": 6.187485482932567,
+   "s": {
+    "jack": 0.5701998256702491,
+    "speed": 0.3899481560661327,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 57,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 242,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [15# Hoshi ga Furanai Machi - Chroma].osu",
+   "star": 6.219034134105457,
+   "s": {
+    "jack": 0.5787466551524586,
+    "speed": 0.39530498835101563,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 58,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 243,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [16# Wrong World - TOGENASHI TOGEARI].osu",
+   "star": 6.811272744400692,
+   "s": {
+    "jack": 0.6170709491325019,
+    "speed": 0.3532014424478902,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 62,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 244,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [17# Magic Maid - MIMI].osu",
+   "star": 7.232562299219043,
+   "s": {
+    "jack": 0.629366313077952,
+    "speed": 0.36099905770156027,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 63,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 245,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [18# Unsinkable memory - D-D-Dice].osu",
+   "star": 7.084935202109487,
+   "s": {
+    "jack": 0.5761195231735612,
+    "speed": 0.40110651473091746,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 58,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 251,
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [24# Get Dat - Righten].osu",
+   "star": 8.923320308598035,
+   "s": {
+    "jack": 0.7141060486683014,
+    "speed": 0.2570552039875361,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 71,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 253,
+   "source": "test_beatmap/osz/464358 Beltaine - Rockhill.osz",
+   "member": "Beltaine - Rockhill (Ryu Sei) [Hard].osu",
+   "star": 4.204919373032297,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.06294459472521624,
+    "ln": 0.9073369185564943
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 91,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 254,
+   "source": "test_beatmap/osz/464358 Beltaine - Rockhill.osz",
+   "member": "Beltaine - Rockhill (Ryu Sei) [Normal].osu",
+   "star": 2.898195717614916,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 1.0000000000000004
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 100,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 255,
+   "source": "test_beatmap/osz/BACO - Brain Analysis (Selinki).osz",
+   "member": "BACO - Brain Analysis (Selinki) [Tech].osu",
+   "star": 5.5539665451476905,
+   "s": {
+    "jack": 0.20651938122054306,
+    "speed": 0.7294716385967627,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 256,
+   "source": "data/crowd-chart-model-20261009/osu/473874.osu",
+   "member": null,
+   "star": 3.5383438484076706,
+   "s": {
+    "jack": 0.022786309534299363,
+    "speed": 0.7207684547535261,
+    "ln": 0.09338322250627083
+   },
+   "hints": []
+  },
+  {
+   "i": 257,
+   "source": "data/crowd-chart-model-20261009/osu/525200.osu",
+   "member": null,
+   "star": 3.104865084684777,
+   "s": {
+    "jack": 0.08324062446612497,
+    "speed": 0.3062946543233267,
+    "ln": 0.19497117632569028
+   },
+   "hints": []
+  },
+  {
+   "i": 258,
+   "source": "data/crowd-chart-model-20261009/osu/540059.osu",
+   "member": null,
+   "star": 3.0392248256955625,
+   "s": {
+    "jack": 0.06362767614613174,
+    "speed": 0.31729225130524935,
+    "ln": 0.17262441175627147
+   },
+   "hints": []
+  },
+  {
+   "i": 259,
+   "source": "data/crowd-chart-model-20261009/osu/543938.osu",
+   "member": null,
+   "star": 1.452950971302145,
+   "s": {
+    "jack": 0.06754963142508318,
+    "speed": 0.0225580149822708,
+    "ln": 0.048996887395330625
+   },
+   "hints": []
+  },
+  {
+   "i": 260,
+   "source": "data/crowd-chart-model-20261009/osu/578747.osu",
+   "member": null,
+   "star": 1.3336891676738758,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.4520696079213983
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 45,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 261,
+   "source": "data/crowd-chart-model-20261009/osu/587017.osu",
+   "member": null,
+   "star": 2.4410742246854986,
+   "s": {
+    "jack": 0.008775791247169925,
+    "speed": 0.14859011622623522,
+    "ln": 0.22665180892633582
+   },
+   "hints": []
+  },
+  {
+   "i": 262,
+   "source": "data/crowd-chart-model-20261009/osu/673308.osu",
+   "member": null,
+   "star": 6.028168127542387,
+   "s": {
+    "jack": 0.12572644220935184,
+    "speed": 0.6664870342009729,
+    "ln": 0.09154517901518042
+   },
+   "hints": []
+  },
+  {
+   "i": 263,
+   "source": "data/crowd-chart-model-20261009/osu/777351.osu",
+   "member": null,
+   "star": 4.124451403706982,
+   "s": {
+    "jack": 0.0036558250838575803,
+    "speed": 0.952004871374183,
+    "ln": 0.007571056400031071
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 264,
+   "source": "data/crowd-chart-model-20261009/osu/825237.osu",
+   "member": null,
+   "star": 2.782731819854619,
+   "s": {
+    "jack": 0.02800240140759027,
+    "speed": 0.45578058285131634,
+    "ln": 0.123757541261857
+   },
+   "hints": []
+  },
+  {
+   "i": 265,
+   "source": "data/crowd-chart-model-20261009/osu/927049.osu",
+   "member": null,
+   "star": 1.0495092960400907,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.2257418669141181
+   },
+   "hints": []
+  },
+  {
+   "i": 266,
+   "source": "data/crowd-chart-model-20261009/osu/1016399.osu",
+   "member": null,
+   "star": 1.2959387039795227,
+   "s": {
+    "jack": 0.006865951315489682,
+    "speed": 0.028720585611823717,
+    "ln": 0.01590810361852146
+   },
+   "hints": []
+  },
+  {
+   "i": 267,
+   "source": "data/crowd-chart-model-20261009/osu/1067213.osu",
+   "member": null,
+   "star": 0.8247339623935561,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.19092783173102687
+   },
+   "hints": []
+  },
+  {
+   "i": 268,
+   "source": "data/crowd-chart-model-20261009/osu/1108289.osu",
+   "member": null,
+   "star": 3.0263578726315448,
+   "s": {
+    "jack": 0.12735711329628321,
+    "speed": 0.4022421968772159,
+    "ln": 0.08660377488409288
+   },
+   "hints": []
+  },
+  {
+   "i": 269,
+   "source": "data/crowd-chart-model-20261009/osu/1137037.osu",
+   "member": null,
+   "star": 1.8160913899165556,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.01757388355714053,
+    "ln": 0.15857650240934107
+   },
+   "hints": []
+  },
+  {
+   "i": 270,
+   "source": "data/crowd-chart-model-20261009/osu/1139757.osu",
+   "member": null,
+   "star": 3.7662967677937234,
+   "s": {
+    "jack": 0.43645817380284957,
+    "speed": 0.458135994991974,
+    "ln": 0.0283104546027858
+   },
+   "hints": []
+  },
+  {
+   "i": 271,
+   "source": "data/crowd-chart-model-20261009/osu/1315763.osu",
+   "member": null,
+   "star": 4.168789574809552,
+   "s": {
+    "jack": 0.09433311472880848,
+    "speed": 0.49959913091128416,
+    "ln": 0.31374168459194485
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 31,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 272,
+   "source": "data/crowd-chart-model-20261009/osu/1480153.osu",
+   "member": null,
+   "star": 3.588256055365467,
+   "s": {
+    "jack": 0.09373368136386011,
+    "speed": 0.3138687962275694,
+    "ln": 0.1750384427447959
+   },
+   "hints": []
+  },
+  {
+   "i": 273,
+   "source": "data/crowd-chart-model-20261009/osu/1501225.osu",
+   "member": null,
+   "star": 3.5121102729266527,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.6005410211583325,
+    "ln": 0.19826067209496606
+   },
+   "hints": []
+  },
+  {
+   "i": 274,
+   "source": "data/crowd-chart-model-20261009/osu/1508851.osu",
+   "member": null,
+   "star": 2.7447034896884475,
+   "s": {
+    "jack": 0.04086114642791382,
+    "speed": 0.15510871621923555,
+    "ln": 0.42826505227347367
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 275,
+   "source": "data/crowd-chart-model-20261009/osu/1559210.osu",
+   "member": null,
+   "star": 2.4950652941026656,
+   "s": {
+    "jack": 0.02658304386957902,
+    "speed": 0.5298832689396182,
+    "ln": 0.053141443389416045
+   },
+   "hints": []
+  },
+  {
+   "i": 276,
+   "source": "data/crowd-chart-model-20261009/osu/1567156.osu",
+   "member": null,
+   "star": 2.5665514345378737,
+   "s": {
+    "jack": 0.06201736178970551,
+    "speed": 0.36362370958733914,
+    "ln": 0.0717679912718932
+   },
+   "hints": []
+  },
+  {
+   "i": 277,
+   "source": "data/crowd-chart-model-20261009/osu/1657610.osu",
+   "member": null,
+   "star": 4.768461276280813,
+   "s": {
+    "jack": 0.09211621215266258,
+    "speed": 0.8210918873024433,
+    "ln": 0.00595617777582701
+   },
+   "hints": []
+  },
+  {
+   "i": 278,
+   "source": "data/crowd-chart-model-20261009/osu/1676832.osu",
+   "member": null,
+   "star": 3.9808534426287903,
+   "s": {
+    "jack": 0.08504890696218768,
+    "speed": 0.4420134347008622,
+    "ln": 0.15201212255519925
+   },
+   "hints": []
+  },
+  {
+   "i": 279,
+   "source": "data/crowd-chart-model-20261009/osu/1677476.osu",
+   "member": null,
+   "star": 0.626336225538294,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.014411112528578143
+   },
+   "hints": []
+  },
+  {
+   "i": 280,
+   "source": "data/crowd-chart-model-20261009/osu/1725933.osu",
+   "member": null,
+   "star": 5.311884937550534,
+   "s": {
+    "jack": 0.04394238449245212,
+    "speed": 0.8560670814940469,
+    "ln": 0.026320898987729758
+   },
+   "hints": []
+  },
+  {
+   "i": 281,
+   "source": "data/crowd-chart-model-20261009/osu/1765523.osu",
+   "member": null,
+   "star": 3.7298333657002445,
+   "s": {
+    "jack": 0.08259026774713266,
+    "speed": 0.4241047109844822,
+    "ln": 0.2728884274504756
+   },
+   "hints": []
+  },
+  {
+   "i": 282,
+   "source": "data/crowd-chart-model-20261009/osu/1802667.osu",
+   "member": null,
+   "star": 3.347353756818288,
+   "s": {
+    "jack": 0.026335297251182433,
+    "speed": 0.6732455809573986,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 283,
+   "source": "data/crowd-chart-model-20261009/osu/1864013.osu",
+   "member": null,
+   "star": 1.549400525811285,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.26293946971473176
+   },
+   "hints": []
+  },
+  {
+   "i": 284,
+   "source": "data/crowd-chart-model-20261009/osu/1906420.osu",
+   "member": null,
+   "star": 1.70483594293583,
+   "s": {
+    "jack": 0.009246283945097878,
+    "speed": 0.0,
+    "ln": 0.3057236581963733
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 31,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 285,
+   "source": "data/crowd-chart-model-20261009/osu/1934665.osu",
+   "member": null,
+   "star": 3.784304235502648,
+   "s": {
+    "jack": 0.08713668828800988,
+    "speed": 0.6218506714870888,
+    "ln": 0.12564331212743193
+   },
+   "hints": []
+  },
+  {
+   "i": 286,
+   "source": "data/crowd-chart-model-20261009/osu/1990174.osu",
+   "member": null,
+   "star": 1.0750894748474566,
+   "s": {
+    "jack": 0.002850696073939352,
+    "speed": 0.0,
+    "ln": 0.2231190630293615
+   },
+   "hints": []
+  },
+  {
+   "i": 287,
+   "source": "data/crowd-chart-model-20261009/osu/2020687.osu",
+   "member": null,
+   "star": 3.301399127909021,
+   "s": {
+    "jack": 0.03565156696886239,
+    "speed": 0.39400881390668363,
+    "ln": 0.41981182687056195
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 42,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 288,
+   "source": "data/crowd-chart-model-20261009/osu/2026067.osu",
+   "member": null,
+   "star": 3.4755883176689952,
+   "s": {
+    "jack": 0.06135073057959348,
+    "speed": 0.44622907145177043,
+    "ln": 0.1921296996594754
+   },
+   "hints": []
+  },
+  {
+   "i": 289,
+   "source": "data/crowd-chart-model-20261009/osu/2116185.osu",
+   "member": null,
+   "star": 1.7580942236989157,
+   "s": {
+    "jack": 0.03110804781370466,
+    "speed": 0.09750107908160924,
+    "ln": 0.09328917098379931
+   },
+   "hints": []
+  },
+  {
+   "i": 290,
+   "source": "data/crowd-chart-model-20261009/osu/2118083.osu",
+   "member": null,
+   "star": 5.566873715130107,
+   "s": {
+    "jack": 0.662039182102228,
+    "speed": 0.27560891615983363,
+    "ln": 0.04645227255882401
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 66,
+     "delta": 0.5,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 291,
+   "source": "data/crowd-chart-model-20261009/osu/2186222.osu",
+   "member": null,
+   "star": 2.3317413542049104,
+   "s": {
+    "jack": 0.05377509386668797,
+    "speed": 0.045937613968500726,
+    "ln": 0.38859558377099745
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 39,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 292,
+   "source": "data/crowd-chart-model-20261009/osu/2311409.osu",
+   "member": null,
+   "star": 5.364678599648503,
+   "s": {
+    "jack": 0.12362626838570759,
+    "speed": 0.6546575723307552,
+    "ln": 0.1715749886825927
+   },
+   "hints": []
+  },
+  {
+   "i": 293,
+   "source": "data/crowd-chart-model-20261009/osu/2312393.osu",
+   "member": null,
+   "star": 2.06194210474936,
+   "s": {
+    "jack": 0.010343718584903157,
+    "speed": 0.05563026488160051,
+    "ln": 0.3031463654730609
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 30,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 294,
+   "source": "data/crowd-chart-model-20261009/osu/2329041.osu",
+   "member": null,
+   "star": 1.4888559173383284,
+   "s": {
+    "jack": 0.02647120111686147,
+    "speed": 0.10295361743950236,
+    "ln": 0.21354438487077326
+   },
+   "hints": []
+  },
+  {
+   "i": 295,
+   "source": "data/crowd-chart-model-20261009/osu/2391315.osu",
+   "member": null,
+   "star": 4.086546071289434,
+   "s": {
+    "jack": 0.2286720537067617,
+    "speed": 0.6628882288749028,
+    "ln": 0.030705597038366315
+   },
+   "hints": []
+  },
+  {
+   "i": 296,
+   "source": "data/crowd-chart-model-20261009/osu/2433644.osu",
+   "member": null,
+   "star": 3.8465383171417646,
+   "s": {
+    "jack": 0.04104482187520991,
+    "speed": 0.8932251138104746,
+    "ln": 0.015804550829541835
+   },
+   "hints": []
+  },
+  {
+   "i": 297,
+   "source": "data/crowd-chart-model-20261009/osu/2433647.osu",
+   "member": null,
+   "star": 5.1604312881906225,
+   "s": {
+    "jack": 0.05332015444022755,
+    "speed": 0.8868679904831361,
+    "ln": 0.015781320941435393
+   },
+   "hints": []
+  },
+  {
+   "i": 298,
+   "source": "data/crowd-chart-model-20261009/osu/2444464.osu",
+   "member": null,
+   "star": 4.018889876796689,
+   "s": {
+    "jack": 0.04188993797849648,
+    "speed": 0.8526990658325669,
+    "ln": 0.005519527748052218
+   },
+   "hints": []
+  },
+  {
+   "i": 299,
+   "source": "data/crowd-chart-model-20261009/osu/2457986.osu",
+   "member": null,
+   "star": 3.7272085618515702,
+   "s": {
+    "jack": 0.1364010045831509,
+    "speed": 0.3022042394453815,
+    "ln": 0.2787449021259075
+   },
+   "hints": []
+  },
+  {
+   "i": 300,
+   "source": "data/crowd-chart-model-20261009/osu/2650296.osu",
+   "member": null,
+   "star": 3.177350553555892,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.10734205711092555,
+    "ln": 0.6186654503439469
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 62,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 301,
+   "source": "data/crowd-chart-model-20261009/osu/2650377.osu",
+   "member": null,
+   "star": 7.561340134944548,
+   "s": {
+    "jack": 0.016895364406863803,
+    "speed": 0.9807487121860685,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 302,
+   "source": "data/crowd-chart-model-20261009/osu/2650453.osu",
+   "member": null,
+   "star": 3.87903230284728,
+   "s": {
+    "jack": 0.035625128344957374,
+    "speed": 0.27865166515556256,
+    "ln": 0.43815126426938483
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 44,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 303,
+   "source": "data/crowd-chart-model-20261009/osu/2667328.osu",
+   "member": null,
+   "star": 3.2363439090450195,
+   "s": {
+    "jack": 0.06438834623422349,
+    "speed": 0.2339488422336133,
+    "ln": 0.3628938753119944
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 36,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 304,
+   "source": "data/crowd-chart-model-20261009/osu/2700168.osu",
+   "member": null,
+   "star": 2.522252518077647,
+   "s": {
+    "jack": 0.048554475891957403,
+    "speed": 0.5817911518022358,
+    "ln": 0.07146615451491599
+   },
+   "hints": []
+  },
+  {
+   "i": 305,
+   "source": "data/crowd-chart-model-20261009/osu/2805183.osu",
+   "member": null,
+   "star": 4.43812284376887,
+   "s": {
+    "jack": 0.049697251019791104,
+    "speed": 0.6560894983117355,
+    "ln": 0.19292088544314454
+   },
+   "hints": []
+  },
+  {
+   "i": 306,
+   "source": "data/crowd-chart-model-20261009/osu/2809888.osu",
+   "member": null,
+   "star": 1.0642953898563823,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.35129002085388206
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 35,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 307,
+   "source": "data/crowd-chart-model-20261009/osu/2809889.osu",
+   "member": null,
+   "star": 1.2897187944160318,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.25527264590893206
+   },
+   "hints": []
+  },
+  {
+   "i": 308,
+   "source": "data/crowd-chart-model-20261009/osu/2842360.osu",
+   "member": null,
+   "star": 5.135815209165173,
+   "s": {
+    "jack": 0.012574737007845779,
+    "speed": 0.9443699689169697,
+    "ln": 0.031590361884769866
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 94,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 309,
+   "source": "data/crowd-chart-model-20261009/osu/2847009.osu",
+   "member": null,
+   "star": 2.664986595279858,
+   "s": {
+    "jack": 0.0067785103592366905,
+    "speed": 0.2464699084633627,
+    "ln": 0.42909154169604224
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 310,
+   "source": "data/crowd-chart-model-20261009/osu/2850677.osu",
+   "member": null,
+   "star": 3.243408214536236,
+   "s": {
+    "jack": 0.03512170976461706,
+    "speed": 0.20526007828698803,
+    "ln": 0.39558691075913915
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 40,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 311,
+   "source": "data/crowd-chart-model-20261009/osu/2873204.osu",
+   "member": null,
+   "star": 3.6215106398437302,
+   "s": {
+    "jack": 0.01896016979611437,
+    "speed": 0.21082490452163805,
+    "ln": 0.6846551368349476
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 68,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 312,
+   "source": "data/crowd-chart-model-20261009/osu/2936040.osu",
+   "member": null,
+   "star": 2.418315441642859,
+   "s": {
+    "jack": 0.02515782504974774,
+    "speed": 0.0016429536467501263,
+    "ln": 0.635750528207744
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 64,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 313,
+   "source": "data/crowd-chart-model-20261009/osu/2960594.osu",
+   "member": null,
+   "star": 6.107439894307236,
+   "s": {
+    "jack": 0.24381450640507016,
+    "speed": 0.7164250058374688,
+    "ln": 0.004092616087450377
+   },
+   "hints": []
+  },
+  {
+   "i": 314,
+   "source": "data/crowd-chart-model-20261009/osu/2977856.osu",
+   "member": null,
+   "star": 2.7311951288888348,
+   "s": {
+    "jack": 0.16371049384185105,
+    "speed": 0.2197976807763314,
+    "ln": 0.058041570300147345
+   },
+   "hints": []
+  },
+  {
+   "i": 315,
+   "source": "data/crowd-chart-model-20261009/osu/3064961.osu",
+   "member": null,
+   "star": 1.6992137347128558,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.04235765820930566,
+    "ln": 0.3015634484578839
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 30,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 316,
+   "source": "data/crowd-chart-model-20261009/osu/3085971.osu",
+   "member": null,
+   "star": 4.485726623311255,
+   "s": {
+    "jack": 0.08615996743481191,
+    "speed": 0.46738210017759035,
+    "ln": 0.24720135474755459
+   },
+   "hints": []
+  },
+  {
+   "i": 317,
+   "source": "data/crowd-chart-model-20261009/osu/3086978.osu",
+   "member": null,
+   "star": 3.8193436675997887,
+   "s": {
+    "jack": 0.5856989733798408,
+    "speed": 0.06363418533828741,
+    "ln": 0.03777957137476988
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 59,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 318,
+   "source": "data/crowd-chart-model-20261009/osu/3090621.osu",
+   "member": null,
+   "star": 6.157217805923344,
+   "s": {
+    "jack": 0.0242707696144806,
+    "speed": 0.9338051881945838,
+    "ln": 0.02264274092498777
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 93,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 319,
+   "source": "data/crowd-chart-model-20261009/osu/3110093.osu",
+   "member": null,
+   "star": 4.59679798431086,
+   "s": {
+    "jack": 0.05294014356837157,
+    "speed": 0.09122703829148456,
+    "ln": 0.6107001465745932
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 61,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 320,
+   "source": "data/crowd-chart-model-20261009/osu/3119350.osu",
+   "member": null,
+   "star": 2.7214193335297665,
+   "s": {
+    "jack": 0.03202685950683361,
+    "speed": 0.1385641868565525,
+    "ln": 0.49211758442743864
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 49,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 321,
+   "source": "data/crowd-chart-model-20261009/osu/3214895.osu",
+   "member": null,
+   "star": 4.736874589803988,
+   "s": {
+    "jack": 0.022853165127762847,
+    "speed": 0.4923623129211553,
+    "ln": 0.32403831792247995
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 32,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 322,
+   "source": "data/crowd-chart-model-20261009/osu/3260341.osu",
+   "member": null,
+   "star": 2.9450363890294526,
+   "s": {
+    "jack": 0.055057917227947534,
+    "speed": 0.5527998505023557,
+    "ln": 0.13884437502827415
+   },
+   "hints": []
+  },
+  {
+   "i": 323,
+   "source": "data/crowd-chart-model-20261009/osu/3300572.osu",
+   "member": null,
+   "star": 1.45329359755066,
+   "s": {
+    "jack": 0.022820769268245226,
+    "speed": 0.006123791694171539,
+    "ln": 0.19506595069617685
+   },
+   "hints": []
+  },
+  {
+   "i": 324,
+   "source": "data/crowd-chart-model-20261009/osu/3329962.osu",
+   "member": null,
+   "star": 3.9586022050579723,
+   "s": {
+    "jack": 0.05434149702775733,
+    "speed": 0.6985205861260335,
+    "ln": 0.15770758008044125
+   },
+   "hints": []
+  },
+  {
+   "i": 325,
+   "source": "data/crowd-chart-model-20261009/osu/3442424.osu",
+   "member": null,
+   "star": 7.449862014235599,
+   "s": {
+    "jack": 0.7730804566557188,
+    "speed": 0.21668842327330265,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 77,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 326,
+   "source": "data/crowd-chart-model-20261009/osu/3454816.osu",
+   "member": null,
+   "star": 4.952578285258091,
+   "s": {
+    "jack": 0.008607827857725667,
+    "speed": 0.9629091451785478,
+    "ln": 0.004494153761221983
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 327,
+   "source": "data/crowd-chart-model-20261009/osu/3463278.osu",
+   "member": null,
+   "star": 5.550287283417731,
+   "s": {
+    "jack": 0.004974169916334869,
+    "speed": 0.9804433185903653,
+    "ln": 0.003003266578393201
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 98,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 328,
+   "source": "data/crowd-chart-model-20261009/osu/3491690.osu",
+   "member": null,
+   "star": 1.7303394812643038,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.5246241937693809
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 52,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 329,
+   "source": "data/crowd-chart-model-20261009/osu/3514860.osu",
+   "member": null,
+   "star": 7.191656118477059,
+   "s": {
+    "jack": 0.026458014337667035,
+    "speed": 0.9564346316083226,
+    "ln": 0.0039596277306913384
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 330,
+   "source": "data/crowd-chart-model-20261009/osu/3526591.osu",
+   "member": null,
+   "star": 8.001629594166124,
+   "s": {
+    "jack": 0.6587670320900583,
+    "speed": 0.3307332584781841,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 66,
+     "delta": null,
+     "range": "above"
+    }
+   ]
+  },
+  {
+   "i": 331,
+   "source": "data/crowd-chart-model-20261009/osu/3610288.osu",
+   "member": null,
+   "star": 4.682702559924004,
+   "s": {
+    "jack": 0.11258333777542613,
+    "speed": 0.20196608548805403,
+    "ln": 0.3533595713303825
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 35,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 332,
+   "source": "data/crowd-chart-model-20261009/osu/3624097.osu",
+   "member": null,
+   "star": 1.7646589977953964,
+   "s": {
+    "jack": 0.013885878847929337,
+    "speed": 0.0,
+    "ln": 0.322488707205893
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 32,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 333,
+   "source": "data/crowd-chart-model-20261009/osu/3629972.osu",
+   "member": null,
+   "star": 4.199094565563094,
+   "s": {
+    "jack": 0.05471149889952951,
+    "speed": 0.46472372558770997,
+    "ln": 0.3671670460305158
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 37,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 334,
+   "source": "data/crowd-chart-model-20261009/osu/3673087.osu",
+   "member": null,
+   "star": 0.8264392341643054,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.40844150818638797
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 41,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 335,
+   "source": "data/crowd-chart-model-20261009/osu/3682430.osu",
+   "member": null,
+   "star": 0.681213086134548,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.051106276672346025
+   },
+   "hints": []
+  },
+  {
+   "i": 336,
+   "source": "data/crowd-chart-model-20261009/osu/3684881.osu",
+   "member": null,
+   "star": 3.5920599190313895,
+   "s": {
+    "jack": 0.10945549684752603,
+    "speed": 0.26800812629270443,
+    "ln": 0.2926321687824744
+   },
+   "hints": []
+  },
+  {
+   "i": 337,
+   "source": "data/crowd-chart-model-20261009/osu/3700626.osu",
+   "member": null,
+   "star": 4.3202169699585244,
+   "s": {
+    "jack": 0.0024179920868956594,
+    "speed": 0.006550486504171086,
+    "ln": 0.7472155114927411
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 75,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 338,
+   "source": "data/crowd-chart-model-20261009/osu/3706447.osu",
+   "member": null,
+   "star": 3.5222099739958197,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.13854405714101722,
+    "ln": 0.7502186455472628
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 75,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 339,
+   "source": "data/crowd-chart-model-20261009/osu/3714763.osu",
+   "member": null,
+   "star": 2.690802764001864,
+   "s": {
+    "jack": 0.12599761903420914,
+    "speed": 0.36264856242640375,
+    "ln": 0.18976689353340787
+   },
+   "hints": []
+  },
+  {
+   "i": 340,
+   "source": "data/crowd-chart-model-20261009/osu/3742642.osu",
+   "member": null,
+   "star": 2.9302986195685414,
+   "s": {
+    "jack": 0.29038750618353704,
+    "speed": 0.294998208004182,
+    "ln": 0.1697046168949591
+   },
+   "hints": []
+  },
+  {
+   "i": 341,
+   "source": "data/crowd-chart-model-20261009/osu/3766870.osu",
+   "member": null,
+   "star": 0.5271168707407199,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 342,
+   "source": "data/crowd-chart-model-20261009/osu/3773345.osu",
+   "member": null,
+   "star": 3.1012240652338403,
+   "s": {
+    "jack": 0.04527032645846984,
+    "speed": 0.7291548188132002,
+    "ln": 0.0836002875126006
+   },
+   "hints": []
+  },
+  {
+   "i": 343,
+   "source": "data/crowd-chart-model-20261009/osu/3774036.osu",
+   "member": null,
+   "star": 2.0744362626912363,
+   "s": {
+    "jack": 0.047945581739535614,
+    "speed": 0.251633947368554,
+    "ln": 0.10466361038967946
+   },
+   "hints": []
+  },
+  {
+   "i": 344,
+   "source": "data/crowd-chart-model-20261009/osu/3821689.osu",
+   "member": null,
+   "star": 3.193991642807986,
+   "s": {
+    "jack": 0.13158889412478644,
+    "speed": 0.012493695259646276,
+    "ln": 0.4577228973153491
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 46,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 345,
+   "source": "data/crowd-chart-model-20261009/osu/3839122.osu",
+   "member": null,
+   "star": 3.6088805060484814,
+   "s": {
+    "jack": 0.06771263754624408,
+    "speed": 0.1841403982551039,
+    "ln": 0.4889218994298198
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 49,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 346,
+   "source": "data/crowd-chart-model-20261009/osu/3874385.osu",
+   "member": null,
+   "star": 2.4832858604622814,
+   "s": {
+    "jack": 0.046341066691033155,
+    "speed": 0.020730547032754273,
+    "ln": 0.4937930198844515
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 49,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 347,
+   "source": "data/crowd-chart-model-20261009/osu/3884015.osu",
+   "member": null,
+   "star": 3.929251392440603,
+   "s": {
+    "jack": 0.01842632900399577,
+    "speed": 0.02395460905235457,
+    "ln": 0.7309072645627601
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 73,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 348,
+   "source": "data/crowd-chart-model-20261009/osu/3889508.osu",
+   "member": null,
+   "star": 3.6731931034536367,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0007179889310304539,
+    "ln": 0.7892055243160071
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 79,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 349,
+   "source": "data/crowd-chart-model-20261009/osu/3913091.osu",
+   "member": null,
+   "star": 3.5478219021212083,
+   "s": {
+    "jack": 0.06842005965971508,
+    "speed": 0.37590773639053887,
+    "ln": 0.3312430062492775
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 33,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 350,
+   "source": "data/crowd-chart-model-20261009/osu/3919962.osu",
+   "member": null,
+   "star": 1.3321939358629935,
+   "s": {
+    "jack": 0.014161608184723609,
+    "speed": 0.02671625752004616,
+    "ln": 0.2520846816384299
+   },
+   "hints": []
+  },
+  {
+   "i": 351,
+   "source": "data/crowd-chart-model-20261009/osu/3924584.osu",
+   "member": null,
+   "star": 1.6417821237998242,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.3903561524636849,
+    "ln": 0.13571828991192295
+   },
+   "hints": []
+  },
+  {
+   "i": 352,
+   "source": "data/crowd-chart-model-20261009/osu/3934348.osu",
+   "member": null,
+   "star": 2.343183030538199,
+   "s": {
+    "jack": 0.004229755600600638,
+    "speed": 0.0017905085192214854,
+    "ln": 0.2573467321353716
+   },
+   "hints": []
+  },
+  {
+   "i": 353,
+   "source": "data/crowd-chart-model-20261009/osu/3954287.osu",
+   "member": null,
+   "star": 3.3738575131393294,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.026438822129186135,
+    "ln": 0.7645826365434283
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 76,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 354,
+   "source": "data/crowd-chart-model-20261009/osu/3957740.osu",
+   "member": null,
+   "star": 6.465747419336765,
+   "s": {
+    "jack": 0.014148208967494233,
+    "speed": 0.9150326463013861,
+    "ln": 0.0023795468423510355
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 92,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 355,
+   "source": "data/crowd-chart-model-20261009/osu/4014334.osu",
+   "member": null,
+   "star": 7.135258922727914,
+   "s": {
+    "jack": 0.18025310430941033,
+    "speed": 0.4297052796760281,
+    "ln": 0.26628548237461963
+   },
+   "hints": []
+  },
+  {
+   "i": 356,
+   "source": "data/crowd-chart-model-20261009/osu/4027097.osu",
+   "member": null,
+   "star": 2.9798900042080367,
+   "s": {
+    "jack": 0.14248933989472445,
+    "speed": 0.28366194108648646,
+    "ln": 0.23735513714007073
+   },
+   "hints": []
+  },
+  {
+   "i": 357,
+   "source": "data/crowd-chart-model-20261009/osu/4039696.osu",
+   "member": null,
+   "star": 1.608275746044249,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.29428824001284604
+   },
+   "hints": []
+  },
+  {
+   "i": 358,
+   "source": "data/crowd-chart-model-20261009/osu/4040261.osu",
+   "member": null,
+   "star": 3.042953071492881,
+   "s": {
+    "jack": 0.19985529581316197,
+    "speed": 0.0978655691611864,
+    "ln": 0.3216447116111571
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 32,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 359,
+   "source": "data/crowd-chart-model-20261009/osu/4061075.osu",
+   "member": null,
+   "star": 1.9790891301150335,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0020960085818251175,
+    "ln": 0.26811993899497105
+   },
+   "hints": []
+  },
+  {
+   "i": 360,
+   "source": "data/crowd-chart-model-20261009/osu/4067305.osu",
+   "member": null,
+   "star": 4.225582515319481,
+   "s": {
+    "jack": 0.0018676376746820397,
+    "speed": 0.28479741620761234,
+    "ln": 0.5077753653607289
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 51,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 361,
+   "source": "data/crowd-chart-model-20261009/osu/4084642.osu",
+   "member": null,
+   "star": 1.5502478241497792,
+   "s": {
+    "jack": 0.022513142132773858,
+    "speed": 0.0,
+    "ln": 0.28816107040893457
+   },
+   "hints": []
+  },
+  {
+   "i": 362,
+   "source": "data/crowd-chart-model-20261009/osu/4086155.osu",
+   "member": null,
+   "star": 2.4640721393156264,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.06517398756506149,
+    "ln": 0.5061518684856373
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 51,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 363,
+   "source": "data/crowd-chart-model-20261009/osu/4089656.osu",
+   "member": null,
+   "star": 2.5122874508909394,
+   "s": {
+    "jack": 0.29851781491167495,
+    "speed": 0.07122147121253003,
+    "ln": 0.1451781263353587
+   },
+   "hints": []
+  },
+  {
+   "i": 364,
+   "source": "data/crowd-chart-model-20261009/osu/4089890.osu",
+   "member": null,
+   "star": 3.3161163638944853,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.4426468005361869
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 44,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 365,
+   "source": "data/crowd-chart-model-20261009/osu/4106606.osu",
+   "member": null,
+   "star": 3.281034604551098,
+   "s": {
+    "jack": 0.007494512362577398,
+    "speed": 0.04337545948223729,
+    "ln": 0.6602318618376104
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 66,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 366,
+   "source": "data/crowd-chart-model-20261009/osu/4113209.osu",
+   "member": null,
+   "star": 2.466844860822742,
+   "s": {
+    "jack": 0.04079056797483151,
+    "speed": 0.07760910973782838,
+    "ln": 0.373204436897893
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 37,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 367,
+   "source": "data/crowd-chart-model-20261009/osu/4138640.osu",
+   "member": null,
+   "star": 3.5690305214819493,
+   "s": {
+    "jack": 0.12444353239391931,
+    "speed": 0.2599147240456004,
+    "ln": 0.35091648816807564
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 35,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 368,
+   "source": "data/crowd-chart-model-20261009/osu/4174427.osu",
+   "member": null,
+   "star": 2.0517811054327804,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.33004183281888355
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 33,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 369,
+   "source": "data/crowd-chart-model-20261009/osu/4178205.osu",
+   "member": null,
+   "star": 4.326889964933255,
+   "s": {
+    "jack": 0.19394627410515508,
+    "speed": 0.505769523388224,
+    "ln": 0.2269290015735441
+   },
+   "hints": []
+  },
+  {
+   "i": 370,
+   "source": "data/crowd-chart-model-20261009/osu/4180158.osu",
+   "member": null,
+   "star": 1.6766276129635576,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.45240894083163713
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 45,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 371,
+   "source": "data/crowd-chart-model-20261009/osu/4186795.osu",
+   "member": null,
+   "star": 2.7947308095504857,
+   "s": {
+    "jack": 0.18107107818664603,
+    "speed": 0.4589073392591126,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 372,
+   "source": "data/crowd-chart-model-20261009/osu/4196333.osu",
+   "member": null,
+   "star": 5.057494846609179,
+   "s": {
+    "jack": 0.0710224208281973,
+    "speed": 0.6939923681255753,
+    "ln": 0.06548115489965183
+   },
+   "hints": []
+  },
+  {
+   "i": 373,
+   "source": "data/crowd-chart-model-20261009/osu/4207625.osu",
+   "member": null,
+   "star": 1.577759026466509,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.27153214043529383
+   },
+   "hints": []
+  },
+  {
+   "i": 374,
+   "source": "data/crowd-chart-model-20261009/osu/4236891.osu",
+   "member": null,
+   "star": 4.470849402817601,
+   "s": {
+    "jack": 0.011736133968807343,
+    "speed": 0.9634278585457656,
+    "ln": 0.0032155292409080222
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 96,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 375,
+   "source": "data/crowd-chart-model-20261009/osu/4245861.osu",
+   "member": null,
+   "star": 4.126656129676011,
+   "s": {
+    "jack": 0.28654425390676097,
+    "speed": 0.5269916906893691,
+    "ln": 0.07387333851416607
+   },
+   "hints": []
+  },
+  {
+   "i": 376,
+   "source": "data/crowd-chart-model-20261009/osu/4250985.osu",
+   "member": null,
+   "star": 2.4512688747525946,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.5841283216567895
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 58,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 377,
+   "source": "data/crowd-chart-model-20261009/osu/4251717.osu",
+   "member": null,
+   "star": 1.5415683632689596,
+   "s": {
+    "jack": 0.004143436307880268,
+    "speed": 0.05443959929844734,
+    "ln": 0.2597929344898329
+   },
+   "hints": []
+  },
+  {
+   "i": 378,
+   "source": "data/crowd-chart-model-20261009/osu/4268981.osu",
+   "member": null,
+   "star": 5.156216087820032,
+   "s": {
+    "jack": 0.5921507591716197,
+    "speed": 0.3231656396015351,
+    "ln": 0.0
+   },
+   "hints": [
+    {
+     "key": "jack",
+     "pct": 59,
+     "delta": 0.4,
+     "range": "in"
+    }
+   ]
+  },
+  {
+   "i": 379,
+   "source": "data/crowd-chart-model-20261009/osu/4287453.osu",
+   "member": null,
+   "star": 5.413688644414751,
+   "s": {
+    "jack": 0.20717693456459815,
+    "speed": 0.505951213452171,
+    "ln": 0.18095343158829477
+   },
+   "hints": []
+  },
+  {
+   "i": 380,
+   "source": "data/crowd-chart-model-20261009/osu/4295079.osu",
+   "member": null,
+   "star": 3.103769866047926,
+   "s": {
+    "jack": 0.004445387080843361,
+    "speed": 0.20349193620994252,
+    "ln": 0.5413066823160696
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 54,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 381,
+   "source": "data/crowd-chart-model-20261009/osu/4315292.osu",
+   "member": null,
+   "star": 4.004868084122323,
+   "s": {
+    "jack": 0.030219858817042526,
+    "speed": 0.9416634593559033,
+    "ln": 0.0019038506051434468
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 94,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 382,
+   "source": "data/crowd-chart-model-20261009/osu/4324149.osu",
+   "member": null,
+   "star": 1.6855130753149052,
+   "s": {
+    "jack": 0.043721465024526264,
+    "speed": 0.10613557738981003,
+    "ln": 0.17084444555318457
+   },
+   "hints": []
+  },
+  {
+   "i": 383,
+   "source": "data/crowd-chart-model-20261009/osu/4333966.osu",
+   "member": null,
+   "star": 7.029671740036792,
+   "s": {
+    "jack": 0.1149653304454034,
+    "speed": 0.3681821469059462,
+    "ln": 0.26051124212828725
+   },
+   "hints": []
+  },
+  {
+   "i": 384,
+   "source": "data/crowd-chart-model-20261009/osu/4334888.osu",
+   "member": null,
+   "star": 3.1953556270941843,
+   "s": {
+    "jack": 0.00768100445907035,
+    "speed": 0.2634001599755954,
+    "ln": 0.41514734817771226
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 42,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 385,
+   "source": "data/crowd-chart-model-20261009/osu/4357277.osu",
+   "member": null,
+   "star": 1.9012473819487692,
+   "s": {
+    "jack": 0.18483297462484277,
+    "speed": 0.09784408094378481,
+    "ln": 0.003049000147577882
+   },
+   "hints": []
+  },
+  {
+   "i": 386,
+   "source": "data/crowd-chart-model-20261009/osu/4378040.osu",
+   "member": null,
+   "star": 2.206107338521851,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.01237712174104142,
+    "ln": 0.7500033681800735
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 75,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 387,
+   "source": "data/crowd-chart-model-20261009/osu/4379420.osu",
+   "member": null,
+   "star": 1.0389975681729258,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.2833490461111641
+   },
+   "hints": []
+  },
+  {
+   "i": 388,
+   "source": "data/crowd-chart-model-20261009/osu/4397099.osu",
+   "member": null,
+   "star": 3.1375789782693335,
+   "s": {
+    "jack": 0.015292733611622615,
+    "speed": 0.3844421754608805,
+    "ln": 0.304246757919439
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 30,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 389,
+   "source": "data/crowd-chart-model-20261009/osu/4410980.osu",
+   "member": null,
+   "star": 2.6949798791951696,
+   "s": {
+    "jack": 0.07344281431969987,
+    "speed": 0.14377721040401964,
+    "ln": 0.2617219180338093
+   },
+   "hints": []
+  },
+  {
+   "i": 390,
+   "source": "data/crowd-chart-model-20261009/osu/4413357.osu",
+   "member": null,
+   "star": 0.3913302353007966,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.19976807997037774
+   },
+   "hints": []
+  },
+  {
+   "i": 391,
+   "source": "data/crowd-chart-model-20261009/osu/4419089.osu",
+   "member": null,
+   "star": 3.487595755752587,
+   "s": {
+    "jack": 0.3514393699971025,
+    "speed": 0.4640913714333866,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 392,
+   "source": "data/crowd-chart-model-20261009/osu/4446468.osu",
+   "member": null,
+   "star": 1.1908489653536511,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.2729464122317856
+   },
+   "hints": []
+  },
+  {
+   "i": 393,
+   "source": "data/crowd-chart-model-20261009/osu/4446678.osu",
+   "member": null,
+   "star": 1.4394751567955186,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.2229855116891897
+   },
+   "hints": []
+  },
+  {
+   "i": 394,
+   "source": "data/crowd-chart-model-20261009/osu/4458836.osu",
+   "member": null,
+   "star": 2.9135422418261414,
+   "s": {
+    "jack": 0.10373365377049809,
+    "speed": 0.02383962887687044,
+    "ln": 0.28282669128666577
+   },
+   "hints": []
+  },
+  {
+   "i": 395,
+   "source": "data/crowd-chart-model-20261009/osu/4476902.osu",
+   "member": null,
+   "star": 5.756058641208021,
+   "s": {
+    "jack": 0.006017409173647158,
+    "speed": 0.9720578598238125,
+    "ln": 0.0015955709080151695
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 97,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 396,
+   "source": "data/crowd-chart-model-20261009/osu/4521090.osu",
+   "member": null,
+   "star": 2.9259582261999544,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.1393742824785718,
+    "ln": 0.2799665623002172
+   },
+   "hints": []
+  },
+  {
+   "i": 397,
+   "source": "data/crowd-chart-model-20261009/osu/4524050.osu",
+   "member": null,
+   "star": 3.759810473079895,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0007397681427132361,
+    "ln": 0.6990324016344903
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 70,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 398,
+   "source": "data/crowd-chart-model-20261009/osu/4542758.osu",
+   "member": null,
+   "star": 1.8034128177715125,
+   "s": {
+    "jack": 0.03142758345008996,
+    "speed": 0.1299588927525147,
+    "ln": 0.13888454549123758
+   },
+   "hints": []
+  },
+  {
+   "i": 399,
+   "source": "data/crowd-chart-model-20261009/osu/4568147.osu",
+   "member": null,
+   "star": 4.610183927991966,
+   "s": {
+    "jack": 0.16400683465387264,
+    "speed": 0.08243037897198494,
+    "ln": 0.3735202986494355
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 37,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 400,
+   "source": "data/crowd-chart-model-20261009/osu/4574309.osu",
+   "member": null,
+   "star": 4.73694037312188,
+   "s": {
+    "jack": 0.20441338106587603,
+    "speed": 0.6004472861639295,
+    "ln": 0.11283971086850576
+   },
+   "hints": []
+  },
+  {
+   "i": 401,
+   "source": "data/crowd-chart-model-20261009/osu/4579793.osu",
+   "member": null,
+   "star": 2.729056568646446,
+   "s": {
+    "jack": 0.16993927701108694,
+    "speed": 0.6665845260863255,
+    "ln": 0.009866215698287148
+   },
+   "hints": []
+  },
+  {
+   "i": 402,
+   "source": "data/crowd-chart-model-20261009/osu/4594075.osu",
+   "member": null,
+   "star": 2.576287222537987,
+   "s": {
+    "jack": 0.09413127945033097,
+    "speed": 0.5009466408251287,
+    "ln": 0.038435634204881663
+   },
+   "hints": []
+  },
+  {
+   "i": 403,
+   "source": "data/crowd-chart-model-20261009/osu/4602259.osu",
+   "member": null,
+   "star": 4.037215355884584,
+   "s": {
+    "jack": 0.0056386642335894185,
+    "speed": 0.31190807194821574,
+    "ln": 0.4786880339935791
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 48,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 404,
+   "source": "data/crowd-chart-model-20261009/osu/4618804.osu",
+   "member": null,
+   "star": 5.4348487042454705,
+   "s": {
+    "jack": 0.09772290336053463,
+    "speed": 0.7970474309927177,
+    "ln": 0.02488854382353949
+   },
+   "hints": []
+  },
+  {
+   "i": 405,
+   "source": "data/crowd-chart-model-20261009/osu/4627426.osu",
+   "member": null,
+   "star": 1.3999299693174838,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.29911388995811167
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 30,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 406,
+   "source": "data/crowd-chart-model-20261009/osu/4657513.osu",
+   "member": null,
+   "star": 4.605292682364078,
+   "s": {
+    "jack": 0.025974181040023577,
+    "speed": 0.13375459879026028,
+    "ln": 0.6174432014471306
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 62,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 407,
+   "source": "data/crowd-chart-model-20261009/osu/4686194.osu",
+   "member": null,
+   "star": 2.0004928368990265,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.3429674893245037
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 34,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 408,
+   "source": "data/crowd-chart-model-20261009/osu/4692372.osu",
+   "member": null,
+   "star": 2.75897831210819,
+   "s": {
+    "jack": 0.05634594730334783,
+    "speed": 0.27277220536268243,
+    "ln": 0.14490763010143742
+   },
+   "hints": []
+  },
+  {
+   "i": 409,
+   "source": "data/crowd-chart-model-20261009/osu/4748615.osu",
+   "member": null,
+   "star": 1.7925856284881494,
+   "s": {
+    "jack": 0.36677907251625536,
+    "speed": 0.01391433274672899,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 410,
+   "source": "data/crowd-chart-model-20261009/osu/4769860.osu",
+   "member": null,
+   "star": 4.343670068770269,
+   "s": {
+    "jack": 0.07449475414075622,
+    "speed": 0.069207127615682,
+    "ln": 0.47139717230774186
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 47,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 411,
+   "source": "data/crowd-chart-model-20261009/osu/4775999.osu",
+   "member": null,
+   "star": 6.797713076015852,
+   "s": {
+    "jack": 0.16067102501462158,
+    "speed": 0.40787791650428357,
+    "ln": 0.28850031861333497
+   },
+   "hints": []
+  },
+  {
+   "i": 412,
+   "source": "data/crowd-chart-model-20261009/osu/4779471.osu",
+   "member": null,
+   "star": 4.582603858611118,
+   "s": {
+    "jack": 0.1529134943923831,
+    "speed": 0.3779009470347787,
+    "ln": 0.3642539336204404
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 36,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 413,
+   "source": "data/crowd-chart-model-20261009/osu/4789195.osu",
+   "member": null,
+   "star": 4.613531953087011,
+   "s": {
+    "jack": 0.12934112710588677,
+    "speed": 0.33470262358672587,
+    "ln": 0.48015280809204536
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 48,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 414,
+   "source": "data/crowd-chart-model-20261009/osu/4795035.osu",
+   "member": null,
+   "star": 5.671564430026983,
+   "s": {
+    "jack": 0.047364810557421214,
+    "speed": 0.4213442400751721,
+    "ln": 0.3154324475225662
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 32,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 415,
+   "source": "data/crowd-chart-model-20261009/osu/4805048.osu",
+   "member": null,
+   "star": 0.26818879616901015,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.05065647483395624
+   },
+   "hints": []
+  },
+  {
+   "i": 416,
+   "source": "data/crowd-chart-model-20261009/osu/4806696.osu",
+   "member": null,
+   "star": 3.275982188037086,
+   "s": {
+    "jack": 0.05270897880597405,
+    "speed": 0.05964300982634494,
+    "ln": 0.5726418986955965
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 57,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 417,
+   "source": "data/crowd-chart-model-20261009/osu/4807179.osu",
+   "member": null,
+   "star": 2.943442836562792,
+   "s": {
+    "jack": 0.11976608634439104,
+    "speed": 0.6413292055794024,
+    "ln": 0.04640878873120281
+   },
+   "hints": []
+  },
+  {
+   "i": 418,
+   "source": "data/crowd-chart-model-20261009/osu/4812611.osu",
+   "member": null,
+   "star": 5.503320845149302,
+   "s": {
+    "jack": 0.28232523247993346,
+    "speed": 0.6602843379078285,
+    "ln": 0.03140646837583925
+   },
+   "hints": []
+  },
+  {
+   "i": 419,
+   "source": "data/crowd-chart-model-20261009/osu/4818049.osu",
+   "member": null,
+   "star": 3.2236517864290057,
+   "s": {
+    "jack": 0.18941330342105936,
+    "speed": 0.15871354836038598,
+    "ln": 0.29655371657495116
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 30,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 420,
+   "source": "data/crowd-chart-model-20261009/osu/4843564.osu",
+   "member": null,
+   "star": 3.9700447349608066,
+   "s": {
+    "jack": 0.06605004268286943,
+    "speed": 0.2518273502487585,
+    "ln": 0.42750110163053057
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 421,
+   "source": "data/crowd-chart-model-20261009/osu/4917580.osu",
+   "member": null,
+   "star": 3.986509561408129,
+   "s": {
+    "jack": 0.14859809669523047,
+    "speed": 0.7082221025942623,
+    "ln": 0.08393647459872686
+   },
+   "hints": []
+  },
+  {
+   "i": 422,
+   "source": "data/crowd-chart-model-20261009/osu/4929873.osu",
+   "member": null,
+   "star": 4.177324608447095,
+   "s": {
+    "jack": 0.12990888626643785,
+    "speed": 0.4244508409040654,
+    "ln": 0.1754980934158055
+   },
+   "hints": []
+  },
+  {
+   "i": 423,
+   "source": "data/crowd-chart-model-20261009/osu/5039086.osu",
+   "member": null,
+   "star": 1.3534022472050893,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.2601007136984957
+   },
+   "hints": []
+  },
+  {
+   "i": 424,
+   "source": "data/crowd-chart-model-20261009/osu/5039490.osu",
+   "member": null,
+   "star": 2.5691574171253446,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.15456607965932204,
+    "ln": 0.2062385410544589
+   },
+   "hints": []
+  },
+  {
+   "i": 425,
+   "source": "data/crowd-chart-model-20261009/osu/5039797.osu",
+   "member": null,
+   "star": 1.1590282917894514,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.0846651210298834
+   },
+   "hints": []
+  },
+  {
+   "i": 426,
+   "source": "data/crowd-chart-model-20261009/osu/5053973.osu",
+   "member": null,
+   "star": 2.6060634843030446,
+   "s": {
+    "jack": 0.03725588846199769,
+    "speed": 0.30596658737951116,
+    "ln": 0.30567872776991156
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 31,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 427,
+   "source": "data/crowd-chart-model-20261009/osu/5058169.osu",
+   "member": null,
+   "star": 6.79207544159462,
+   "s": {
+    "jack": 0.13597630735976088,
+    "speed": 0.6120399123399365,
+    "ln": 0.17698053161974933
+   },
+   "hints": []
+  },
+  {
+   "i": 428,
+   "source": "data/crowd-chart-model-20261009/osu/5059937.osu",
+   "member": null,
+   "star": 2.6670596586542636,
+   "s": {
+    "jack": 0.05405244969583835,
+    "speed": 0.0411220375765178,
+    "ln": 0.5356510490070033
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 54,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 429,
+   "source": "data/crowd-chart-model-20261009/osu/5077407.osu",
+   "member": null,
+   "star": 4.532115096046268,
+   "s": {
+    "jack": 0.2529031913258313,
+    "speed": 0.6827231523196461,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 430,
+   "source": "data/crowd-chart-model-20261009/osu/5105803.osu",
+   "member": null,
+   "star": 1.1188053979459758,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.03305632678081911
+   },
+   "hints": []
+  },
+  {
+   "i": 431,
+   "source": "data/crowd-chart-model-20261009/osu/5129767.osu",
+   "member": null,
+   "star": 3.653428140995843,
+   "s": {
+    "jack": 0.0017890022314071465,
+    "speed": 0.046173772933876374,
+    "ln": 0.788967758359703
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 79,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 432,
+   "source": "data/crowd-chart-model-20261009/osu/5131269.osu",
+   "member": null,
+   "star": 6.963171917070362,
+   "s": {
+    "jack": 0.2169643414636279,
+    "speed": 0.7068381175255731,
+    "ln": 0.03316028470280558
+   },
+   "hints": []
+  },
+  {
+   "i": 433,
+   "source": "data/crowd-chart-model-20261009/osu/5157084.osu",
+   "member": null,
+   "star": 1.0025392216501103,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.251401079378238
+   },
+   "hints": []
+  },
+  {
+   "i": 434,
+   "source": "data/crowd-chart-model-20261009/osu/5179817.osu",
+   "member": null,
+   "star": 2.435682625687206,
+   "s": {
+    "jack": 0.01230554087430987,
+    "speed": 0.042619408292631444,
+    "ln": 0.6319592704741387
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 63,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 435,
+   "source": "data/crowd-chart-model-20261009/osu/5213633.osu",
+   "member": null,
+   "star": 3.407523765951476,
+   "s": {
+    "jack": 0.060788208916731375,
+    "speed": 0.25733853055302586,
+    "ln": 0.4011992391223405
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 40,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 436,
+   "source": "data/crowd-chart-model-20261009/osu/5216355.osu",
+   "member": null,
+   "star": 1.7223319113886415,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.452222747526042
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 45,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 437,
+   "source": "data/crowd-chart-model-20261009/osu/5255489.osu",
+   "member": null,
+   "star": 3.0531171295984127,
+   "s": {
+    "jack": 0.2717132731187827,
+    "speed": 0.072821666993347,
+    "ln": 0.07603025770132535
+   },
+   "hints": []
+  },
+  {
+   "i": 438,
+   "source": "data/crowd-chart-model-20261009/osu/5255940.osu",
+   "member": null,
+   "star": 4.398016203708853,
+   "s": {
+    "jack": 0.06183080749254627,
+    "speed": 0.3446014640692124,
+    "ln": 0.42755932220669957
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 439,
+   "source": "data/crowd-chart-model-20261009/osu/5260473.osu",
+   "member": null,
+   "star": 5.589669617169887,
+   "s": {
+    "jack": 0.06613378515440227,
+    "speed": 0.6139717989733845,
+    "ln": 0.17637968363950454
+   },
+   "hints": []
+  },
+  {
+   "i": 440,
+   "source": "data/crowd-chart-model-20261009/osu/5303527.osu",
+   "member": null,
+   "star": 4.058239705503637,
+   "s": {
+    "jack": 0.013293405963602347,
+    "speed": 0.5077375412667393,
+    "ln": 0.3105784140261451
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 31,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 441,
+   "source": "data/crowd-chart-model-20261009/osu/5318853.osu",
+   "member": null,
+   "star": 6.852577575298242,
+   "s": {
+    "jack": 0.03145927182720664,
+    "speed": 0.9497435290717114,
+    "ln": 0.003700871345532277
+   },
+   "hints": [
+    {
+     "key": "speed",
+     "pct": 95,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 442,
+   "source": "data/crowd-chart-model-20261009/osu/5413013.osu",
+   "member": null,
+   "star": 4.3772407304193495,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.08594490325113698,
+    "ln": 0.794629056140647
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 79,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 443,
+   "source": "data/crowd-chart-model-20261009/osu/5435949.osu",
+   "member": null,
+   "star": 4.789479639431422,
+   "s": {
+    "jack": 0.13062126232186097,
+    "speed": 0.23463934443255438,
+    "ln": 0.37710387809184354
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 38,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 444,
+   "source": "data/crowd-chart-model-20261009/osu/5437299.osu",
+   "member": null,
+   "star": 1.0174661522936432,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.3312895150254335
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 33,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 445,
+   "source": "data/crowd-chart-model-20261009/osu/5442353.osu",
+   "member": null,
+   "star": 3.808530875368855,
+   "s": {
+    "jack": 0.09892667489021946,
+    "speed": 0.3091980625281764,
+    "ln": 0.33716037782414904
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 34,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 446,
+   "source": "data/crowd-chart-model-20261009/osu/5444948.osu",
+   "member": null,
+   "star": 2.12517755304775,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.2157318398151412,
+    "ln": 0.3759861086205219
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 38,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 447,
+   "source": "data/crowd-chart-model-20261009/osu/5477050.osu",
+   "member": null,
+   "star": 3.926459233052054,
+   "s": {
+    "jack": 0.03649180874953962,
+    "speed": 0.673902279411237,
+    "ln": 0.19407971543872282
+   },
+   "hints": []
+  },
+  {
+   "i": 448,
+   "source": "data/crowd-chart-model-20261009/osu/5552006.osu",
+   "member": null,
+   "star": -0.09275042189089522,
+   "s": {
+    "jack": 0.0,
+    "speed": 0.0,
+    "ln": 0.8133005045105867
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 81,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 449,
+   "source": "data/crowd-chart-model-20261009/osu/5572386.osu",
+   "member": null,
+   "star": 3.036972249277358,
+   "s": {
+    "jack": 0.005870120241429561,
+    "speed": 0.048717805796164186,
+    "ln": 0.6847247560914078
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 68,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 450,
+   "source": "data/crowd-chart-model-20261009/osu/5575110.osu",
+   "member": null,
+   "star": 6.118092229018761,
+   "s": {
+    "jack": 0.21063516223599016,
+    "speed": 0.7563240769407196,
+    "ln": 0.0
+   },
+   "hints": []
+  },
+  {
+   "i": 451,
+   "source": "data/crowd-chart-model-20261009/osu/5630323.osu",
+   "member": null,
+   "star": 3.4652334547330055,
+   "s": {
+    "jack": 0.018938887904810468,
+    "speed": 0.213470119395801,
+    "ln": 0.42821014469895863
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 43,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 452,
+   "source": "data/crowd-chart-model-20261009/osu/5663522.osu",
+   "member": null,
+   "star": 5.689027520607245,
+   "s": {
+    "jack": 0.03837372347071394,
+    "speed": 0.41050980033730905,
+    "ln": 0.43506262228995735
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 44,
+     "delta": null,
+     "range": null
+    }
+   ]
+  },
+  {
+   "i": 453,
+   "source": "data/crowd-chart-model-20261009/osu/5676685.osu",
+   "member": null,
+   "star": 1.7528500919038974,
+   "s": {
+    "jack": 0.15705097012651814,
+    "speed": 0.1047698563295453,
+    "ln": 0.10492113974680929
+   },
+   "hints": []
+  },
+  {
+   "i": 454,
+   "source": "data/crowd-chart-model-20261009/osu/5711091.osu",
+   "member": null,
+   "star": 2.4325580835058576,
+   "s": {
+    "jack": 0.05743302475563636,
+    "speed": 0.6047525649412836,
+    "ln": 0.00767292298139694
+   },
+   "hints": []
+  },
+  {
+   "i": 455,
+   "source": "data/crowd-chart-model-20261009/osu/5746368.osu",
+   "member": null,
+   "star": 4.35343605614965,
+   "s": {
+    "jack": 0.0709293075336584,
+    "speed": 0.0629742891302106,
+    "ln": 0.5576678132388903
+   },
+   "hints": [
+    {
+     "key": "ln",
+     "pct": 56,
+     "delta": null,
+     "range": null
+    }
+   ]
+  }
+ ]
+}

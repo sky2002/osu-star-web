@@ -153,6 +153,13 @@ h2 { font-size: 1.1rem; margin: 0; }
 .pattern-mix { margin: 6px 0 0; font-size: 0.84rem; line-height: 1.5; }
 .pattern-mix.muted { margin-top: 2px; font-size: 0.8rem; }
 .pattern-tech { margin: 6px 0 0; font-size: 0.84rem; color: var(--warn-text); }
+/* “苦手要小心”提示：失分构成下面，一类一行 */
+.pattern-hint { margin: 6px 0 0; font-size: 0.84rem; line-height: 1.55; cursor: help; }
+.hint-tag {
+  display: inline-block; margin-right: 6px; padding: 0 6px; border-radius: 4px; font-size: 0.74rem; font-weight: 700; line-height: 1.6;
+  color: var(--warn-text); background: var(--warn-bg); border: 1px solid var(--warn-line);
+}
+.hint-note { color: var(--muted); font-size: 0.78rem; }
 
 .dan-reference { margin-top: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
 .dan-reference h3 { margin: 0; font-size: 0.95rem; }
@@ -230,5 +237,7 @@ details ul { padding-left: 1.2em; }
 .dan-est-text { color: var(--star); font-weight: 600; }
 .dan-est-note { color: var(--muted); font-size: 0.78rem; }
 .dan-est-item.muted-item .dan-est-text { color: var(--muted); font-weight: 500; }
+.dan-est-single { margin-top: 2px; }
+.dan-est-single .dan-est-item { font-size: 0.86rem; }
 .dan-est-sub { font-size: 0.78rem; margin-top: 2px; }
 .dan-est-caution { color: var(--warn-text); font-size: 0.78rem; margin-top: 2px; }

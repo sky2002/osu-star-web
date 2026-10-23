@@ -47,9 +47,68 @@ export const ITEMS_TECH_NOTE = '节奏不规则较多（tech）：串里的分�
 
 const pctText = (x) => (Number.isFinite(x) ? `${Math.round(x * 100)}%` : '—');
 
+// “苦手要小心”提示的规则，全部常量在这里（研究仓库 data/loss-share-hint-r1/RESULTS.md；网页改版方案 r1，2026-10-23 用户定）。
+//   min：失分占比门槛，和卡片上显示的整数百分比比较（显示 45% 就算到了 45%）。
+//   叠还给“大约觉得难几星”：只在总星数（按卡片上显示的两位小数）落在 star 范围内（含两端）时给，
+//   数字 = k × 显示的占比，四舍五入到 0.1 星；k = 0.722 是检验斜率（份额每多 10 个百分点，两群差 0.072 星，区间 0.631–0.776）。
+//   速度、长条只给文字：方向检验过，但原始键占比比失分份额预测得更准，按判据不给数字。
+export const PATTERN_HINTS = {
+  jack: { name: '叠', min: 45, k: 0.722, star: [3, 7] },
+  speed: { name: '速度', min: 90 },
+  ln: { name: '长条', min: 30 },
+};
+export const HINT_GROUP_NOTE = '（群体平均，不是你个人的读数）';
+const HINT_TITLES = {
+  jack: '叠占失分 ≥45% 时提示。数字 = 0.72 × 叠的失分占比，保留一位小数。来源：失分份额检验（2026-10-23）——在水平相同、稳定程度相近的玩家里，' +
+    '按叠的倾向分出最弱和最强的各三分之一，看他们之后的成绩：叠占失分每多 10 个百分点，两群觉得的难度多差约 0.07 星（区间 0.063–0.078）；' +
+    '叠占失分最高的一成谱里，97% 的谱方向一致。检验用的是 NoMod、谱面文件 OD、非变速、两群各至少 30 人打过的谱（总星数中位约 5 星），' +
+    '数字只在 3–7 星内给，范围外没检验过差几星。这是群体平均，不是任何一个人的读数。',
+  speed: '速度占失分 ≥90% 时提示，只给文字。失分份额检验（2026-10-23）里方向成立：速度占失分最高的一成谱里，91% 方向一致（速度苦手的人比速度强的人更吃亏）；' +
+    '但幅度小（份额每多 10 个百分点，两群约差 0.025 星），而且“快键占比”比失分份额预测得准一倍，所以不给数字。',
+  ln: '长条占失分 ≥30% 时提示，只给文字。失分份额检验（2026-10-23）里这一项效应最大：长条占失分最高的一成谱，两群约差 0.57 星，283 张里 282 张方向一致；' +
+    '但“长条物件占比”比失分份额略准，所以不给数字。长条很多的谱上几乎都会出现这条提示。',
+};
+
+/**
+ * 键型分项的“苦手要小心”提示（纯规则，不看 Mod / OD / 变速，这些由 patternItemView 决定显不显示）。
+ * items：itemReadouts 的 items（用各类的 s = 失分占比）；star：总星数。
+ * 返回 [{ key, tag, pct, text, delta (星，只有叠在范围内才有，否则 null), range ('in' | 'above' | 'below'，只有叠有，否则 null),
+ *   note, title }]，顺序：叠、速度、长条。
+ */
+export function patternHints(items, star) {
+  const out = [];
+  if (!items) return out;
+  for (const key of ['jack', 'speed', 'ln']) {
+    const H = PATTERN_HINTS[key];
+    const s = items[key] && items[key].s;
+    if (!Number.isFinite(s)) continue;
+    const pct = Math.round(s * 100);
+    if (pct < H.min) continue;
+    const hint = { key, tag: `${H.name}苦手要小心`, pct, text: `丢分 ${pct}% 在${H.name}上。`, delta: null, range: null, note: '', title: HINT_TITLES[key] };
+    if (H.k !== undefined) {
+      const shown = Number.isFinite(star) ? Number(fmtStar(star)) : NaN;
+      if (shown >= H.star[0] && shown <= H.star[1]) {
+        hint.range = 'in';
+        hint.delta = Math.round((H.k * pct) / 10) / 10;
+        hint.text += `同水平的人里，${H.name}最弱的三成比${H.name}最强的三成，大约觉得难 ${hint.delta.toFixed(1)} 星。`;
+        hint.note = HINT_GROUP_NOTE;
+      } else if (shown > H.star[1]) {
+        hint.range = 'above';
+        hint.note = `（${H.star[1]} 星以上没检验过差几星，不给数字）`;
+      } else if (shown < H.star[0]) {
+        hint.range = 'below';
+        hint.note = `（${H.star[0]} 星以下没检验过差几星，不给数字）`;
+      }
+    }
+    out.push(hint);
+  }
+  return out;
+}
+
 /**
  * 键型分项（测试版）的显示内容。只在 NoMod、谱面文件 OD、非变速谱上给读数；其余情况给一句说明（state 'off'）。
- * 返回 null 表示没有可说的（未算或失败）。rows: [{ key, label, star|null, share, text }]。
+ * 返回 null 表示没有可说的（未算或失败）。rows: [{ key, label, star|null, share, text }]；hints：patternHints 的提示
+ * （只在 state 'ok' 时有，和分项★ 同一套显示条件）。
  */
 export function patternItemView(result) {
   if (!result || !result.ok) return null;
@@ -73,6 +132,7 @@ export function patternItemView(result) {
     state: 'ok', rows, tech: !!it.techTag,
     mixText: '失分构成：' + mix.map(([k, v]) => `${k} ${pctText(v)}`).join(' · '),
     overlapText: `其中 ${overlap.map(([k, v]) => `${k} ${pctText(v)}`).join('、')}（与上面几类重叠）`,
+    hints: patternHints(x, result.star),
   };
 }
 
@@ -81,7 +141,8 @@ export function patternItemCopyLines(result) {
   if (!v) return [];
   if (v.state !== 'ok') return [`键型分项（测试版）：${v.text}`];
   const one = (r) => `${r.star === null ? r.text : r.label.replace(/（.*）/, '') + ' ★' + fmtStar(r.star) + r.text}（失分 ${pctText(r.share)}）`;
-  return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；tech 较多' : ''}`];
+  return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；tech 较多' : ''}`,
+    ...v.hints.map((x) => `苦手提示：${x.tag}——${x.text}${x.note}`)];
 }
 
 export function decodeText(u8) {

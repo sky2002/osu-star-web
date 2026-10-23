@@ -13,6 +13,7 @@
     "test:pattern-items": "node tests/compare_items.mjs --mode e2e",
     "build:tosu": "node tools/build-tosu.mjs",
     "test:dan": "node --test tests/dan-estimate.mjs",
+    "test:hints": "node --test tests/pattern-hints.mjs",
     "test:tosu": "node tools/build-tosu.mjs && node --test tests/tosu-player.mjs"
   },
   "dependencies": {

@@ -6,6 +6,9 @@
 //   2. 相邻两档读数差 < DAN_MERGE_GAP（重训波动量级）时合并成一档，例如 REFORM 2nd 2.88 / 3rd 2.90 → “2nd–3rd”；
 //   3. 谱面读数落在两档之间：线性插值位置，离某档 15% 以内写“≈ 该档”，否则前三分之一“偏下一档”、后三分之一“偏上一档”、中间“居中”；
 //   4. 高于最高档：“高于 Eta（外推）”；低于最低档：“低于 1st”/“LN 6 段以下”。
+// 米段位第二行“按单曲换算”：同一张谱的总星数对 REFORM 官方单曲（data.reformSingles，60 首，1st–Zeta 每段 2–6 首）
+// 按段取平均的读数，再走上面同一套规则 1–4。Eta 没有单曲，高于 Zeta 的部分按最后两档外推。主读数仍是整段那一行。
+// 依据：研究仓库 analysis/bias-multidim-r1/A（实验 A 的 S4 单曲尺子，同一套 PAV + 线性插值 / 外推）。
 
 export const DAN_MERGE_GAP = 0.05;
 // 长条很少：长条数 / 物件数 < 0.15 时面段位变灰（Mixed 估计器把 ≤0.15 判为米图；REFORM 等米图参照的 95% 分位 0.143，
@@ -15,7 +18,7 @@ export const LN_MIN_DAN = 6;
 // 读数离某一档很近（两档间距的 15% 以内）时直接写“≈ 该档”，例如段位谱读它自己显示“≈ LN 9th”
 export const DAN_AT = 0.15;
 
-const REFORM_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta'];
+export const REFORM_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta'];
 const REFORM_SHORT = { alpha: 'Alpha', beta: 'Beta', gamma: 'Gamma', delta: 'Delta', epsilon: 'Epsilon', zeta: 'Zeta', eta: 'Eta' };
 const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
 
@@ -25,6 +28,28 @@ export const DAN_ESTIMATE_NOTE =
 export const DAN_RATE_NOTE = (mod) => `${mod}：用这个倍速下的读数和 NoMod 段位谱比较，段位谱本身不变速。`;
 export const DAN_FEW_LN_NOTE = '长条很少，仅供参考';
 export const DAN_UNRELIABLE_NOTE = '星数不可靠，段位也不可靠';
+export const DAN_SINGLE_LABEL = '按单曲换算';
+// 每段只有 2–6 首单曲，含不含叠单曲两种做法最多差 0.17 段
+export const DAN_SINGLE_NOTE = '误差约 ±0.15 段';
+export const DAN_SINGLE_TITLE =
+  '按 REFORM 官方单曲换算：每段 2–6 首（共 60 首）单曲的平均读数当尺子，同一模型、同一标准，读法和上面的米段位一样。' +
+  '整段比单曲长、读数偏高，所以单曲按整段换算会显得低一点，这一行给的是按单曲比的结果。每段单曲少，误差约 ±0.15 段；Eta 没有单曲，高于 Zeta 的部分是外推。';
+
+/** REFORM 官方单曲 → 每段一个点 [{ pos, label, star 该段单曲读数的平均 }]（按段位顺序；没有单曲的段不出点）。 */
+export function singlePoints(data) {
+  const s = data && data.reformSingles;
+  if (!s || !Array.isArray(s.entries)) return [];
+  const by = new Map();
+  for (const e of s.entries) {
+    const i = REFORM_ORDER.indexOf(e && e.dan);
+    if (i < 0 || !Number.isFinite(e.star)) continue;
+    const a = by.get(i) || { n: 0, sum: 0 };
+    a.n++; a.sum += e.star;
+    by.set(i, a);
+  }
+  return [...by.entries()].sort((a, b) => a[0] - b[0])
+    .map(([i, a]) => ({ pos: i + 1, label: REFORM_SHORT[REFORM_ORDER[i]] || REFORM_ORDER[i], star: a.sum / a.n }));
+}
 
 /** 段位参照 → 有序点 [{ pos, label, star }]。group 'reform' 用 star（96% ScoreV1），'ln' 用 starV2（97% ScoreV2），6 段起。 */
 export function danPoints(data, group) {
@@ -134,8 +159,8 @@ export function fmtDanPos(loc, group) {
 
 /**
  * 一张结果卡的米 / 面段位。result 需有 ok、star、reliable、rate、v2.star、lnFrac（或 features.ln_frac）。
- * 返回 null（没有读数或没有参照）或 { rice, face, unreliable, rateNote }，rice / face 为
- *   { group, label, text, loc, muted, note }。
+ * 返回 null（没有读数或没有参照）或 { rice, single, face, unreliable, rateNote }，rice / single / face 为
+ *   { group, label, text, loc, muted, note }；single 是米段位的第二行“按单曲换算”，参照里没有单曲时为 null。
  */
 export function danEstimate(result, data) {
   if (!result || result.ok !== true || !Number.isFinite(result.star) || !data) return null;
@@ -144,6 +169,9 @@ export function danEstimate(result, data) {
   const lnTiers = danTiers(danPoints(data, 'ln'));
   const riceLoc = locateDan(result.star, riceTiers);
   const rice = riceLoc && { group: 'reform', label: '米', text: danText(riceLoc), loc: riceLoc, muted: false, note: '' };
+  const singleTiers = danTiers(singlePoints(data));
+  const singleLoc = rice && singleTiers.length >= 2 ? locateDan(result.star, singleTiers) : null;
+  const single = singleLoc && { group: 'reform', label: DAN_SINGLE_LABEL, text: danText(singleLoc), loc: singleLoc, muted: false, note: DAN_SINGLE_NOTE };
   let face = null;
   const v2 = result.v2 && Number.isFinite(result.v2.star) ? result.v2.star : null;
   const lnFrac = Number.isFinite(result.lnFrac) ? result.lnFrac : (result.features && Number.isFinite(result.features.ln_frac) ? result.features.ln_frac : null);
@@ -154,7 +182,7 @@ export function danEstimate(result, data) {
   }
   const rate = result.rate || 1;
   const rateNote = rate === 1 ? '' : DAN_RATE_NOTE(rate === 1.5 ? 'DT' : rate === 0.75 ? 'HT' : `${rate} 倍`);
-  return { rice, face, unreliable, rateNote };
+  return { rice, single, face, unreliable, rateNote };
 }
 
 /** 「复制读数信息」里的段位行。 */
@@ -163,6 +191,7 @@ export function danEstimateCopyLines(est) {
   const lines = [];
   const tag = est.unreliable ? '（不可靠）' : '';
   if (est.rice) lines.push(`米段位：${est.rice.text}${tag}；位置 ${fmtDanPos(est.rice.loc, 'reform')}`);
+  if (est.single) lines.push(`米段位（${est.single.label}）：${est.single.text}${tag}；${est.single.note}；位置 ${fmtDanPos(est.single.loc, 'reform')}`);
   if (est.face) lines.push(`面段位：${est.face.text}${est.face.note ? `（${est.face.note}）` : ''}${tag}；位置 ${fmtDanPos(est.face.loc, 'ln')}`);
   else lines.push('面段位：暂无（没有整谱 97% ScoreV2 读数）');
   if (est.rateNote) lines.push(est.rateNote);

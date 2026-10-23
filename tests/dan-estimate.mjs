@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import {
-  danPoints, poolAdjacent, danTiers, locateDan, danText, danEstimate, danEstimateCopyLines, fmtDanPos,
-  DAN_MERGE_GAP, DAN_LN_FEW, DAN_FEW_LN_NOTE, DAN_UNRELIABLE_NOTE,
+  danPoints, poolAdjacent, danTiers, locateDan, danText, danEstimate, danEstimateCopyLines, fmtDanPos, singlePoints,
+  DAN_MERGE_GAP, DAN_LN_FEW, DAN_FEW_LN_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_LABEL, DAN_SINGLE_NOTE,
 } from '../docs/js/dan-estimate.js';
 import { validateDanReferences } from '../docs/js/dan-reference.js';
 import { buildCopyText } from '../docs/js/ui-lib.js';
@@ -106,11 +106,98 @@ test('danEstimate on the live references: rice and face, LN below 6th, few long 
 test('copy lines carry the decimal position and the caveats', () => {
   const lines = danEstimateCopyLines(danEstimate(ok(5.35, { reliable: false, lnFrac: 0.01, rate: 1.5 }), data));
   assert.match(lines[0], /^米段位：7th–8th 之间（偏 8th）（不可靠）；位置 [0-9.]+（1st=1/);
-  assert.match(lines[1], new RegExp(`^面段位：.*（${DAN_FEW_LN_NOTE}）（不可靠）；位置`));
-  assert.match(lines[2], /^DT：/);
+  assert.match(lines[1], /^米段位（按单曲换算）：≈ 8th（不可靠）；误差约 ±0\.15 段；位置 [0-9.]+（1st=1/);
+  assert.match(lines[2], new RegExp(`^面段位：.*（${DAN_FEW_LN_NOTE}）（不可靠）；位置`));
+  assert.match(lines[3], /^DT：/);
   assert.equal(fmtDanPos(locateDan(20, danTiers(danPoints(data, 'reform'))), 'reform').startsWith('约 '), true);
   const text = buildCopyText(ok(5.35), {}, 'x.osu', { version: 'v', frozen: 'f' }, null, null, false, danEstimate(ok(5.35), data));
   assert.match(text, /\n米段位：7th–8th 之间（偏 8th）；位置/);
+  assert.match(text, /\n米段位（按单曲换算）：≈ 8th；误差约 ±0\.15 段；位置 8\.\d\d（1st=1/);
   assert.match(text, /\n面段位：LN /);
   assert.equal(DAN_UNRELIABLE_NOTE.length > 0, true);
+});
+
+// ---------------------------------------------------------------- single-chart ruler ("按单曲换算")
+// Python (research repo analysis/bias-multidim-r1/A/dan_common.single_ruler on the 60 singles of a_tables.Data, P1hweb, file OD):
+// ruler points (star, dan position) and positions of a few stars (apply_single_ruler, linear extrapolation at both ends)
+const PY_SINGLE_POINTS = [[2.5071017942395084, 1.0], [2.8134410984039944, 2.5], [3.7335548517077726, 4.0], [4.127744111014477, 5.0],
+  [4.496105651393191, 6.0], [4.7658222964015335, 7.0], [5.307481007826056, 8.0], [5.608163884399707, 9.0], [5.819020432506001, 10.0],
+  [6.234944640932316, 11.0], [6.31976383886466, 12.0], [6.8094839191763405, 13.0], [7.272009818437607, 14.0], [8.088269921334097, 15.0],
+  [8.751658658993481, 16.0]];
+const PY_SINGLE_POS = [[2.0, -1.483039822245067], [2.7, 1.9445321077225382], [3.0, 2.804134517486795], [5.45, 8.473984397774759],
+  [5.48, 8.573757289207277], [5.91, 10.218740736054361], [7.1, 13.628107704428364], [8.0, 14.891860546631065],
+  [9.0, 16.374352663692687], [10.0, 17.88176444690787]];
+// the points the main session quoted (3 decimals)
+const QUOTED = [[2.507, 1], [2.813, 2.5], [3.734, 4], [4.128, 5], [4.496, 6], [4.766, 7], [5.307, 8], [5.608, 9], [5.819, 10], [6.235, 11],
+  [6.32, 12], [6.809, 13], [7.272, 14], [8.088, 15], [8.752, 16]];
+
+test('60 REFORM singles: 1st..Zeta, 2–6 per dan, no Eta; per-dan means', () => {
+  const e = data.reformSingles.entries;
+  assert.equal(e.length, 60);
+  const per = {};
+  for (const x of e) per[x.dan] = (per[x.dan] || 0) + 1;
+  assert.deepEqual(per, { '1st': 4, '2nd': 4, '3rd': 4, '4th': 3, '5th': 5, '6th': 4, '7th': 3, '8th': 4, '9th': 4, '10th': 4,
+    alpha: 3, beta: 4, gamma: 3, delta: 3, epsilon: 6, zeta: 2 });
+  const p = singlePoints(data);
+  assert.deepEqual(p.map((x) => x.pos), Array.from({ length: 16 }, (_, i) => i + 1));
+  assert.ok(p[1].star > p[2].star, '2nd single mean is above 3rd (pooled by the monotone step)');
+  assert.deepEqual(singlePoints({ groups: [] }), []);
+});
+
+test('single ruler tiers equal the Python points to 1e-6 (and the quoted 3-decimal values)', () => {
+  const t = danTiers(singlePoints(data));
+  assert.equal(t.length, PY_SINGLE_POINTS.length);
+  t.forEach((x, i) => {
+    assert.ok(Math.abs(x.star - PY_SINGLE_POINTS[i][0]) < 1e-6, `star ${i}`);
+    assert.ok(Math.abs(x.pos - PY_SINGLE_POINTS[i][1]) < 1e-6, `pos ${i}`);
+    assert.equal(Number(x.star.toFixed(3)), QUOTED[i][0]);
+    assert.equal(x.pos, QUOTED[i][1]);
+  });
+  assert.deepEqual(t.map((x) => x.label), ['1st', '2nd–3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', 'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta']);
+  for (const [star, pos] of PY_SINGLE_POS) assert.ok(Math.abs(locateDan(star, t).pos - pos) < 1e-6, `position at ${star}`);
+});
+
+test('single ruler readings of the proposal examples; Eta has no single and reads as extrapolated above Zeta', () => {
+  const single = (star) => danEstimate(ok(star), data).single;
+  assert.equal(single(7.10).text, 'Gamma–Delta 之间（居中）');
+  assert.equal(danEstimate(ok(7.10), data).rice.text, 'Gamma–Delta 之间（偏 Gamma）');
+  assert.equal(single(5.91).text, '10th–Alpha 之间（偏 10th）');
+  assert.equal(danEstimate(ok(5.91), data).rice.text, '9th–10th 之间（偏 10th）');
+  assert.equal(single(5.48).text, '8th–9th 之间（居中）');
+  assert.equal(single(5.45).text, '8th–9th 之间（居中）');
+  assert.equal(single(9.0).text, '高于 Zeta（外推）');
+  assert.ok(single(9.0).loc.extrapolated);
+  assert.equal(single(2.0).text, '低于 1st');
+  assert.equal(single(2.7).text, '1st 与 2nd–3rd 之间（居中）');
+  assert.equal(single(7.10).label, DAN_SINGLE_LABEL);
+  assert.equal(single(7.10).note, DAN_SINGLE_NOTE);
+  assert.equal(DAN_SINGLE_NOTE, '误差约 ±0.15 段');
+  assert.match(fmtDanPos(single(7.10).loc, 'reform'), /^13\.63（/);
+});
+
+test('no single row without singles data; the single row follows the rice row (rates, unreliable)', () => {
+  const noSingles = { ...data };
+  delete noSingles.reformSingles;
+  const e = danEstimate(ok(5.35), noSingles);
+  assert.equal(e.single, null);
+  assert.ok(e.rice);
+  assert.ok(!danEstimateCopyLines(e).some((l) => l.includes('按单曲换算')));
+  assert.ok(danEstimate(ok(5.35, { rate: 1.5 }), data).single);
+  assert.equal(danEstimate(ok(5.35, { reliable: false }), data).unreliable, true);
+});
+
+test('singles validation: count, Eta, ids, links', () => {
+  assert.doesNotThrow(() => validateDanReferences(structuredClone(data)));
+  const noSingles = structuredClone(data);
+  delete noSingles.reformSingles;
+  assert.doesNotThrow(() => validateDanReferences(noSingles));
+  const bad = (f) => { const d = structuredClone(data); f(d.reformSingles); assert.throws(() => validateDanReferences(d)); };
+  bad((s) => s.entries.pop());
+  bad((s) => { s.entries[0].dan = 'eta'; });
+  bad((s) => { s.entries[0].dan = 'theta'; });
+  bad((s) => { s.entries[1].id = s.entries[0].id; });
+  bad((s) => { s.entries[0].id = 'reform-1st'; });
+  bad((s) => { s.entries[0].url = 'javascript:alert(1)'; });
+  bad((s) => { s.entries[0].star = null; });
+  bad((s) => { s.entries[0].pattern = 'ln'; });
 });
