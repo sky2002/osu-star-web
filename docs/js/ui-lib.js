@@ -90,7 +90,7 @@ export function patternHints(items, star) {
       if (shown >= H.star[0] && shown <= H.star[1]) {
         hint.range = 'in';
         hint.delta = Math.round((H.k * pct) / 10) / 10;
-        hint.text += `同水平的人里，${H.name}最弱的三成比${H.name}最强的三成，大约觉得难 ${hint.delta.toFixed(1)} 星。`;
+        hint.text += `同水平的人里，${H.name}最弱的三分之一比${H.name}最强的三分之一，大约觉得难 ${hint.delta.toFixed(1)} 星。`;
         hint.note = HINT_GROUP_NOTE;
       } else if (shown > H.star[1]) {
         hint.range = 'above';

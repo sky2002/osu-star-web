@@ -55,7 +55,7 @@ test('jack number: 0.722 x percent, rounded to 0.1 star (45 % -> 0.3, 70 % -> 0.
   }
   const h = one(shares(0.70), 5.91, 'jack');
   assert.equal(h.tag, '叠苦手要小心');
-  assert.equal(h.text, '丢分 70% 在叠上。同水平的人里，叠最弱的三成比叠最强的三成，大约觉得难 0.5 星。');
+  assert.equal(h.text, '丢分 70% 在叠上。同水平的人里，叠最弱的三分之一比叠最强的三分之一，大约觉得难 0.5 星。');
   assert.equal(h.note, HINT_GROUP_NOTE);
   assert.equal(HINT_GROUP_NOTE, '（群体平均，不是你个人的读数）');
   assert.match(h.title, /0\.72 × 叠的失分占比/);
@@ -114,7 +114,7 @@ test('hints show only where the key-pattern items show: NoMod, file OD, not vari
 test('copy lines add one line per hint', () => {
   const lines = patternItemCopyLines(result({ jack: 0.7, ln: 0.35 }));
   assert.equal(lines.length, 4);
-  assert.equal(lines[2], '苦手提示：叠苦手要小心——丢分 70% 在叠上。同水平的人里，叠最弱的三成比叠最强的三成，大约觉得难 0.5 星。（群体平均，不是你个人的读数）');
+  assert.equal(lines[2], '苦手提示：叠苦手要小心——丢分 70% 在叠上。同水平的人里，叠最弱的三分之一比叠最强的三分之一，大约觉得难 0.5 星。（群体平均，不是你个人的读数）');
   assert.equal(lines[3], '苦手提示：长条苦手要小心——丢分 35% 在长条上。');
   assert.equal(patternItemCopyLines(result({ jack: 0.1 })).length, 2);
   assert.equal(patternItemCopyLines(result({ star: 7.1, jack: 0.51 }))[2], '苦手提示：叠苦手要小心——丢分 51% 在叠上。（7 星以上没检验过差几星，不给数字）');

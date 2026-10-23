@@ -28,7 +28,7 @@ export const DAN_ESTIMATE_NOTE =
 export const DAN_RATE_NOTE = (mod) => `${mod}：用这个倍速下的读数和 NoMod 段位谱比较，段位谱本身不变速。`;
 export const DAN_FEW_LN_NOTE = '长条很少，仅供参考';
 export const DAN_UNRELIABLE_NOTE = '星数不可靠，段位也不可靠';
-export const DAN_SINGLE_LABEL = '按单曲换算';
+export const DAN_SINGLE_LABEL = '米段位（按单曲）';
 // 每段只有 2–6 首单曲，含不含叠单曲两种做法最多差 0.17 段
 export const DAN_SINGLE_NOTE = '误差约 ±0.15 段';
 export const DAN_SINGLE_TITLE =
@@ -191,7 +191,8 @@ export function danEstimateCopyLines(est) {
   const lines = [];
   const tag = est.unreliable ? '（不可靠）' : '';
   if (est.rice) lines.push(`米段位：${est.rice.text}${tag}；位置 ${fmtDanPos(est.rice.loc, 'reform')}`);
-  if (est.single) lines.push(`米段位（${est.single.label}）：${est.single.text}${tag}；${est.single.note}；位置 ${fmtDanPos(est.single.loc, 'reform')}`);
+  // 复制文本里这一行的写法固定为“米段位（按单曲换算）”，不跟结果卡上的标签 DAN_SINGLE_LABEL 走
+  if (est.single) lines.push(`米段位（按单曲换算）：${est.single.text}${tag}；${est.single.note}；位置 ${fmtDanPos(est.single.loc, 'reform')}`);
   if (est.face) lines.push(`面段位：${est.face.text}${est.face.note ? `（${est.face.note}）` : ''}${tag}；位置 ${fmtDanPos(est.face.loc, 'ln')}`);
   else lines.push('面段位：暂无（没有整谱 97% ScoreV2 读数）');
   if (est.rateNote) lines.push(est.rateNote);
