@@ -11,7 +11,8 @@ const docs = path.join(root, 'docs');
 const outDir = path.join(root, 'dist', 'osu-star-tosu');
 // the worker's import graph (js/worker.js -> engine, reader, ...) and the helper worker
 const JS = ['worker.js', 'sl-worker.js', 'pool.js', 'engine.js', 'reader.js', 'osu.js', 'tokens.js', 'tdist.js', 'features.js',
-  'tree.js', 'md5.js', 'pyutil.js', 'dan-estimate.js', 'dan-reference.js', 'ui-lib.js', 'acc-ladder.js', 'pattern-items.js'];
+  'tree.js', 'md5.js', 'pyutil.js', 'dan-estimate.js', 'dan-reference.js', 'ui-lib.js', 'acc-ladder.js', 'pattern-items.js',
+  'cnn36.js', 'new-star.js'];   // imported by engine.js; the counter never asks for the new star, so the CNN36 model files stay out
 const MODEL = ['reader.json', 'tree.json', 'support.json', 'support-dt.json', 'encoder.onnx', 'acc-ladder.json', 'pattern-items.json'];
 
 fs.rmSync(outDir, { recursive: true, force: true });

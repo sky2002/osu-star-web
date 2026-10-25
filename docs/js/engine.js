@@ -8,6 +8,10 @@ import { predictTree } from './tree.js';
 import { Reader, RATE_MIN, RATE_MAX } from './reader.js';
 import { md5Hex } from './md5.js';
 import { classifyNotes, calibInputs, itemReadouts } from './pattern-items.js';
+import { cnnGrid, Cnn36 } from './cnn36.js';
+// new star (test, experimental switch only): the P1h recipe refitted with one more column, the CNN36 reading (research repo
+// docs/cnn36-web-r1 results; tree = mean of the 20 seeds of stack_eval arm ctrl+new@s29). Checked at NoMod and DT, file OD.
+import { CNN_RATES } from './new-star.js';
 
 export const VERSION = '树星数 v1 (P1h)';
 export const FROZEN = '2026-10-14';
@@ -50,6 +54,7 @@ export async function createEngine({ ort, loadBytes, loadJson, makePool = null }
   eng.supportDt = supportDt;
   eng.patternItems = patternItems;
   eng.pool = pool;
+  eng.assets = { ort, loadBytes, loadJson };   // the new-star model loads on first use (cnn36.onnx is about 11 MB)
   return eng;
 }
 
@@ -65,8 +70,9 @@ export class Engine {
   // withV2: the whole-chart 97 % ScoreV2 reading (LN dan estimate; ScoreV2 of every action, no re-judging) -> result.v2.
   // withSub: the experimental items (rice / face / OD8-OD9 re-judge) -> result.sub; implies withV2.
   // withItems: the key-pattern items (beta; NoMod 1.0x, no hit mod, file OD only) -> result.items, else result.items = null.
+  // withCnn: the new star (test) -> result.cnn ({ ok, star, ... } or { ok: false, reason, text }); never changes result.star.
   async scoreBytes(bytes, { oszHasOsb = false, onProgress = null, withSegments = true, rate = 1, withSub = true, withV2 = true, hit = '',
-    odOverride = null, withItems = true } = {}) {
+    odOverride = null, withItems = true, withCnn = false } = {}) {
     const t0 = performance.now();
     const text = new TextDecoder('utf-8').decode(bytes);
     const meta = metadata(text);
@@ -74,7 +80,7 @@ export class Engine {
       beatmapSetId: meta.beatmapSetId, md5: md5Hex(bytes), mode: meta.mode, keys: meta.keys };
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
-      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride, withItems });
+      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride, withItems, withCnn });
       return { ok: true, ...base, ...r, seconds: (performance.now() - t0) / 1000 };
     } catch (e) {
       const reason = e instanceof ChartError ? e.reason : 'parse_error';
@@ -86,11 +92,15 @@ export class Engine {
     }
   }
 
-  async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null, withItems = true }) {
+  async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null, withItems = true,
+    withCnn = false }) {
     // 1. hand features (same order as the reference: parse_osu checks mode / keys / note count first); times / rate, file OD
     const pf = parseOsuFeat(text);
     if (odOverride !== null) pf.od = odOverride;
     const fn = prepareFeatureNotes(pf);
+    // the CNN grid takes the unscaled times (it rounds times / rate to the ms itself), so build it before the division below
+    const cnnUntested = !CNN_RATES.includes(rate) || hit !== '' || odOverride !== null;
+    const grid = withCnn && !cnnUntested ? cnnGrid(fn.s, fn.c, fn.e, fn.od, rate) : null;
     if (rate !== 1) for (let i = 0; i < fn.s.length; i++) { fn.s[i] /= rate; fn.e[i] = fn.e[i] >= 0 ? fn.e[i] / rate : -1; }
     const F = feats(fn.s, fn.c, fn.e, fn.od);
     // 2. theta* from the encoder + reference-path second layer
@@ -105,6 +115,9 @@ export class Engine {
     const row = this.tree.columns.map(c => (c === 's29' ? theta : F[c]));
     const reading = predictTree(this.tree, row);
     const star = this.tree.star_scale.a + this.tree.star_scale.b * reading;
+    const cnn = !withCnn ? null
+      : cnnUntested ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
+        : await this.cnnStar({ grid, F, theta, rate, onProgress });
     // 4. whole-chart 97 % ScoreV2 reading (LN dan estimate), then the experimental rice / face items and the OD8 (OD9) reading
     const v2 = withSub || withV2 ? this.v2Reading({ tk, lnV2, tapV2, theta, star }) : null;
     const sub = withSub ? await this.subReadings({ tk, od, v1a, lnV2, tapV2, ls, theta, flag, star, rate, hit, pool: usePool ? this.pool : null, v2 }) : null;
@@ -142,7 +155,65 @@ export class Engine {
     let tmax = 0;
     for (const n of notes) tmax = Math.max(tmax, n[1], n[0]);
     return { rate, hit, odOverride, star, reading, theta, thetaFlag: flag, nNotes: tk.nNotes, nActions: tk.nActions, od, durationS: tmax / 1000 / rate,
-      features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub, items };
+      features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub, items,
+      cnn };
+  }
+
+  // only the new star, for a chart whose P1h result (theta*) the page already has: the same hand features and CNN grid as
+  // score(), without the encoder. -> the result.cnn object.
+  async cnnOnly(bytes, { rate = 1, theta, hit = '', odOverride = null }) {
+    if (!CNN_RATES.includes(rate) || hit !== '' || odOverride !== null) {
+      return { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' };
+    }
+    try {
+      const fn = prepareFeatureNotes(parseOsuFeat(new TextDecoder('utf-8').decode(bytes)));
+      const grid = cnnGrid(fn.s, fn.c, fn.e, fn.od, rate);
+      if (rate !== 1) for (let i = 0; i < fn.s.length; i++) { fn.s[i] /= rate; fn.e[i] = fn.e[i] >= 0 ? fn.e[i] / rate : -1; }
+      return await this.cnnStar({ grid, F: feats(fn.s, fn.c, fn.e, fn.od), theta, rate });
+    } catch (e) {
+      return { ok: false, reason: 'parse_error', text: '新星数计算出错：' + String(e && e.message || e) };
+    }
+  }
+
+  ensureCnn36() {
+    if (!this.cnnLoad) {
+      const { ort, loadBytes, loadJson } = this.assets;
+      this.cnnLoad = (async () => {
+        const [onnx, tree, support, supportDt] = await Promise.all([loadBytes('model/cnn36.onnx'), loadJson('model/tree-cnn36.json'),
+          loadJson('model/support-cnn36.json'), loadJson('model/support-cnn36-dt.json')]);
+        const session = await ort.InferenceSession.create(onnx, { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });
+        return { model: new Cnn36(session, ort), tree, support, supportDt };
+      })();
+      this.cnnLoad.catch(() => { this.cnnLoad = null; });   // a failed download may be retried with the next chart
+    }
+    return this.cnnLoad;
+  }
+
+  // new star (test): the 20-tree mean on the 22 hand features, theta* and the CNN36 reading (mean of 10 models x original / mirrored)
+  async cnnStar({ grid, F, theta, rate, onProgress }) {
+    const t0 = performance.now();
+    let C, cnnReading;
+    try {
+      if (onProgress) onProgress('新星数', 0);
+      C = await this.ensureCnn36();
+    } catch (e) {
+      return { ok: false, reason: 'load_error', text: '新星数模型加载失败：' + String(e && e.message || e) };
+    }
+    try {
+      cnnReading = await C.model.reading(grid);
+    } catch (e) {
+      return { ok: false, reason: 'run_error', text: '新星数计算出错：' + String(e && e.message || e) };
+    }
+    if (onProgress) onProgress('新星数', 100);
+    const row = C.tree.columns.map(c => (c === 's29' ? theta : c === 'cnn36' ? cnnReading : F[c]));
+    const reading = predictTree(C.tree, row);
+    const star = C.tree.star_scale.a + C.tree.star_scale.b * reading;
+    const S = rate > 1.25 ? C.supportDt : C.support;
+    const onWhat = rate > 1.25 ? '排名谱 DT 读数' : '排名谱';
+    const reasons = [];
+    if (star > S.star.max) reasons.push(`新星数高于所有${onWhat}的最高读数（${S.star.max.toFixed(2)}）`);
+    if (cnnReading < S.cnn36.min || cnnReading > S.cnn36.max) reasons.push(`CNN36 读数超出${onWhat}范围`);
+    return { ok: true, star, reading, cnnReading, outOfRange: reasons.length > 0, outOfRangeReasons: reasons, ms: performance.now() - t0 };
   }
 
   // key-pattern items (route A, arm C2; research repo analysis/web-items-r1/wi_ref.py): a second pass of the second layer with

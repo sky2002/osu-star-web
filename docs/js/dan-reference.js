@@ -9,8 +9,11 @@ export const LN_REFERENCE_NOTE = '这一列按 LN 段位的标准（97% ScoreV2�
 export const LN_REFERENCE_MIN_DAN = 6;   // 与面段位一致：LN 5 段及以下社区没有定论，不列
 export const DAN_REFERENCE_WARNING = '当前谱面读数不可靠，附近参考也请谨慎看待。';
 
-export function validateDanReferences(data) {
-  if (!data || data.version !== 'P1h' || data.modelVersion !== '树星数 v1 (P1h)' || data.frozen !== '2026-10-14' || typeof data.starV2Line !== 'string' || !Array.isArray(data.groups) || data.groups.length !== 2) {
+// expect: the model the file must belong to (the new-star test file data/dan-references-cnn36.json passes its own)
+export const P1H_REFERENCES = { version: 'P1h', modelVersion: '树星数 v1 (P1h)', frozen: '2026-10-14' };
+
+export function validateDanReferences(data, expect = P1H_REFERENCES) {
+  if (!data || data.version !== expect.version || data.modelVersion !== expect.modelVersion || data.frozen !== expect.frozen || typeof data.starV2Line !== 'string' || !Array.isArray(data.groups) || data.groups.length !== 2) {
     throw new Error('段位参考版本或格式不正确');
   }
   const identifiers = new Set();

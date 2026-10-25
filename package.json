@@ -14,7 +14,9 @@
     "build:tosu": "node tools/build-tosu.mjs",
     "test:dan": "node --test tests/dan-estimate.mjs",
     "test:hints": "node --test tests/pattern-hints.mjs",
-    "test:tosu": "node tools/build-tosu.mjs && node --test tests/tosu-player.mjs"
+    "test:tosu": "node tools/build-tosu.mjs && node --test tests/tosu-player.mjs",
+    "test:cnn36": "node tests/cnn36.mjs",
+    "test:cnn36-star": "node tests/compare_cnn36_star.mjs --every 6"
   },
   "dependencies": {
     "fflate": "0.8.3",

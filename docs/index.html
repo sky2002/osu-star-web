@@ -23,6 +23,14 @@
     <span class="dot" aria-hidden="true"></span><span id="status-text">正在加载模型（首次约 15 MB）…</span>
   </div>
 
+  <div id="star-model" class="mods" role="group" aria-label="星数模型">
+    <span class="mods-label">模型</span>
+    <button type="button" class="mod" data-model="p1h" aria-pressed="true">P1h <small>现行</small></button>
+    <button type="button" class="mod" data-model="cnn36" aria-pressed="false">CNN36 <small>测试版</small></button>
+    <button type="button" class="mod" data-model="both" aria-pressed="false">两个都看</button>
+  </div>
+  <p class="model-note muted"><small>CNN36 是测试版的新星数：P1h 再多看一个直接读谱面的小卷积网络，只核过 NoMod 和 DT，第一次用要多下载约 11 MB。说明见下方“新星数（测试版）”。</small></p>
+
   <div id="mods" class="mods" role="group" aria-label="Mod（倍速）">
     <span class="mods-label">Mod</span>
     <button type="button" class="mod" data-rate="1" aria-pressed="true">NoMod</button>
@@ -105,6 +113,17 @@
         <li>分项★ 和失分构成各管一件事：分项★ 是“这张谱里这类键本身有多难”；失分构成是“难度有多少压在这类键上”。某类键苦手的人在哪张谱上吃亏，看的是后者。</li>
       </ul>
       <p><strong>和社区段位标签的差别</strong>：和社区给谱面标的段位比，网页的米段位整体偏低。非叠谱换成单曲尺子、按段位谱的 OD 读以后，基本就不偏了。叠谱原本偏低约 1.3 段，换完还剩约 1 段：其中约 0.3 段来自“按谁的手来读”（见上面几条），其余约 0.7 段是“96% 准确率”和“段位通关手感”本来就不是一回事、加上读数误差，目前分不清。</p>
+    </details>
+    <details>
+      <summary>新星数（测试版，CNN36）</summary>
+      <ul>
+        <li>页面最上面的“模型”可以选：P1h（现行星数）、CNN36（只看新星数）、两个都看（P1h 为主，结果卡里多一块“新星数”并排对比）。新星数和现行星数同一刻度、同一约定（谁打谁定、96% ScoreV1），只是模型多看了一样东西。</li>
+        <li>只看 CNN36 时，段位按 CNN36 自己读出的段位谱换算；键型分项、米 / 面分项这些挂在总星数上的读数按同一个差平移（它们本来就定义成“总星数 + 一个差”）；分段曲线不变。</li>
+        <li>多看的是一个小卷积网络（CNN36）：直接读整张谱每 10 毫秒四列的按下、松开、按住，学排名谱上大家实际打出来的难度。它和原来的 22 项谱面统计、参照水平读数一起交给同一种树，20 棵树取平均。</li>
+        <li>检验过的：在没进过训练的排名谱上，人群认为差 0.2–0.5 星的谱对，新星数判对 82.9%，现在的星数 80.5%；REFORM 段位谱逐段变难，没有倒挂；在群友 replay 上两者打平，没看出变差。</li>
+        <li>只核过 NoMod 和 DT（谱面文件 OD）；HT、自定义 OD 下不给。</li>
+        <li>第一次用要多下载模型（CNN36 约 11 MB、新的树约 2.7 MB），每张谱多算一两秒；已经算好的谱切过去只补算新星数。觉得哪张谱新星数更准或更离谱，欢迎反馈（复制读数信息时会带上新星数）。</li>
+      </ul>
     </details>
     <details>
       <summary>版本</summary>

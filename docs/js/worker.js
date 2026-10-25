@@ -39,6 +39,18 @@ async function handle(m) {
     }
     return;
   }
+  if (m.type === 'cnn') {   // new star only, for a chart the page already scored with P1h (theta* comes from that result)
+    let cnn;
+    try {
+      if (!engine) throw new Error('model not loaded');
+      cnn = await engine.cnnOnly(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
+        rate: m.rate || 1, theta: m.theta, hit: m.hit || '', odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null });
+    } catch (e) {
+      cnn = { ok: false, reason: 'run_error', text: '新星数计算出错：' + String(e && e.message || e) };
+    }
+    self.postMessage({ type: 'result', id: m.id, result: { cnnOnly: true, cnn } });
+    return;
+  }
   if (m.type === 'score') {
     const id = m.id;
     let result;
@@ -52,6 +64,7 @@ async function handle(m) {
         odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
         withSub: !!m.withSub,
         withItems: !!m.withItems,   // key-pattern items (beta): the web page asks for them; the tosu counter does not
+        withCnn: !!m.withCnn,       // new star (test): only with the experimental switch on
         onProgress: (stage, pct) => {
           const p = Math.round(pct);
           if (p !== last) { last = p; self.postMessage({ type: 'progress', id, stage, pct: p }); }

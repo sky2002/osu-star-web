@@ -86,6 +86,10 @@ async function score(msg) {
           },
         };
       })(),
+      cnn: !msg.withCnn ? null : rate === 0.75
+        ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
+        : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: b % 13 === 0,
+          outOfRangeReasons: b % 13 === 0 ? ['CNN36 读数超出排名谱范围'] : [], ms: 1 },
     };
   }
   self.postMessage({ type: 'result', id, result });
@@ -96,6 +100,15 @@ self.onmessage = async (ev) => {
   if (msg.type === 'init') {
     await sleep(500);
     self.postMessage({ type: 'ready', version: '树星数 v1 (P1h)', frozen: '2026-10-14', loadMs: 500 });
+  } else if (msg.type === 'cnn') {
+    await sleep(DELAY_MS);
+    const b = parseInt(md5Hex(msg.bytes).slice(0, 8), 16);
+    const rate = msg.rate || 1;
+    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : 0);
+    const cnn = rate === 0.75 || Number.isFinite(msg.odOverride)
+      ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
+      : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: false, outOfRangeReasons: [], ms: 1 };
+    self.postMessage({ type: 'result', id: msg.id, result: { cnnOnly: true, cnn } });
   } else if (msg.type === 'score') {
     try {
       await score(msg);

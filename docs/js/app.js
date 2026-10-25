@@ -13,6 +13,9 @@ import {
   LADDER_TITLE, LADDER_CAPTION, LADDER_LABEL, LADDER_UNRELIABLE_NOTE,
 } from './acc-ladder.js';
 import { danEstimate, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_TITLE } from './dan-estimate.js';
+import {
+  newStarView, newStarCopyLines, cnnViewResult, needsCnn, STAR_MODELS, CNN_REFERENCES, CNN_VERSION, CNN_FROZEN, NEW_STAR_NOTE, CNN_OFF_HINT,
+} from './new-star.js';
 
 const RATES = [1, 0.75, 1.5];
 const MOD_KEY = 'osu-star-web.mod';
@@ -59,7 +62,21 @@ const state = {
   referencesPhase: 'loading',
   ladder: null,
   ladderPhase: 'loading',
+  starModel: loadStarModel(), // 页面最上面的星数模型开关：p1h | cnn36 | both
+  cnnReferences: null,   // 新星数（CNN36）的段位参照，第一次选 CNN36 或“两个都看”时才加载
+  cnnReferencesPhase: 'idle', // idle | loading | ready | error
 };
+
+const MODEL_KEY = 'osu-star-web.model';
+function loadStarModel() {
+  try {
+    const v = localStorage.getItem(MODEL_KEY);
+    return STAR_MODELS.includes(v) ? v : 'p1h';
+  } catch { return 'p1h'; }
+}
+function saveStarModel(v) {
+  try { localStorage.setItem(MODEL_KEY, v); } catch { /* 不记住也没关系 */ }
+}
 
 function loadMod() {
   try {
@@ -106,7 +123,9 @@ function resultFor(it, key) { return it.rejectAll || it.results.get(key) || null
 function hasUsableResult(it, key) {
   const res = resultFor(it, key);
   if (!res) return false;
-  if (!res.ok || !state.experimental) return true;
+  if (!res.ok) return true;
+  if (needsCnn(state.starModel) && !res.cnnComputed) return false;   // 选了 CNN36 / 两个都看：补算新星数（不重跑 P1h）
+  if (!state.experimental) return true;
   return !!res.subComputed;   // 关着开关时算出的结果没有分项，开着时要重算
 }
 
@@ -122,6 +141,23 @@ async function loadDanReferences() {
     state.referencesPhase = 'error';
   } finally {
     clearTimeout(timeout);
+    for (const item of state.items) {
+      if (item.status === 'done' && item.result?.ok) renderItem(item);
+    }
+  }
+}
+
+async function loadCnnReferences() {
+  if (state.cnnReferencesPhase !== 'idle' && state.cnnReferencesPhase !== 'error') return;
+  state.cnnReferencesPhase = 'loading';
+  try {
+    const response = await fetch(new URL('../data/dan-references-cnn36.json', import.meta.url));
+    if (!response.ok) throw new Error('新星数段位参照加载失败');
+    state.cnnReferences = validateDanReferences(await response.json(), CNN_REFERENCES);
+    state.cnnReferencesPhase = 'ready';
+  } catch {
+    state.cnnReferencesPhase = 'error';
+  } finally {
     for (const item of state.items) {
       if (item.status === 'done' && item.result?.ok) renderItem(item);
     }
@@ -221,14 +257,23 @@ function pump() {
   const next = state.items.find((x) => x.bytes && !x.failed && !hasUsableResult(x, key));
   if (!next) return;
   const job = ++state.job;
-  state.current = { it: next, rate, od, key, job, withSub: state.experimental };
+  const withCnn = needsCnn(state.starModel);
+  // P1h 结果已经够用、只差新星数：只补算新星数（同一套谱面特征 + CNN36，不重跑逐动作模型）
+  const have = resultFor(next, key);
+  const cnnOnly = !!(have && have.ok && withCnn && !have.cnnComputed && (!state.experimental || have.subComputed));
+  state.current = { it: next, rate, od, key, job, withSub: state.experimental, withCnn, kind: cnnOnly ? 'cnn' : 'score' };
   next.status = 'running';
-  next.stage = '开始';
+  next.stage = cnnOnly ? '新星数' : '开始';
   next.pct = 0;
   renderItem(next);
   const bytes = next.bytes.slice();
+  if (cnnOnly) {
+    state.worker.postMessage({ type: 'cnn', id: job, bytes, rate, odOverride: od, theta: have.theta }, [bytes.buffer]);
+    return;
+  }
   state.worker.postMessage(
-    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, odOverride: od, withSub: state.experimental, withItems: true },
+    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, odOverride: od, withSub: state.experimental, withItems: true,
+      withCnn },
     [bytes.buffer],
   );
 }
@@ -238,14 +283,22 @@ function finishCurrent(result) {
   state.current = null;
   if (cur) {
     const it = cur.it;
-    const res = result || { ok: false, reason: 'parse_error', message: '没有收到计算结果' };
-    if (res.ok) res.subComputed = !!cur.withSub;
-    if (!res.ok && RATE_FREE_REJECT.includes(res.reason)) it.rejectAll = res;
-    else it.results.set(cur.key, res);
-    // 算的过程中设置变了（换了 Mod / OD，或刚打开实验性功能）就不显示，pump 会按新设置排队
+    if (cur.kind === 'cnn') {
+      const res = it.results.get(cur.key);
+      if (res) {
+        res.cnn = (result && result.cnn) || { ok: false, reason: 'run_error', text: (result && result.message) || '新星数没有算出来' };
+        res.cnnComputed = true;
+      }
+    } else {
+      const res = result || { ok: false, reason: 'parse_error', message: '没有收到计算结果' };
+      if (res.ok) { res.subComputed = !!cur.withSub; res.cnnComputed = !!cur.withCnn; }
+      if (!res.ok && RATE_FREE_REJECT.includes(res.reason)) it.rejectAll = res;
+      else it.results.set(cur.key, res);
+    }
+    // 算的过程中设置变了（换了 Mod / OD / 星数模型，或刚打开实验性功能）就不显示，pump 会按新设置排队
     if (cur.key === settingKey() && hasUsableResult(it, cur.key)) {
       it.status = 'done';
-      it.result = res;
+      it.result = resultFor(it, cur.key);
       renderItem(it);
     }
   }
@@ -267,7 +320,9 @@ function applySetting() {
     if (it.status === 'skipped' || it.failed) continue;
     const cur = state.current;
     if (hasUsableResult(it, key)) { it.status = 'done'; it.result = resultFor(it, key); }
-    else if (cur && cur.it === it && cur.key === key && (cur.withSub || !state.experimental)) { it.status = 'running'; it.result = null; }
+    else if (cur && cur.it === it && cur.key === key && (cur.withSub || !state.experimental) && (cur.withCnn || !needsCnn(state.starModel))) {
+      it.status = 'running'; it.result = null;
+    }
     else { it.status = 'queued'; it.result = null; }
     renderItem(it);
   }
@@ -290,6 +345,22 @@ function setExperimental(on) {
   if (box) box.checked = state.experimental;
   syncOdUi();
   applySetting();
+}
+
+// 星数模型：P1h（现行）/ CNN36（测试）/ 两个都看。切到需要 CNN36 的选项时，已算好的谱只补算新星数
+function setStarModel(mode) {
+  if (!STAR_MODELS.includes(mode)) return;
+  state.starModel = mode;
+  saveStarModel(mode);
+  syncModelButtons();
+  if (needsCnn(mode)) loadCnnReferences();
+  applySetting();
+}
+
+function syncModelButtons() {
+  for (const b of document.querySelectorAll('#star-model [data-model]')) {
+    b.setAttribute('aria-pressed', String(b.dataset.model === state.starModel));
+  }
 }
 
 function setOdCustom(on) {
@@ -401,7 +472,11 @@ function updateProgress(it) {
 
 function renderItem(it) {
   const header = it.header || {};
-  const r = it.result;
+  const raw = it.result;
+  // 只看 CNN36：总星数和挂在它上面的读数换成新星数版本；这张谱没有新星数（HT、自定义 OD 等）时整卡显示原因
+  const cnnMode = state.starModel === 'cnn36' && !!(raw && raw.ok);
+  const cnnView = cnnMode ? cnnViewResult(raw) : null;
+  const r = cnnView || raw;
   const meta = mergeMeta(header, r && !it.skip ? r : null);
   const title = displayName(meta, it.name);
   const el = it.el;
@@ -429,17 +504,26 @@ function renderItem(it) {
       h('div', { class: 'bar', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100' }, h('i', { style: `width:${it.pct}%` })),
       h('div', { class: 'stage muted', text: `${it.stage || '计算中'} ${Math.round(it.pct)}%` }),
     );
+  } else if (cnnMode && !cnnView) {
+    el.classList.add('skipped');
+    side = h('div', { class: 'star none', text: '—' });
+    extra.push(h('div', { class: 'msg muted', text: `CNN36：${(raw.cnn && raw.cnn.text) || '这张谱没有新星数'}。${CNN_OFF_HINT}` }));
   } else if (r && r.ok) {
     const reasons = unreliableReasons(r);
     if (reasons.length) el.classList.add('unreliable');
     const tag = MOD_SHORT[r.rate || 1];
-    side = h('div', { class: 'star' }, '★ ' + fmtStar(r.star), tag ? h('span', { class: 'mod-tag', text: tag }) : null);
+    side = h('div', { class: 'star' }, '★ ' + fmtStar(r.star), tag ? h('span', { class: 'mod-tag', text: tag }) : null,
+      r.model === 'cnn36' ? h('span', { class: 'mod-tag', title: CNN_VERSION, text: 'CNN36' }) : null);
     if (state.experimental && r.sub && r.sub.v2 && Number.isFinite(r.sub.v2.star)) {
       side.append(h('span', { class: 'star-alt', title: `整谱按 97% ScoreV2（LN 段位口径，${odSource(r)}）读出的星数，约定换算，仅供参考`,
         text: 'LN 口径 ★ ' + fmtStar(r.sub.v2.star) }));
     }
     const de = danEstimateRow(r);
     if (de) extra.push(de);
+    if (state.starModel === 'both') {
+      const ns = newStarPanel(r);
+      if (ns) extra.push(ns);
+    }
     if (reasons.length) {
       extra.push(h('div', { class: 'warn' },
         h('span', { class: 'tag', text: '不可靠' }),
@@ -477,10 +561,17 @@ function renderItem(it) {
 }
 
 // 米 / 面段位：紧跟在谱名下面，和主读数并排
+// 段位参照跟着读数的模型走：CNN36 的读数只和 CNN36 自己读出的段位谱比
+function referencesFor(result) {
+  return result && result.model === 'cnn36'
+    ? { data: state.cnnReferences, loading: state.cnnReferencesPhase === 'loading' || state.cnnReferencesPhase === 'idle' }
+    : { data: referencesForModel(state.references, state.ver), loading: state.referencesPhase === 'loading' };
+}
+
 function danEstimateRow(result) {
-  const data = referencesForModel(state.references, state.ver);
+  const { data, loading } = referencesFor(result);
   if (!data) {
-    return state.referencesPhase === 'loading' ? h('div', { class: 'dan-est muted', text: '正在加载段位参照…' }) : null;
+    return loading ? h('div', { class: 'dan-est muted', text: '正在加载段位参照…' }) : null;
   }
   const est = danEstimate(result, data);
   if (!est) return null;
@@ -503,7 +594,30 @@ function danEstimateRow(result) {
     notes.length ? h('div', { class: est.unreliable ? 'dan-est-caution' : 'dan-est-sub muted', text: notes.join(' ') }) : null);
 }
 
-// 键型分项（测试版）：叠 / 速度 / 切★ 与失分构成，单独一块，不和米 / 面分项混在一起
+// 新星数（测试版）：只在实验性功能里显示；和上面的总星数并排比较，米段位按新星数自己的段位参照换算
+function newStarPanel(result) {
+  const v = newStarView(result, state.cnnReferences);
+  if (!v) return null;
+  const head = h('h3', null, '新星数', h('span', { class: 'beta-tag', text: '测试版' }));
+  if (v.state !== 'ok') {
+    return h('section', { class: 'sub-items new-star off', 'aria-label': '新星数（测试版）' }, head, h('p', { class: 'muted sub-caption', text: v.text }));
+  }
+  const sign = v.delta >= 0 ? '+' : '−';
+  const row = (label, star, text) => h('li', null,
+    h('span', { class: 'sub-label', text: label }), h('strong', { class: 'sub-star', text: star }), text ? h('span', { class: 'sub-text muted', text }) : null);
+  const list = h('ul', { class: 'sub-list' }, row('总星数', '★ ' + fmtStar(v.star), `比上面 ${sign}${Math.abs(v.delta).toFixed(2)}`));
+  if (v.dan && v.dan.rice) list.append(row('米段位', v.dan.rice.text, ''));
+  if (v.dan && v.dan.single) list.append(row('米段位（按单曲）', v.dan.single.text, v.dan.single.note));
+  if (!v.dan) {
+    list.append(row('米段位', '—', state.cnnReferencesPhase === 'error' ? '段位参照加载失败' : '正在加载段位参照…'));
+  }
+  const warn = v.reliable ? null : h('div', { class: 'warn' }, h('span', { class: 'tag', text: '不可靠' }),
+    h('ul', null, (v.reasons.length ? v.reasons : ['上面的星数不可靠，新星数也一样']).map((x) => h('li', { text: x }))));
+  return h('section', { class: 'sub-items new-star', 'aria-label': '新星数（测试版）' },
+    head, list, warn, h('p', { class: 'muted sub-caption', text: NEW_STAR_NOTE }));
+}
+
+// 键型分项（测试版）：叠 / 乱切 / 单手交互★ 与失分构成，单独一块，不和米 / 面分项混在一起
 function patternPanel(result) {
   const v = patternItemView(result);
   if (!v) return null;
@@ -546,9 +660,10 @@ function subPanel(result) {
 function danReferencePanel(result) {
   const panel = h('section', { class: 'dan-reference', 'aria-label': '附近段位参考谱' },
     h('h3', { text: '附近段位参考谱' }));
-  const view = selectDanReferences(result, referencesForModel(state.references, state.ver));
+  const refs = referencesFor(result);
+  const view = selectDanReferences(result, refs.data);
   if (!view?.available) {
-    panel.append(h('p', { class: 'muted dan-caption', text: state.referencesPhase === 'loading' ? '正在加载段位参考…' : '段位参考暂不可用；星数计算不受影响。' }));
+    panel.append(h('p', { class: 'muted dan-caption', text: refs.loading ? '正在加载段位参考…' : '段位参考暂不可用；星数计算不受影响。' }));
     return panel;
   }
   panel.append(h('p', { class: 'muted dan-caption', text: DAN_REFERENCE_NOTE }));
@@ -671,10 +786,16 @@ function copyRow(it) {
   const btn = h('button', { type: 'button', class: 'btn small', text: '复制读数信息' });
   const row = h('div', { class: 'actions' }, btn);
   btn.addEventListener('click', async () => {
-    const references = selectDanReferences(it.result, referencesForModel(state.references, state.ver));
-    const dan = danEstimate(it.result, referencesForModel(state.references, state.ver));
-    const text = buildCopyText(it.result, it.header, it.name, state.ver, references,
-      state.experimental ? ladderCopyLine(state.ladder, it.result) : null, state.experimental, dan);
+    const raw = it.result;
+    const r = (state.starModel === 'cnn36' && cnnViewResult(raw)) || raw;
+    const cnn = r && r.model === 'cnn36';
+    const { data } = referencesFor(r);
+    let text = buildCopyText(r, it.header, it.name, cnn ? { version: CNN_VERSION, frozen: CNN_FROZEN } : state.ver, selectDanReferences(r, data),
+      state.experimental ? ladderCopyLine(state.ladder, r) : null, state.experimental, danEstimate(r, data));
+    if (state.starModel === 'both') {
+      const lines = newStarCopyLines(newStarView(raw, state.cnnReferences), fmtStar);
+      if (lines.length) text += '\n' + lines.join('\n');
+    }
     const ok = await copyText(text);
     row.querySelector('textarea')?.remove();
     if (ok) {
@@ -741,6 +862,10 @@ function setupUi() {
     b.addEventListener('click', () => setMod(Number(b.dataset.rate)));
   }
   syncModButtons();
+  for (const b of document.querySelectorAll('#star-model [data-model]')) {
+    b.addEventListener('click', () => setStarModel(b.dataset.model));
+  }
+  syncModelButtons();
 
   const expBox = $('#experimental');
   if (expBox) {
@@ -782,3 +907,4 @@ setupUi();
 startWorker();
 loadDanReferences();
 loadLadder();
+if (needsCnn(state.starModel)) loadCnnReferences();

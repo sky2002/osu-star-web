@@ -1,0 +1,5907 @@
+{
+ "generated": "2026-10-25T11:38:43",
+ "reference": "analysis/cnn36-web-r1/tree: mean of the 20 sklearn trees (data/cnn36-web-r1/tree/models, = docs/model/tree-cnn36.json) on reference.json features + theta (1.0x) and reference-rates.json dt features + theta (1.5x); CNN36 reading analysis/cnn36-web-r1/cnn_ref.py osu_reading (CPU float32, file OD)",
+ "model": {
+  "name": "CNN36-test",
+  "version": "CNN36-test",
+  "modelVersion": "树星数 v2 测试版（P1h 配方＋CNN36）",
+  "frozen": "2026-10-25"
+ },
+ "star_scale": {
+  "a": 5.2338,
+  "b": 1.6089
+ },
+ "rates": {
+  "dt": 1.5
+ },
+ "charts": [
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -/Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [14th Dan - Yami (Marathon)].osu",
+   "member": null,
+   "sha256": "c9153781895ee7a43cf6e9046ee75ace49a989f012e9f695f107fb5769ca4431",
+   "star_P1h": 7.4150867777609895,
+   "cnn": 1.27191104888916,
+   "reading": 1.3303583334037044,
+   "star": 7.3742135226132195,
+   "dt": {
+    "cnn": 2.678823101520538,
+    "reading": 2.1731638738972654,
+    "star": 8.73020335671331,
+    "star_P1h": 8.87877334527642
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -/Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [15th Dan - Yume (Marathon)].osu",
+   "member": null,
+   "sha256": "7ccd874d656637f75c100056d9f7e179a89e71a003bfd43460b05995a0b210eb",
+   "star_P1h": 7.466040173196552,
+   "cnn": 1.441603434085846,
+   "reading": 1.5218929623062873,
+   "star": 7.682373587054585,
+   "dt": {
+    "cnn": 2.81113942861557,
+    "reading": 2.404326439282076,
+    "star": 9.102120808160931,
+    "star_P1h": 9.492839396443943
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [14th Dan - Yami (Marathon)].osu",
+   "sha256": "c9153781895ee7a43cf6e9046ee75ace49a989f012e9f695f107fb5769ca4431",
+   "star_P1h": 7.4150867777609895,
+   "cnn": 1.27191104888916,
+   "reading": 1.3303583334037044,
+   "star": 7.3742135226132195,
+   "dt": {
+    "cnn": 2.678823101520538,
+    "reading": 2.1731638738972654,
+    "star": 8.73020335671331,
+    "star_P1h": 8.87877334527642
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/1116467 Various Artists - 4K LN Dan Courses v2 - FINAL -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - FINAL - (_underjoy) [15th Dan - Yume (Marathon)].osu",
+   "sha256": "7ccd874d656637f75c100056d9f7e179a89e71a003bfd43460b05995a0b210eb",
+   "star_P1h": 7.466040173196552,
+   "cnn": 1.441603434085846,
+   "reading": 1.5218929623062873,
+   "star": 7.682373587054585,
+   "dt": {
+    "cnn": 2.81113942861557,
+    "reading": 2.404326439282076,
+    "star": 9.102120808160931,
+    "star_P1h": 9.492839396443943
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [1st Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "e25bae0312752936aa11a862d152960885ad0e14e47e521264b3c31fd1982ef3",
+   "star_P1h": 3.777575189790848,
+   "cnn": -0.9992615044116974,
+   "reading": -0.9588671560876536,
+   "star": 3.691078632570574,
+   "dt": {
+    "cnn": -0.5451243877410888,
+    "reading": -0.5389258559050444,
+    "star": 4.366722190434373,
+    "star_P1h": 4.3545121597167515
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [2nd Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "5f0af1bc3e950bab03b37b939c72cd6af35507cafed5f611b227831a6318c6bd",
+   "star_P1h": 4.448944417680536,
+   "cnn": -0.4777266561985016,
+   "reading": -0.3995042967958379,
+   "star": 4.591037536885176,
+   "dt": {
+    "cnn": 0.055163401365280154,
+    "reading": 0.054262079828562834,
+    "star": 5.321102260236175,
+    "star_P1h": 5.280313134723934
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [3rd Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "d076bdfc091ae8d8007db7ee6fa728ea5364eeee14e0903a69507c10d93c8e36",
+   "star_P1h": 4.337743357064524,
+   "cnn": -0.46287175416946413,
+   "reading": -0.45464385860003736,
+   "star": 4.502323495898399,
+   "dt": {
+    "cnn": 0.30449028611183165,
+    "reading": 0.308911438407869,
+    "star": 5.73080761325442,
+    "star_P1h": 5.733079862820027
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -/Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [4th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "fa35c6ab0e7729de2634d5c03e42512b061affc9ad27d17538fee1b2d1b0070f",
+   "star_P1h": 4.728096227026027,
+   "cnn": -0.20221886932849883,
+   "reading": -0.19812308328973893,
+   "star": 4.915039771295138,
+   "dt": {
+    "cnn": 0.4778490126132965,
+    "reading": 0.4889612570783122,
+    "star": 6.020489766513296,
+    "star_P1h": 5.8218179434569475
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [1st Dan (Marathon)].osu",
+   "sha256": "e25bae0312752936aa11a862d152960885ad0e14e47e521264b3c31fd1982ef3",
+   "star_P1h": 3.777575189790848,
+   "cnn": -0.9992615044116974,
+   "reading": -0.9588671560876536,
+   "star": 3.691078632570574,
+   "dt": {
+    "cnn": -0.5451243877410888,
+    "reading": -0.5389258559050444,
+    "star": 4.366722190434373,
+    "star_P1h": 4.3545121597167515
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [2nd Dan (Marathon)].osu",
+   "sha256": "5f0af1bc3e950bab03b37b939c72cd6af35507cafed5f611b227831a6318c6bd",
+   "star_P1h": 4.448944417680536,
+   "cnn": -0.4777266561985016,
+   "reading": -0.3995042967958379,
+   "star": 4.591037536885176,
+   "dt": {
+    "cnn": 0.055163401365280154,
+    "reading": 0.054262079828562834,
+    "star": 5.321102260236175,
+    "star_P1h": 5.280313134723934
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [3rd Dan (Marathon)].osu",
+   "sha256": "d076bdfc091ae8d8007db7ee6fa728ea5364eeee14e0903a69507c10d93c8e36",
+   "star_P1h": 4.337743357064524,
+   "cnn": -0.46287175416946413,
+   "reading": -0.45464385860003736,
+   "star": 4.502323495898399,
+   "dt": {
+    "cnn": 0.30449028611183165,
+    "reading": 0.308911438407869,
+    "star": 5.73080761325442,
+    "star_P1h": 5.733079862820027
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891143 Various Artists - 4K LN Dan Courses v2 - Level 1 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 1 - (_underjoy) [4th Dan (Marathon)].osu",
+   "sha256": "fa35c6ab0e7729de2634d5c03e42512b061affc9ad27d17538fee1b2d1b0070f",
+   "star_P1h": 4.728096227026027,
+   "cnn": -0.20221886932849883,
+   "reading": -0.19812308328973893,
+   "star": 4.915039771295138,
+   "dt": {
+    "cnn": 0.4778490126132965,
+    "reading": 0.4889612570783122,
+    "star": 6.020489766513296,
+    "star_P1h": 5.8218179434569475
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -/Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [5th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "3674262a04387d3bb9892323a0b009967e9b3a62222ba1cd33d36dee743cfa90",
+   "star_P1h": 4.603128683212556,
+   "cnn": -0.4389594912528992,
+   "reading": -0.37380737121765345,
+   "star": 4.632381320447917,
+   "dt": {
+    "cnn": 0.41950708627700806,
+    "reading": 0.4588127931706971,
+    "star": 5.971983902932334,
+    "star_P1h": 5.915841899402264
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -/Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [6th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "e8c370d732a3184b20fa500485e6ec019f93d10399bb42f270e170feb44e1b46",
+   "star_P1h": 4.932527173345459,
+   "cnn": -0.2112184524536133,
+   "reading": -0.19138378195584008,
+   "star": 4.925882633211248,
+   "dt": {
+    "cnn": 0.7585899591445923,
+    "reading": 0.759638672508238,
+    "star": 6.4559826601985035,
+    "star_P1h": 6.267188667252609
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -/Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [7th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "fe011c76e1f8080d130fc262379feb008a16df74d63a336d3d75f9df56f2285b",
+   "star_P1h": 5.210547105273954,
+   "cnn": -0.006987151503562927,
+   "reading": 0.0266836551317917,
+   "star": 5.276731332741539,
+   "dt": {
+    "cnn": 1.0485689997673036,
+    "reading": 1.058975385047901,
+    "star": 6.9375854970035675,
+    "star_P1h": 6.89604856637375
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [5th Dan (Marathon)].osu",
+   "sha256": "3674262a04387d3bb9892323a0b009967e9b3a62222ba1cd33d36dee743cfa90",
+   "star_P1h": 4.603128683212556,
+   "cnn": -0.4389594912528992,
+   "reading": -0.37380737121765345,
+   "star": 4.632381320447917,
+   "dt": {
+    "cnn": 0.41950708627700806,
+    "reading": 0.4588127931706971,
+    "star": 5.971983902932334,
+    "star_P1h": 5.915841899402264
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [6th Dan (Marathon)].osu",
+   "sha256": "e8c370d732a3184b20fa500485e6ec019f93d10399bb42f270e170feb44e1b46",
+   "star_P1h": 4.932527173345459,
+   "cnn": -0.2112184524536133,
+   "reading": -0.19138378195584008,
+   "star": 4.925882633211248,
+   "dt": {
+    "cnn": 0.7585899591445923,
+    "reading": 0.759638672508238,
+    "star": 6.4559826601985035,
+    "star_P1h": 6.267188667252609
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891152 Various Artists - 4K LN Dan Courses v2 - Level 2 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 2 - (_underjoy) [7th Dan (Marathon)].osu",
+   "sha256": "fe011c76e1f8080d130fc262379feb008a16df74d63a336d3d75f9df56f2285b",
+   "star_P1h": 5.210547105273954,
+   "cnn": -0.006987151503562927,
+   "reading": 0.0266836551317917,
+   "star": 5.276731332741539,
+   "dt": {
+    "cnn": 1.0485689997673036,
+    "reading": 1.058975385047901,
+    "star": 6.9375854970035675,
+    "star_P1h": 6.89604856637375
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -/Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [10th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "9e9d59bdc8a2c38713d12954f20fc6b904582d6f2293299b535f2af2ea27d2a7",
+   "star_P1h": 5.931702548257773,
+   "cnn": 0.42622159123420716,
+   "reading": 0.4574710654407846,
+   "star": 5.969825197187678,
+   "dt": {
+    "cnn": 1.642544150352478,
+    "reading": 1.7270582783044481,
+    "star": 8.012464063964027,
+    "star_P1h": 7.825281782109449
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -/Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [8th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "faa9659b4afd48634024a85d3301248cccef384adb787eb93ad16c70dcb3988b",
+   "star_P1h": 5.3772580150365386,
+   "cnn": 0.12239916324615478,
+   "reading": 0.1508560152469522,
+   "star": 5.476512242930821,
+   "dt": {
+    "cnn": 1.1606929183006287,
+    "reading": 1.167251941677463,
+    "star": 7.11179164896487,
+    "star_P1h": 7.023778887753769
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -/Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [9th Dan (Marathon)].osu",
+   "member": null,
+   "sha256": "ae8ef8364d5d05fccf2ed5d6571bcfe05bfe7ccbdb1a42bf3a8fb0b8cff01f77",
+   "star_P1h": 5.627429749145348,
+   "cnn": 0.2763801455497742,
+   "reading": 0.31448804622276716,
+   "star": 5.739779817567809,
+   "dt": {
+    "cnn": 1.413059401512146,
+    "reading": 1.4755273713921508,
+    "star": 7.607775987832831,
+    "star_P1h": 7.534497597348755
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [10th Dan (Marathon)].osu",
+   "sha256": "9e9d59bdc8a2c38713d12954f20fc6b904582d6f2293299b535f2af2ea27d2a7",
+   "star_P1h": 5.931702548257773,
+   "cnn": 0.42622159123420716,
+   "reading": 0.4574710654407846,
+   "star": 5.969825197187678,
+   "dt": {
+    "cnn": 1.642544150352478,
+    "reading": 1.7270582783044481,
+    "star": 8.012464063964027,
+    "star_P1h": 7.825281782109449
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [8th Dan (Marathon)].osu",
+   "sha256": "faa9659b4afd48634024a85d3301248cccef384adb787eb93ad16c70dcb3988b",
+   "star_P1h": 5.3772580150365386,
+   "cnn": 0.12239916324615478,
+   "reading": 0.1508560152469522,
+   "star": 5.476512242930821,
+   "dt": {
+    "cnn": 1.1606929183006287,
+    "reading": 1.167251941677463,
+    "star": 7.11179164896487,
+    "star_P1h": 7.023778887753769
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891157 Various Artists - 4K LN Dan Courses v2 - Level 3 -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Level 3 - (_underjoy) [9th Dan (Marathon)].osu",
+   "sha256": "ae8ef8364d5d05fccf2ed5d6571bcfe05bfe7ccbdb1a42bf3a8fb0b8cff01f77",
+   "star_P1h": 5.627429749145348,
+   "cnn": 0.2763801455497742,
+   "reading": 0.31448804622276716,
+   "star": 5.739779817567809,
+   "dt": {
+    "cnn": 1.413059401512146,
+    "reading": 1.4755273713921508,
+    "star": 7.607775987832831,
+    "star_P1h": 7.534497597348755
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -/Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [11th Dan - Yoake (Marathon)].osu",
+   "member": null,
+   "sha256": "b68cf40da359afc4766d270a59561c8f6fe507a5a075be619ed13dd19aff1144",
+   "star_P1h": 6.283572794045977,
+   "cnn": 0.6604703962802887,
+   "reading": 0.7005142788635611,
+   "star": 6.3608574232635835,
+   "dt": {
+    "cnn": 1.9276451170444489,
+    "reading": 1.9814209018850182,
+    "star": 8.421708089042806,
+    "star_P1h": 8.20475048058652
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -/Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [12th Dan - Yuugure (Marathon)].osu",
+   "member": null,
+   "sha256": "c6a624bdf9d469786524e6661682bfeeed56064e2b5388761060ae8200301ca6",
+   "star_P1h": 6.504571742211992,
+   "cnn": 0.7594579815864563,
+   "reading": 0.7991902467153891,
+   "star": 6.519617187940389,
+   "dt": {
+    "cnn": 2.105299699306488,
+    "reading": 1.9991628787385924,
+    "star": 8.450253155602521,
+    "star_P1h": 8.258863384746117
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -/Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [13th Dan - Yoru (Marathon)].osu",
+   "member": null,
+   "sha256": "cd0fec32121b1bcee5b76e1e0a975dd28d71c5cc51fc2fed21c58e9f7d607390",
+   "star_P1h": 6.877191146436715,
+   "cnn": 0.9448823213577271,
+   "reading": 0.9941653222622501,
+   "star": 6.833312586987734,
+   "dt": {
+    "cnn": 2.4626887679100036,
+    "reading": 2.1229763601836806,
+    "star": 8.649456665899523,
+    "star_P1h": 8.590392647381156
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [11th Dan - Yoake (Marathon)].osu",
+   "sha256": "b68cf40da359afc4766d270a59561c8f6fe507a5a075be619ed13dd19aff1144",
+   "star_P1h": 6.283572794045977,
+   "cnn": 0.6604703962802887,
+   "reading": 0.7005142788635611,
+   "star": 6.3608574232635835,
+   "dt": {
+    "cnn": 1.9276451170444489,
+    "reading": 1.9814209018850182,
+    "star": 8.421708089042806,
+    "star_P1h": 8.20475048058652
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [12th Dan - Yuugure (Marathon)].osu",
+   "sha256": "c6a624bdf9d469786524e6661682bfeeed56064e2b5388761060ae8200301ca6",
+   "star_P1h": 6.504571742211992,
+   "cnn": 0.7594579815864563,
+   "reading": 0.7991902467153891,
+   "star": 6.519617187940389,
+   "dt": {
+    "cnn": 2.105299699306488,
+    "reading": 1.9991628787385924,
+    "star": 8.450253155602521,
+    "star_P1h": 8.258863384746117
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/LN dan/891164 Various Artists - 4K LN Dan Courses v2 - Extra Level -.osz",
+   "member": "Various Artists - 4K LN Dan Courses v2 - Extra Level - (_underjoy) [13th Dan - Yoru (Marathon)].osu",
+   "sha256": "cd0fec32121b1bcee5b76e1e0a975dd28d71c5cc51fc2fed21c58e9f7d607390",
+   "star_P1h": 6.877191146436715,
+   "cnn": 0.9448823213577271,
+   "reading": 0.9941653222622501,
+   "star": 6.833312586987734,
+   "dt": {
+    "cnn": 2.4626887679100036,
+    "reading": 2.1229763601836806,
+    "star": 8.649456665899523,
+    "star_P1h": 8.590392647381156
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Analepsy - Apocalyptic Premonition ( 1.05x  cut ) ~ Zeta Tech ~].osu",
+   "member": null,
+   "sha256": "0b348ee25c3d76a6706c43be3dea13874f29e72fe4f435328652d40560837789",
+   "star_P1h": 9.051186747364254,
+   "cnn": 2.0739392280578612,
+   "reading": 2.3497382356210097,
+   "star": 9.014293847290642,
+   "dt": {
+    "cnn": 3.1251792192459105,
+    "reading": 2.761346521343559,
+    "star": 9.676530418189651,
+    "star_P1h": 9.946825594822077
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [DJ Myosuke - Collapse of Ego ~ Eta Stamina ~].osu",
+   "member": null,
+   "sha256": "c2faf219207fa4ab59e522a0513e4b015767386dea5e63017fa7a465f067ec99",
+   "star_P1h": 8.737972035896329,
+   "cnn": 2.475891923904419,
+   "reading": 2.153039228963273,
+   "star": 8.69782481547901,
+   "dt": {
+    "cnn": 3.0792508840560915,
+    "reading": 2.6735614988989673,
+    "star": 9.535293095578549,
+    "star_P1h": 9.754948401675367
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [DJ TECHNORCH - Nijuu ~ Zeta Stamina ~].osu",
+   "member": null,
+   "sha256": "d9d5c6352f4537bbdbb8920ad5749be4fb2760a80c68d6effdf866ce5f89b259",
+   "star_P1h": 8.452367993770713,
+   "cnn": 2.077858626842499,
+   "reading": 2.1529093425499792,
+   "star": 8.69761584122866,
+   "dt": {
+    "cnn": 3.122097206115723,
+    "reading": 2.743399183815348,
+    "star": 9.647654946840513,
+    "star_P1h": 9.876114757858641
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Laur - Exitium ~ Eta Tech ~].osu",
+   "member": null,
+   "sha256": "f573dc9521a2433b17b68122a7cc31eea9b01f0119cb2f7bda054fc921823ee8",
+   "star_P1h": 9.657019610129748,
+   "cnn": 2.5811607480049132,
+   "reading": 2.5503454542866786,
+   "star": 9.337050801401837,
+   "dt": {
+    "cnn": 3.111626672744751,
+    "reading": 2.65813473169181,
+    "star": 9.510472969818952,
+    "star_P1h": 9.705454552142037
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [LV.4 - Angel Dust (2016 Radio Mix) ~ Zeta Jack (Old ver.) ~].osu",
+   "member": null,
+   "sha256": "517b68f94499098993ed935c1e489e53f87906e6e9bf6f76aa4c0f8db139d1c0",
+   "star_P1h": 7.912998264188712,
+   "cnn": 1.5955692172050475,
+   "reading": 1.5823019599941026,
+   "star": 7.779565623434511,
+   "dt": {
+    "cnn": 3.0915383815765383,
+    "reading": 2.6189534878848675,
+    "star": 9.447434266657963,
+    "star_P1h": 9.313787587827395
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [LV.4 - Angel Dust (2016 Radio Mix) ~ Zeta Jack ~].osu",
+   "member": null,
+   "sha256": "156d9ca18dd9083eb26309a9820e74bb83d7809786a50075d9ad5e6d0e0ecade",
+   "star_P1h": 7.757647736414945,
+   "cnn": 1.45899099111557,
+   "reading": 1.5496787296547871,
+   "star": 7.727078108141587,
+   "dt": {
+    "cnn": 3.130039191246033,
+    "reading": 2.6056617942267177,
+    "star": 9.426049260731364,
+    "star_P1h": 9.045962520438943
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Manabu Namiki - ]-[34#! ~ Zeta Speed ~].osu",
+   "member": null,
+   "sha256": "2420730c2731feae0fc014d6a90c638e6683e298b581c169656bfdda59689483",
+   "star_P1h": 8.452130570622709,
+   "cnn": 2.2748896956443785,
+   "reading": 2.0445708445112496,
+   "star": 8.523310031734148,
+   "dt": {
+    "cnn": 3.114228940010071,
+    "reading": 2.7146554081294743,
+    "star": 9.601409086139512,
+    "star_P1h": 9.81759386323229
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [S.S.H. - Intersect Thunderbolt-Remix ~ Eta Speed ~].osu",
+   "member": null,
+   "sha256": "880cfd5a32185d2bd4cbb8884d7b682e4060e9a777175e3c026849ff4b7b87f0",
+   "star_P1h": 8.698302045909152,
+   "cnn": 2.7293330669403075,
+   "reading": 2.113783696479302,
+   "star": 8.63466658926555,
+   "dt": {
+    "cnn": 3.1488669395446776,
+    "reading": 2.7180629029003276,
+    "star": 9.606891404476336,
+    "star_P1h": 9.85255921205775
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/1188968 Various Artists - Dan ~ REFORM ~ Finalmaps/Various Artists - Dan ~ REFORM ~ Finalmaps ([GB]Thaumiel) [Suicidal Angels - Torment Payback ( Edited ) ~ Eta Jack ~].osu",
+   "member": null,
+   "sha256": "5678dac89552a4af9cdec2c09d556011d08b38fd60eb7101186b5b5c99f3cd5e",
+   "star_P1h": 9.551350942800404,
+   "cnn": 2.6107527375221253,
+   "reading": 2.537221704319232,
+   "star": 9.315936000079212,
+   "dt": {
+    "cnn": 3.112187933921814,
+    "reading": 2.6687501001050804,
+    "star": 9.527552036059063,
+    "star_P1h": 9.329216494365156
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [JACK - Vertex Beta].osu",
+   "member": null,
+   "sha256": "c5da09f8f339a64a8e20439519781cbaaf95c8d61e08adbea4d93a0fecc0d3b2",
+   "star_P1h": 8.450722591060446,
+   "cnn": 1.9240166544914246,
+   "reading": 2.002682678778236,
+   "star": 8.455916161886304,
+   "dt": {
+    "cnn": 3.102714109420776,
+    "reading": 2.7789828476209726,
+    "star": 9.704905503537383,
+    "star_P1h": 9.72577701166804
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [SPEED - Finixe].osu",
+   "member": null,
+   "sha256": "19f13c4edca6e9256d661138c97dd08672e7cbe649a646a10abee7918ab7ab9f",
+   "star_P1h": 7.979858887700352,
+   "cnn": 2.0633177399635314,
+   "reading": 1.9525831023345532,
+   "star": 8.375310953346062,
+   "dt": {
+    "cnn": 3.00207097530365,
+    "reading": 2.6149351714871685,
+    "star": 9.440969197405705,
+    "star_P1h": 9.653901334731806
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [STAMINA - Angel Dust].osu",
+   "member": null,
+   "sha256": "c763092f3457c03676280fd2bb0546eaac3d39d198cb2e714897598fe88d8943",
+   "star_P1h": 8.547613853353713,
+   "cnn": 2.3605150461196898,
+   "reading": 2.119438131487632,
+   "star": 8.64376400975045,
+   "dt": {
+    "cnn": 3.1213833332061767,
+    "reading": 2.6555037524628946,
+    "star": 9.506239987337551,
+    "star_P1h": 9.758225194022966
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [TECH - Weird Autumn].osu",
+   "member": null,
+   "sha256": "260797df9da1b5a2ac2997ff3861e94968bce1d109bf4749d35345968f880853",
+   "star_P1h": 8.868818829656492,
+   "cnn": 2.1340237259864807,
+   "reading": 2.3384060761907426,
+   "star": 8.996061535983285,
+   "dt": {
+    "cnn": 3.086764085292816,
+    "reading": 2.7550344988678677,
+    "star": 9.666375005228513,
+    "star_P1h": 9.927258469986043
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [VIBRO (BOSS) - CYBER INDUCTANCE (Kazoo Cover)].osu",
+   "member": null,
+   "sha256": "9135a27a394d79009d2342b6dc41030f860abf718c966a8462ac038f1b74855e",
+   "star_P1h": 8.453620846404819,
+   "cnn": 2.276502084732056,
+   "reading": 2.1458387290389522,
+   "star": 8.68623993115077,
+   "dt": {
+    "cnn": 3.0272159576416016,
+    "reading": 2.6678547975435922,
+    "star": 9.526111583767886,
+    "star_P1h": 9.095684240354398
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2213163 Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND/Various Artists - Dan ~ REFORM ~ SAMPLE Pack 4 - EXTEND (Enzo_) [~ EXTRA-ZETA ~ (Marathon) EXTENSION].osu",
+   "member": null,
+   "sha256": "06116b2da9b412a8032b686de0683d1685643489095d7fd2b5306a87c40dd0ba",
+   "star_P1h": 8.890160020862135,
+   "cnn": 2.136600649356842,
+   "reading": 2.2842998359762356,
+   "star": 8.909010006102164,
+   "dt": {
+    "cnn": 3.0273199558258055,
+    "reading": 2.605194552669457,
+    "star": 9.42529751578989,
+    "star_P1h": 9.75036136177534
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Aquaris ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "a964977aef132405bcb2230cb7e513b4ac8351aacf6cc46b037904f378d951f4",
+   "star_P1h": 7.097732816905134,
+   "cnn": 1.224746334552765,
+   "reading": 1.2089450033078724,
+   "star": 7.178871615822035,
+   "dt": {
+    "cnn": 3.014180636405945,
+    "reading": 2.759553764555018,
+    "star": 9.673646051792568,
+    "star_P1h": 9.648741471919521
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Break ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "98dd5939dc09751c83b5a36e1a57794fd9cb578831a7bbcb6c3c14b7c3f2ea31",
+   "star_P1h": 6.5852869462475745,
+   "cnn": 0.819640725851059,
+   "reading": 0.8312807239126354,
+   "star": 6.571247556703039,
+   "dt": {
+    "cnn": 2.794213128089905,
+    "reading": 2.6903026839719373,
+    "star": 9.56222798824245,
+    "star_P1h": 9.76459707910756
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Can't Take my Eyes ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "42e25b43816f33784c52d17982c2c0a1016f50abdd05fa841c6a561006eb6999",
+   "star_P1h": 5.598679607868451,
+   "cnn": 0.20432546138763427,
+   "reading": 0.19339527511626664,
+   "star": 5.544953658134561,
+   "dt": {
+    "cnn": 1.9691473722457886,
+    "reading": 2.031373467979409,
+    "star": 8.502076772632071,
+    "star_P1h": 8.43945440375617
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [CrossOver ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "e1e3fcf5f879f7eadfe0aae8913ac288b4a6f1706b8fb0f16dd570b617d2d468",
+   "star_P1h": 3.5043894065801493,
+   "cnn": -1.2146806418895721,
+   "reading": -1.1653266766710337,
+   "star": 3.3589059099039735,
+   "dt": {
+    "cnn": 0.11399980187416077,
+    "reading": 0.13817837704754327,
+    "star": 5.456115190831792,
+    "star_P1h": 5.600111167367379
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Dark Sambaland ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "bd58fc8c7730654871ed1fb5550766d0b710795ca5438fe6f61e1a88b1a5197f",
+   "star_P1h": 6.04291075457381,
+   "cnn": 0.453771048784256,
+   "reading": 0.46500450239912217,
+   "star": 5.9819457439099475,
+   "dt": {
+    "cnn": 2.463157606124878,
+    "reading": 2.708415504238338,
+    "star": 9.591369704769061,
+    "star_P1h": 9.840425099432629
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Dimension Tripper!!!! ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "16e907b1df5158b143c517f4b1728bc6d5ae2dea2f757be3cc9b8697302d5b91",
+   "star_P1h": 2.373102050123758,
+   "cnn": -1.719674527645111,
+   "reading": -1.7233679730481026,
+   "star": 2.4610732681629073,
+   "dt": {
+    "cnn": -0.25542030930519105,
+    "reading": -0.3020492060689581,
+    "star": 4.747833032355653,
+    "star_P1h": 4.818950375484297
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Energy Flower 3007 ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "57acfca19996a87ec212a4d6930d40af7cebb3226a60b9a7d80f1d2602f8c437",
+   "star_P1h": 3.894424460701238,
+   "cnn": -0.8143426060676575,
+   "reading": -0.8181105129692018,
+   "star": 3.917541995683851,
+   "dt": {
+    "cnn": 0.7402786016464233,
+    "reading": 0.7682479777145782,
+    "star": 6.469834171344985,
+    "star_P1h": 6.511993865184063
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Flashes ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "4123f65ebc93a5cac4b8e37004480199dcb1af3fcafd27ab24ad5552e9a5dc40",
+   "star_P1h": 3.050745770418876,
+   "cnn": -1.4068222045898438,
+   "reading": -1.4025407853914735,
+   "star": 2.9772521303836577,
+   "dt": {
+    "cnn": 0.020659661293029784,
+    "reading": 0.011682907992226063,
+    "star": 5.252596630668692,
+    "star_P1h": 5.255385872356616
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Last Chance ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "a8599ff1c4287dbe10b818753c5be90550b0c18fc789d9653224ea9d216e03b0",
+   "star_P1h": 4.329634225654388,
+   "cnn": -0.4574574202299118,
+   "reading": -0.47789020095219203,
+   "star": 4.464922455688018,
+   "dt": {
+    "cnn": 1.3031869173049926,
+    "reading": 1.282653800078378,
+    "star": 7.297461698946102,
+    "star_P1h": 7.2101655523596095
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Miracle Chance ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "08ee16143bed7e6d13dfdb685f39e5e8bba5f78f700ff33a649416bb02b33fcd",
+   "star_P1h": 2.25364057504141,
+   "cnn": -2.207164800167084,
+   "reading": -2.102928245960644,
+   "star": 1.8503987450739192,
+   "dt": {
+    "cnn": -0.8333740651607513,
+    "reading": -0.8093025280082058,
+    "star": 3.931713162687597,
+    "star_P1h": 4.1824901091703595
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Paradigm Shift ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "e55143ccf40e80e1f8072a35329490cc9ef8c79647c16b5b625ca0c44a3c772d",
+   "star_P1h": 6.236146671573987,
+   "cnn": 0.70636385679245,
+   "reading": 0.7042838326722363,
+   "star": 6.36692225838636,
+   "dt": {
+    "cnn": 2.7023632168769836,
+    "reading": 2.747163956321904,
+    "star": 9.65371208932631,
+    "star_P1h": 9.745279680634027
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Rose Quartz ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "2e7b7c034881b5bf5198e5a75382da5ad65f1df71a992b8dafd7c4374ca015ad",
+   "star_P1h": 7.834656638411669,
+   "cnn": 1.6158671855926514,
+   "reading": 1.6116625015674146,
+   "star": 7.826803798771813,
+   "dt": {
+    "cnn": 3.1004512786865233,
+    "reading": 2.7508070698011218,
+    "star": 9.659573494603023,
+    "star_P1h": 9.65149610026246
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [Sweet Cherry X ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ede0b46758f7ee78525f54f551233ab697487421da91370e29755b5aa395b1fd",
+   "star_P1h": 4.290472526880603,
+   "cnn": -0.5141667187213897,
+   "reading": -0.531780527737808,
+   "star": 4.37821830892264,
+   "dt": {
+    "cnn": 1.1272281527519226,
+    "reading": 1.109712551520782,
+    "star": 7.019216524141786,
+    "star_P1h": 6.976401674502331
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [The Lost Dedicated ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "2dd9bbf973594d169cb8de64e83a685ce91751caf72f62bf0e048b93d2a86e00",
+   "star_P1h": 5.7437916184572995,
+   "cnn": 0.32861111164093015,
+   "reading": 0.30623671875593284,
+   "star": 5.72650425680642,
+   "dt": {
+    "cnn": 2.1731444239616393,
+    "reading": 2.180347869873672,
+    "star": 8.74176168783975,
+    "star_P1h": 8.69748339489655
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316976 Various Artists - Dan ~ REFORM ~ JackMap Pack/Various Artists - Dan ~ REFORM ~ JackMap Pack (yzuio) [To The Limit ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "2546fd9aff9f0e326cbb7247c215671816a501919573c967d0e46fdb7d3d14f6",
+   "star_P1h": 5.079383060602422,
+   "cnn": -0.10627803504467011,
+   "reading": -0.08912010280144941,
+   "star": 5.090414666602747,
+   "dt": {
+    "cnn": 1.6635800838470458,
+    "reading": 1.5907631922547392,
+    "star": 7.793178900018649,
+    "star_P1h": 7.800433408057655
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Blue Planet ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "372b6f99481b85968323a818aef3d186c7df027c992c8a1dcb968473742463af",
+   "star_P1h": 6.315294249493494,
+   "cnn": 0.6674369871616364,
+   "reading": 0.6479612923314644,
+   "star": 6.276304923232093,
+   "dt": {
+    "cnn": 2.473978614807129,
+    "reading": 2.6585916576453323,
+    "star": 9.511208117985575,
+    "star_P1h": 9.742955910826634
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Brainfog ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "a0069c040f7de3a119109d808b32058d29e61625f0965b37ef0129ea9b8d7d41",
+   "star_P1h": 3.8321377762435667,
+   "cnn": -0.70857073366642,
+   "reading": -0.7668806918475873,
+   "star": 3.999965654886416,
+   "dt": {
+    "cnn": 0.8548438727855683,
+    "reading": 0.8488285721457369,
+    "star": 6.599480289725276,
+    "star_P1h": 6.389013080729197
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Cicadidae ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "7a2f0718c573d1ac167ecbe8b432396dc0ad15b62bde573de240042020c645dd",
+   "star_P1h": 5.570325007250047,
+   "cnn": 0.24185670018196107,
+   "reading": 0.22976322941482116,
+   "star": 5.6034660598055055,
+   "dt": {
+    "cnn": 1.8604326248168945,
+    "reading": 1.7138466894075957,
+    "star": 7.9912079385878805,
+    "star_P1h": 7.873212017396924
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Crescent Moon Boss Battle ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "4e00b18643c2ea384271e6c647f3d5455f8a8d3bfb344d2aabbc69dd1faca028",
+   "star_P1h": 7.284547325463267,
+   "cnn": 1.257688307762146,
+   "reading": 1.2610649682970665,
+   "star": 7.26272742749315,
+   "dt": {
+    "cnn": 3.0117716908454897,
+    "reading": 2.7170096168626547,
+    "star": 9.605196772570324,
+    "star_P1h": 9.97026947981949
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Ephemera ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "bbee6fb885103965487b73a2dd2a489c1f066c6ef6e6982bbd8174ac7e4dbd42",
+   "star_P1h": 3.7707813191500748,
+   "cnn": -0.9631405144929885,
+   "reading": -0.9367938393605794,
+   "star": 3.7265923918527637,
+   "dt": {
+    "cnn": 0.4892465233802795,
+    "reading": 0.48619219999580326,
+    "star": 6.016034630573247,
+    "star_P1h": 6.008893319452324
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Fastest Crash ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "b5f02ff3ae3711605f18a86e26fc6fcec4906b3688268c84ea2eb91fac03557b",
+   "star_P1h": 6.776782255425171,
+   "cnn": 1.0186015248298645,
+   "reading": 0.9992823779490074,
+   "star": 6.841545417882157,
+   "dt": {
+    "cnn": 2.7609566926956175,
+    "reading": 2.5663096593928274,
+    "star": 9.36273561099712,
+    "star_P1h": 9.479909638355515
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Forgotten ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "b2fc4d62accfad2572b7943f82b72e25591d6f92e90c9b15d075aa8b70a547d6",
+   "star_P1h": 7.821465478196133,
+   "cnn": 1.8495238304138184,
+   "reading": 1.7237308841544294,
+   "star": 8.00711061951606,
+   "dt": {
+    "cnn": 3.0902175068855287,
+    "reading": 2.752349703217586,
+    "star": 9.662055437506773,
+    "star_P1h": 9.899833127769075
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Kirlian Shores ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "81c07400765479fa6065a920e2c1a0d0391792029434ac1b78274ff6232224fc",
+   "star_P1h": 2.5487584718859986,
+   "cnn": -1.6691849410533905,
+   "reading": -1.6461954855318717,
+   "star": 2.5852360833277714,
+   "dt": {
+    "cnn": -0.4007834166288376,
+    "reading": -0.4689528004842553,
+    "star": 4.479301839300881,
+    "star_P1h": 4.472652737336371
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Odoru Mizushibuki ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "7fd1a578259b6e08912dd6d3c735364003d6423c7424dccef0986d64f8daee45",
+   "star_P1h": 6.1962187502698685,
+   "cnn": 0.5458943605422973,
+   "reading": 0.532116798242289,
+   "star": 6.089922716692018,
+   "dt": {
+    "cnn": 2.349188756942749,
+    "reading": 2.3185981372756816,
+    "star": 8.964192543062843,
+    "star_P1h": 9.026133864581045
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [RATO ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "96758a53b77e01f974f5d67bdcd7d497dc7fa1289f89c863fd7882d635d619a5",
+   "star_P1h": 5.473600007017417,
+   "cnn": 0.1391170084476471,
+   "reading": 0.12042123422374558,
+   "star": 5.4275457237425835,
+   "dt": {
+    "cnn": 1.7328542590141296,
+    "reading": 1.68863863005097,
+    "star": 7.950650691889005,
+    "star_P1h": 7.76759440147142
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Rave 7 1.1x ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "fa2a43214c1dd6cb3ca7d5b95ab4178076f92813ae084ab114da21e499762a98",
+   "star_P1h": 6.105497214386874,
+   "cnn": 0.5288363754749298,
+   "reading": 0.5141524844897323,
+   "star": 6.06101993229553,
+   "dt": {
+    "cnn": 2.228052389621735,
+    "reading": 2.0176381158506453,
+    "star": 8.479977964592102,
+    "star_P1h": 8.432408937468505
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [The Bird's Midair Heatstroke ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "fde8a31fd681d0e9467f38be11c2f4f31268f4994e6086dfd9a29644e0fafe1e",
+   "star_P1h": 4.2435185623706415,
+   "cnn": -0.647582083940506,
+   "reading": -0.6665561441996964,
+   "star": 4.161377819597108,
+   "dt": {
+    "cnn": 0.9068504452705384,
+    "reading": 0.8944769975481359,
+    "star": 6.672924041355195,
+    "star_P1h": 6.692589338379458
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Vermillion ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "a8a917d1b3727bf3476ce4c0ed6eb79d93060dc4d0f0974150085462aa42ce44",
+   "star_P1h": 2.865874562477694,
+   "cnn": -1.4552705526351928,
+   "reading": -1.4764888557779883,
+   "star": 2.8582770799387944,
+   "dt": {
+    "cnn": -0.4313515514135361,
+    "reading": -0.47619475597302097,
+    "star": 4.4676502571150065,
+    "star_P1h": 4.477420120696656
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [Want U 2 ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "dc659bdf202829a3ad72c9acf7f2499706aaac2c840d76b1772dd4db75dbbdb3",
+   "star_P1h": 2.569592873124104,
+   "cnn": -1.7298685252666473,
+   "reading": -1.7379188520598805,
+   "star": 2.437662358920858,
+   "dt": {
+    "cnn": -0.8079106241464615,
+    "reading": -0.8436390168478306,
+    "star": 3.8764691857935247,
+    "star_P1h": 3.8495923458864922
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2316993 Various Artists - Dan ~ REFORM ~ TechMap Pack/Various Artists - Dan ~ REFORM ~ TechMap Pack (yzuio) [WAVE ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "9e836ed3170925786ed6703b9f084a77e86ea5460b2337cdcb3306ee6c1abc7a",
+   "star_P1h": 4.9682424663686415,
+   "cnn": -0.17955073118209838,
+   "reading": -0.17791112878199905,
+   "star": 4.9475587849026414,
+   "dt": {
+    "cnn": 1.4299449801445008,
+    "reading": 1.4185824121574926,
+    "star": 7.5161572429201895,
+    "star_P1h": 7.573428558349621
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Angel Of Darkness ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ad57d8d40ffa0ade05e8ecd1a02eb1021c55460bfc541c486790381d193c81b4",
+   "star_P1h": 3.746754372856925,
+   "cnn": -0.9722606867551804,
+   "reading": -0.9397252289802301,
+   "star": 3.7218760790937075,
+   "dt": {
+    "cnn": 0.7845257222652435,
+    "reading": 0.7685670925638692,
+    "star": 6.470347595226009,
+    "star_P1h": 6.507712569899951
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Anguish ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "6bc3e5576075cfca6df819b75b312d88fd8a286f419af57b68ed5a3554263942",
+   "star_P1h": 5.28851028776509,
+   "cnn": 0.09840958714485168,
+   "reading": 0.08054438074418586,
+   "star": 5.3633878541793205,
+   "dt": {
+    "cnn": 1.853562557697296,
+    "reading": 1.8226424001695,
+    "star": 8.166249357632708,
+    "star_P1h": 8.052887719535136
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Chandelier ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "d75cf1ee67ec8e3c6579085b88e3f464bf1db4cb831dde2c342ffa9abe20bec4",
+   "star_P1h": 5.878494543437752,
+   "cnn": 0.4140470862388611,
+   "reading": 0.40100176104451235,
+   "star": 5.878971733344516,
+   "dt": {
+    "cnn": 2.128270745277405,
+    "reading": 2.2780093205685623,
+    "star": 8.89888919586276,
+    "star_P1h": 8.57887079847401
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Elektric U-Phoria ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "b472895f701d312d90e8a1aa0e6104abfde93861fc6a0d0df8312a4746fd61e5",
+   "star_P1h": 4.379795036451078,
+   "cnn": -0.5801941096782685,
+   "reading": -0.5712510277390084,
+   "star": 4.314714221470709,
+   "dt": {
+    "cnn": 1.130869698524475,
+    "reading": 1.1608369593089876,
+    "star": 7.10147058383223,
+    "star_P1h": 7.118333946705067
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Eternal Drain ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ccbd10b9795106c9be8f5e9e280f4a5d300afb6f8152e3a81a40dc99111aaf63",
+   "star_P1h": 2.9006518579397813,
+   "cnn": -1.6058550953865052,
+   "reading": -1.5985935804607325,
+   "star": 2.661822788396727,
+   "dt": {
+    "cnn": -0.2641222089529037,
+    "reading": -0.30363875789679173,
+    "star": 4.745275602419851,
+    "star_P1h": 4.797393036981816
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Firmament Castle Velier ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ed0fec2fdb65ac633ed2b29766ecf7f213c97d2f4812b94f3db3d2d5d46ab411",
+   "star_P1h": 5.888423203744331,
+   "cnn": 0.29669355750083926,
+   "reading": 0.28561968788947634,
+   "star": 5.693333515845378,
+   "dt": {
+    "cnn": 2.0379101634025574,
+    "reading": 2.2086720151541677,
+    "star": 8.787332405181541,
+    "star_P1h": 8.492808349621853
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Future Dominators ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "b287fdc0bad6b77371f3cc61e23670f9cbea60a2035f3fd343baa2bc407fea65",
+   "star_P1h": 7.52803877472435,
+   "cnn": 1.2521570563316344,
+   "reading": 1.307779567861384,
+   "star": 7.3378865467321805,
+   "dt": {
+    "cnn": 3.0239882111549377,
+    "reading": 2.583957010334422,
+    "star": 9.39112843392705,
+    "star_P1h": 9.641349867285527
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Hitsugi to Futago ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "351027ccffd4d11bb02de1c384f4892236b00dc2cc89809c4e26d58e0e387eff",
+   "star_P1h": 7.989301432339961,
+   "cnn": 1.777480173110962,
+   "reading": 1.7497538507471222,
+   "star": 8.048978970467044,
+   "dt": {
+    "cnn": 3.1171687841415405,
+    "reading": 2.7581862189165696,
+    "star": 9.67144580761487,
+    "star_P1h": 9.924657199164567
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Hymn ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "efd51ffab6259ed11a7afc72530732bee915371147f75041ee544f0694438e05",
+   "star_P1h": 4.999590197181571,
+   "cnn": -0.09618430435657502,
+   "reading": -0.0792914541511657,
+   "star": 5.106227979416189,
+   "dt": {
+    "cnn": 1.600260865688324,
+    "reading": 1.6078536014704639,
+    "star": 7.820675659405829,
+    "star_P1h": 7.780505185028018
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [LazorBeamz ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "6e729444d4993596353be5833cf8bfe52eafd78d1bf4b38e690f7571747659b2",
+   "star_P1h": 6.204244812962374,
+   "cnn": 0.5631590366363526,
+   "reading": 0.5650110663325921,
+   "star": 6.142846304622507,
+   "dt": {
+    "cnn": 2.342011260986328,
+    "reading": 2.2476440458044165,
+    "star": 8.850034505294726,
+    "star_P1h": 8.882368202722036
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [M-A ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "5f1e76a21be04056aa34273a8c8dcb7d4f012584bd330e3d4fdf854e38c552b5",
+   "star_P1h": 4.682569425094117,
+   "cnn": -0.38106373250484465,
+   "reading": -0.3831779308523459,
+   "star": 4.6173050270516605,
+   "dt": {
+    "cnn": 1.3835482478141785,
+    "reading": 1.3719257529735138,
+    "star": 7.441091343959085,
+    "star_P1h": 7.552715852260845
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Time to Say Goodbye ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "885e9c2d2126c2e16804d7d5ee62bf938b9009dcb85d004c8342d4ead83b776f",
+   "star_P1h": 6.377672640480069,
+   "cnn": 0.7079464256763458,
+   "reading": 0.7140211777180709,
+   "star": 6.382588672830604,
+   "dt": {
+    "cnn": 2.504527175426483,
+    "reading": 2.2950469864611835,
+    "star": 8.926301096517397,
+    "star_P1h": 9.016995899186636
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [Tommorow Perfume ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "7f750c82ebb79b9b0a404607d3c6ada42c7096d6aa1616d70b01a253ece99ac6",
+   "star_P1h": 2.6710970222215917,
+   "cnn": -1.5640782058238982,
+   "reading": -1.5787739942310806,
+   "star": 2.693710520681614,
+   "dt": {
+    "cnn": -0.2995160549879074,
+    "reading": -0.27855336459483315,
+    "star": 4.785635491703372,
+    "star_P1h": 4.841481278199665
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [True Blue ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "271b6aa8cd338bbad813df75823e19d2d34bac84245a184dbd159d89cc768049",
+   "star_P1h": 3.0938258085754917,
+   "cnn": -1.4099579989910125,
+   "reading": -1.383065158443411,
+   "star": 3.0085864665803954,
+   "dt": {
+    "cnn": -0.03867904543876648,
+    "reading": -0.04011237315180371,
+    "star": 5.1692632028360626,
+    "star_P1h": 5.179985441313898
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2317095 Various Artists - Dan ~ REFORM ~ StaminaMap Pack/Various Artists - Dan ~ REFORM ~ StaminaMap Pack (yzuio) [We Luv Lama ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "cc9006d80d922a5f5758e7a2076214f5997165aaf9537533695ec02ad9230b51",
+   "star_P1h": 6.7735014268858675,
+   "cnn": 0.8454379618167878,
+   "reading": 0.8775425054906348,
+   "star": 6.645678137083882,
+   "dt": {
+    "cnn": 2.711004900932312,
+    "reading": 2.128533228502997,
+    "star": 8.658397111338472,
+    "star_P1h": 8.896514996594487
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Amber Starlight ~ Beta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "10e0793abf12a4a57301d042305993bcfdb67689a46ae5e8a91412868ec84c62",
+   "star_P1h": 6.349941793911093,
+   "cnn": 0.7807446420192719,
+   "reading": 0.7467715214004598,
+   "star": 6.435280700781199,
+   "dt": {
+    "cnn": 2.368116891384125,
+    "reading": 2.123062067243042,
+    "star": 8.64959455998733,
+    "star_P1h": 8.67881391580661
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Disconnected Trance ~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "3ca49d0b8d6f9a80f83d88b9e173a4f3c4635cca74c36d69adfd6815619b5f8a",
+   "star_P1h": 5.375227718735997,
+   "cnn": 0.11320562362670898,
+   "reading": 0.11313095344764083,
+   "star": 5.415816391001909,
+   "dt": {
+    "cnn": 1.5988117456436157,
+    "reading": 1.5847011839596996,
+    "star": 7.78342573487276,
+    "star_P1h": 7.631511767484742
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Entelechia ~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "d94642f6de3688c5f808731e3ffa688734e7912c2641c94e1c07801cc460dcfb",
+   "star_P1h": 2.96342031635999,
+   "cnn": -1.4830302238464355,
+   "reading": -1.4587775505664249,
+   "star": 2.8867727988936784,
+   "dt": {
+    "cnn": -0.0897400587797165,
+    "reading": -0.07000647867916288,
+    "star": 5.121166576453095,
+    "star_P1h": 5.300186293939559
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Five Five Five Guys ~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ac549ad88f4bc6864d94b07958732a7dc1aebe8460185e30476030129f35984d",
+   "star_P1h": 5.021076519608591,
+   "cnn": -0.08290910422801971,
+   "reading": -0.09418730060015496,
+   "star": 5.082262052064411,
+   "dt": {
+    "cnn": 1.452234148979187,
+    "reading": 1.44545801518451,
+    "star": 7.559397400630358,
+    "star_P1h": 7.408599499447309
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Luv Lab 22ate! ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ba5797d000a08a2c1cecd5f02a15b937f4d31b7fdc7871dce01b4521d18247ae",
+   "star_P1h": 4.8834963187012015,
+   "cnn": -0.17401652336120604,
+   "reading": -0.2125892205645327,
+   "star": 4.891765203033723,
+   "dt": {
+    "cnn": 1.5087499141693115,
+    "reading": 1.4567417494791561,
+    "star": 7.577551800737014,
+    "star_P1h": 7.530927105396383
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Makiba ~ Alpha ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "df74fe3f0a4469c85121f5bd4678d150093a10d7b1e0df99a0b0961f1d26015f",
+   "star_P1h": 6.457678355260764,
+   "cnn": 0.6079969108104706,
+   "reading": 0.63467416428071,
+   "star": 6.254927262911234,
+   "dt": {
+    "cnn": 2.2743122816085815,
+    "reading": 2.104401796046528,
+    "star": 8.619572049659258,
+    "star_P1h": 8.572079371362998
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Mario Paint ~ Epsilon ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "87cb0d06a48f2f24912f5ad970df8ca52faa325ce5770c4043781c08c448a9b9",
+   "star_P1h": 8.387502979275029,
+   "cnn": 1.8181016445159912,
+   "reading": 1.8307975682776676,
+   "star": 8.179370207601938,
+   "dt": {
+    "cnn": 3.079319405555725,
+    "reading": 2.7580615564070703,
+    "star": 9.671245238103335,
+    "star_P1h": 9.954842038253343
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Oh Curry! ~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "727fa48e1a82a3f01a8115f11b6388a75701b0f7d9e056fe6b0e5c9682f35b27",
+   "star_P1h": 5.548298353742081,
+   "cnn": 0.30715952515602113,
+   "reading": 0.273312218990826,
+   "star": 5.673532029134339,
+   "dt": {
+    "cnn": 1.7548452973365785,
+    "reading": 1.6861364622157304,
+    "star": 7.946624954058889,
+    "star_P1h": 7.7044574676702515
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Palette GAMMA ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "a4a61b48c48cdddfa10b2eab93b7d1904d464a946d88a936ecf99f850259b692",
+   "star_P1h": 4.481501650451389,
+   "cnn": -0.39684967398643495,
+   "reading": -0.4104402855159527,
+   "star": 4.573442624633383,
+   "dt": {
+    "cnn": 1.0663364231586456,
+    "reading": 1.0643963011993738,
+    "star": 6.946307208999672,
+    "star_P1h": 6.867379557455683
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Reflec Streamz ~ Gamma ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "4de1c958d9f54eec86b3c1a9bed5607073dc26dae0ed7bf507e3987c3a34703b",
+   "star_P1h": 7.0696633843955805,
+   "cnn": 1.0898340582847594,
+   "reading": 1.0927436583359849,
+   "star": 6.991915271896765,
+   "dt": {
+    "cnn": 2.808928835391998,
+    "reading": 2.383243151313047,
+    "star": 9.068199906147562,
+    "star_P1h": 9.315865338071418
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Shannon's Theorem ~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "910f4f86b79189f5e558aab2a340442fdf6384232f50da2d47a1f43ba9d76a1c",
+   "star_P1h": 3.925493829393093,
+   "cnn": -0.9228575587272644,
+   "reading": -0.9057576463760546,
+   "star": 3.7765265227455656,
+   "dt": {
+    "cnn": 0.4886403501033783,
+    "reading": 0.5280530655301874,
+    "star": 6.083384577131518,
+    "star_P1h": 6.213136394151653
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Shelter ~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "89f400984c4f0e7374a401534822ce3f306cb457a1bf0c13395b0d70af962653",
+   "star_P1h": 2.534076706570928,
+   "cnn": -1.6330488264560699,
+   "reading": -1.6418163203031706,
+   "star": 2.5922817222642283,
+   "dt": {
+    "cnn": -0.5823121547698975,
+    "reading": -0.6111373056069505,
+    "star": 4.250541189008977,
+    "star_P1h": 4.303440414238901
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Snow Storm ~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "7bf9240dbc60e267f5cf201db8f02706654891167f95d2c751416d1a751b7502",
+   "star_P1h": 2.711149949450369,
+   "cnn": -1.5871167421340941,
+   "reading": -1.575596746026003,
+   "star": 2.6988223953187633,
+   "dt": {
+    "cnn": -0.3357703536748886,
+    "reading": -0.32885128956301835,
+    "star": 4.704711160222059,
+    "star_P1h": 4.70601861095738
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [SOS ~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "e6d7b58c6f8a6c20a358eefad12ec2b49e3e4f6fb2c327e61901c8d0df185e09",
+   "star_P1h": 4.566935197620316,
+   "cnn": -0.503742977976799,
+   "reading": -0.4625072565151349,
+   "star": 4.489672074992799,
+   "dt": {
+    "cnn": 1.2014150500297547,
+    "reading": 1.199394261591041,
+    "star": 7.163505427473825,
+    "star_P1h": 7.0546335944285055
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [TDPDG ~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "0227136768c0498f47c3ba9ac8090ce0b68afde402ef5781ef29c7486e35a1fe",
+   "star_P1h": 4.050861631225111,
+   "cnn": -0.6558108180761337,
+   "reading": -0.6939214218871761,
+   "star": 4.117349824325722,
+   "dt": {
+    "cnn": 1.0007857263088227,
+    "reading": 0.9697626781072369,
+    "star": 6.794051172806733,
+    "star_P1h": 6.627850560912548
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Trickstarz ~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "e4e82d623a399b3edde795c22dfcbd7b1b3518014faffd7d6f53d0b69be66efc",
+   "star_P1h": 5.388430675919301,
+   "cnn": 0.12828325033187865,
+   "reading": 0.1281230895364684,
+   "star": 5.439937238755223,
+   "dt": {
+    "cnn": 1.7807116150856017,
+    "reading": 1.6829967581891143,
+    "star": 7.9415734842504655,
+    "star_P1h": 7.7711780510254584
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2320002 Various Artists - Dan ~ REFORM ~ SpeedMap Pack/Various Artists - Dan ~ REFORM ~ SpeedMap Pack (yzuio) [Volcanic ~ Delta ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "a86e6758f3727acd68a92e0fac1e5938b9b317439bf68ddc0edeccd974bf5d5f",
+   "star_P1h": 7.433749312944419,
+   "cnn": 1.3509580731391906,
+   "reading": 1.326825069708932,
+   "star": 7.3685288546547,
+   "dt": {
+    "cnn": 3.0717480301856996,
+    "reading": 2.420049854020769,
+    "star": 9.127418210134014,
+    "star_P1h": 9.27684075965729
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2369095 Unknown artist - Vend.osz",
+   "member": "Unknown artist - Vend (QingShanErdi) [Longer Jack].osu",
+   "sha256": "1ed95c0910a17b7f7bf1cb5d0af095330026e547644716b1c345841d240201b4",
+   "star_P1h": 6.568694573729234,
+   "cnn": 0.7086922764778137,
+   "reading": 0.7707244040666291,
+   "star": 6.473818493702799,
+   "dt": {
+    "cnn": 2.322245955467224,
+    "reading": 2.165677826143101,
+    "star": 8.718159054481635,
+    "star_P1h": 8.826268261811773
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2369185 Laur - Executioner/Laur - Executioner (kilotek) [Harbinger of Death].osu",
+   "member": null,
+   "sha256": "a2e3afcf61605d41283213421e45411c80eda68532a7a88ceb948fdb7196df1f",
+   "star_P1h": 7.2871277338433185,
+   "cnn": 1.2249305486679076,
+   "reading": 1.2701381570670789,
+   "star": 7.277325280905223,
+   "dt": {
+    "cnn": 2.7967885732650757,
+    "reading": 2.394543313537354,
+    "star": 9.086380737150249,
+    "star_P1h": 9.382605340759198
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2513401 Laur - SEV-26/Laur - SEV-26 (Yutori Natsu) [Deranged Desire  feat. Auros].osu",
+   "member": null,
+   "sha256": "a875dcf05837de677c0a6cdf387b29b27c8dd67fb9159641c0a67c0a06b35a40",
+   "star_P1h": 6.949417004130812,
+   "cnn": 0.9347639858722687,
+   "reading": 0.9443799760960705,
+   "star": 6.753212943540968,
+   "dt": {
+    "cnn": 2.489123356342316,
+    "reading": 2.372897236702147,
+    "star": 9.051554364130084,
+    "star_P1h": 9.158984230672392
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2559951 Hexacube - Luminous Memory (Hexacube's OVERSHINE Remix)/Hexacube - Luminous Memory (Hexacube's OVERSHINE Remix) (nyamushi) [Becoming Myself].osu",
+   "member": null,
+   "sha256": "46c8a865f3edd86d63f5fce3e162621f4e9eef66c1305766f5e1902d5a30962f",
+   "star_P1h": 6.401349514178308,
+   "cnn": 0.5965791344642639,
+   "reading": 0.5902096557380556,
+   "star": 6.183388315116957,
+   "dt": {
+    "cnn": 2.0486233234405518,
+    "reading": 2.0006175182613446,
+    "star": 8.452593525130677,
+    "star_P1h": 8.286796609131951
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2581581 LV.4 - Radiation 239.osz",
+   "member": "LV.4 - Radiation 239 ([GB]LumiereLP) [p l a y t r i l l s [cut]].osu",
+   "sha256": "94a4a54d988d53aec5415a98eea0542dddbc509781a92c91e0c763d9fc7e9a4d",
+   "star_P1h": 4.078829796668403,
+   "cnn": -0.8566848993301391,
+   "reading": -0.8284127207860227,
+   "star": 3.900966773527368,
+   "dt": {
+    "cnn": 0.8219802141189575,
+    "reading": 0.8037191528608636,
+    "star": 6.526903745037843,
+    "star_P1h": 6.665853086981102
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2581581 LV.4 - Radiation 239.osz",
+   "member": "LV.4 - Radiation 239 ([GB]LumiereLP) [p l a y t r i l l s].osu",
+   "sha256": "7f9ae66b3a63a217e6c2bd1930722a0fbbed7b86fe31634330f93bf9c60d7cce",
+   "star_P1h": 4.945736803559482,
+   "cnn": -0.3626461237668991,
+   "reading": -0.2692875470580244,
+   "star": 4.800543265538344,
+   "dt": {
+    "cnn": 1.115174984931946,
+    "reading": 1.120765423689218,
+    "star": 7.036999490173582,
+    "star_P1h": 7.197249581001442
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t (nsv) 0.8x].osu",
+   "sha256": "6ec722727852cf8e75828385ff288e8f2af60502c9054982b174bed7de581e18",
+   "star_P1h": 7.728961763467071,
+   "cnn": 1.080507355928421,
+   "reading": 1.1299960846382073,
+   "star": 7.051850700574411,
+   "dt": {
+    "cnn": 1.8115853071212769,
+    "reading": 1.87743253310487,
+    "star": 8.254401202512424,
+    "star_P1h": 7.968894657181252
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t (nsv)].osu",
+   "sha256": "1b9434aa19aa6da6c374f10faf3a3fb9381d8ca7c1a91baaa7782834e507ac10",
+   "star_P1h": 7.892724095868064,
+   "cnn": 1.5441421449184418,
+   "reading": 1.7422262524616663,
+   "star": 8.036867817585573,
+   "dt": {
+    "cnn": 2.0856140077114107,
+    "reading": 2.1736071374772226,
+    "star": 8.730916523487103,
+    "star_P1h": 8.58742130286784
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t 0.8x].osu",
+   "sha256": "6335f8f881415d321f552debe17ec8ab1c9adb1cc03132ec087f0c34785e9e60",
+   "star_P1h": 7.728961763467071,
+   "cnn": 1.080507355928421,
+   "reading": 1.1299960846382073,
+   "star": 7.051850700574411,
+   "dt": {
+    "cnn": 1.8115853071212769,
+    "reading": 1.87743253310487,
+    "star": 8.254401202512424,
+    "star_P1h": 7.968894657181252
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2584683 YOASOBI - Yoru ni Kakeru.osz",
+   "member": "YOASOBI - Yoru ni Kakeru (3437-114514) [Shi(f)t].osu",
+   "sha256": "97dd81589383e00e9b7fe8853836b0a11c9e5164a5df9bf961aabfafbe8ae791",
+   "star_P1h": 7.892724095868064,
+   "cnn": 1.5441421449184418,
+   "reading": 1.7422262524616663,
+   "star": 8.036867817585573,
+   "dt": {
+    "cnn": 2.0856140077114107,
+    "reading": 2.1736071374772226,
+    "star": 8.730916523487103,
+    "star_P1h": 8.58742130286784
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [18# Unsinkable memory - D-D-Dice].osu",
+   "sha256": "d9d7d05f3a261efb7571b5bc89bcdb8d6e2f4d1e2d0f3d41a90481f143efe04e",
+   "star_P1h": 7.084935202109487,
+   "cnn": 1.161988627910614,
+   "reading": 1.173520245291196,
+   "star": 7.121876722649005,
+   "dt": {
+    "cnn": 2.966867136955261,
+    "reading": 2.590630914840586,
+    "star": 9.401866078887018,
+    "star_P1h": 9.415927391683873
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [17# Magic Maid - MIMI].osu",
+   "sha256": "31c91c307c4bede3334d8b7bd919204e8aab80df889933c09a039bf48751832d",
+   "star_P1h": 7.232562299219043,
+   "cnn": 1.167496633529663,
+   "reading": 1.2071532463050239,
+   "star": 7.175988857980153,
+   "dt": {
+    "cnn": 3.102684211730957,
+    "reading": 2.547820910188513,
+    "star": 9.332989062402298,
+    "star_P1h": 9.379798467245871
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [16# Wrong World - TOGENASHI TOGEARI].osu",
+   "sha256": "cb946d1a06c3f6486fbbc788d97b7b07f9a80ce260702c5fc5cfc3a7259bb956",
+   "star_P1h": 6.811272744400692,
+   "cnn": 0.9725915193557739,
+   "reading": 0.9839027915556215,
+   "star": 6.816801201333839,
+   "dt": {
+    "cnn": 3.0484662294387816,
+    "reading": 2.5650193504474164,
+    "star": 9.360659632934848,
+    "star_P1h": 9.136851405248363
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [13# Towards The Horizon - Camellia].osu",
+   "sha256": "742de36f7d33d79ccdd103b09e8caa5ef5fa1e335f6dc44257b2fa9f7b28774d",
+   "star_P1h": 6.008234173466665,
+   "cnn": 0.5113129556179047,
+   "reading": 0.497556124459318,
+   "star": 6.0343180486425965,
+   "dt": {
+    "cnn": 2.6309792399406433,
+    "reading": 2.692084115847803,
+    "star": 9.565094133987529,
+    "star_P1h": 9.816803774894474
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [15# Hoshi ga Furanai Machi - Chroma].osu",
+   "sha256": "f06a403cebe185305791e4f9dcdebdc1d56509e174a261fb075ebd413ae1c7b3",
+   "star_P1h": 6.219034134105457,
+   "cnn": 0.7293834447860718,
+   "reading": 0.7515363770410888,
+   "star": 6.442946877021408,
+   "dt": {
+    "cnn": 2.8106000304222105,
+    "reading": 2.531274757120546,
+    "star": 9.306367956731247,
+    "star_P1h": 9.418696445408528
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [14# Infinity Heaven - HyuN].osu",
+   "sha256": "3b20fdf7a655394c1ed66c1154abe514dc3f205acb9150d70355ad802fbb9cd1",
+   "star_P1h": 6.187485482932567,
+   "cnn": 0.6173782587051392,
+   "reading": 0.6238194888002242,
+   "star": 6.23746317553068,
+   "dt": {
+    "cnn": 2.7247350811958313,
+    "reading": 2.5944118088778554,
+    "star": 9.40794915930358,
+    "star_P1h": 9.737364516490096
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/2589709 Various Artists - WSMH Jack Dan - Nyx.osz",
+   "member": "Various Artists - WSMH Jack Dan - Nyx (HOISwsmh) [24# Get Dat - Righten].osu",
+   "sha256": "8eeb5c440ef69301dc35207fd114f005d11a3048ab4f1199a65462b7fc590fac",
+   "star_P1h": 8.923320308598035,
+   "cnn": 2.440166652202606,
+   "reading": 2.4424061942494735,
+   "star": 9.163387325927978,
+   "dt": {
+    "cnn": 2.841160476207733,
+    "reading": 2.553688892965347,
+    "star": 9.342430059891946,
+    "star_P1h": 9.21790865450186
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/osz/BACO - Brain Analysis (Selinki).osz",
+   "member": "BACO - Brain Analysis (Selinki) [Tech].osu",
+   "sha256": "a404480c04acb8fbd4d4240486fd7a8671e474c4e12c5139fb1322a669b7eb56",
+   "star_P1h": 5.5539665451476905,
+   "cnn": 0.3040189385414124,
+   "reading": 0.27614826245328217,
+   "star": 5.678094939461086,
+   "dt": {
+    "cnn": 1.5589651584625244,
+    "reading": 1.5604673952918238,
+    "star": 7.744435992285014,
+    "star_P1h": 7.704929633647124
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 1st ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "ebf2ed752203ed5466a0f8f7fa88dc3c75536e246e7811bd117e24e08aee7e6a",
+   "star_P1h": 2.621182028344216,
+   "cnn": -1.7414879024028778,
+   "reading": -1.7048480725979362,
+   "star": 2.4908699359971798,
+   "dt": {
+    "cnn": -0.5399483978748322,
+    "reading": -0.5137956109353018,
+    "star": 4.407154241566192,
+    "star_P1h": 4.397156685092092
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 2nd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "962d8a2dda8c5f65bc13339ccbb4338dc74d706cadd3f5ba17ad581a9155f2af",
+   "star_P1h": 2.8844685667522376,
+   "cnn": -1.53839191198349,
+   "reading": -1.5066589121729341,
+   "star": 2.8097364762049657,
+   "dt": {
+    "cnn": -0.23436377942562103,
+    "reading": -0.18893737120684068,
+    "star": 4.929818663465314,
+    "star_P1h": 4.961725969345707
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 3rd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "e0cdd48a5d0c0c484649109e3bbe67939c9867af404b4548bf3e1bfd2fa24285",
+   "star_P1h": 2.900542901668368,
+   "cnn": -1.5411890745162964,
+   "reading": -1.5023643148779837,
+   "star": 2.8166460537928115,
+   "dt": {
+    "cnn": -0.14272913932800294,
+    "reading": -0.11229314118537086,
+    "star": 5.053131565146856,
+    "star_P1h": 5.131788113214372
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 4th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "f87a66bcd6952a6646c83bde8c61cdc9542042fc8e0140eeb3641d44bec0c729",
+   "star_P1h": 3.601225917805801,
+   "cnn": -1.0681394994258882,
+   "reading": -1.0262411400908356,
+   "star": 3.582680629707854,
+   "dt": {
+    "cnn": 0.5747297167778015,
+    "reading": 0.5722963419329632,
+    "star": 6.154567584535944,
+    "star_P1h": 6.207171668790187
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 5th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "306965d5a2b7990f60568682f44b5f0b556b5f44fb2b97b92775495902bcc4ee",
+   "star_P1h": 4.1966099541044555,
+   "cnn": -0.7137815535068512,
+   "reading": -0.6906864299196133,
+   "star": 4.122554602902333,
+   "dt": {
+    "cnn": 0.9285342693328857,
+    "reading": 0.9317241957932803,
+    "star": 6.732851058611808,
+    "star_P1h": 6.898065391682499
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "7a42095453df952b05eaf105f6299e4a318c477dba877e607fe7c0efaa81592b",
+   "star_P1h": 4.580144073119622,
+   "cnn": -0.5028924465179443,
+   "reading": -0.44676435270959775,
+   "star": 4.515000832925528,
+   "dt": {
+    "cnn": 1.2057218909263612,
+    "reading": 1.231073368038146,
+    "star": 7.214473941836573,
+    "star_P1h": 7.229527285224966
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ INTRO-1st ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "990bd1cc0176d20cef1d667b187dd3e54c4d9dc656470f07270eb8e779812687",
+   "star_P1h": 1.4297224115168565,
+   "cnn": -2.548774552345276,
+   "reading": -2.3941639032560085,
+   "star": 1.3818296960514074,
+   "dt": {
+    "cnn": -2.1023529052734373,
+    "reading": -2.086488406747828,
+    "star": 1.8768488023834191,
+    "star_P1h": 1.957577550034289
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ INTRO-2nd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "1fe2376bbdd714bac03420ca0a0d99fccaeb0b998883a1054a199d807e2c3527",
+   "star_P1h": 1.555753918980229,
+   "cnn": -2.228962481021881,
+   "reading": -2.1971325508358666,
+   "star": 1.698833438960174,
+   "dt": {
+    "cnn": -1.6608474373817443,
+    "reading": -1.6394207831756717,
+    "star": 2.5961359019486614,
+    "star_P1h": 2.4912925030965996
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ INTRO-3rd ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "1062858deb873d06bdfedaae4ded9ca9e66fd01e7dcb8ea1eb4a0ad2ea9599e8",
+   "star_P1h": 2.454824096842106,
+   "cnn": -1.9101728320121765,
+   "reading": -1.8441073594323814,
+   "star": 2.266815669409241,
+   "dt": {
+    "cnn": -0.9029979974031448,
+    "reading": -0.8482893394839064,
+    "star": 3.8689872817043423,
+    "star_P1h": 3.9833868647239545
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 10th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "0a23f4c677abd430ce76ed1794be47d3bfa379817d94dbcb903c26770a35c2a0",
+   "star_P1h": 5.9506231050427125,
+   "cnn": 0.38930816650390626,
+   "reading": 0.41984180582755154,
+   "star": 5.909283481395947,
+   "dt": {
+    "cnn": 2.101697361469269,
+    "reading": 2.1239693766051966,
+    "star": 8.6510543300201,
+    "star_P1h": 8.549192460872426
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 6th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "58211b824bd2b9efa7b71d604a8562dd22a24636638610478d1a9877817f2d5a",
+   "star_P1h": 4.676470452452296,
+   "cnn": -0.4261363953351974,
+   "reading": -0.40516370075899155,
+   "star": 4.581932121848858,
+   "dt": {
+    "cnn": 1.2671751976013184,
+    "reading": 1.2866028449219777,
+    "star": 7.303815317194969,
+    "star_P1h": 7.304799682870366
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 7th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "5c8340db74be5d3b7357ec0b2625968d60d54c55b83aaf84ef20793e94248ead",
+   "star_P1h": 5.08293399602718,
+   "cnn": -0.1847921371459961,
+   "reading": -0.1285342384243277,
+   "star": 5.027001263799098,
+   "dt": {
+    "cnn": 1.4872299075126647,
+    "reading": 1.4811028155845618,
+    "star": 7.616746319994001,
+    "star_P1h": 7.7190807818392
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 8th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "d20fe98af89aeb8fd1b6c4773b90f31c924bb0e4f736ec3bd61786e23c005945",
+   "star_P1h": 5.444362960800007,
+   "cnn": 0.058873093128204344,
+   "reading": 0.09225562669450055,
+   "star": 5.3822300777887815,
+   "dt": {
+    "cnn": 1.755597186088562,
+    "reading": 1.739196096842256,
+    "star": 8.031992600209506,
+    "star_P1h": 8.031041901675431
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 9th ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "7dac3baa2b2e1c52026d43ea231f4ce1bbb38bcb239e1cdb702e906bc67df9e4",
+   "star_P1h": 5.768447199481068,
+   "cnn": 0.22568016052246093,
+   "reading": 0.2488865030833547,
+   "star": 5.634233494810809,
+   "dt": {
+    "cnn": 1.89365696310997,
+    "reading": 1.7596215217375306,
+    "star": 8.064855066323513,
+    "star_P1h": 8.158727206529083
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-ALPHA ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "da3500338ee2bb440117fe8b7aee1ec1544ceadb05899337035c9c29a5f41994",
+   "star_P1h": 6.324007134179466,
+   "cnn": 0.5506745159626008,
+   "reading": 0.584472838179247,
+   "star": 6.17415834934659,
+   "dt": {
+    "cnn": 2.355179011821747,
+    "reading": 2.4704918864106253,
+    "star": 9.208574396046055,
+    "star_P1h": 9.430020141230617
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-BETA ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "dcb943705122e6662b0cedfbf7878f1226eb746744723db26560b6a620b97a4c",
+   "star_P1h": 6.411102001894303,
+   "cnn": 0.7068977952003479,
+   "reading": 0.7322568262789294,
+   "star": 6.411928007800169,
+   "dt": {
+    "cnn": 2.535690426826477,
+    "reading": 2.5594538537890448,
+    "star": 9.351705305361193,
+    "star_P1h": 9.487848323219463
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-DELTA ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "3aa82a9f7a2344f2d11319823c84a87c42a19ad9fae3eee457e3f635b1492635",
+   "star_P1h": 7.409529163033522,
+   "cnn": 1.2695732474327088,
+   "reading": 1.3079152447730884,
+   "star": 7.338104837315422,
+   "dt": {
+    "cnn": 3.0416814923286437,
+    "reading": 2.5849496917742822,
+    "star": 9.392725559095641,
+    "star_P1h": 9.679251503718781
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-EPSILON ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "68f30db44d73757e0ba29ea8a255e43baf358a9b47d921aed7e5beffd9eb9a63",
+   "star_P1h": 8.243952071740724,
+   "cnn": 1.7723392367362976,
+   "reading": 1.7841814070842665,
+   "star": 8.104369465857875,
+   "dt": {
+    "cnn": 3.100360321998596,
+    "reading": 2.583421761733996,
+    "star": 9.390267272453826,
+    "star_P1h": 9.698811781240043
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-GAMMA ~ (Marathon)].osu",
+   "member": null,
+   "sha256": "02bf168e5a42278c250d205f2722b6bc7c0a30669e22d5e5147c4ad594495d39",
+   "star_P1h": 7.000828376244918,
+   "cnn": 0.9165367662906647,
+   "reading": 0.9455884966483415,
+   "star": 6.755157332257516,
+   "dt": {
+    "cnn": 2.7580044269561768,
+    "reading": 2.5566679985516574,
+    "star": 9.347223142869762,
+    "star_P1h": 9.733370552407003
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ FINAL ([GB]Thaumiel) [~ FINAL - ETA ~ ( Marathon )].osu",
+   "member": null,
+   "sha256": "50846172498780da5e303d03b0f68814c439e7b274da2ba5ba5da703c0f0d536",
+   "star_P1h": 9.785724465518784,
+   "cnn": 2.61288036108017,
+   "reading": 2.6043235665863422,
+   "star": 9.423896186280766,
+   "dt": {
+    "cnn": 3.113661551475525,
+    "reading": 2.599900266139887,
+    "star": 9.416779538192465,
+    "star_P1h": 9.747132718798898
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Dan ~ REFORM ~ FINAL ([GB]Thaumiel) [~ FINAL - ZETA ~ ( Marathon )].osu",
+   "member": null,
+   "sha256": "820efd38839415a8d247334a929348853d1357f0c49b764046694fdc19a20e84",
+   "star_P1h": 8.65073472075541,
+   "cnn": 1.957294124364853,
+   "reading": 2.181517395769562,
+   "star": 8.743643338053648,
+   "dt": {
+    "cnn": 3.1279367208480835,
+    "reading": 2.605685580737285,
+    "star": 9.426087530848218,
+    "star_P1h": 9.742812876687676
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-1 v3].osu",
+   "member": null,
+   "sha256": "64d1f0b49ac4d10a2989f07d13502136aa3dc113551400092c663768a9037c5a",
+   "star_P1h": 5.991152051533576,
+   "cnn": 0.43645190000534057,
+   "reading": 0.4795521138656076,
+   "star": 6.0053513959983755,
+   "dt": {
+    "cnn": 2.185083103179932,
+    "reading": 2.251956459687751,
+    "star": 8.856972747991621,
+    "star_P1h": 8.821658236955905
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-2 v3].osu",
+   "member": null,
+   "sha256": "7ca8eb0cc9c483308245405338fae22c2c8faefb28ee3cc7cf794437927f7c03",
+   "star_P1h": 6.145725632272216,
+   "cnn": 0.5341001689434052,
+   "reading": 0.5510663334387262,
+   "star": 6.120410623869566,
+   "dt": {
+    "cnn": 2.3432753443717957,
+    "reading": 2.446572457373431,
+    "star": 9.170090426668112,
+    "star_P1h": 9.323267079459196
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-3 v3].osu",
+   "member": null,
+   "sha256": "227ad43fb5e0f1d9c5f2d7767aa8df4d9f4421485cec79ade2b4bfb3bd60d700",
+   "star_P1h": 6.443977911570704,
+   "cnn": 0.6840681552886962,
+   "reading": 0.7102304428181851,
+   "star": 6.376489759450178,
+   "dt": {
+    "cnn": 2.505916380882263,
+    "reading": 2.489288992674654,
+    "star": 9.23881706031425,
+    "star_P1h": 9.329215872811089
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-4 v3].osu",
+   "member": null,
+   "sha256": "964678f757a08a981a4ff1e85e68f07a5945d3467affbede837656c17ebf6d19",
+   "star_P1h": 6.569626694844178,
+   "cnn": 0.7785717844963074,
+   "reading": 0.7934880591473081,
+   "star": 6.510442938362104,
+   "dt": {
+    "cnn": 2.6757192850112914,
+    "reading": 2.544076242521926,
+    "star": 9.326964266593526,
+    "star_P1h": 9.581213896650747
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 1) ([GS]hina) [Extra-5 v3].osu",
+   "member": null,
+   "sha256": "a8c7576a562620f16bc5438a4f8624ca8f291dbc9877512c22a210105df3ad68",
+   "star_P1h": 6.792313683028117,
+   "cnn": 0.9181078195571899,
+   "reading": 0.9296451514949732,
+   "star": 6.729506084240262,
+   "dt": {
+    "cnn": 2.7554309248924254,
+    "reading": 2.5937970635508756,
+    "star": 9.406960095547003,
+    "star_P1h": 9.796734698978355
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Ex-Final v3].osu",
+   "member": null,
+   "sha256": "4466a0ae19e5a5b6efbc1fb20e479868f9ec4aee108e9a8a6cbe68da118f8121",
+   "star_P1h": 8.670060552711982,
+   "cnn": 2.1228191256523132,
+   "reading": 2.145071185389164,
+   "star": 8.685005030172626,
+   "dt": {
+    "cnn": 3.1077629566192626,
+    "reading": 2.5841797171641625,
+    "star": 9.391486746945422,
+    "star_P1h": 9.69779224311047
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-6 v3].osu",
+   "member": null,
+   "sha256": "feb0ac0b021bae9b3a5390d26f4fa7d300320d3179741191950134505cda49fd",
+   "star_P1h": 7.0774734294244475,
+   "cnn": 1.0599201679229737,
+   "reading": 1.082143338664571,
+   "star": 6.974860417577427,
+   "dt": {
+    "cnn": 2.9344368100166323,
+    "reading": 2.550772984697394,
+    "star": 9.337738655079637,
+    "star_P1h": 9.67801424396219
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-7 v3].osu",
+   "member": null,
+   "sha256": "3b477fffce1c95c1ca67164f89a87bee39d5995502a477f53d7cd2cc980898a0",
+   "star_P1h": 7.601245903808067,
+   "cnn": 1.3854933738708497,
+   "reading": 1.3921153826207568,
+   "star": 7.4735744390985355,
+   "dt": {
+    "cnn": 3.0764689445495605,
+    "reading": 2.5793661370310237,
+    "star": 9.383742177869212,
+    "star_P1h": 9.714887020366703
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-8 v3].osu",
+   "member": null,
+   "sha256": "5b2c856dd1a4e2da4e9db2b6e628bae1c14a5f9631b673b5d78ebf5ffa46df84",
+   "star_P1h": 7.8539529829611805,
+   "cnn": 1.5534273624420165,
+   "reading": 1.5942789070493733,
+   "star": 7.798835333551736,
+   "dt": {
+    "cnn": 3.1385879278182984,
+    "reading": 2.5918636546051257,
+    "star": 9.403849433894187,
+    "star_P1h": 9.747132718798898
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Extra Dan v3 (Pack 2) ([GS]hina) [Extra-9 v3].osu",
+   "member": null,
+   "sha256": "3107c9477832e3b3b5939de2035d7ddf55500bed850e0d398d9ef6e65b4dd316",
+   "star_P1h": 8.073461766271862,
+   "cnn": 1.8115580201148986,
+   "reading": 1.7757936463415718,
+   "star": 8.090874397598954,
+   "dt": {
+    "cnn": 3.122345280647278,
+    "reading": 2.603328822106865,
+    "star": 9.422295741887734,
+    "star_P1h": 9.741147733740213
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-0].osu",
+   "member": null,
+   "sha256": "c5ff9c6f384e41fc8243fdd18271cc6b184848418b79510342d3e70d8b7074d8",
+   "star_P1h": 2.5078857699146813,
+   "cnn": -1.6861632585525512,
+   "reading": -1.6711147003031805,
+   "star": 2.5451435586822124,
+   "dt": {
+    "cnn": -0.9645504981279374,
+    "reading": -0.9559167298029869,
+    "star": 3.695825573419974,
+    "star_P1h": 3.6049926576817604
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-1].osu",
+   "member": null,
+   "sha256": "02af37cb59720c25471c265e40a06f39366fbe820debe10b0109e4104f7e7d5f",
+   "star_P1h": 2.892229073541879,
+   "cnn": -1.4354993224143981,
+   "reading": -1.428137959113837,
+   "star": 2.936068837581747,
+   "dt": {
+    "cnn": -0.4358528405427933,
+    "reading": -0.4427639928929025,
+    "star": 4.5214370118346086,
+    "star_P1h": 4.476013173654464
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-2].osu",
+   "member": null,
+   "sha256": "27245b868a116612d045178eefd9076f1cbce1d37318015f480b66d5f1a57647",
+   "star_P1h": 3.1014628744571606,
+   "cnn": -1.3518587350845337,
+   "reading": -1.3040331078747438,
+   "star": 3.1357411327403244,
+   "dt": {
+    "cnn": -0.10699599683284759,
+    "reading": -0.07846136771818583,
+    "star": 5.10756350547821,
+    "star_P1h": 5.141352483526336
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-3].osu",
+   "member": null,
+   "sha256": "7757d3c69d0371f8158508b51f6e768146c0b27072f91b74a780046bb7515ffb",
+   "star_P1h": 3.561968068535258,
+   "cnn": -1.1682428002357483,
+   "reading": -1.1306547065275274,
+   "star": 3.414689642667861,
+   "dt": {
+    "cnn": 0.32474002838134763,
+    "reading": 0.32820348536923644,
+    "star": 5.761846587610564,
+    "star_P1h": 5.822026297905419
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.1) (Muses) [Regular-4].osu",
+   "member": null,
+   "sha256": "2562ff20837130dad5f2a4d02107f8700cbd1630aeeffdffe44d85e08518f397",
+   "star_P1h": 3.505635574325897,
+   "cnn": -1.1950023293495178,
+   "reading": -1.1480358167034734,
+   "star": 3.386725174505781,
+   "dt": {
+    "cnn": 0.45063636898994447,
+    "reading": 0.49285471033099537,
+    "star": 6.0267539434515385,
+    "star_P1h": 6.043182545126665
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-10].osu",
+   "member": null,
+   "sha256": "18b742a858aa693a1ad861c417be29c749086b3503d3274935f88786e0f16652",
+   "star_P1h": 5.716415021450372,
+   "cnn": 0.2644828736782074,
+   "reading": 0.3051125144404009,
+   "star": 5.7246955244831605,
+   "dt": {
+    "cnn": 1.9494086921215057,
+    "reading": 2.082576629049538,
+    "star": 8.584457538477801,
+    "star_P1h": 8.406457227141434
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-5].osu",
+   "member": null,
+   "sha256": "719293fa7c49449729a8e9a2806ed11f7ea30167a2eaddf3bc14ebb0954c9191",
+   "star_P1h": 4.231396092036694,
+   "cnn": -0.7174871683120727,
+   "reading": -0.6852459437286403,
+   "star": 4.13130780113499,
+   "dt": {
+    "cnn": 0.943562364578247,
+    "reading": 0.9759259303826846,
+    "star": 6.8039672293927005,
+    "star_P1h": 6.941294416570733
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-6].osu",
+   "member": null,
+   "sha256": "e98dc48fee49648c552073b6418eae485cd3a171eefc21b0ba1c6cf52ff3d8c0",
+   "star_P1h": 4.546910784196638,
+   "cnn": -0.5291474372148514,
+   "reading": -0.5005068429387246,
+   "star": 4.428534540395885,
+   "dt": {
+    "cnn": 1.1779709458351135,
+    "reading": 1.1943836297010844,
+    "star": 7.155443821826074,
+    "star_P1h": 7.215750190340671
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-7].osu",
+   "member": null,
+   "sha256": "a50f355aefd27fb27267f6d9ef7a76a2ad1e7163dbde246ae82b71941b1989fc",
+   "star_P1h": 4.786745364418853,
+   "cnn": -0.3511756628751755,
+   "reading": -0.3019982183333741,
+   "star": 4.747915066523434,
+   "dt": {
+    "cnn": 1.2988017678260804,
+    "reading": 1.304288065939135,
+    "star": 7.332269069289474,
+    "star_P1h": 7.328412439826057
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-8].osu",
+   "member": null,
+   "sha256": "c2eeb76931869df294c2a5249e06efc3bb3f9b2804d14c77cacd30f4f345f199",
+   "star_P1h": 5.300058353377803,
+   "cnn": -0.05784460306167603,
+   "reading": -0.012864660191000849,
+   "star": 5.2131020482186985,
+   "dt": {
+    "cnn": 1.6104484796524048,
+    "reading": 1.6766733016791584,
+    "star": 7.931399675071598,
+    "star_P1h": 8.019862814829409
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Malody 4K Regular Dans v3 (Part.2) (Muses) [Regular-9].osu",
+   "member": null,
+   "sha256": "9239c925fee777e9b3ce4a7a54e52737f11e7a6d8c44548aae6f9bb7728afacc",
+   "star_P1h": 5.498457091714273,
+   "cnn": 0.08438587188720703,
+   "reading": 0.12267406201372451,
+   "star": 5.431170298373881,
+   "dt": {
+    "cnn": 1.729510247707367,
+    "reading": 1.7401403959028454,
+    "star": 8.033511882968087,
+    "star_P1h": 8.002866133264554
+   }
+  },
+  {
+   "set": "test_beatmap",
+   "source": "test_beatmap/Various Artists - Zeta Sample Dan v2 (Brunliko) [~ EXTRA-ZETA ~ (Marathon) (real chart) (credit to emik)].osu",
+   "member": null,
+   "sha256": "c4cd38cb9def17d45f34cdfed6a24678f42308e772515417122b86f6d739bb2e",
+   "star_P1h": 9.149517308828742,
+   "cnn": 2.1577555894851685,
+   "reading": 2.3401205391827284,
+   "star": 8.998819935491092,
+   "dt": {
+    "cnn": 3.090480637550354,
+    "reading": 2.6036385782053353,
+    "star": 9.422794108474562,
+    "star_P1h": 9.7469513218478
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/473874.osu",
+   "member": null,
+   "sha256": "bb127fabf12d46e632622aa59c05635b7c1edd635ce39ac221ca6d774a4bd8cc",
+   "star_P1h": 3.5383438484076706,
+   "cnn": -1.1008492827415466,
+   "reading": -1.0831469738000659,
+   "star": 3.491124833853074,
+   "dt": {
+    "cnn": 0.35284316539764404,
+    "reading": 0.35008678480800975,
+    "star": 5.797054628077606,
+    "star_P1h": 5.809979011629975
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/525200.osu",
+   "member": null,
+   "sha256": "888ca244497858df341d4619e5ca0fe453b8b4f2c518ff643cc744aee1727687",
+   "star_P1h": 3.104865084684777,
+   "cnn": -1.239013421535492,
+   "reading": -1.2591693017649752,
+   "star": 3.207922510390331,
+   "dt": {
+    "cnn": -0.2411348283290863,
+    "reading": -0.24305893027037007,
+    "star": 4.842742487088001,
+    "star_P1h": 4.807341142158708
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/540059.osu",
+   "member": null,
+   "sha256": "12797f36ad49aa6afe645ce2066349f3f6c7228b9db65649b58ae9d92b5b6f5b",
+   "star_P1h": 3.0392248256955625,
+   "cnn": -1.4020087957382201,
+   "reading": -1.4103757610382046,
+   "star": 2.9646464380656323,
+   "dt": {
+    "cnn": -0.12588847875595094,
+    "reading": -0.1305094542510956,
+    "star": 5.0238233390554115,
+    "star_P1h": 4.958495977363806
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/543938.osu",
+   "member": null,
+   "sha256": "a36315ef362dcc9bde26d7dd821c7ea894c49a2669cd61026a7a6526e2a65b0c",
+   "star_P1h": 1.452950971302145,
+   "cnn": -2.584394943714142,
+   "reading": -2.6160122422615393,
+   "star": 1.0248979034254093,
+   "dt": {
+    "cnn": -1.9467494189739227,
+    "reading": -1.8919591379455494,
+    "star": 2.1898269429594053,
+    "star_P1h": 2.587002352833385
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/578747.osu",
+   "member": null,
+   "sha256": "ec9c21b389891fb8c8fdc2081f8c4fcc621085b53df05708f97a0966b3d8c14f",
+   "star_P1h": 1.3336891676738758,
+   "cnn": -2.4107274651527404,
+   "reading": -2.3204176177851377,
+   "star": 1.5004800947454915,
+   "dt": {
+    "cnn": -1.9656407713890076,
+    "reading": -1.9895353026659195,
+    "star": 2.032836651540802,
+    "star_P1h": 1.834798363464326
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/587017.osu",
+   "member": null,
+   "sha256": "36d4ebcf20a3256d32166ffde8c858c159c7c9f1fd757ed9d50941a86bede169",
+   "star_P1h": 2.4410742246854986,
+   "cnn": -1.6576754868030548,
+   "reading": -1.64322948155203,
+   "star": 2.5900080871309386,
+   "dt": {
+    "cnn": -0.814047247171402,
+    "reading": -0.8562740406483366,
+    "star": 3.8561406960008906,
+    "star_P1h": 3.801612648918187
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/673308.osu",
+   "member": null,
+   "sha256": "d3124fae41925c840208bbb4b5325ef29ca1d836da66f8cc8d87a79893f1e2b9",
+   "star_P1h": 6.028168127542387,
+   "cnn": 0.4732513904571533,
+   "reading": 0.5000170822279962,
+   "star": 6.038277483596623,
+   "dt": {
+    "cnn": 2.20833500623703,
+    "reading": 1.9863370670385703,
+    "star": 8.429617707158355,
+    "star_P1h": 8.252294938758157
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/777351.osu",
+   "member": null,
+   "sha256": "505ba291fdff95651522b2b884cd9747cafd84a2c0fa29188106ee53e0427cd8",
+   "star_P1h": 4.124451403706982,
+   "cnn": -0.7492504209280014,
+   "reading": -0.7285326309213987,
+   "star": 4.061663850110561,
+   "dt": {
+    "cnn": 1.1176203489303589,
+    "reading": 1.1542997508651591,
+    "star": 7.090952869166954,
+    "star_P1h": 7.159843977542739
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/825237.osu",
+   "member": null,
+   "sha256": "d8ffa7bb76fd5a4c8e4a6aeed5f58e77df763b477db81bc7dee38efa991315e6",
+   "star_P1h": 2.782731819854619,
+   "cnn": -1.4942264020442964,
+   "reading": -1.489672772521572,
+   "star": 2.8370654762900425,
+   "dt": {
+    "cnn": -0.25977568328380585,
+    "reading": -0.3145352322886578,
+    "star": 4.727744264770778,
+    "star_P1h": 4.695593890973415
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/927049.osu",
+   "member": null,
+   "sha256": "5230ea9c2f6125cfcf3d59fe55ba492c0e265d023f9b394de7012ddf2b50ff7f",
+   "star_P1h": 1.0495092960400907,
+   "cnn": -2.4858634233474732,
+   "reading": -2.527780368037256,
+   "star": 1.1668541658648586,
+   "dt": {
+    "cnn": -2.1066739320755006,
+    "reading": -2.198876013518797,
+    "star": 1.6960283818496071,
+    "star_P1h": 1.6988365967170624
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1016399.osu",
+   "member": null,
+   "sha256": "36884677b3851a2b171a940c6c0ca6618020b1be9cbc7d0bdccf18576792bf88",
+   "star_P1h": 1.2959387039795227,
+   "cnn": -2.513615143299103,
+   "reading": -2.525515109962755,
+   "star": 1.170498739580923,
+   "dt": {
+    "cnn": -1.8121666014194489,
+    "reading": -1.806205902140737,
+    "star": 2.3277953240457676,
+    "star_P1h": 2.4228105551250754
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1067213.osu",
+   "member": null,
+   "sha256": "a2c68d8abb1bd1b21f583fcd1bb7e508458e3eade3a0be5ed1b041849677c46d",
+   "star_P1h": 0.8247339623935561,
+   "cnn": -2.6681278944015503,
+   "reading": -2.7374464461745895,
+   "star": 0.8295224127497027,
+   "dt": {
+    "cnn": -2.5001548171043395,
+    "reading": -2.5966630128076775,
+    "star": 1.056028878693727,
+    "star_P1h": 1.25196920832273
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1108289.osu",
+   "member": null,
+   "sha256": "d17c2a4f598c8d5d1758de7263e1d0fcfc670b78cc44d24d457152b9a63ed52b",
+   "star_P1h": 3.0263578726315448,
+   "cnn": -1.5848590910434723,
+   "reading": -1.5295862100191686,
+   "star": 2.7728487467001592,
+   "dt": {
+    "cnn": -0.019782933592796325,
+    "reading": 0.004438280358704544,
+    "star": 5.240940749269119,
+    "star_P1h": 5.439061991962216
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1137037.osu",
+   "member": null,
+   "sha256": "b6d22517258ee6b87b8642ae70666ed33fdafb21c167307a54c1d60b2116d2dd",
+   "star_P1h": 1.8160913899165556,
+   "cnn": -1.9788475155830383,
+   "reading": -2.02972189869099,
+   "star": 1.9681804371960658,
+   "dt": {
+    "cnn": -1.7875070095062255,
+    "reading": -1.8019810635397566,
+    "star": 2.334592666870885,
+    "star_P1h": 2.3883366892938582
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1139757.osu",
+   "member": null,
+   "sha256": "a666e6a33d12c79ca82a8c86a7e3b008965340563787270fb667be521c2784f6",
+   "star_P1h": 3.7662967677937234,
+   "cnn": -0.8796538591384888,
+   "reading": -0.8878666911475037,
+   "star": 3.8053112806127807,
+   "dt": {
+    "cnn": 0.9693870484828949,
+    "reading": 0.9462087869539543,
+    "star": 6.756155317330217,
+    "star_P1h": 6.713482632644574
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1315763.osu",
+   "member": null,
+   "sha256": "9bc1b8fef57f870932bf98b3e4f5d6eb1c333116f5e5e79656fd1ab85cb2e01d",
+   "star_P1h": 4.168789574809552,
+   "cnn": -0.8524441987276077,
+   "reading": -0.8089973490670923,
+   "star": 3.9322041650859547,
+   "dt": {
+    "cnn": 0.6204188942909241,
+    "reading": 0.643939730654377,
+    "star": 6.269834632649827,
+    "star_P1h": 6.392042004218371
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1480153.osu",
+   "member": null,
+   "sha256": "c82ce9b0a1144c012d42d7674e2c57f7f912fdc15e121993bc77b2f53432c7a2",
+   "star_P1h": 3.588256055365467,
+   "cnn": -0.9688315123319626,
+   "reading": -0.963372025156818,
+   "star": 3.683830748725195,
+   "dt": {
+    "cnn": 0.2641985476016998,
+    "reading": 0.28043918522120825,
+    "star": 5.684998605102401,
+    "star_P1h": 5.552348652961514
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1501225.osu",
+   "member": null,
+   "sha256": "8280a73fc83d6112db0786cab4b8ce9398f1326485c7c20a7e2bdb2ef7fbad11",
+   "star_P1h": 3.5121102729266527,
+   "cnn": -1.0583272576332092,
+   "reading": -1.0657378900607006,
+   "star": 3.5191343086813385,
+   "dt": {
+    "cnn": -0.1253885805606842,
+    "reading": -0.09494914075607114,
+    "star": 5.081036327437556,
+    "star_P1h": 5.15882402201454
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1508851.osu",
+   "member": null,
+   "sha256": "e6a22ec57d9c1ba60e84d403fdefa46caad0ae3aac1c990b900ab0735f4487ba",
+   "star_P1h": 2.7447034896884475,
+   "cnn": -1.5472351253032683,
+   "reading": -1.5553972795216329,
+   "star": 2.7313213169776445,
+   "dt": {
+    "cnn": -0.881176421046257,
+    "reading": -0.8867277764600263,
+    "star": 3.8071436804534633,
+    "star_P1h": 3.809558678420312
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1559210.osu",
+   "member": null,
+   "sha256": "2761974c78d61b8642ad5109ed96f61f928d136dd220f131844e0e99e9586f89",
+   "star_P1h": 2.4950652941026656,
+   "cnn": -1.7014310002326964,
+   "reading": -1.6883824182391312,
+   "star": 2.5173615272950616,
+   "dt": {
+    "cnn": -0.6442651122808456,
+    "reading": -0.6677552486817498,
+    "star": 4.1594485803959325,
+    "star_P1h": 4.19014180053915
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1567156.osu",
+   "member": null,
+   "sha256": "41a1bee7faee566ce9cdc8501923d20825da2b29ba6bad10cbb48b8532136ea2",
+   "star_P1h": 2.5665514345378737,
+   "cnn": -1.5435733377933503,
+   "reading": -1.5598303961193554,
+   "star": 2.7241888756835686,
+   "dt": {
+    "cnn": -0.5721344292163849,
+    "reading": -0.5692648483287017,
+    "star": 4.317909785523951,
+    "star_P1h": 4.4183989059646365
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1657610.osu",
+   "member": null,
+   "sha256": "415c5c5bc10cc5800a4225e5ecb8d217cf0663f8704c278f313df2a6f71b9522",
+   "star_P1h": 4.768461276280813,
+   "cnn": -0.2851397693157196,
+   "reading": -0.2679544619309945,
+   "star": 4.802688066199223,
+   "dt": {
+    "cnn": 1.2749455332756043,
+    "reading": 1.2732912529291007,
+    "star": 7.28239829683763,
+    "star_P1h": 7.192403654054749
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1676832.osu",
+   "member": null,
+   "sha256": "9af157c85ff9f354cc9e6c427f83cf0b3ee5a213d1024e58982fea289433558b",
+   "star_P1h": 3.9808534426287903,
+   "cnn": -0.7183751493692399,
+   "reading": -0.7550013791081339,
+   "star": 4.019078281152923,
+   "dt": {
+    "cnn": 0.5152185916900635,
+    "reading": 0.49999190055339265,
+    "star": 6.038236968800353,
+    "star_P1h": 6.036970375704257
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1677476.osu",
+   "member": null,
+   "sha256": "96082e9e34db512dda1813969cc3bfd949062a4fa7204804b1501ba98b95c253",
+   "star_P1h": 0.626336225538294,
+   "cnn": -2.987261474132538,
+   "reading": -2.8996171744524544,
+   "star": 0.5686059280234455,
+   "dt": {
+    "cnn": -2.525209701061249,
+    "reading": -2.4566096935846042,
+    "star": 1.2813606639917299,
+    "star_P1h": 1.316973710682603
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1725933.osu",
+   "member": null,
+   "sha256": "1cbe604fd423d62fafe7d9de19b371b5a20d8c173e4885f2fd52f892b8ed9576",
+   "star_P1h": 5.311884937550534,
+   "cnn": 0.05317002534866333,
+   "reading": 0.0617519898549268,
+   "star": 5.333152776477592,
+   "dt": {
+    "cnn": 1.6521331906318664,
+    "reading": 1.6713451749921138,
+    "star": 7.9228272520448115,
+    "star_P1h": 7.6836492494928414
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1765523.osu",
+   "member": null,
+   "sha256": "c5a4d3c9bff1a6addabf99eb680980d9bb02bbc9addba85f86acb9e7e5074152",
+   "star_P1h": 3.7298333657002445,
+   "cnn": -0.9248846590518951,
+   "reading": -0.9118403714857891,
+   "star": 3.7667400263165134,
+   "dt": {
+    "cnn": 0.28137981295585635,
+    "reading": 0.2779309933666999,
+    "star": 5.680963175227683,
+    "star_P1h": 5.598577352825753
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1802667.osu",
+   "member": null,
+   "sha256": "41e1501b63969f7b6bfafedf20540912acb3904dfc9e577640881f7ad884e5ef",
+   "star_P1h": 3.347353756818288,
+   "cnn": -1.1000052005052567,
+   "reading": -1.140824862347246,
+   "star": 3.398326878969516,
+   "dt": {
+    "cnn": -0.0460589587688446,
+    "reading": -0.1308647048596922,
+    "star": 5.023251776351241,
+    "star_P1h": 5.0208797175738145
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1864013.osu",
+   "member": null,
+   "sha256": "1ddc5c80fcd2f5b6a07fd7751f4debe77347fc24d41edc21901e0614f29975ab",
+   "star_P1h": 1.549400525811285,
+   "cnn": -2.3566128492355345,
+   "reading": -2.3043242333025438,
+   "star": 1.5263727410395367,
+   "dt": {
+    "cnn": -2.0700785338878633,
+    "reading": -2.1408486023879703,
+    "star": 1.7893886836179944,
+    "star_P1h": 1.8007442201439225
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1906420.osu",
+   "member": null,
+   "sha256": "9bac17130cb989525e7b8c351e270257e7a25d4a8785c3fbe62f14e9ddd62346",
+   "star_P1h": 1.70483594293583,
+   "cnn": -2.2014264106750487,
+   "reading": -2.2184541292860542,
+   "star": 1.6645291513916671,
+   "dt": {
+    "cnn": -1.6218070924282073,
+    "reading": -1.6181268813070333,
+    "star": 2.6303956606651138,
+    "star_P1h": 2.7852491225290694
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1934665.osu",
+   "member": null,
+   "sha256": "50677a9b866b27bfb631a539b309fb28badf5287787c7b31a89ee810e340a495",
+   "star_P1h": 3.784304235502648,
+   "cnn": -1.0023589581251144,
+   "reading": -0.9500489258427736,
+   "star": 3.7052662832115613,
+   "dt": {
+    "cnn": 0.24021822810173035,
+    "reading": 0.26319391528182506,
+    "star": 5.657252690296928,
+    "star_P1h": 5.738596732554441
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/1990174.osu",
+   "member": null,
+   "sha256": "56bd5bd6b16f6e75d125515f1192bb838c7c6730e43bddca7a333e653a873925",
+   "star_P1h": 1.0750894748474566,
+   "cnn": -2.521101450920105,
+   "reading": -2.5330229662401504,
+   "star": 1.1584193496162216,
+   "dt": {
+    "cnn": -2.217165303230286,
+    "reading": -2.286439907732976,
+    "star": 1.5551468324484143,
+    "star_P1h": 1.437348508824249
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2020687.osu",
+   "member": null,
+   "sha256": "602abd37c2c86fab1d34318f8d8563baa06fc22e097a6822387dcec78706bad3",
+   "star_P1h": 3.301399127909021,
+   "cnn": -1.1939661502838135,
+   "reading": -1.1964088766799374,
+   "star": 3.308897758309648,
+   "dt": {
+    "cnn": -0.3311005443334579,
+    "reading": -0.3086075418672334,
+    "star": 4.737281325889808,
+    "star_P1h": 4.773218983041445
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2026067.osu",
+   "member": null,
+   "sha256": "c25cde24f9ae9be579bb8c81143368b57cb13a4c82c233c7bb3271b7a43452dd",
+   "star_P1h": 3.4755883176689952,
+   "cnn": -1.2112293303012849,
+   "reading": -1.1627403586603025,
+   "star": 3.3630670369514393,
+   "dt": {
+    "cnn": -0.1675971567630768,
+    "reading": -0.14471954012546243,
+    "star": 5.000960731892143,
+    "star_P1h": 5.270095891144163
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2116185.osu",
+   "member": null,
+   "sha256": "e595597d8fdfc35bb0ff6a6c7a28d7a496483c35592455849df6f6fd3f2ed63c",
+   "star_P1h": 1.7580942236989157,
+   "cnn": -2.2011293888092043,
+   "reading": -2.19125546309826,
+   "star": 1.708289085421209,
+   "dt": {
+    "cnn": -1.4809724986553192,
+    "reading": -1.496605604133383,
+    "star": 2.8259112435097995,
+    "star_P1h": 2.891142629821002
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2118083.osu",
+   "member": null,
+   "sha256": "2777ed28737e9b1bdfbb8b5c98b0139f68a68161cdc39693e226f4b2214db584",
+   "star_P1h": 5.566873715130107,
+   "cnn": 0.28142467737197874,
+   "reading": 0.2639428357520984,
+   "star": 5.658457628441551,
+   "dt": {
+    "cnn": 2.1331004083156584,
+    "reading": 2.0995115187271374,
+    "star": 8.611704082480092,
+    "star_P1h": 8.506470563953844
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2186222.osu",
+   "member": null,
+   "sha256": "755515cdc39c6bfc59cc1a4070dd79a98c384d08f06e559017594bd8a18d29c6",
+   "star_P1h": 2.3317413542049104,
+   "cnn": -1.8332389414310455,
+   "reading": -1.819122757175061,
+   "star": 2.307013395981044,
+   "dt": {
+    "cnn": -1.2910174489021302,
+    "reading": -1.2749061683683636,
+    "star": 3.1826034657121394,
+    "star_P1h": 3.252643350914446
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2311409.osu",
+   "member": null,
+   "sha256": "d3e9ed37a4694a6ec7f7d0d1401d6d2086988aafd1f2d7ba24ee96b36b996654",
+   "star_P1h": 5.364678599648503,
+   "cnn": -0.011422619223594666,
+   "reading": 0.007539269894306535,
+   "star": 5.24592993133295,
+   "dt": {
+    "cnn": 1.5949540972709655,
+    "reading": 1.522487845126693,
+    "star": 7.683330694024336,
+    "star_P1h": 7.93089240580399
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2312393.osu",
+   "member": null,
+   "sha256": "f2a462a6039042bdcda90fece0ab2e990f3289923dbfb76e217ff9b2075ccb6e",
+   "star_P1h": 2.06194210474936,
+   "cnn": -2.065542584657669,
+   "reading": -2.0437834159544033,
+   "star": 1.9455568620709602,
+   "dt": {
+    "cnn": -1.532669973373413,
+    "reading": -1.539600878524015,
+    "star": 2.756736146542712,
+    "star_P1h": 2.800660592594789
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2329041.osu",
+   "member": null,
+   "sha256": "8547cad4bf85e27dc85573f1d398c8342de1bbce0d246e185a268a409551131d",
+   "star_P1h": 1.4888559173383284,
+   "cnn": -2.487761354446411,
+   "reading": -2.540696040489653,
+   "star": 1.1460741404561965,
+   "dt": {
+    "cnn": -1.5922620058059693,
+    "reading": -1.742510500978455,
+    "star": 2.4302748549757633,
+    "star_P1h": 2.49855036213111
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2391315.osu",
+   "member": null,
+   "sha256": "d4dea8991e45a1de2369bc6eb37b5e84fda5a6d81fc6b74454fdaa9746d8e034",
+   "star_P1h": 4.086546071289434,
+   "cnn": -0.7220754891633987,
+   "reading": -0.7285408335740478,
+   "star": 4.061650652862714,
+   "dt": {
+    "cnn": 0.7367014706134796,
+    "reading": 0.7400864767886581,
+    "star": 6.424525132505272,
+    "star_P1h": 6.348433159199552
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2433644.osu",
+   "member": null,
+   "sha256": "36aadd22dd4d5987a02de8a926cb599b3910acc7021451049602a78dd46a2c1d",
+   "star_P1h": 3.8465383171417646,
+   "cnn": -0.828466272354126,
+   "reading": -0.8388944419885664,
+   "star": 3.884102732284595,
+   "dt": {
+    "cnn": 0.5970826148986816,
+    "reading": 0.5743363178726801,
+    "star": 6.157849701825355,
+    "star_P1h": 6.1508045702411405
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2433647.osu",
+   "member": null,
+   "sha256": "e029d326de6066d0ac606084b793e57b7b48f86dacb0aaa2c504ea0f67a15c87",
+   "star_P1h": 5.1604312881906225,
+   "cnn": -0.01834430396556854,
+   "reading": -0.013774932326075804,
+   "star": 5.211637511380577,
+   "dt": {
+    "cnn": 1.5173538208007813,
+    "reading": 1.5299320015888604,
+    "star": 7.695307597356317,
+    "star_P1h": 7.61048879349125
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2444464.osu",
+   "member": null,
+   "sha256": "84789dca7f64f6e156169def23d2215d46c4f5ad25cd0eb951fd84d2e99b2edd",
+   "star_P1h": 4.018889876796689,
+   "cnn": -0.7301030099391937,
+   "reading": -0.7835817955221668,
+   "star": 3.9730952491843854,
+   "dt": {
+    "cnn": 1.089769196510315,
+    "reading": 1.084008683445967,
+    "star": 6.977861570796216,
+    "star_P1h": 7.213957342978103
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2457986.osu",
+   "member": null,
+   "sha256": "aaa233f99d99b628fbee57db69f8b059bddcad03bc97bdafc63bbf89cacccac5",
+   "star_P1h": 3.7272085618515702,
+   "cnn": -0.9220153599977493,
+   "reading": -0.9324427030660407,
+   "star": 3.7335929350370467,
+   "dt": {
+    "cnn": 0.6340899169445038,
+    "reading": 0.6382379086849259,
+    "star": 6.260660971283177,
+    "star_P1h": 6.29597359818682
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2650296.osu",
+   "member": null,
+   "sha256": "6c773ee802f537318d91f1fc34fd611f1d8d330004476c0e9005d58e837a69b1",
+   "star_P1h": 3.177350553555892,
+   "cnn": -1.27358677983284,
+   "reading": -1.2887587166399217,
+   "star": 3.1603161007980294,
+   "dt": {
+    "cnn": -0.8506418377161026,
+    "reading": -0.8553806698539036,
+    "star": 3.8575780402720543,
+    "star_P1h": 3.9054570115218796
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2650377.osu",
+   "member": null,
+   "sha256": "c0186bcf2518ca4b14cfaeb496b6707d83903b054e515b61a70ca0f6568fab5f",
+   "star_P1h": 7.561340134944548,
+   "cnn": 1.4188546180725097,
+   "reading": 1.4729400809121083,
+   "star": 7.603613296179491,
+   "dt": {
+    "cnn": 3.1061941385269165,
+    "reading": 2.401024512273455,
+    "star": 9.09680833779676,
+    "star_P1h": 9.496214920846338
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2650453.osu",
+   "member": null,
+   "sha256": "25f98f34e1d789a9c1d5c8481211ae540611e7682a9296f5b3836548f77b928b",
+   "star_P1h": 3.87903230284728,
+   "cnn": -0.7755453258752822,
+   "reading": -0.7845166196992965,
+   "star": 3.9715912105658013,
+   "dt": {
+    "cnn": 0.3308520257472992,
+    "reading": 0.2877154035767443,
+    "star": 5.696705312814624,
+    "star_P1h": 5.6491406905331605
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2667328.osu",
+   "member": null,
+   "sha256": "6988f07c3827b1650f83dee487bed02ccf7bd01c663b4c5b16662a44193f555d",
+   "star_P1h": 3.2363439090450195,
+   "cnn": -1.2019642174243927,
+   "reading": -1.1805971786043756,
+   "star": 3.3343371993434197,
+   "dt": {
+    "cnn": -0.42439211905002594,
+    "reading": -0.4498287489738142,
+    "star": 4.51007052577603,
+    "star_P1h": 4.558165447202386
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2700168.osu",
+   "member": null,
+   "sha256": "ba02ba6049653a9b5e1d104b3d0a74367e987a1c8ea5d3d4db2d861b8be5e899",
+   "star_P1h": 2.522252518077647,
+   "cnn": -1.7017837047576905,
+   "reading": -1.678851775238418,
+   "star": 2.532695378818909,
+   "dt": {
+    "cnn": -0.9040126979351044,
+    "reading": -0.8963991579374484,
+    "star": 3.791583394794439,
+    "star_P1h": 3.7497171210923588
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2805183.osu",
+   "member": null,
+   "sha256": "12b8e043c1fe40e74ec1cf60aab58ef0ebebe413dd9eabf814622875ba43f4a8",
+   "star_P1h": 4.43812284376887,
+   "cnn": -0.5082561641931533,
+   "reading": -0.4780911553181587,
+   "star": 4.464599140208614,
+   "dt": {
+    "cnn": 0.9112398624420166,
+    "reading": 0.8943797645095419,
+    "star": 6.672767603119402,
+    "star_P1h": 6.701034001906948
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2809888.osu",
+   "member": null,
+   "sha256": "c3498dbb72cb61468a15443c2ed8c086a74c0443352c269795fb4ba9abd10a64",
+   "star_P1h": 1.0642953898563823,
+   "cnn": -2.6711210012435913,
+   "reading": -2.748183210257809,
+   "star": 0.8122480330162105,
+   "dt": {
+    "cnn": -2.4063492894172667,
+    "reading": -2.433483755462403,
+    "star": 1.3185679858365393,
+    "star_P1h": 1.6153316680596563
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2809889.osu",
+   "member": null,
+   "sha256": "7e7db1a9df6f91f76c37ea610af45e9385de3eb341b87732bc9d1cf93072a003",
+   "star_P1h": 1.2897187944160318,
+   "cnn": -2.4788838267326354,
+   "reading": -2.6344693291862327,
+   "star": 0.9952022962722697,
+   "dt": {
+    "cnn": -2.2934529900550844,
+    "reading": -2.478392093081859,
+    "star": 1.2463149614405964,
+    "star_P1h": 1.5396348146637604
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2842360.osu",
+   "member": null,
+   "sha256": "3be98189668fad45572d47f109346ac5f1e3923eb5313787529b47e595a555de",
+   "star_P1h": 5.135815209165173,
+   "cnn": 0.03009880185127258,
+   "reading": 0.023822286483106067,
+   "star": 5.272127676722669,
+   "dt": {
+    "cnn": 1.6271941542625428,
+    "reading": 1.6576601557015735,
+    "star": 7.900809424508261,
+    "star_P1h": 7.67337830897902
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2847009.osu",
+   "member": null,
+   "sha256": "61bafd47592279f52938f11d9cc0f9aa92491b5d62ef72a2986fa90d9f69ad4d",
+   "star_P1h": 2.664986595279858,
+   "cnn": -1.5960978865623474,
+   "reading": -1.5858611875995678,
+   "star": 2.682307935271055,
+   "dt": {
+    "cnn": -1.2682781219482422,
+    "reading": -1.2841050011122814,
+    "star": 3.16780346371045,
+    "star_P1h": 3.1997495506603846
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2850677.osu",
+   "member": null,
+   "sha256": "57f26820068a3248650b12e72a95b44599a65d3e967e6f61d8ba98a29753098d",
+   "star_P1h": 3.243408214536236,
+   "cnn": -1.217646998167038,
+   "reading": -1.2046026152577294,
+   "star": 3.2957148523118387,
+   "dt": {
+    "cnn": -0.4715128093957901,
+    "reading": -0.45385820539191907,
+    "star": 4.503587533344941,
+    "star_P1h": 4.605270863570137
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2873204.osu",
+   "member": null,
+   "sha256": "5d213fb876de99d23ecf4fd7d25a7846f0c3860f48bfc5cef085bd0a7d6f726f",
+   "star_P1h": 3.6215106398437302,
+   "cnn": -1.0400421023368835,
+   "reading": -1.0081959354538614,
+   "star": 3.611713559448282,
+   "dt": {
+    "cnn": -0.3459910094738007,
+    "reading": -0.35353978131744357,
+    "star": 4.664989845838365,
+    "star_P1h": 4.625071356713647
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2936040.osu",
+   "member": null,
+   "sha256": "22d1fa22671bdf37cb72365f4f09142cba058b119bfb591dff15d6f9a17207f0",
+   "star_P1h": 2.418315441642859,
+   "cnn": -1.7484983563423158,
+   "reading": -1.7559927571857472,
+   "star": 2.408583252963851,
+   "dt": {
+    "cnn": -1.3365134954452516,
+    "reading": -1.329948473734794,
+    "star": 3.0940459006080894,
+    "star_P1h": 3.017158386516413
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2960594.osu",
+   "member": null,
+   "sha256": "3525697b20c846394b2b605b4cbf365d0329c0028a92cd0bc10c617167d262f7",
+   "star_P1h": 6.107439894307236,
+   "cnn": 0.4098756849765778,
+   "reading": 0.4424359865362712,
+   "star": 5.945635258738206,
+   "dt": {
+    "cnn": 1.9188645482063293,
+    "reading": 2.1743508862684324,
+    "star": 8.732113140917281,
+    "star_P1h": 8.752727800738532
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/2977856.osu",
+   "member": null,
+   "sha256": "58816de9f94f503ccbff5e5e31cfb06470d87711fc5aa91971f9a2130ea9e172",
+   "star_P1h": 2.7311951288888348,
+   "cnn": -1.5528703927993774,
+   "reading": -1.5354836644913537,
+   "star": 2.7633603321998605,
+   "dt": {
+    "cnn": -0.08540621995925904,
+    "reading": -0.08537262700529027,
+    "star": 5.096443980411188,
+    "star_P1h": 5.13044385925076
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3064961.osu",
+   "member": null,
+   "sha256": "0ddb9fd3ca9e77737d592ca8670f220be4a0460736a7b708faceb93058ac70c2",
+   "star_P1h": 1.6992137347128558,
+   "cnn": -2.1319224774837493,
+   "reading": -2.179855134435576,
+   "star": 1.7266310742066016,
+   "dt": {
+    "cnn": -1.983860868215561,
+    "reading": -2.012816546910271,
+    "star": 1.9953794576760648,
+    "star_P1h": 1.8998422256506555
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3085971.osu",
+   "member": null,
+   "sha256": "36061b0b96de833ebfa0ea73ae41ec0afc88936692dd26c3d2dfacabad5a14f8",
+   "star_P1h": 4.485726623311255,
+   "cnn": -0.46801242232322693,
+   "reading": -0.453384539586762,
+   "star": 4.504349614258858,
+   "dt": {
+    "cnn": 1.1136409044265747,
+    "reading": 1.1153220199191598,
+    "star": 7.028241597847936,
+    "star_P1h": 7.2611440066527155
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3086978.osu",
+   "member": null,
+   "sha256": "b8d273e6c11be16e1543bac93aa102d5d52d70e49d0970883e291082cf4c4ba7",
+   "star_P1h": 3.8193436675997887,
+   "cnn": -0.9113460630178452,
+   "reading": -0.9248117985625379,
+   "star": 3.7458702972927322,
+   "dt": {
+    "cnn": 1.0850696086883544,
+    "reading": 1.0979245949448184,
+    "star": 7.000250880806718,
+    "star_P1h": 7.048213378178095
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3090621.osu",
+   "member": null,
+   "sha256": "4cd29d4ca6ffb47bdafe8fdf5e6a1b40752ed3bc9f4383d7206d0db5f1b486f8",
+   "star_P1h": 6.157217805923344,
+   "cnn": 0.5941183984279632,
+   "reading": 0.5789673487090113,
+   "star": 6.165300567337928,
+   "dt": {
+    "cnn": 2.291033935546875,
+    "reading": 2.256603932650334,
+    "star": 8.864450067241123,
+    "star_P1h": 9.042425257940877
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3110093.osu",
+   "member": null,
+   "sha256": "f27de055e9843c84aa3be4e19a3fe0b6cf021f8289ef70578feb59171e952403",
+   "star_P1h": 4.59679798431086,
+   "cnn": -0.4133365601301193,
+   "reading": -0.4138242431643421,
+   "star": 4.56799817517289,
+   "dt": {
+    "cnn": 0.849746584892273,
+    "reading": 0.8474784399893986,
+    "star": 6.597308062098943,
+    "star_P1h": 6.370518895846083
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3119350.osu",
+   "member": null,
+   "sha256": "5efa80217e2d388fef496b610016cab84e75fadcdce2c5d4ce6358bcdc634b5b",
+   "star_P1h": 2.7214193335297665,
+   "cnn": -1.681590735912323,
+   "reading": -1.690026738933661,
+   "star": 2.5147159797296323,
+   "dt": {
+    "cnn": -0.7023303121328354,
+    "reading": -0.8018319642002865,
+    "star": 3.9437325527981586,
+    "star_P1h": 3.9586623408191475
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3214895.osu",
+   "member": null,
+   "sha256": "aff5755eb95aa48a14dbb79a6893a216822034e4a0715d2fd4d041f2a051dc79",
+   "star_P1h": 4.736874589803988,
+   "cnn": -0.23650801181793213,
+   "reading": -0.2612439116212708,
+   "star": 4.813484670592537,
+   "dt": {
+    "cnn": 0.8181040525436402,
+    "reading": 0.8301221877627947,
+    "star": 6.56938358789156,
+    "star_P1h": 6.547781897781487
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3260341.osu",
+   "member": null,
+   "sha256": "ba611ab8856ca6dd367558c2e1d981462233d8b5a3f5957e8a913868b0dddd36",
+   "star_P1h": 2.9450363890294526,
+   "cnn": -1.3666672348976134,
+   "reading": -1.3558266137194612,
+   "star": 3.0524105611867585,
+   "dt": {
+    "cnn": -0.18735099136829375,
+    "reading": -0.15783543572778494,
+    "star": 4.979858567457566,
+    "star_P1h": 5.039676293576078
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3300572.osu",
+   "member": null,
+   "sha256": "8fdd0aa9084e13990a26f3bbc88ae83040593fbb5d9ad4ab542dda5ccf47a298",
+   "star_P1h": 1.45329359755066,
+   "cnn": -2.2816441893577575,
+   "reading": -2.364627097379331,
+   "star": 1.4293514630263942,
+   "dt": {
+    "cnn": -1.5626658916473388,
+    "reading": -1.6056841680831606,
+    "star": 2.6504147419710025,
+    "star_P1h": 2.5174931396810485
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3329962.osu",
+   "member": null,
+   "sha256": "f7326bf58451c120a86cb20d4d03fc3a8c6942db640032993ebf040c394a22d8",
+   "star_P1h": 3.9586022050579723,
+   "cnn": -0.8339791238307953,
+   "reading": -0.8295438046019085,
+   "star": 3.899146972775989,
+   "dt": {
+    "cnn": 0.5800850331783295,
+    "reading": 0.5649881128683886,
+    "star": 6.14280937479395,
+    "star_P1h": 6.173135544881614
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3442424.osu",
+   "member": null,
+   "sha256": "538d23a86a35f8b8f9d33b2c5bf86228364939b9c4605781cf2d27f62e8c7b71",
+   "star_P1h": 7.449862014235599,
+   "cnn": 1.3418166756629943,
+   "reading": 1.3786213920490087,
+   "star": 7.4518639576676495,
+   "dt": {
+    "cnn": 3.0430112361907957,
+    "reading": 2.7029554775108218,
+    "star": 9.58258506776716,
+    "star_P1h": 9.493068571140155
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3454816.osu",
+   "member": null,
+   "sha256": "29b265b7ac6d6060cfc6f0884beefce27573ada6992b26923916a14e2c967122",
+   "star_P1h": 4.952578285258091,
+   "cnn": -0.2912837952375412,
+   "reading": -0.21255726546406023,
+   "star": 4.891816615594873,
+   "dt": {
+    "cnn": 1.524124765396118,
+    "reading": 1.6325939435892773,
+    "star": 7.8604803958407885,
+    "star_P1h": 7.86002330552146
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3463278.osu",
+   "member": null,
+   "sha256": "44a6c5cd4a46b6f07a2900c5138a7b28e50d944425451cefebb1001e4e5593a4",
+   "star_P1h": 5.550287283417731,
+   "cnn": 0.23686906695365906,
+   "reading": 0.23025225989580358,
+   "star": 5.6042528609463576,
+   "dt": {
+    "cnn": 2.030452251434326,
+    "reading": 2.0365550840721713,
+    "star": 8.510413474763716,
+    "star_P1h": 8.367546176717696
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3491690.osu",
+   "member": null,
+   "sha256": "a85256e0bb3dfa829f1f3f1f8ef9e160fd3ece39145b47c79426147600793619",
+   "star_P1h": 1.7303394812643038,
+   "cnn": -2.089001750946045,
+   "reading": -2.1336712519942904,
+   "star": 1.8009363226663857,
+   "dt": {
+    "cnn": -1.7764580249786377,
+    "reading": -1.8796738849837382,
+    "star": 2.209592686449663,
+    "star_P1h": 2.1917700371563615
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3514860.osu",
+   "member": null,
+   "sha256": "87666c7f4aa2ccb0ec6655f2780b664cbbd69c3b8edc5d7c21199a42579b67bb",
+   "star_P1h": 7.191656118477059,
+   "cnn": 1.199534785747528,
+   "reading": 1.2136875127300026,
+   "star": 7.186501839231301,
+   "dt": {
+    "cnn": 2.911168086528778,
+    "reading": 2.5991969445878977,
+    "star": 9.415647964147468,
+    "star_P1h": 9.794904975778845
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3526591.osu",
+   "member": null,
+   "sha256": "eb31d77ebfc6bc78ac88ecba7d4a689f0185891c9c0b0cbacecc7b3037356f7b",
+   "star_P1h": 8.001629594166124,
+   "cnn": 1.6445353865623473,
+   "reading": 1.6739206649484217,
+   "star": 7.926970957835515,
+   "dt": {
+    "cnn": 3.1209089040756224,
+    "reading": 2.76991392253063,
+    "star": 9.690314509959531,
+    "star_P1h": 9.708049282794647
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3610288.osu",
+   "member": null,
+   "sha256": "4da89395a670a833e0a814c5b03beb022a1f8f38d9327ddbb56de8a9482efbdc",
+   "star_P1h": 4.682702559924004,
+   "cnn": -0.3957882016897202,
+   "reading": -0.35578805474112907,
+   "star": 4.661372598726997,
+   "dt": {
+    "cnn": 0.8780577719211579,
+    "reading": 0.8988468536216063,
+    "star": 6.679954702791802,
+    "star_P1h": 6.6938399435605085
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3624097.osu",
+   "member": null,
+   "sha256": "cc4dbd7ad315f43cc28be2a53944d77bfa1b499f672c619c5e645665810a92c9",
+   "star_P1h": 1.7646589977953964,
+   "cnn": -2.0643124163150786,
+   "reading": -2.123185533811185,
+   "star": 1.817806794651184,
+   "dt": {
+    "cnn": -1.5163279116153716,
+    "reading": -1.5470506600395033,
+    "star": 2.7447501930624427,
+    "star_P1h": 2.7788988151545047
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3629972.osu",
+   "member": null,
+   "sha256": "3941343c134b7b3e8187b27cc7dc0bae595d37adbc4817cded195e2904d989d9",
+   "star_P1h": 4.199094565563094,
+   "cnn": -0.6718771666288376,
+   "reading": -0.6602712394253908,
+   "star": 4.171489602888489,
+   "dt": {
+    "cnn": 0.5622433483600616,
+    "reading": 0.5546721991243262,
+    "star": 6.126212101171128,
+    "star_P1h": 6.237978442457864
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3673087.osu",
+   "member": null,
+   "sha256": "63665fb02e5eff1cb6e27edd7dc87890b5293244f25103c9486a77c019011315",
+   "star_P1h": 0.8264392341643054,
+   "cnn": -2.773876690864563,
+   "reading": -2.867087509818309,
+   "star": 0.6209429054533224,
+   "dt": {
+    "cnn": -2.526382255554199,
+    "reading": -2.758290148255464,
+    "star": 0.7959869804717838,
+    "star_P1h": 1.5807643618667746
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3682430.osu",
+   "member": null,
+   "sha256": "79dfc9d544f2ea3d49a84b807faad71f8578ed27c689a0b48ce649487a53b516",
+   "star_P1h": 0.681213086134548,
+   "cnn": -2.9885165810585024,
+   "reading": -2.93439606068125,
+   "star": 0.5126501779699364,
+   "dt": {
+    "cnn": -2.419757664203644,
+    "reading": -2.436857739539227,
+    "star": 1.3131395828553374,
+    "star_P1h": 1.2547621268639975
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3684881.osu",
+   "member": null,
+   "sha256": "52ef7ad5bdf64b181cfaeb94c64a589fe072def3ba28e551b505af1276e51b6a",
+   "star_P1h": 3.5920599190313895,
+   "cnn": -0.9817249238491058,
+   "reading": -1.016974875751956,
+   "star": 3.5975891224026775,
+   "dt": {
+    "cnn": 0.3340953290462494,
+    "reading": 0.3067063126599218,
+    "star": 5.727259786438548,
+    "star_P1h": 5.863475583957259
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3700626.osu",
+   "member": null,
+   "sha256": "db5dbc8f8371f66d602e302c6bb96934fc5d97b4e94ba7a5d248cc3e0d2ab221",
+   "star_P1h": 4.3202169699585244,
+   "cnn": -0.5732453644275666,
+   "reading": -0.5634385745814348,
+   "star": 4.327283677355929,
+   "dt": {
+    "cnn": -0.031235352158546448,
+    "reading": -0.030464717089790143,
+    "star": 5.184785316674236,
+    "star_P1h": 5.153177879670767
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3706447.osu",
+   "member": null,
+   "sha256": "65070db1f0aa4d94b4769f652129b4559a0c4c1e43697839affc8e9c88154a83",
+   "star_P1h": 3.5222099739958197,
+   "cnn": -1.1278749525547027,
+   "reading": -1.1530068840353207,
+   "star": 3.378727224275572,
+   "dt": {
+    "cnn": -0.7986001968383789,
+    "reading": -0.8301844724622857,
+    "star": 3.8981162022554283,
+    "star_P1h": 3.6952944029110273
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3714763.osu",
+   "member": null,
+   "sha256": "82ea2bcf8bd5331c50b2be2f0f7a9fdd9209cf0cf0d3a27e575d33aabb685096",
+   "star_P1h": 2.690802764001864,
+   "cnn": -1.570021963119507,
+   "reading": -1.5790817332139053,
+   "star": 2.6932153994321473,
+   "dt": {
+    "cnn": -0.7174248993396759,
+    "reading": -0.7857793207584116,
+    "star": 3.9695596508317914,
+    "star_P1h": 3.861410657554749
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3742642.osu",
+   "member": null,
+   "sha256": "093324e5f26926c500b3f5191ad93ffead302d1fc10e89b155df4fadca4dc060",
+   "star_P1h": 2.9302986195685414,
+   "cnn": -1.7775882363319397,
+   "reading": -1.6524588139431118,
+   "star": 2.575159014246927,
+   "dt": {
+    "cnn": -0.7159959703683854,
+    "reading": -0.6450249986432208,
+    "star": 4.196019279682922,
+    "star_P1h": 4.563350970724902
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3766870.osu",
+   "member": null,
+   "sha256": "62834c570ee320f1898bf81dcde42bacb1c8ce5d6491dedf62a8497df61f862b",
+   "star_P1h": 0.5271168707407199,
+   "cnn": -2.8021557092666627,
+   "reading": -2.823179960900114,
+   "star": 0.6915857609078069,
+   "dt": {
+    "cnn": -2.4430755496025087,
+    "reading": -2.4961588153301686,
+    "star": 1.217730082015291,
+    "star_P1h": 1.1984889847101083
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3773345.osu",
+   "member": null,
+   "sha256": "a983f3243fef36cd43385cb7ad22a70719b21631ef8f9b288f93cc5834a273be",
+   "star_P1h": 3.1012240652338403,
+   "cnn": -1.2934816539287568,
+   "reading": -1.2953406800671299,
+   "star": 3.1497263798399944,
+   "dt": {
+    "cnn": 0.052223038673400876,
+    "reading": 0.06513721471550878,
+    "star": 5.338599264755782,
+    "star_P1h": 5.375551821770116
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3774036.osu",
+   "member": null,
+   "sha256": "a484963fc95c929cdee8dc4196fb8f46e5fac3a659851094876aeeb6d30a4d23",
+   "star_P1h": 2.0744362626912363,
+   "cnn": -2.0151611030101777,
+   "reading": -1.9735686652340214,
+   "star": 2.0585253745049825,
+   "dt": {
+    "cnn": -1.0823229283094407,
+    "reading": -1.0570127323573248,
+    "star": 3.5331722149102998,
+    "star_P1h": 3.5894908186347916
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3821689.osu",
+   "member": null,
+   "sha256": "28cad7c62bfe1cc83ce8951e96e4bfd2c6224123597b27e6da81a4a240ff7328",
+   "star_P1h": 3.193991642807986,
+   "cnn": -1.3190312802791595,
+   "reading": -1.2999048463362548,
+   "star": 3.1423830927295993,
+   "dt": {
+    "cnn": -0.10022769868373871,
+    "reading": -0.08897353612354222,
+    "star": 5.090650477730833,
+    "star_P1h": 5.172050398730661
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3839122.osu",
+   "member": null,
+   "sha256": "960a96162bc2187f38b9c88c377bdbf9cc0c2f5e53aeb3da6a8fbcfa0afb856c",
+   "star_P1h": 3.6088805060484814,
+   "cnn": -1.018558919429779,
+   "reading": -1.0179997795574645,
+   "star": 3.5959401546699947,
+   "dt": {
+    "cnn": 0.1063516914844513,
+    "reading": 0.09912157290412774,
+    "star": 5.393276698645451,
+    "star_P1h": 5.418829417024333
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3874385.osu",
+   "member": null,
+   "sha256": "a1c017668afb10ec4bcd87d78b60e15af09c0e08b38555eee9b4a92573d6f139",
+   "star_P1h": 2.4832858604622814,
+   "cnn": -1.6807259619235992,
+   "reading": -1.6943226552466828,
+   "star": 2.5078042799736115,
+   "dt": {
+    "cnn": -1.2034712433815002,
+    "reading": -1.2229742543977629,
+    "star": 3.266156722099439,
+    "star_P1h": 3.2080956782606007
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3884015.osu",
+   "member": null,
+   "sha256": "0d5859ef3c0963882f603da57686c84d2b1016aaf315b566b8e7459eae12fcf7",
+   "star_P1h": 3.929251392440603,
+   "cnn": -0.8390592247247696,
+   "reading": -0.8007634883773092,
+   "star": 3.9454516235497468,
+   "dt": {
+    "cnn": -0.23212733566761018,
+    "reading": -0.22450716722218117,
+    "star": 4.872590418656232,
+    "star_P1h": 4.876891647325307
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3889508.osu",
+   "member": null,
+   "sha256": "275618d45ed77833030c10073efdc19507d6057a3dbfc82b737496d4039847bf",
+   "star_P1h": 3.6731931034536367,
+   "cnn": -1.0642853945493698,
+   "reading": -1.0246814625666532,
+   "star": 3.5851899948765116,
+   "dt": {
+    "cnn": -0.8615945905447007,
+    "reading": -0.8669386225756096,
+    "star": 3.8389824501381016,
+    "star_P1h": 3.850961764781045
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3913091.osu",
+   "member": null,
+   "sha256": "2ff1f2274d0f3e7f8408582b7787168e191183fe3c5709339d9fc3d3cab58aed",
+   "star_P1h": 3.5478219021212083,
+   "cnn": -1.0244693011045456,
+   "reading": -1.038615598119674,
+   "star": 3.562771364185256,
+   "dt": {
+    "cnn": -0.074294912815094,
+    "reading": -0.10878886370514844,
+    "star": 5.058769597184786,
+    "star_P1h": 5.0211330713717395
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3919962.osu",
+   "member": null,
+   "sha256": "697a8897af8f3820fc17defb1fa851481f9e3ff4eed34db34417b0855fdbad16",
+   "star_P1h": 1.3321939358629935,
+   "cnn": -2.2165688157081602,
+   "reading": -2.284148376166971,
+   "star": 1.55883367758496,
+   "dt": {
+    "cnn": -1.7736697614192962,
+    "reading": -1.787535913569,
+    "star": 2.357833468658835,
+    "star_P1h": 2.3525450543323836
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3924584.osu",
+   "member": null,
+   "sha256": "a2ab88e5da2c708a41abd770446ac0bcc39b1432d3a44c9f309c6bcb8da2f2ea",
+   "star_P1h": 1.6417821237998242,
+   "cnn": -2.3178403258323668,
+   "reading": -2.3424180739256135,
+   "star": 1.4650835608610802,
+   "dt": {
+    "cnn": -1.6682830691337585,
+    "reading": -1.6926060536897232,
+    "star": 2.510566120218604,
+    "star_P1h": 2.4146807041149474
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3934348.osu",
+   "member": null,
+   "sha256": "a2f7a1fed3ee41fdd3975f11e926818b1f4dbc0d891e51f2e760929127f278aa",
+   "star_P1h": 2.343183030538199,
+   "cnn": -1.7826069712638855,
+   "reading": -1.7516434365318623,
+   "star": 2.4155808749638865,
+   "dt": {
+    "cnn": -1.2687904059886932,
+    "reading": -1.2925221736877064,
+    "star": 3.154261074753849,
+    "star_P1h": 3.111217359103529
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3954287.osu",
+   "member": null,
+   "sha256": "8034baf6964c88c1e60e7ea103b487e40df723dfa316ed5a93bc441457613334",
+   "star_P1h": 3.3738575131393294,
+   "cnn": -1.156477028131485,
+   "reading": -1.1624378104024475,
+   "star": 3.363553806843502,
+   "dt": {
+    "cnn": -0.7681527316570282,
+    "reading": -0.7637483157735055,
+    "star": 4.005005334752006,
+    "star_P1h": 3.978841167316613
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/3957740.osu",
+   "member": null,
+   "sha256": "8f40c1bddad421b962b337bb45f2eff908a2617229344d078a099e819c9230ed",
+   "star_P1h": 6.465747419336765,
+   "cnn": 0.8007212817668915,
+   "reading": 0.7817724738307974,
+   "star": 6.491593733146369,
+   "dt": {
+    "cnn": 2.527651083469391,
+    "reading": 2.196413124833029,
+    "star": 8.76760907654386,
+    "star_P1h": 8.604651403698723
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4014334.osu",
+   "member": null,
+   "sha256": "f7d2e0df835a730f3bf47b21b7949f6f0353184ddab879a6e3e29006fc7e3761",
+   "star_P1h": 7.135258922727914,
+   "cnn": 1.1614033699035644,
+   "reading": 1.1610994156227274,
+   "star": 7.101892849795406,
+   "dt": {
+    "cnn": 2.69307165145874,
+    "reading": 2.526828714537982,
+    "star": 9.29921471882016,
+    "star_P1h": 9.218191346760335
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4027097.osu",
+   "member": null,
+   "sha256": "6fcd6e180555fde23dc9af796a25124a10947a068df1caaebf4f7774952374c5",
+   "star_P1h": 2.9798900042080367,
+   "cnn": -1.3469653010368348,
+   "reading": -1.3603649199415817,
+   "star": 3.045108880305989,
+   "dt": {
+    "cnn": -0.12859368026256562,
+    "reading": -0.1609399770350146,
+    "star": 4.9748636709483645,
+    "star_P1h": 4.870006096550068
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4039696.osu",
+   "member": null,
+   "sha256": "d6f78e2c0feba26412d6f7d07d6e41ab04a61c1bce7accd292f3943adea82c21",
+   "star_P1h": 1.608275746044249,
+   "cnn": -2.0110410392284392,
+   "reading": -2.056693545667289,
+   "star": 1.9247857543758986,
+   "dt": {
+    "cnn": -1.605662602186203,
+    "reading": -1.606378263885333,
+    "star": 2.649298011234887,
+    "star_P1h": 2.7062289943580304
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4040261.osu",
+   "member": null,
+   "sha256": "d4b86f17fd6d5906be02a9d593c964fa585ca51801c5ecb8ded10a91a074c441",
+   "star_P1h": 3.042953071492881,
+   "cnn": -1.2703288435935973,
+   "reading": -1.3131991487393122,
+   "star": 3.1209938895933202,
+   "dt": {
+    "cnn": -0.00047301650047302244,
+    "reading": 0.0034076778416924983,
+    "star": 5.2392826128794985,
+    "star_P1h": 5.3295709042173955
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4061075.osu",
+   "member": null,
+   "sha256": "552df9a1c06ae61891f359071db42ae9d9ef7ea8215a56ca965b33e29566ec75",
+   "star_P1h": 1.9790891301150335,
+   "cnn": -1.9486188054084779,
+   "reading": -1.944234108047993,
+   "star": 2.105721743561584,
+   "dt": {
+    "cnn": -1.604823851585388,
+    "reading": -1.6192605086698062,
+    "star": 2.6285717676011484,
+    "star_P1h": 2.59832841671057
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4067305.osu",
+   "member": null,
+   "sha256": "a35f2650d538b9a59c4132a260c33f41ba2e6c2d3ae621a2266d7555b9f362bb",
+   "star_P1h": 4.225582515319481,
+   "cnn": -0.546091440320015,
+   "reading": -0.5653860669092985,
+   "star": 4.324150356949629,
+   "dt": {
+    "cnn": 0.2955537557601929,
+    "reading": 0.2722871383172868,
+    "star": 5.671882776838682,
+    "star_P1h": 5.428590247380558
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4084642.osu",
+   "member": null,
+   "sha256": "f72018a5aa0fb7b3ff8b9727b914993ffed1a0535a6d7a8ca5f8682952b33192",
+   "star_P1h": 1.5502478241497792,
+   "cnn": -2.0307503759860994,
+   "reading": -2.138325457174264,
+   "star": 1.7934481719523263,
+   "dt": {
+    "cnn": -1.4473983645439148,
+    "reading": -1.5101954151712658,
+    "star": 2.80404659653095,
+    "star_P1h": 2.7799625694185255
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4086155.osu",
+   "member": null,
+   "sha256": "70104404dbe8a74c7a24a4ee9f4be03ab272d4c5b60bfc6eacebb92d2a80b55e",
+   "star_P1h": 2.4640721393156264,
+   "cnn": -1.728049600124359,
+   "reading": -1.7391522680374645,
+   "star": 2.435677915954523,
+   "dt": {
+    "cnn": -1.3325478374958037,
+    "reading": -1.3336645129705587,
+    "star": 3.0880671650816676,
+    "star_P1h": 3.0178252176346283
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4089656.osu",
+   "member": null,
+   "sha256": "44871dc87fdb14f00fc0ad9c5c188313ed331a350f8246bd0c312a734bd1cb30",
+   "star_P1h": 2.5122874508909394,
+   "cnn": -1.6870956778526307,
+   "reading": -1.7522580503996301,
+   "star": 2.4145920227120348,
+   "dt": {
+    "cnn": -0.24730288982391357,
+    "reading": -0.3440625509346697,
+    "star": 4.68023776180121,
+    "star_P1h": 4.83567950435438
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4089890.osu",
+   "member": null,
+   "sha256": "fa59f000c9bea2047d3907a84b49e6eb3c26d7fc6046790bfb7e09d3da7bdb3b",
+   "star_P1h": 3.3161163638944853,
+   "cnn": -1.1919152766466141,
+   "reading": -1.1937761569800422,
+   "star": 3.3131335410348095,
+   "dt": {
+    "cnn": -0.9439453154802322,
+    "reading": -1.0102475509510698,
+    "star": 3.6084127152748233,
+    "star_P1h": 3.4006409901841623
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4106606.osu",
+   "member": null,
+   "sha256": "3b5350a55d0b1690bf4307ee6374a3f92ef8cafb7ae46396db4be904f96e46b1",
+   "star_P1h": 3.281034604551098,
+   "cnn": -1.1772451937198638,
+   "reading": -1.1826460504113459,
+   "star": 3.3310407694931854,
+   "dt": {
+    "cnn": -0.7004093378782272,
+    "reading": -0.740486089732739,
+    "star": 4.042431930228996,
+    "star_P1h": 3.9585696304852878
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4113209.osu",
+   "member": null,
+   "sha256": "45c0350d058088d6bce6f82a203173c42ba270e5eef28e487de126fc0e50488d",
+   "star_P1h": 2.466844860822742,
+   "cnn": -1.7732009053230287,
+   "reading": -1.7520375928771035,
+   "star": 2.414946716820028,
+   "dt": {
+    "cnn": -1.0351493656635284,
+    "reading": -1.000753797809224,
+    "star": 3.6236872147047388,
+    "star_P1h": 3.724575008351349
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4138640.osu",
+   "member": null,
+   "sha256": "effc7f10ca48887e311604831801a96fea0b3808113d06f72d722c6771e31617",
+   "star_P1h": 3.5690305214819493,
+   "cnn": -0.9991411089897155,
+   "reading": -1.031384287038285,
+   "star": 3.574405820584103,
+   "dt": {
+    "cnn": 0.5187506794929504,
+    "reading": 0.4807852440265554,
+    "star": 6.007335379114324,
+    "star_P1h": 6.011817142013056
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4174427.osu",
+   "member": null,
+   "sha256": "ccb6974c82b7140e60d4ac12baef71f5bf8f326cf3b7ba2e855d65b473470ec2",
+   "star_P1h": 2.0517811054327804,
+   "cnn": -1.9302007377147674,
+   "reading": -1.9413841344541776,
+   "star": 2.110307066076673,
+   "dt": {
+    "cnn": -1.6542966544628144,
+    "reading": -1.6167564994115806,
+    "star": 2.6326004680967077,
+    "star_P1h": 2.591403427145919
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4178205.osu",
+   "member": null,
+   "sha256": "432dd4e408e0a963871fd4bb718a801a33e9760317d522b32fbff2a2710e6e55",
+   "star_P1h": 4.326889964933255,
+   "cnn": -0.5871009081602097,
+   "reading": -0.5959246472896313,
+   "star": 4.275016834975712,
+   "dt": {
+    "cnn": 1.095164132118225,
+    "reading": 1.0633979866744707,
+    "star": 6.944701020760555,
+    "star_P1h": 6.9844505750820955
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4180158.osu",
+   "member": null,
+   "sha256": "d800aa306b4365a488065636e243ea0102886ec0b13ea9bf6b52a897044c5ef6",
+   "star_P1h": 1.6766276129635576,
+   "cnn": -2.230487751960754,
+   "reading": -2.119702092711775,
+   "star": 1.8234113030360248,
+   "dt": {
+    "cnn": -2.0300124824047088,
+    "reading": -2.065056683431842,
+    "star": 1.911330302026509,
+    "star_P1h": 1.9358182988031505
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4186795.osu",
+   "member": null,
+   "sha256": "7b4b886ad71c0e0c736d5fa7b93d17904aed0b78558a5a984356db46fbbd8a3a",
+   "star_P1h": 2.7947308095504857,
+   "cnn": -1.5217300355434418,
+   "reading": -1.549747542579016,
+   "star": 2.740411178744621,
+   "dt": {
+    "cnn": -0.4774845391511917,
+    "reading": -0.4734556510732556,
+    "star": 4.472057202988239,
+    "star_P1h": 4.557113049252872
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4196333.osu",
+   "member": null,
+   "sha256": "36d5389265c1e713ac354381400ac1d6f61f5eb32d60e9c6939d4f9a0c1598fa",
+   "star_P1h": 5.057494846609179,
+   "cnn": -0.06924353539943695,
+   "reading": -0.08863316762002899,
+   "star": 5.091198096616135,
+   "dt": {
+    "cnn": 1.5553752541542054,
+    "reading": 1.5713618325156145,
+    "star": 7.761964052334372,
+    "star_P1h": 7.670057736487787
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4207625.osu",
+   "member": null,
+   "sha256": "902445cc4b2008a41d9690742b94df318be0e953078afcc830c1db62b174c501",
+   "star_P1h": 1.577759026466509,
+   "cnn": -2.3379610657691954,
+   "reading": -2.263762120830218,
+   "star": 1.5916331237962615,
+   "dt": {
+    "cnn": -2.084313142299652,
+    "reading": -2.0780072875012148,
+    "star": 1.8904940751392951,
+    "star_P1h": 1.9821310323870525
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4236891.osu",
+   "member": null,
+   "sha256": "6c9cb10c9de64b87cbc14ff0a1c2910bbff822b80b1b52781d59d9ef503f3e05",
+   "star_P1h": 4.470849402817601,
+   "cnn": -0.5856778711080551,
+   "reading": -0.5281534665561052,
+   "star": 4.384053887657882,
+   "dt": {
+    "cnn": 1.1907683491706849,
+    "reading": 1.2219918279817257,
+    "star": 7.199862652039798,
+    "star_P1h": 7.214028122926479
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4245861.osu",
+   "member": null,
+   "sha256": "8dbc40b211e167664c029ade7b4473a254e5638d72986d59850f4ddbf7067a6c",
+   "star_P1h": 4.126656129676011,
+   "cnn": -0.7189527332782746,
+   "reading": -0.738946090182788,
+   "star": 4.0449096355049114,
+   "dt": {
+    "cnn": 0.7973057746887207,
+    "reading": 0.8272085442611982,
+    "star": 6.564695826861842,
+    "star_P1h": 6.753754612065613
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4250985.osu",
+   "member": null,
+   "sha256": "3bf01ded928cfcfcadebc76003c5431e2b639af085f5e8c52e6ebb17e95b6144",
+   "star_P1h": 2.4512688747525946,
+   "cnn": -1.6977603316307068,
+   "reading": -1.7117342270044582,
+   "star": 2.4797908021725266,
+   "dt": {
+    "cnn": -1.223720759153366,
+    "reading": -1.2555507154657257,
+    "star": 3.2137444538871933,
+    "star_P1h": 3.09355354530841
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4251717.osu",
+   "member": null,
+   "sha256": "e80315dca5bcecef43422b808392e249d7e8b417837e48a1c739be925974c512",
+   "star_P1h": 1.5415683632689596,
+   "cnn": -2.1989086627960206,
+   "reading": -2.19694610032015,
+   "star": 1.6991334191949101,
+   "dt": {
+    "cnn": -1.7330894887447357,
+    "reading": -1.7470174057657748,
+    "star": 2.4230236958634443,
+    "star_P1h": 2.451881474480519
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4268981.osu",
+   "member": null,
+   "sha256": "61c113266e6def8ac08bc8bd89159250f6c13d9ae331aacaa951053fd057da57",
+   "star_P1h": 5.156216087820032,
+   "cnn": -0.02828584611415863,
+   "reading": -0.04580226822146628,
+   "star": 5.160108730658482,
+   "dt": {
+    "cnn": 1.6999566555023193,
+    "reading": 1.642792893091265,
+    "star": 7.8768894856945355,
+    "star_P1h": 7.732385696893805
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4287453.osu",
+   "member": null,
+   "sha256": "031d514bcf1076d6b5da5a985a7ed3d678142807c880e096950cffb83e78d459",
+   "star_P1h": 5.413688644414751,
+   "cnn": 0.10155126452445984,
+   "reading": 0.09058330213471717,
+   "star": 5.379539474804546,
+   "dt": {
+    "cnn": 1.588376486301422,
+    "reading": 1.5616883785417515,
+    "star": 7.7464004322358235,
+    "star_P1h": 7.797197467305125
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4295079.osu",
+   "member": null,
+   "sha256": "194575f0096c3de87e0cdfacdd8931834ca56bbad016321f218e672cc05add7d",
+   "star_P1h": 3.103769866047926,
+   "cnn": -1.4171922028064727,
+   "reading": -1.4001040139522973,
+   "star": 2.981172651952148,
+   "dt": {
+    "cnn": -0.6783952593803406,
+    "reading": -0.6554455665730436,
+    "star": 4.179253627940629,
+    "star_P1h": 4.276513426876327
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4315292.osu",
+   "member": null,
+   "sha256": "3e13a0cf8dedd7abdfebe580b6b55a5cf451913f9eae6cb49da640e2c41c42b8",
+   "star_P1h": 4.004868084122323,
+   "cnn": -0.7356094777584076,
+   "reading": -0.752273965812391,
+   "star": 4.023466416404443,
+   "dt": {
+    "cnn": 0.7357599556446075,
+    "reading": 0.727266590045019,
+    "star": 6.403899216723431,
+    "star_P1h": 6.264264864090688
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4324149.osu",
+   "member": null,
+   "sha256": "ee150cd9b438d5b5d38c3633cd18e6b8748bf82c53710dd10aabdb305723867a",
+   "star_P1h": 1.6855130753149052,
+   "cnn": -2.2323998332023622,
+   "reading": -2.1821544839223685,
+   "star": 1.722931650817301,
+   "dt": {
+    "cnn": -1.84651158452034,
+    "reading": -1.8676133133117923,
+    "star": 2.228996940212657,
+    "star_P1h": 2.2720568939452526
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4333966.osu",
+   "member": null,
+   "sha256": "d8d09d739eb0a6b3c154884ef08fbf3442e53f155875f9f8e757c9c14f91f9c3",
+   "star_P1h": 7.029671740036792,
+   "cnn": 0.9997956156730652,
+   "reading": 1.0327529015335228,
+   "star": 6.895396143277285,
+   "dt": {
+    "cnn": 2.4817721962928774,
+    "reading": 2.3286811575110855,
+    "star": 8.980415114319586,
+    "star_P1h": 9.035535734757993
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4334888.osu",
+   "member": null,
+   "sha256": "9b413112f62ff5b4044c3692ac457a750e5061f3e1513cf141f3d9b1e9cbc8b4",
+   "star_P1h": 3.1953556270941843,
+   "cnn": -1.1695854187011718,
+   "reading": -1.2480531698955908,
+   "star": 3.2258072549549834,
+   "dt": {
+    "cnn": -0.33163825869560243,
+    "reading": -0.3146826030175463,
+    "star": 4.72750716000507,
+    "star_P1h": 4.79857467548391
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4357277.osu",
+   "member": null,
+   "sha256": "2d8c93d7056d1e1d41e0e470f8d8b42a957f46d1be2435110a4083ff2d28607d",
+   "star_P1h": 1.9012473819487692,
+   "cnn": -2.036486107110977,
+   "reading": -2.0512260875087653,
+   "star": 1.933582347807147,
+   "dt": {
+    "cnn": -1.0346832394599914,
+    "reading": -1.0853768041043979,
+    "star": 3.487537259876434,
+    "star_P1h": 3.4149436867137943
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4378040.osu",
+   "member": null,
+   "sha256": "d11c62152c832c0513b76479a8792f15e3884d9d420bbb176b7c2e1282a09bc1",
+   "star_P1h": 2.206107338521851,
+   "cnn": -1.5886615633964538,
+   "reading": -1.823990144691812,
+   "star": 2.2991822562053432,
+   "dt": {
+    "cnn": -1.5146913647651672,
+    "reading": -1.6612739685565612,
+    "star": 2.5609763119893483,
+    "star_P1h": 2.9218487377266102
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4379420.osu",
+   "member": null,
+   "sha256": "95b9491008679f81beee8885e89446211a7e91ce7b7caa39581b175002d5ca4b",
+   "star_P1h": 1.0389975681729258,
+   "cnn": -2.616439461708069,
+   "reading": -2.5861701871438547,
+   "star": 1.0729107859042522,
+   "dt": {
+    "cnn": -2.4751522064208986,
+    "reading": -2.7358484834490056,
+    "star": 0.8320933749788946,
+    "star_P1h": 0.835622803592897
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4397099.osu",
+   "member": null,
+   "sha256": "85afd37949580e16cfa4a3148084837894ad5493ad3991439e93286eb9198789",
+   "star_P1h": 3.1375789782693335,
+   "cnn": -1.2515695452690125,
+   "reading": -1.2565813394394603,
+   "star": 3.212086282975852,
+   "dt": {
+    "cnn": -0.2196689873933792,
+    "reading": -0.2361919326794017,
+    "star": 4.85379079951211,
+    "star_P1h": 4.828494030019654
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4410980.osu",
+   "member": null,
+   "sha256": "c5b9322e675f69d3b438820124f3e3054201123beb585bb13b5da390799b0eec",
+   "star_P1h": 2.6949798791951696,
+   "cnn": -1.6415066719055176,
+   "reading": -1.6163512321374707,
+   "star": 2.633252502614023,
+   "dt": {
+    "cnn": -0.5816899061203002,
+    "reading": -0.5899783067987163,
+    "star": 4.284583902191545,
+    "star_P1h": 4.302494642931712
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4413357.osu",
+   "member": null,
+   "sha256": "412b88f595e3abf6e9ee28cc55257b00abf58dee08e7dd2e79a020da8d9f6032",
+   "star_P1h": 0.3913302353007966,
+   "cnn": -2.551871156692505,
+   "reading": -2.970386752396941,
+   "star": 0.4547447540685612,
+   "dt": {
+    "cnn": -2.0021654605865478,
+    "reading": -2.185079673093382,
+    "star": 1.7182253139600574,
+    "star_P1h": 1.7014720652976938
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4419089.osu",
+   "member": null,
+   "sha256": "9b02ea9dbc40ef8441f73d3b91996b65d7abfa0417ac46df547f003f8d680df9",
+   "star_P1h": 3.487595755752587,
+   "cnn": -0.9733020275831222,
+   "reading": -0.9834134245635967,
+   "star": 3.651586141219629,
+   "dt": {
+    "cnn": 0.9218883812427521,
+    "reading": 0.8647646205742934,
+    "star": 6.625119798041981,
+    "star_P1h": 6.378311882398101
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4446468.osu",
+   "member": null,
+   "sha256": "d9c8f0c5bf2dca7c21af8aae8ac37cde420e356b5642e8ef089d6a6d8fc3a00a",
+   "star_P1h": 1.1908489653536511,
+   "cnn": -2.7362918853759766,
+   "reading": -2.554748987447886,
+   "star": 1.1234643540950957,
+   "dt": {
+    "cnn": -2.62847615480423,
+    "reading": -2.5296304326934216,
+    "star": 1.1638775968395532,
+    "star_P1h": 1.1775550546999725
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4446678.osu",
+   "member": null,
+   "sha256": "c4b0aee262f00fcdb8f9bca1387697f38e6fb563454bcae65a3008a0feb20bcb",
+   "star_P1h": 1.4394751567955186,
+   "cnn": -2.3892964363098144,
+   "reading": -2.4028722611550086,
+   "star": 1.3678188190277063,
+   "dt": {
+    "cnn": -2.213663899898529,
+    "reading": -2.247523963071978,
+    "star": 1.6177586958134942,
+    "star_P1h": 1.5038282903167932
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4458836.osu",
+   "member": null,
+   "sha256": "7354633208a3b8a4fc7cf1c9773a11aa9015288764107c59a872d030b493bc88",
+   "star_P1h": 2.9135422418261414,
+   "cnn": -1.4244794726371766,
+   "reading": -1.4556860702998455,
+   "star": 2.891746681494578,
+   "dt": {
+    "cnn": -0.321009960770607,
+    "reading": -0.3157466338339275,
+    "star": 4.725795240824594,
+    "star_P1h": 4.7004222727211165
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4476902.osu",
+   "member": null,
+   "sha256": "3246db6e91c83551bb8d44ae77a19b1d2e7325084f994125cf06606f85474f89",
+   "star_P1h": 5.756058641208021,
+   "cnn": 0.27234917879104614,
+   "reading": 0.3168832205216933,
+   "star": 5.743633413497352,
+   "dt": {
+    "cnn": 2.1184205412864685,
+    "reading": 2.1785892195606276,
+    "star": 8.738932195351094,
+    "star_P1h": 8.832449170456586
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4521090.osu",
+   "member": null,
+   "sha256": "8d9cf671c78d551235b1b9dd4a34b1d4bd8edb313424cef8e6e74038c841b9d9",
+   "star_P1h": 2.9259582261999544,
+   "cnn": -1.4854638636112214,
+   "reading": -1.4567427919038007,
+   "star": 2.8900465221059743,
+   "dt": {
+    "cnn": -0.9552042841911316,
+    "reading": -0.9724412017693922,
+    "star": 3.6692393504732244,
+    "star_P1h": 3.688644906074879
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4524050.osu",
+   "member": null,
+   "sha256": "961bfa9af32b9dbfca8eb9618f309ff0e94e3c6773708b02cb69e2225d22cae4",
+   "star_P1h": 3.759810473079895,
+   "cnn": -0.9227648258209229,
+   "reading": -0.9152415419438877,
+   "star": 3.7612678831664788,
+   "dt": {
+    "cnn": -0.7332047045230865,
+    "reading": -0.7339913746916625,
+    "star": 4.052881277258583,
+    "star_P1h": 3.9914689606915092
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4542758.osu",
+   "member": null,
+   "sha256": "c116812dbc2c5f6302d864fca959fb0965c478ce82e0e744cca4ce360f68cdea",
+   "star_P1h": 1.8034128177715125,
+   "cnn": -2.2672929048538206,
+   "reading": -2.2413214775044574,
+   "star": 1.6277378748430782,
+   "dt": {
+    "cnn": -1.500164759159088,
+    "reading": -1.464788522507126,
+    "star": 2.8771017461382846,
+    "star_P1h": 2.917063172881672
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4568147.osu",
+   "member": null,
+   "sha256": "6e38ed16c416e9303f6323db9ce04d4d539ea65d8a583ff6ffbd729821a0d7dd",
+   "star_P1h": 4.610183927991966,
+   "cnn": -0.3431680083274841,
+   "reading": -0.3416524619617416,
+   "star": 4.684115353949753,
+   "dt": {
+    "cnn": 0.9167461812496185,
+    "reading": 0.9095353374621151,
+    "star": 6.697151404442796,
+    "star_P1h": 6.709918582009937
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4574309.osu",
+   "member": null,
+   "sha256": "e635dc67ac50c1fbcaf6077850c71b68241a9e5a98251909e365fc18e782e707",
+   "star_P1h": 4.73694037312188,
+   "cnn": -0.43847190141677855,
+   "reading": -0.383167730758594,
+   "star": 4.617321437982498,
+   "dt": {
+    "cnn": 1.0893237471580506,
+    "reading": 1.121486071044644,
+    "star": 7.038158939703727,
+    "star_P1h": 7.320423256910534
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4579793.osu",
+   "member": null,
+   "sha256": "d34d4f92b1e90a0deaa36dc09a33957d160776df1636fef65fb102931e10c389",
+   "star_P1h": 2.729056568646446,
+   "cnn": -1.3584579944610595,
+   "reading": -1.4945985550043142,
+   "star": 2.8291403848535586,
+   "dt": {
+    "cnn": 0.053940171003341676,
+    "reading": -0.10165875482437478,
+    "star": 5.070241229363063,
+    "star_P1h": 4.960915664346957
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4594075.osu",
+   "member": null,
+   "sha256": "857eb9a1f9f12ba27274ebd3d7ede7cb381f7366d1cf77cee63804a8150e7d4b",
+   "star_P1h": 2.576287222537987,
+   "cnn": -1.5819833874702454,
+   "reading": -1.592806725480012,
+   "star": 2.671133259375208,
+   "dt": {
+    "cnn": -0.5581409960985184,
+    "reading": -0.5880964661978365,
+    "star": 4.2876115955343,
+    "star_P1h": 4.324079839436454
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4602259.osu",
+   "member": null,
+   "sha256": "802047441da520c6309607f68965100800c5549d062587e6b556d57c068eed70",
+   "star_P1h": 4.037215355884584,
+   "cnn": -0.8355315357446671,
+   "reading": -0.8255551476274725,
+   "star": 3.9055643229821593,
+   "dt": {
+    "cnn": -0.08639117777347564,
+    "reading": -0.07800076589991792,
+    "star": 5.108304567743621,
+    "star_P1h": 5.182424517595
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4618804.osu",
+   "member": null,
+   "sha256": "b5f07821138f5e8562c75711d06f99874667f4c0dc32cad663b40c284f6274e1",
+   "star_P1h": 5.4348487042454705,
+   "cnn": 0.27093787789344786,
+   "reading": 0.28793405069572686,
+   "star": 5.697057094164355,
+   "dt": {
+    "cnn": 1.932305061817169,
+    "reading": 1.93235505098232,
+    "star": 8.342766041525454,
+    "star_P1h": 7.928025421222388
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4627426.osu",
+   "member": null,
+   "sha256": "eb06dc1e22e4410af038deeccd21ca1ef8541b558cc6a7d39ff0ed6202316b67",
+   "star_P1h": 1.3999299693174838,
+   "cnn": -2.413972461223602,
+   "reading": -2.410210513380815,
+   "star": 1.3560123050216064,
+   "dt": {
+    "cnn": -2.020867919921875,
+    "reading": -2.1090101882328733,
+    "star": 1.8406135081521295,
+    "star_P1h": 1.8645521263579528
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4657513.osu",
+   "member": null,
+   "sha256": "5a7fbd7a86f0c139069d16c138dbf9793d94e176ba82ca394f140b46b06f6b38",
+   "star_P1h": 4.605292682364078,
+   "cnn": -0.458744540810585,
+   "reading": -0.4122037798136099,
+   "star": 4.570605338657883,
+   "dt": {
+    "cnn": 0.3585105061531067,
+    "reading": 0.33609201848919307,
+    "star": 5.774538448547262,
+    "star_P1h": 5.663713184620983
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4686194.osu",
+   "member": null,
+   "sha256": "ad9a74611140f5d660791534f22bacebf0508f2050763533f552ae3b04123756",
+   "star_P1h": 2.0004928368990265,
+   "cnn": -1.947292447090149,
+   "reading": -1.9555651290656975,
+   "star": 2.087491263846199,
+   "dt": {
+    "cnn": -1.4185950100421905,
+    "reading": -1.4354227887075157,
+    "star": 2.9243482752484775,
+    "star_P1h": 2.8774716126764273
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4692372.osu",
+   "member": null,
+   "sha256": "0900485ddc4abb3e9b6918be68898837002702f4c5c6910fa4f881739799b02a",
+   "star_P1h": 2.75897831210819,
+   "cnn": -1.5879690647125244,
+   "reading": -1.5613880904089135,
+   "star": 2.721682701341099,
+   "dt": {
+    "cnn": -0.40444375872612,
+    "reading": -0.42740961038030906,
+    "star": 4.54614067785912,
+    "star_P1h": 4.582011300162692
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4748615.osu",
+   "member": null,
+   "sha256": "a9caa0285b4b75ddf16bc8e59260b53c861e729e006884fe6e8efba926997de8",
+   "star_P1h": 1.7925856284881494,
+   "cnn": -1.8692767322063446,
+   "reading": -2.009225990841366,
+   "star": 2.0011563033353257,
+   "dt": {
+    "cnn": -0.44682027101516725,
+    "reading": -0.5718886920731371,
+    "star": 4.313688283323529,
+    "star_P1h": 4.178241029975071
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4769860.osu",
+   "member": null,
+   "sha256": "90780913c28d29d4b26c6295f5e7c3b9aed664a730fb4a0e084f3ee292167524",
+   "star_P1h": 4.343670068770269,
+   "cnn": -0.3953676879405975,
+   "reading": -0.4214744430945353,
+   "star": 4.555689768505202,
+   "dt": {
+    "cnn": 0.3918070137500763,
+    "reading": 0.38393062771093794,
+    "star": 5.851505986924128,
+    "star_P1h": 5.851211160160414
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4775999.osu",
+   "member": null,
+   "sha256": "b882e92696978ea109b529a74ae56d4804c3f5030a00a84fa7e2c7d72c440ae4",
+   "star_P1h": 6.797713076015852,
+   "cnn": 0.84892897605896,
+   "reading": 0.8976637136580783,
+   "star": 6.678051148904482,
+   "dt": {
+    "cnn": 2.3436785340309143,
+    "reading": 2.3238402973817185,
+    "star": 8.972626654457446,
+    "star_P1h": 9.129489025334196
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4779471.osu",
+   "member": null,
+   "sha256": "f3e420b9d52965f292b6f5f94d1cb583c77cc4b6b0c4ba1ca786b209d02c60f1",
+   "star_P1h": 4.582603858611118,
+   "cnn": -0.44865962862968445,
+   "reading": -0.4235465149334174,
+   "star": 4.552356012123624,
+   "dt": {
+    "cnn": 0.9174567520618438,
+    "reading": 0.9034588234590408,
+    "star": 6.687374901063251,
+    "star_P1h": 6.689974480611062
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4789195.osu",
+   "member": null,
+   "sha256": "45274caa394a6f0f3e47dc72fc4470efbf8069742f732978794537b97d167774",
+   "star_P1h": 4.613531953087011,
+   "cnn": -0.41301446557044985,
+   "reading": -0.4194363140920017,
+   "star": 4.558968914257378,
+   "dt": {
+    "cnn": 1.0291813254356383,
+    "reading": 1.0223486988992927,
+    "star": 6.878656821659072,
+    "star_P1h": 6.78319779722775
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4795035.osu",
+   "member": null,
+   "sha256": "85211e3037815fc06ff0a2bf030b93c146e9819d10dc193c57ab33ac17d109e1",
+   "star_P1h": 5.671564430026983,
+   "cnn": 0.24947832822799682,
+   "reading": 0.2603775418654209,
+   "star": 5.652721427107275,
+   "dt": {
+    "cnn": 1.676531434059143,
+    "reading": 1.6692738578587523,
+    "star": 7.919494709908946,
+    "star_P1h": 7.889037909188065
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4805048.osu",
+   "member": null,
+   "sha256": "683cdad58eba3b5b426c9b5ebf02d1d68a5d1dce885d23abfa4d4100d09e2dfc",
+   "star_P1h": 0.26818879616901015,
+   "cnn": -2.875979518890381,
+   "reading": -3.1836981268875,
+   "star": 0.11154808365070057,
+   "dt": {
+    "cnn": -2.5833049178123475,
+    "reading": -2.8246058377531194,
+    "star": 0.6892916676390062,
+    "star_P1h": 0.5378992656723627
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4806696.osu",
+   "member": null,
+   "sha256": "f46fb8605ffd5454e6369d492ca4d65f95bcf82b50eadd764986ddf0666cc794",
+   "star_P1h": 3.275982188037086,
+   "cnn": -1.2311929702758788,
+   "reading": -1.219928154029705,
+   "star": 3.2710575929816077,
+   "dt": {
+    "cnn": -0.44631190598011017,
+    "reading": -0.4474108374165306,
+    "star": 4.513960703680543,
+    "star_P1h": 4.477898767965979
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4807179.osu",
+   "member": null,
+   "sha256": "c8f615869df0f90730f3d60c777e334a313072eb1e4d81c5180466c605ce5b7e",
+   "star_P1h": 2.943442836562792,
+   "cnn": -1.4629194915294648,
+   "reading": -1.4657869895573294,
+   "star": 2.8754953125012124,
+   "dt": {
+    "cnn": -0.05728392899036407,
+    "reading": -0.07728054526738612,
+    "star": 5.1094633307193025,
+    "star_P1h": 5.1329025455809
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4812611.osu",
+   "member": null,
+   "sha256": "15ee999b925a7694f13a83c4f2416947f0451858203b41478d3ccadaca01aea8",
+   "star_P1h": 5.503320845149302,
+   "cnn": 0.12139935493469238,
+   "reading": 0.1349545497997042,
+   "star": 5.450928375172744,
+   "dt": {
+    "cnn": 1.6658301830291748,
+    "reading": 1.710187670496138,
+    "star": 7.985320943061236,
+    "star_P1h": 7.982508941674579
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4818049.osu",
+   "member": null,
+   "sha256": "f4138e7fe53f12f99f2ee331faaa8d6e60bc16bf69745f45632007e1de5989a3",
+   "star_P1h": 3.2236517864290057,
+   "cnn": -1.2198837757110597,
+   "reading": -1.203340195455445,
+   "star": 3.297745959531734,
+   "dt": {
+    "cnn": -0.5220815718173981,
+    "reading": -0.5402932567325983,
+    "star": 4.364522179242922,
+    "star_P1h": 4.3286297672162295
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4843564.osu",
+   "member": null,
+   "sha256": "597205726d06d362e5414ca40a9276e7e77a3953235f45b04f55f3bd5f227814",
+   "star_P1h": 3.9700447349608066,
+   "cnn": -0.8599003285169602,
+   "reading": -0.8387084823990285,
+   "star": 3.8844019226682027,
+   "dt": {
+    "cnn": 0.2819190979003906,
+    "reading": 0.2893536129752516,
+    "star": 5.699341027915882,
+    "star_P1h": 5.762206945255265
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4917580.osu",
+   "member": null,
+   "sha256": "c3dd8f0d1cdfa4c0722838111e83ce94ed4bdc14736317814c09c1061ccdacb9",
+   "star_P1h": 3.986509561408129,
+   "cnn": -0.8665352940559388,
+   "reading": -0.8301796975891351,
+   "star": 3.89812388454884,
+   "dt": {
+    "cnn": 0.6622481644153595,
+    "reading": 0.6646651360996501,
+    "star": 6.303179737470726,
+    "star_P1h": 6.4176471829706205
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/4929873.osu",
+   "member": null,
+   "sha256": "5e9895b2f361a9481eb966b08aec76e3527cd0216eff7e8f5b0a4a31370a4d1c",
+   "star_P1h": 4.177324608447095,
+   "cnn": -0.7453219622373581,
+   "reading": -0.7086931143399238,
+   "star": 4.093583648338496,
+   "dt": {
+    "cnn": 0.9618523418903351,
+    "reading": 0.9666820359634454,
+    "star": 6.7890947276615865,
+    "star_P1h": 6.884034517355281
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5039086.osu",
+   "member": null,
+   "sha256": "5c755ffc0c668a7a5ad8b8d891e35fe580fe7c8e038b62ce2419ecf30c554dda",
+   "star_P1h": 1.3534022472050893,
+   "cnn": -2.3988460183143614,
+   "reading": -2.4447402229352737,
+   "star": 1.300457455319438,
+   "dt": {
+    "cnn": -1.9314439356327058,
+    "reading": -2.0169404339076458,
+    "star": 1.988744535885988,
+    "star_P1h": 1.9824932834394473
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5039490.osu",
+   "member": null,
+   "sha256": "2a62e82fa191331ee76baa6e7f3de9c69fb1ebaa034edb1e6362955ec3493d0c",
+   "star_P1h": 2.5691574171253446,
+   "cnn": -1.8407329320907593,
+   "reading": -1.7862324246895878,
+   "star": 2.3599306519169216,
+   "dt": {
+    "cnn": -1.1475917458534242,
+    "reading": -1.1224076287978522,
+    "star": 3.427958366027135,
+    "star_P1h": 3.436486681561961
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5039797.osu",
+   "member": null,
+   "sha256": "6a99eb382a5abf23dd913bd4cde32c8920c64b6fa43b0909510a6aacb69d5e59",
+   "star_P1h": 1.1590282917894514,
+   "cnn": -2.551841926574707,
+   "reading": -2.48929659008929,
+   "star": 1.2287707162053412,
+   "dt": {
+    "cnn": -2.1815728545188904,
+    "reading": -2.1597988451315073,
+    "star": 1.7588996380679176,
+    "star_P1h": 1.7118925683368666
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5053973.osu",
+   "member": null,
+   "sha256": "e68ea4dd9d011f9f6a4389c23639b1bb97adb71418cdebd234fbf8810affba10",
+   "star_P1h": 2.6060634843030446,
+   "cnn": -1.6478781640529632,
+   "reading": -1.642326113013396,
+   "star": 2.591461516772747,
+   "dt": {
+    "cnn": -0.8781873226165772,
+    "reading": -0.8812857449065479,
+    "star": 3.8158993650198547,
+    "star_P1h": 3.8154309057959663
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5058169.osu",
+   "member": null,
+   "sha256": "1d465f7b8511a7262abe451f4cab32e4b5ab56d1681d8862278e44e6b267955e",
+   "star_P1h": 6.79207544159462,
+   "cnn": 0.8889923632144928,
+   "reading": 0.9083398760565424,
+   "star": 6.695228026587371,
+   "dt": {
+    "cnn": 2.6772484183311462,
+    "reading": 2.355963379137976,
+    "star": 9.02430948069509,
+    "star_P1h": 9.127254788647036
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5059937.osu",
+   "member": null,
+   "sha256": "7d284d2d58801465bc3624a42b1bd32082dab43d948e5eb1a5575e38df2b8731",
+   "star_P1h": 2.6670596586542636,
+   "cnn": -1.5893081843852996,
+   "reading": -1.5729284949624969,
+   "star": 2.7031153444548384,
+   "dt": {
+    "cnn": -0.9554788917303085,
+    "reading": -0.9695171723116129,
+    "star": 3.6739438214678453,
+    "star_P1h": 3.626686662035092
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5077407.osu",
+   "member": null,
+   "sha256": "6a063afa3300762bdf077478a47b811c57fc4149d34d0a935a718955248fd043",
+   "star_P1h": 4.532115096046268,
+   "cnn": -0.3515219658613205,
+   "reading": -0.4037988460097378,
+   "star": 4.584128036654932,
+   "dt": {
+    "cnn": 1.305805516242981,
+    "reading": 1.282740535006715,
+    "star": 7.297601246772303,
+    "star_P1h": 7.1998117121460075
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5105803.osu",
+   "member": null,
+   "sha256": "10c92c327ee1b2c7ce993efc2a66a3dbcd2f243926b08aa08cd1df8b7ba55a12",
+   "star_P1h": 1.1188053979459758,
+   "cnn": -2.55213326215744,
+   "reading": -2.483678306946987,
+   "star": 1.2378099719529918,
+   "dt": {
+    "cnn": -2.2669066786766052,
+    "reading": -2.338436194394643,
+    "star": 1.4714900068384589,
+    "star_P1h": 1.4649529616386094
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5129767.osu",
+   "member": null,
+   "sha256": "063a4f429f12102ee41339c9438966d4f24f1d40756ae3ee56f295ab60238d1e",
+   "star_P1h": 3.653428140995843,
+   "cnn": -1.095351454615593,
+   "reading": -1.0629590530909327,
+   "star": 3.523605179481998,
+   "dt": {
+    "cnn": -0.5290055453777314,
+    "reading": -0.5332338954749722,
+    "star": 4.375879985570316,
+    "star_P1h": 4.332899891422007
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5131269.osu",
+   "member": null,
+   "sha256": "f659685c2ed676a5ce2a3d6f4846bb232701d0941355f993bfb6b51964d9fc24",
+   "star_P1h": 6.963171917070362,
+   "cnn": 1.094253623485565,
+   "reading": 1.0886279314165956,
+   "star": 6.9852934788561605,
+   "dt": {
+    "cnn": 2.695752799510956,
+    "reading": 2.413684931669113,
+    "star": 9.117177686562435,
+    "star_P1h": 9.214337975432834
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5157084.osu",
+   "member": null,
+   "sha256": "814bca11043ce87f353f2e5dbf5973d4c30f67b959280b7412aa397ec3eb9e05",
+   "star_P1h": 1.0025392216501103,
+   "cnn": -2.575821542739868,
+   "reading": -2.7111653511727827,
+   "star": 0.8718060664981095,
+   "dt": {
+    "cnn": -2.2951469719409943,
+    "reading": -2.4123218508491426,
+    "star": 1.3526153741688138,
+    "star_P1h": 1.3270919693406649
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5179817.osu",
+   "member": null,
+   "sha256": "83cd6a434d1544b482768bef6611500869ace9572c87f65dfe1211f0064b17b9",
+   "star_P1h": 2.435682625687206,
+   "cnn": -1.9416608572006226,
+   "reading": -1.901987442231214,
+   "star": 2.1736924041941994,
+   "dt": {
+    "cnn": -1.5067861139774323,
+    "reading": -1.4968793812728705,
+    "star": 2.8254707634700784,
+    "star_P1h": 2.986839472857557
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5213633.osu",
+   "member": null,
+   "sha256": "b62c48169a1214fdfb29be05fe7bdbc92a4b8a3bb69086e7b20cf88f6462a562",
+   "star_P1h": 3.407523765951476,
+   "cnn": -1.106201818585396,
+   "reading": -1.1094054521264323,
+   "star": 3.4488775680737827,
+   "dt": {
+    "cnn": 0.021540829539299013,
+    "reading": 0.023126846246762076,
+    "star": 5.271008782926415,
+    "star_P1h": 5.302102779168653
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5216355.osu",
+   "member": null,
+   "sha256": "d14b00901879e205af169fc5c7abf9b994c37cc1d2225a6078192364564fe7b6",
+   "star_P1h": 1.7223319113886415,
+   "cnn": -2.328447961807251,
+   "reading": -2.3126911557181717,
+   "star": 1.5129111995650328,
+   "dt": {
+    "cnn": -2.1701841711997987,
+    "reading": -2.223518528099691,
+    "star": 1.6563810401404067,
+    "star_P1h": 1.7461844391015822
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5255489.osu",
+   "member": null,
+   "sha256": "0771c3854e0d46c5456fded088b7da2ff15c7d9e0471ee4c093d6ce54eae8bce",
+   "star_P1h": 3.0531171295984127,
+   "cnn": -1.3769062519073487,
+   "reading": -1.3483644102291614,
+   "star": 3.064416500382302,
+   "dt": {
+    "cnn": 0.18532663583755493,
+    "reading": 0.16648293587188653,
+    "star": 5.501654395524278,
+    "star_P1h": 5.445499845047119
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5255940.osu",
+   "member": null,
+   "sha256": "09f7e20b97b341d11fb533a2533d29772d7226167c30fa44f549e36e45c0c4c4",
+   "star_P1h": 4.398016203708853,
+   "cnn": -0.6202243208885193,
+   "reading": -0.604593594936482,
+   "star": 4.261069365106693,
+   "dt": {
+    "cnn": 0.44122435450553893,
+    "reading": 0.4452077146194955,
+    "star": 5.950094692051306,
+    "star_P1h": 5.830271369472035
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5260473.osu",
+   "member": null,
+   "sha256": "03ede8b4a7c35ff77cef18db00c043750b4eb84366c821d7e1dea589a744b37b",
+   "star_P1h": 5.589669617169887,
+   "cnn": 0.21160126924514772,
+   "reading": 0.21395256771723475,
+   "star": 5.578028286200259,
+   "dt": {
+    "cnn": 1.6387229800224303,
+    "reading": 1.6674152395270059,
+    "star": 7.916504378874999,
+    "star_P1h": 7.643982560264854
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5303527.osu",
+   "member": null,
+   "sha256": "f1271612c0a5bddcf2598927942d5d3f5f870584682bc1398ff8fa4a4cfb0ca5",
+   "star_P1h": 4.058239705503637,
+   "cnn": -0.7700944423675538,
+   "reading": -0.7495062985812934,
+   "star": 4.027919316212556,
+   "dt": {
+    "cnn": 0.4603503406047821,
+    "reading": 0.4854126988251496,
+    "star": 6.014780491139783,
+    "star_P1h": 6.069476396244216
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5318853.osu",
+   "member": null,
+   "sha256": "f9c2a8c7e4dd9814708b28d54b5e14b7bc304aefc4318f10745ba4392bfa7a35",
+   "star_P1h": 6.852577575298242,
+   "cnn": 1.090862476825714,
+   "reading": 1.0757128303289907,
+   "star": 6.964514372716312,
+   "dt": {
+    "cnn": 2.913373351097107,
+    "reading": 2.3575388240410264,
+    "star": 9.026844213999606,
+    "star_P1h": 9.257330377304893
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5413013.osu",
+   "member": null,
+   "sha256": "9ff185fe62d0959889a400d2294e0c3b5281cd7f9c84eff59baf6e3cc82ec9ff",
+   "star_P1h": 4.3772407304193495,
+   "cnn": -0.4887827694416046,
+   "reading": -0.46956591780493306,
+   "star": 4.4783153948436425,
+   "dt": {
+    "cnn": 0.4100016951560974,
+    "reading": 0.39920768512484467,
+    "star": 5.876085244597363,
+    "star_P1h": 5.793385340473067
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5435949.osu",
+   "member": null,
+   "sha256": "1bb3d8cfb2a8b1ca126163ce5843a3b172baa50de82d7cc032df96fcd8101f9e",
+   "star_P1h": 4.789479639431422,
+   "cnn": -0.3325187176465988,
+   "reading": -0.277543998791896,
+   "star": 4.787259460343718,
+   "dt": {
+    "cnn": 0.9328646242618561,
+    "reading": 0.9178132161995295,
+    "star": 6.7104696835434225,
+    "star_P1h": 6.554712968198373
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5437299.osu",
+   "member": null,
+   "sha256": "4390dc10dc7a03456eefd2b338480d227a74b97e79a8bd6614098213058c20ce",
+   "star_P1h": 1.0174661522936432,
+   "cnn": -2.1453396558761595,
+   "reading": -2.398295430909428,
+   "star": 1.3751824812098206,
+   "dt": {
+    "cnn": -1.7782280445098877,
+    "reading": -2.032956055060344,
+    "star": 1.9629770030134126,
+    "star_P1h": 1.8206603630051328
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5442353.osu",
+   "member": null,
+   "sha256": "ad7df3217015c6467351a52bb6a47b9e0a04e604f27ad7066e43779d225b5c49",
+   "star_P1h": 3.808530875368855,
+   "cnn": -0.9873274356126786,
+   "reading": -0.9562427442889364,
+   "star": 3.69530104871353,
+   "dt": {
+    "cnn": 0.3464561402797699,
+    "reading": 0.35322077493656756,
+    "star": 5.802096904795443,
+    "star_P1h": 5.803022345047221
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5444948.osu",
+   "member": null,
+   "sha256": "99ab94785e249ac2fa099636209b913cd160aa0ab30992e19c05661fed7b17bf",
+   "star_P1h": 2.12517755304775,
+   "cnn": -1.9262588500976563,
+   "reading": -1.8748619910890814,
+   "star": 2.2173345425367765,
+   "dt": {
+    "cnn": -1.581749552488327,
+    "reading": -1.6187704005515609,
+    "star": 2.6293603025525933,
+    "star_P1h": 2.3932514086839296
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5477050.osu",
+   "member": null,
+   "sha256": "f0f61ebdc75e5148567f61090b5e9476480c18d56df17a3331e71222b0c67976",
+   "star_P1h": 3.926459233052054,
+   "cnn": -0.8421774715185165,
+   "reading": -0.8606740983206729,
+   "star": 3.849061443211869,
+   "dt": {
+    "cnn": 0.36978012323379517,
+    "reading": 0.35629096355815154,
+    "star": 5.807036531268709,
+    "star_P1h": 5.775083886707108
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5552006.osu",
+   "member": null,
+   "sha256": "56f10f2cfb43d34297eb3102ff0b0c5415cf49d4236b24b24eb534b42e19fb0e",
+   "star_P1h": -0.09275042189089522,
+   "cnn": -3.1569497108459474,
+   "reading": -3.145499955534697,
+   "star": 0.17300512154022485,
+   "dt": {
+    "cnn": -3.2216717481613157,
+    "reading": -3.2995466994402656,
+    "star": -0.07484068472944383,
+    "star_P1h": -0.02590998879987705
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5572386.osu",
+   "member": null,
+   "sha256": "ef261ffaa45e0bcd0d1a01bb95454b059ba1b3b5845a0bfb008000e0ff0c8723",
+   "star_P1h": 3.036972249277358,
+   "cnn": -1.1991524159908296,
+   "reading": -1.3239943569883201,
+   "star": 3.1036254790414914,
+   "dt": {
+    "cnn": -0.8559440493583679,
+    "reading": -0.9117321938663061,
+    "star": 3.7669140732884996,
+    "star_P1h": 3.8374026761886446
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5575110.osu",
+   "member": null,
+   "sha256": "97167d786d7481d011c362220f55ac356715cd3c5d64e42591ad57dbc62a2b8b",
+   "star_P1h": 6.118092229018761,
+   "cnn": 0.5360324859619141,
+   "reading": 0.5485251334165063,
+   "star": 6.116322087153817,
+   "dt": {
+    "cnn": 2.2637433409690857,
+    "reading": 2.2967652825191074,
+    "star": 8.929065663044991,
+    "star_P1h": 8.945057520326433
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5630323.osu",
+   "member": null,
+   "sha256": "172adc83dd7e92f034bc9867abf3364d15355e6b6c9509379da1d0185491dc8b",
+   "star_P1h": 3.4652334547330055,
+   "cnn": -1.146636927127838,
+   "reading": -1.1466222011623803,
+   "star": 3.388999540549846,
+   "dt": {
+    "cnn": -0.28815757036209105,
+    "reading": -0.28537348893092346,
+    "star": 4.774662593659037,
+    "star_P1h": 4.87476343662045
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5663522.osu",
+   "member": null,
+   "sha256": "80604362c2566a64dbf5b110a7acd7755be7fe034061ceb7ee75467c6e7be126",
+   "star_P1h": 5.689027520607245,
+   "cnn": 0.2568861782550812,
+   "reading": 0.28089429233640606,
+   "star": 5.685730826940043,
+   "dt": {
+    "cnn": 1.5935726404190063,
+    "reading": 1.6297413833945549,
+    "star": 7.855890911743499,
+    "star_P1h": 8.186139782669457
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5676685.osu",
+   "member": null,
+   "sha256": "4d129ed6ab254845446f6757c51b1caef3d8ac07111a24ede1a46c16eb3d14e8",
+   "star_P1h": 1.7528500919038974,
+   "cnn": -2.103356683254242,
+   "reading": -2.0899947633027987,
+   "star": 1.871207425322127,
+   "dt": {
+    "cnn": -1.410059678554535,
+    "reading": -1.4220626805470542,
+    "star": 2.945843353267844,
+    "star_P1h": 3.0297644069267884
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5711091.osu",
+   "member": null,
+   "sha256": "9466325088667930d626491eeaebc8ea6f0a61164f3979a54c4919b63dd4d758",
+   "star_P1h": 2.4325580835058576,
+   "cnn": -1.7499220848083497,
+   "reading": -1.8258479725710093,
+   "star": 2.2961931969305027,
+   "dt": {
+    "cnn": -0.6288660407066345,
+    "reading": -0.7207885933236938,
+    "star": 4.074123232201509,
+    "star_P1h": 4.253327507273254
+   }
+  },
+  {
+   "set": "ranked200",
+   "source": "data/crowd-chart-model-20261009/osu/5746368.osu",
+   "member": null,
+   "sha256": "f8b79e45b6102fd70015611cfaf2e7401aa742c9886ee278f4cd00f65bc3928a",
+   "star_P1h": 4.35343605614965,
+   "cnn": -0.5789894491434098,
+   "reading": -0.5730970249076954,
+   "star": 4.311744196626009,
+   "dt": {
+    "cnn": 0.43827645778656005,
+    "reading": 0.4476140702441592,
+    "star": 5.9539662776158275,
+    "star_P1h": 5.964873313444302
+   }
+  }
+ ]
+}
