@@ -1,7 +1,9 @@
-// Key-pattern items, beta (route A, arm C2): jack / speed / trill (tA) stars, loss shares and the tech tag.
+// Key-pattern items, beta (route A, arm C2): jack / speed / trill (tA) stars, loss shares and the tech tag, plus the speed class
+// split into luan / qie by community sections (community r2 step 1; docs/pattern-items-community-r2-plan-2026-10-25.md).
 // Research repository docs/pattern-items-route-a-final-2026-10-19.md; Python reference analysis/web-items-r1/wi_ref.py
 // (= pattern-items ext1: r1 PIEngine arm C, r5 p5_classify, r5 reduce_chart, r3 readouts with the C2 calibration, r5
-// overlay readouts). Every step below mirrors the reference arithmetic, including NumPy / PyTorch summation orders.
+// overlay readouts) and analysis/pattern-items-community-r2/wi_ref_r2.py (pc_sections luan_s / qie_s, read out like the overlays).
+// Every step below mirrors the reference arithmetic, including NumPy / PyTorch summation orders.
 // NoMod 1.0x with the file OD only; the total star is never changed.
 import { rint, ssLeft, ssRight, quantile, median } from './pyutil.js';
 
@@ -168,7 +170,66 @@ export function classifyNotes(notes) {
     ovTA[i] = c >= 5 && c <= 7 && stepsTA[i] >= MIN_STEPS ? 1 : 0;
     ovRA[i] = c >= 4 && c <= 7 && rA[inv[i]] ? 1 : 0;
   }
-  return { piece, headR3, ovTA, ovRA };
+  // community sections (slide): the speed head class split into luan / qie
+  const sec = noteSections(start, col);
+  return { piece, headR3, ovTA, ovRA, sec, sets: communitySets(headR3, sec) };
+}
+
+// ------------------------------------------------------------------ community sections (community r2, step 1)
+// Research repository analysis/pattern-items-community-r2/pc_sections.py (note_sections 'slide'; all_masks luan_s / qie_s);
+// docs/pattern-items-community-r2-plan-2026-10-25.md. Step 2 (zidan out of jack, jack_c / speed_c) was not adopted.
+const ACTIVE_MS = 200, HALF_MS = 1000, MIN_ACT = 6;
+const POP = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
+// sections: 0 small jack, 1 big jack, 2 dense jack, 3 luan (stream), 4 jumpstream, 5 handstream, 6 other
+export const COMMUNITY_SETS = ['luan_s', 'qie_s'];
+
+// window sums -> section (cp_cells thresholds): < 6 active rows -> 6; overlap share >= 0.5 -> jack section by the mean keys per
+// active row (< 2: 0, < 3: 1, else 2); else stream: rows with >= 3 keys >= 10 % -> 5, rows with >= 2 keys >= 15 % -> 4, else 3
+function sectionOf(nact, nov, sk, n2, n3) {
+  if (!(nact >= MIN_ACT)) return 6;
+  if (nov / nact >= 0.5) { const mk = sk / nact; return mk < 2 ? 0 : mk < 3 ? 1 : 2; }
+  if (n3 / nact >= 0.10) return 5;
+  return n2 / nact >= 0.15 ? 4 : 3;
+}
+
+// per-note section (slide mode). Rows = presses with the same rounded start (numpy.rint); a row is active when it is <= 200 ms
+// after the previous row, overlap = active and shares a column with the previous row, k = keys in the row. Each row takes the
+// window of the rows with t in [t_r - 1000, t_r + 1000); the window sums are cumulative sums of small integers (exact).
+export function noteSections(start, col) {
+  const N = start.length;
+  const ts = new Float64Array(N);
+  for (let i = 0; i < N; i++) ts[i] = rint(start[i]);
+  const t = uniqueSorted(ts), R = t.length;
+  const rowOf = new Int32Array(N), mask = new Int32Array(R);
+  for (let i = 0; i < N; i++) { rowOf[i] = ssLeft(t, ts[i]); mask[rowOf[i]] |= 1 << col[i]; }
+  const cs = Array.from({ length: 5 }, () => new Float64Array(R + 1));   // active, overlap, keys, >= 2 keys, >= 3 keys (active rows)
+  for (let r = 0; r < R; r++) {
+    const k = POP[mask[r]];
+    const act = r > 0 && t[r] - t[r - 1] <= ACTIVE_MS;
+    const v = [act ? 1 : 0, act && (mask[r] & mask[r - 1]) !== 0 ? 1 : 0, act ? k : 0, act && k >= 2 ? 1 : 0, act && k >= 3 ? 1 : 0];
+    for (let j = 0; j < 5; j++) cs[j][r + 1] = cs[j][r] + v[j];
+  }
+  const rsec = new Int8Array(R);
+  for (let r = 0; r < R; r++) {
+    const lo = ssLeft(t, t[r] - HALF_MS), hi = ssLeft(t, t[r] + HALF_MS);
+    const [a, b, c, d, e] = cs.map(x => x[hi] - x[lo]);
+    rsec[r] = sectionOf(a, b, c, d, e);
+  }
+  const sec = new Int8Array(N);
+  for (let i = 0; i < N; i++) sec[i] = rsec[rowOf[i]];
+  return sec;
+}
+
+// luan_s = speed head (r3main 6) in a luan section (3); qie_s = speed head in a jumpstream / handstream section (4, 5).
+// Speed heads in jack sections (0-2) or outside any section (6) are in neither (they stay in the speed total only).
+function communitySets(head, sec) {
+  const N = head.length, luan = new Uint8Array(N), qie = new Uint8Array(N);
+  for (let i = 0; i < N; i++) {
+    if (head[i] !== 6) continue;
+    luan[i] = sec[i] === 3 ? 1 : 0;
+    qie[i] = sec[i] === 4 || sec[i] === 5 ? 1 : 0;
+  }
+  return { luan_s: luan, qie_s: qie };
 }
 
 // ------------------------------------------------------------------ action columns from the raw token one-hots
@@ -376,21 +437,27 @@ export function itemReadouts({ PI, reader, tk, cls, v1a, v1c, star }) {
   for (let p = 0; p < P; p++) { accU[p] = pairwiseSum(v1a, p * A, A) / N; v1sC[p] = pairwiseSum(v1c, p * A, A); }
   const tU = reader.theta(accU);
   const kMain = npInterp(tU.theta, PI.kslope.centres_theta, PI.kslope.slopes);
-  // piece and overlay score sums over the objects (head actions), sequential in note order
+  // piece and overlay score sums over the objects (head actions), sequential in note order. The section sets luan_s / qie_s (speed
+  // heads, so the C2 delta below does not touch them) are summed the same way as the overlays (r2 vh[:, m].sum(1)).
   const Ps = Array.from({ length: N_PIECES }, () => new Float64Array(P).fill(-0.0));
   const npc = new Float64Array(N_PIECES);
-  const Po = { tA: new Float64Array(P).fill(-0.0), rA: new Float64Array(P).fill(-0.0) };
-  const nov = { tA: 0, rA: 0 };
+  const ovm = { tA: cls.ovTA, rA: cls.ovRA, ...cls.sets };
+  const ovk = Object.keys(ovm);
+  const Po = Object.fromEntries(ovk.map(k => [k, new Float64Array(P).fill(-0.0)]));
+  const nov = Object.fromEntries(ovk.map(k => [k, 0]));
   for (let i = 0; i < N; i++) {
     const pc = cls.piece[i], a = headAct[i];
     npc[pc]++;
     for (let p = 0; p < P; p++) Ps[pc][p] += v1c[p * A + a];
-    if (cls.ovTA[i]) { nov.tA++; for (let p = 0; p < P; p++) Po.tA[p] += v1c[p * A + a]; }
-    if (cls.ovRA[i]) { nov.rA++; for (let p = 0; p < P; p++) Po.rA[p] += v1c[p * A + a]; }
+    for (const k of ovk) {
+      if (!ovm[k][i]) continue;
+      nov[k]++;
+      const S = Po[k];
+      for (let p = 0; p < P; p++) S[p] += v1c[p * A + a];
+    }
   }
   for (let pc = 0; pc < N_PIECES; pc++) if (!npc[pc]) Ps[pc].fill(0);
-  if (!nov.tA) Po.tA.fill(0);
-  if (!nov.rA) Po.rA.fill(0);
+  for (const k of ovk) if (!nov[k]) Po[k].fill(0);
   // C2: S' = max(0, S - (c - 1) * (n - S)) for the LN (3, 8) and kashou-tap (2) pieces; delta off the whole-chart sum
   const delta = new Float64Array(P);
   for (const [pieces, c] of [[[3, 8], PI.calib.c_LN], [[2], PI.calib.c_KT]]) {
@@ -429,6 +496,7 @@ export function itemReadouts({ PI, reader, tk, cls, v1a, v1c, star }) {
   }
   items.trill_tA = readout(Po.tA, nov.tA);
   items.tech_rA = readout(Po.rA, nov.rA);
+  for (const k of COMMUNITY_SETS) if (Po[k]) items[k] = readout(Po[k], nov[k]);
   const techTag = items.tech_rA.n >= PI.min_n && items.tech_rA.share >= PI.tech_tau;
   return { thetaU: tU.theta, flagU: tU.flag, kMain, thetaAll: all.theta, flagAll: all.flag, items, techTag };
 }

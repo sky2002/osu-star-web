@@ -42,7 +42,8 @@ export function subRows(result) {
 
 export const ITEMS_NOTE =
   '测试版：只在 NoMod、非变速谱上检验过，读数可能调整。分项★ = 平均要多强才能在这张谱的【这类键】上打到 96%（和总星数同一刻度），' +
-  '不是加起来等于总星数。“叠”只算同列紧挨着、间隔 <200 ms 的连按，对切、交互不算叠。长条★ 暂不显示。详见页面下方说明。';
+  '不是加起来等于总星数。“叠”只算同列紧挨着、间隔 <200 ms 的连按，对切、交互不算叠。乱、切按社区的习惯整段归类（每一行看前后各 1 秒），' +
+  '叠段里的快键只算进乱/切合计。长条★ 暂不显示。详见页面下方说明。';
 export const ITEMS_TECH_NOTE = '节奏不规则较多（多级乱）：乱、切里的分音突然变化，比如 1/4 接 1/3';
 
 const pctText = (x) => (Number.isFinite(x) ? `${Math.round(x * 100)}%` : '—');
@@ -57,6 +58,9 @@ export const PATTERN_HINTS = {
   speed: { name: '乱/切', min: 90 },
   ln: { name: '长条', min: 30 },
 };
+// 每个方向读哪一项的失分占比（itemReadouts 的 items 键名）：路线 A 的叠、乱/切合计（快键）、长条。
+// 要换成别的项，tools/hint-reference.py 的 HINT_ITEM 要一起改，再重生成 tests/fixtures/reference-hints.json。
+export const HINT_ITEM = { jack: 'jack', speed: 'speed', ln: 'ln' };
 export const HINT_GROUP_NOTE = '（群体平均，不是你个人的读数）';
 const HINT_TITLES = {
   jack: '叠占失分 ≥45% 时提示。数字 = 0.72 × 叠的失分占比，保留一位小数。来源：失分份额检验（2026-10-23）——在水平相同、稳定程度相近的玩家里，' +
@@ -71,16 +75,17 @@ const HINT_TITLES = {
 
 /**
  * 键型分项的“苦手要小心”提示（纯规则，不看 Mod / OD / 变速，这些由 patternItemView 决定显不显示）。
- * items：itemReadouts 的 items（用各类的 s = 失分占比）；star：总星数。
+ * items：itemReadouts 的 items（用 HINT_ITEM 指定那一项的 s = 失分占比）；star：总星数。
  * 返回 [{ key, tag, pct, text, delta (星，只有叠在范围内才有，否则 null), range ('in' | 'above' | 'below'，只有叠有，否则 null),
- *   note, title }]，顺序：叠、乱/切、长条。
+ *   note, title }]，key 是方向（jack / speed / ln），顺序：叠、乱/切、长条。
  */
 export function patternHints(items, star) {
   const out = [];
   if (!items) return out;
   for (const key of ['jack', 'speed', 'ln']) {
     const H = PATTERN_HINTS[key];
-    const s = items[key] && items[key].s;
+    const v = items[HINT_ITEM[key]];
+    const s = v && v.s;
     if (!Number.isFinite(s)) continue;
     const pct = Math.round(s * 100);
     if (pct < H.min) continue;
@@ -120,17 +125,22 @@ export function patternItemView(result) {
   const x = it.items;
   const edge = (f) => (String(f || '').startsWith('censored') ? '（超出参照范围）' : '');
   const row = (key, label, few) => {
-    const v = x[key];
-    const ok = v.display && Number.isFinite(v.star);
+    const v = x[key] || {};
+    const ok = !!v.display && Number.isFinite(v.star);
     return { key, label, star: ok ? v.star : null, share: v.s, text: ok ? edge(v.flag) : few };
   };
-  const rows = [row('jack', '叠（jack）', '叠键太少'), row('speed', '乱/切', '快键太少'), row('trill_tA', '单手交互（同一只手两指来回）', '单手交互太少')];
-  const other = (Number.isFinite(x.other.s) ? x.other.s : 0) + (Number.isFinite(x.trill.s) ? x.trill.s : 0);
-  const mix = [['叠', x.jack.s], ['乱/切', x.speed.s], ['长条', x.ln.s], ['锁列', x.kashou.s], ['其他', other]];
+  // 乱 = luan_s、切 = qie_s：快键按所在的社区段分（乱段 / 双押切、三押切段）；叠段里和不归段的快键两边都不算，只在乱/切合计里
+  const rows = [row('jack', '叠（jack）', '叠键太少'), row('luan_s', '乱', '乱键太少'), row('qie_s', '切（双押切、三押切）', '切键太少'),
+    row('trill_tA', '单手交互（同一只手两指来回）', '单手交互太少')];
+  const sh = (k) => (x[k] ? x[k].s : NaN);
+  const fin = (v) => (Number.isFinite(v) ? v : 0);
+  const other = fin(sh('other')) + fin(sh('trill'));
+  const mix = [['叠', sh('jack')], ['乱/切', sh('speed'), `（乱 ${pctText(sh('luan_s'))}、切 ${pctText(sh('qie_s'))}）`],
+    ['长条', sh('ln')], ['锁列', sh('kashou')], ['其他', other]];
   const overlap = [['单手交互', x.trill_tA.s], ['节奏不规则', x.tech_rA.s]];
   return {
     state: 'ok', rows, tech: !!it.techTag,
-    mixText: '失分构成：' + mix.map(([k, v]) => `${k} ${pctText(v)}`).join(' · '),
+    mixText: '失分构成：' + mix.map(([k, v, more]) => `${k} ${pctText(v)}${more || ''}`).join(' · '),
     overlapText: `其中 ${overlap.map(([k, v]) => `${k} ${pctText(v)}`).join('、')}（与上面几类重叠）`,
     hints: patternHints(x, result.star),
   };

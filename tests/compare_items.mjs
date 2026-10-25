@@ -1,9 +1,16 @@
 // Key-pattern items (beta): JS port (docs/js/pattern-items.js + the calibrated second layer in reader.js) vs the Python reference
-// (research repo analysis/web-items-r1/wi_ref.py -> data/web-items-r1/reference-items.json and lk/<i>.bin).
-//   OSU_DIFF_ROOT=<research repository root> node tests/compare_items.mjs [--mode e2e|inject] [--shard i/n] [--limit N]
+// (research repo analysis/pattern-items-community-r2/wi_ref_r2.py -> data/web-items-r2/reference-items.json and lk/<i>.bin: the
+// route-A items of analysis/web-items-r1/wi_ref.py plus luan_s / qie_s, the speed class split by community sections).
+//   OSU_DIFF_ROOT=<research repository root> node tests/compare_items.mjs [--mode e2e|inject|layers] [--ref web-items-r2]
+//       [--shard i/n] [--limit N]
+// --ref: the reference directory under data/ (default web-items-r2; web-items-r1 compares the route-A items only). luan_s / qie_s
+//        are compared whenever the reference has them, with the per-chart note counts per section (n_sec_s) of classifyNotes.
 // inject: the Python encoder outputs (lk, both orientations) replace the ONNX encoder, so everything after the encoder must
 //         match bit for bit (stars, shares, thetas, flags, display decisions, tech tag); exit 1 on any difference.
-// e2e:    the whole browser pipeline (ONNX encoder included); reports the largest differences, exit 1 if a display decision,
+//         Status 2026-10-25: this has not held for any item since the port. The layers mode shows sigma / pi equal but the
+//         per-action v1 already different in ~3.5 % of elements (<= 2.3e-7 relative), and reader.theta's Math.log differs from
+//         NumPy's log by 1 ulp on ~5 % of inputs; counts, shares, display decisions, flags and hints are equal.
+// e2e:   the whole browser pipeline (ONNX encoder included); reports the largest differences, exit 1 if a display decision,
 //         flag or tech tag differs or a star differs by more than --tol (default 1e-6).
 // Both modes also check the "X 苦手要小心" hints (docs/js/ui-lib.js patternHints on the JS items and total star) against the
 // Python rule in tests/fixtures/reference-hints.json (tools/hint-reference.py): key, percent, jack number and star range must be
@@ -16,9 +23,9 @@ import { unzipSync } from 'fflate';
 import { createEngine } from '../docs/js/engine.js';
 import { loadChart } from '../docs/js/osu.js';
 import { tokensFromNotes } from '../docs/js/tokens.js';
-import { classifyNotes, calibInputs, itemReadouts } from '../docs/js/pattern-items.js';
+import { classifyNotes, calibInputs, itemReadouts, COMMUNITY_SETS } from '../docs/js/pattern-items.js';
 import { Reader } from '../docs/js/reader.js';
-import { patternHints, PATTERN_HINTS } from '../docs/js/ui-lib.js';
+import { patternHints, PATTERN_HINTS, HINT_ITEM } from '../docs/js/ui-lib.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const docs = path.join(here, '..', 'docs');
@@ -26,12 +33,14 @@ const root = process.env.OSU_DIFF_ROOT;
 if (!root) { console.error('set OSU_DIFF_ROOT to the research repository root'); process.exit(2); }
 const args = process.argv.slice(2);
 const arg = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
-const MODE = arg('--mode', 'inject'), LIMIT = Number(arg('--limit', Infinity)), TOL = Number(arg('--tol', 1e-6));
+const MODE = arg('--mode', 'inject'), LIMIT = Number(arg('--limit', Infinity)), TOL = Number(arg('--tol', 1e-6)), REF = arg('--ref', 'web-items-r2');
 const [SH, NSH] = arg('--shard', '0/1').split('/').map(Number);
 ort.env.wasm.numThreads = 1;
 
-const refDir = path.join(root, 'data', 'web-items-r1');
+const refDir = path.join(root, 'data', REF);
 const ref = JSON.parse(fs.readFileSync(path.join(refDir, 'reference-items.json'), 'utf8'));
+// the section sets (luan_s, qie_s), when the reference has them
+const NEW_KEYS = COMMUNITY_SETS.filter(k => ref.charts.length && ref.charts[0].items[k]);
 const hintRef = new Map(JSON.parse(fs.readFileSync(path.join(here, 'fixtures', 'reference-hints.json'), 'utf8')).charts.map(c => [c.i, c]));
 const hintKey = hs => JSON.stringify(hs.map(x => [x.key, x.pct, x.delta, x.range]));
 const engine = await createEngine({
@@ -66,13 +75,17 @@ async function injected(c, bytes) {
     Reader.accumulate(v1a, reader.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, chart.od, 0, P), 0, A);
     Reader.accumulate(v1c, reader.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, chart.od, 0, P, 1, '', cal), 0, A);
   }
-  return itemReadouts({ PI, reader, tk, cls: classifyNotes(chart.notes), v1a, v1c, star: c.star });
+  const cls = classifyNotes(chart.notes);
+  return { it: itemReadouts({ PI, reader, tk, cls, v1a, v1c, star: c.star }), cls };
 }
 
 // layers: on the charts of data/web-items-r1/dump (Python per-layer dumps), compare sigma / pi (orientation 0) and the per-action
 // v1 of arms U and C, then the readouts computed by the JS code from the Python v1 arrays (must equal the reference exactly)
 async function layers() {
-  const dumped = JSON.parse(fs.readFileSync(path.join(refDir, 'dump', 'dump.json'), 'utf8')).charts.filter(x => !x.error);
+  // per-layer dumps: <ref>/dump, else the route-A dumps of data/web-items-r1/dump (same engine and charts)
+  const dumpDir = fs.existsSync(path.join(refDir, 'dump', 'dump.json')) ? path.join(refDir, 'dump') : path.join(root, 'data', 'web-items-r1', 'dump');
+  console.error(`layers: dumps from ${dumpDir}`);
+  const dumped = JSON.parse(fs.readFileSync(path.join(dumpDir, 'dump.json'), 'utf8')).charts.filter(x => !x.error);
   const byI = new Map(ref.charts.map(c => [c.i, c]));
   const P = reader.P;
   const acc = { sigU: [0, 0], piU: [0, 0], sigC: [0, 0], piC: [0, 0], v1U: [0, 0], v1C: [0, 0] };   // [elements differing, total]
@@ -94,7 +107,7 @@ async function layers() {
       Reader.accumulate(v1a, reader.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, chart.od, 0, P, 1, '', null, m ? null : dU), 0, A);
       Reader.accumulate(v1c, reader.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, chart.od, 0, P, 1, '', cal, m ? null : dC), 0, A);
     });
-    const D = k => path.join(refDir, 'dump', `${i}-${k}.bin`);
+    const D = k => path.join(dumpDir, `${i}-${k}.bin`);
     const py = { sigU: f32File(D('sigmaU')), piU: f32File(D('piU')), sigC: f32File(D('sigmaC')), piC: f32File(D('piC')), v1U: f64File(D('v1U')), v1C: f64File(D('v1C')) };
     const js = { sigU: dU.sig, piU: dU.pi, sigC: dC.sig, piC: dC.pi, v1U: v1a, v1C: v1c };
     for (const k of Object.keys(js)) {
@@ -126,7 +139,7 @@ async function layers() {
   process.exit(summary.readouts_from_python_v1.unequal.length || calOnly[0] ? 1 : 0);
 }
 
-const KEYS = ['jack', 'speed', 'trill_tA', 'ln', 'kashou', 'trill', 'tech_rA'];
+const KEYS = ['jack', 'speed', 'trill_tA', 'ln', 'kashou', 'trill', 'tech_rA', ...NEW_KEYS];
 const FIELDS = ['star', 's', 'theta', 'share'];
 const num = v => (v === null || v === undefined ? NaN : v);
 if (MODE === 'layers') await layers();
@@ -138,13 +151,15 @@ for (const c of ref.charts) {
   if (c.i % NSH !== SH) continue;
   if (n++ >= LIMIT) break;
   const t0 = performance.now();
-  let it, jsStar = null, sv = null;
+  let it, cls, jsStar = null, sv = null;
   try {
-    if (MODE === 'inject') it = await injected(c, chartBytes(c));
+    if (MODE === 'inject') ({ it, cls } = await injected(c, chartBytes(c)));
     else {
-      const r = await engine.scoreBytes(chartBytes(c), { withSegments: false, withSub: false, withV2: false });
+      const bytes = chartBytes(c);
+      const r = await engine.scoreBytes(bytes, { withSegments: false, withSub: false, withV2: false });
       if (!r.ok) throw new Error(r.detail || r.message);
       it = r.items; jsStar = r.star; sv = !!(r.flags && r.flags.sv);
+      cls = classifyNotes(loadChart(new TextDecoder('utf-8').decode(bytes)).notes);   // the engine's classes (for the counts below)
     }
   } catch (e) { rows.push({ i: c.i, source: c.source, member: c.member, error: String(e && e.message || e) }); continue; }
   const row = { i: c.i, set: c.set, source: c.source, member: c.member, ms: performance.now() - t0, diffs: {}, mismatch: [] };
@@ -165,16 +180,22 @@ for (const c of ref.charts) {
     if (a.flag !== b.flag) row.mismatch.push(`${k}.flag`);
   }
   if (it.techTag !== c.tech_tag) row.mismatch.push('tech_tag');
+  // notes per community section 0..6 (slide windows)
+  if (NEW_KEYS.length && c.n_sec_s) {
+    const nSec = Array.from({ length: 7 }, (_, s) => cls.sec.reduce((m, x) => m + (x === s), 0));
+    if (JSON.stringify(nSec) !== JSON.stringify(c.n_sec_s)) row.mismatch.push('n_sec_s');
+  }
   // hints: JS rule on the JS items (and the JS total star in e2e, the Python star in inject) vs the Python rule on the Python items
   const hr = hintRef.get(c.i);
   const hs = patternHints(it.items, jsStar !== null ? jsStar : c.star);
   row.hints = hs.map(x => [x.key, x.pct, x.delta, x.range]);
   row.sv = sv;
+  row.display = Object.fromEntries(KEYS.map(k => [k, it.items[k].display]));
   if (!hr || hintKey(hs) !== hintKey(hr.hints)) row.mismatch.push('hints');
   // margins (informational): share distance from each threshold's rounding edge (e.g. 44.5 % for jack), and for a shown jack
   // hint the total star's distance from the 3–7 range edges (2.995 / 7.005)
   row.hintEdge = Math.min(...Object.entries(PATTERN_HINTS).map(([k, H]) => {
-    const v = it.items[k].s;
+    const v = it.items[HINT_ITEM[k]].s;
     return Number.isFinite(v) ? Math.abs(v - (H.min - 0.5) / 100) : Infinity;
   }));
   const st = jsStar !== null ? jsStar : c.star;
@@ -182,15 +203,17 @@ for (const c of ref.charts) {
   rows.push(row);
 }
 const ok = rows.filter(r => !r.error);
-const starKeys = ['jack.star', 'speed.star', 'trill_tA.star'];
+const starKeys = ['jack.star', 'speed.star', 'trill_tA.star', ...NEW_KEYS.map(k => `${k}.star`)];
 const exact = k => ok.filter(r => r.diffs[k] === 0).length;
 const summary = {
-  mode: MODE, shard: `${SH}/${NSH}`, charts: rows.length, compared: ok.length, errors: rows.filter(r => r.error).map(r => [r.i, r.source, r.member, r.error]),
+  mode: MODE, ref: REF, ref_check_route_a: (ref.info && ref.info.check_route_a) || null, section_keys: NEW_KEYS,
+  shard: `${SH}/${NSH}`, charts: rows.length, compared: ok.length, errors: rows.filter(r => r.error).map(r => [r.i, r.source, r.member, r.error]),
   by_set: Object.fromEntries(['test_beatmap', 'ranked200'].map(s => [s, ok.filter(r => r.set === s).length])),
   max_abs: mx,
   exact_counts: Object.fromEntries([...starKeys, 'theta_all', 'theta_all_U', 'k_main'].map(k => [k, exact(k)])),
   mismatches: ok.filter(r => r.mismatch.length).map(r => [r.i, r.source, r.member, r.mismatch]),
-  largest_three_items: ok.map(r => [r.i, Math.max(...starKeys.map(k => r.diffs[k]))]).sort((a, b) => b[1] - a[1]).slice(0, 5),
+  largest_item_star_diffs: ok.map(r => [r.i, Math.max(...starKeys.map(k => r.diffs[k]))]).sort((a, b) => b[1] - a[1]).slice(0, 5),
+  display_counts: Object.fromEntries(NEW_KEYS.map(k => [k, ok.filter(r => r.display[k]).length])),
   ms_median: ok.map(r => r.ms).sort((a, b) => a - b)[Math.floor(ok.length / 2)], tol: TOL,
   hints: {
     charts_with_hint: Object.fromEntries(['jack', 'speed', 'ln'].map(k => [k, ok.filter(r => r.hints.some(x => x[0] === k)).length])),

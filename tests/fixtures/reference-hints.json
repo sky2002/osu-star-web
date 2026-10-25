@@ -1,6 +1,6 @@
 {
  "info": {
-  "source": "research repo data/web-items-r1/reference-items.json (Python items of tests/compare_items.mjs)",
+  "source": "research repo data/web-items-r2/reference-items.json (Python items of tests/compare_items.mjs)",
   "generator": "tools/hint-reference.py",
   "rule": {
    "thresholds_pct": {
@@ -12,7 +12,12 @@
    "jack_star": [
     3.0,
     7.0
-   ]
+   ],
+   "item": {
+    "jack": "jack",
+    "speed": "speed",
+    "ln": "ln"
+   }
   },
   "charts": 442,
   "charts_with_hint": {

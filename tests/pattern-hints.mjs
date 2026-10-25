@@ -5,11 +5,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import {
-  patternHints, patternItemView, patternItemCopyLines, buildCopyText, PATTERN_HINTS, HINT_GROUP_NOTE,
+  patternHints, patternItemView, patternItemCopyLines, buildCopyText, PATTERN_HINTS, HINT_ITEM, HINT_GROUP_NOTE,
 } from '../docs/js/ui-lib.js';
 
 const ref = JSON.parse(fs.readFileSync(new URL('./fixtures/reference-hints.json', import.meta.url), 'utf8'));
-const shares = (jack = 0, speed = 0, ln = 0) => ({ jack: { s: jack }, speed: { s: speed }, ln: { s: ln } });
+// the items the hints read (HINT_ITEM: route A jack, speed = the 乱/切 total, ln)
+const shares = (jack = 0, speed = 0, ln = 0) => ({ [HINT_ITEM.jack]: { s: jack }, [HINT_ITEM.speed]: { s: speed }, [HINT_ITEM.ln]: { s: ln } });
 const keys = (hs) => hs.map((x) => x.key);
 const one = (items, star, key) => patternHints(items, star).find((x) => x.key === key);
 
@@ -21,6 +22,7 @@ function result({ star = 5.5, jack = 0.7, speed = 0.28, ln = 0, rate = 1, odOver
     items: { techTag: false, items: {
       jack: item(jack), speed: item(speed), trill_tA: item(0.01, false), ln: item(ln), kashou: item(0), trill: item(0, false),
       other: { s: 0.02 }, tech_rA: item(0.01, false),
+      luan_s: item(speed * 0.4), qie_s: item(speed * 0.5, false),
     } },
   };
 }
@@ -33,6 +35,27 @@ test('constants: jack 45 % with 0.722 and 3–7 stars, speed 90 %, long notes 30
   });
 });
 
+test('each direction reads the share of the item HINT_ITEM names (route A jack / speed / ln)', () => {
+  assert.deepEqual(HINT_ITEM, { jack: 'jack', speed: 'speed', ln: 'ln' });
+  // only the named items count: high shares on 乱 / 切 alone give no hint (the 乱/切 hint reads the total)
+  assert.deepEqual(keys(patternHints({ luan_s: { s: 0.95 }, qie_s: { s: 0.95 }, trill_tA: { s: 0.9 }, ln: { s: 0.1 } }, 5)), []);
+  assert.deepEqual(keys(patternHints({ [HINT_ITEM.jack]: { s: 0.5 }, [HINT_ITEM.speed]: { s: 0.95 }, ln: { s: 0.1 } }, 5)), ['jack', 'speed']);
+});
+
+test('item rows: 叠、乱、切、单手交互 (乱 / 切 by community sections); the loss line splits 乱/切 into 乱 and 切', () => {
+  const v = patternItemView(result({ jack: 0.3, speed: 0.6, ln: 0.05 }));
+  assert.deepEqual(v.rows.map((r) => [r.key, r.label, r.star === null ? r.text : 'star']), [
+    ['jack', '叠（jack）', 'star'], ['luan_s', '乱', 'star'], ['qie_s', '切（双押切、三押切）', '切键太少'],
+    ['trill_tA', '单手交互（同一只手两指来回）', '单手交互太少']]);
+  assert.equal(v.mixText, '失分构成：叠 30% · 乱/切 60%（乱 24%、切 30%） · 长条 5% · 锁列 0% · 其他 2%');
+  const lines = patternItemCopyLines(result({ jack: 0.3, speed: 0.6, ln: 0.05 }));
+  assert.equal(lines[0], '键型分项（测试版，仅 NoMod）：叠 ★6.00（失分 30%） / 乱 ★6.00（失分 24%） / 切键太少（失分 30%） / 单手交互太少（失分 1%）');
+  // a missing item shows as too few instead of throwing
+  const r = result();
+  delete r.items.items.luan_s;
+  assert.equal(patternItemView(r).rows[1].text, '乱键太少');
+});
+
 test('thresholds compare the integer percent shown on the card', () => {
   assert.deepEqual(keys(patternHints(shares(0.4449, 0.8949, 0.2949), 5)), []);
   assert.deepEqual(keys(patternHints(shares(0.4451, 0.8951, 0.2951), 5)), ['jack', 'speed', 'ln']);
@@ -40,7 +63,7 @@ test('thresholds compare the integer percent shown on the card', () => {
   assert.equal(one(shares(0.4451), 5, 'jack').pct, 45);
   assert.deepEqual(keys(patternHints(shares(1, 1, 1), 5)), ['jack', 'speed', 'ln']);
   // missing / non-finite shares and missing items give no hint
-  assert.deepEqual(patternHints({ jack: { s: null }, speed: {}, ln: { s: NaN } }, 5), []);
+  assert.deepEqual(patternHints({ [HINT_ITEM.jack]: { s: null }, [HINT_ITEM.speed]: {}, [HINT_ITEM.ln]: { s: NaN } }, 5), []);
   assert.deepEqual(patternHints({}, 5), []);
   assert.deepEqual(patternHints(null, 5), []);
 });
@@ -127,11 +150,11 @@ test('JS rule equals the Python rule on the 442 reference charts', () => {
   assert.equal(ref.charts.length, 442);
   let n = 0;
   for (const c of ref.charts) {
-    const items = { jack: { s: c.s.jack }, speed: { s: c.s.speed }, ln: { s: c.s.ln } };
+    const items = shares(c.s.jack, c.s.speed, c.s.ln);
     const js = patternHints(items, c.star).map((x) => ({ key: x.key, pct: x.pct, delta: x.delta, range: x.range }));
     assert.deepEqual(js, c.hints, `chart ${c.i}`);
     n += js.length;
   }
   assert.ok(n > 0);
-  assert.deepEqual(ref.info.rule, { thresholds_pct: { jack: 45, speed: 90, ln: 30 }, jack_k: 0.722, jack_star: [3, 7] });
+  assert.deepEqual(ref.info.rule, { thresholds_pct: { jack: 45, speed: 90, ln: 30 }, jack_k: 0.722, jack_star: [3, 7], item: HINT_ITEM });
 });

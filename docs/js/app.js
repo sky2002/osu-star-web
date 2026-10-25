@@ -617,7 +617,7 @@ function newStarPanel(result) {
     head, list, warn, h('p', { class: 'muted sub-caption', text: NEW_STAR_NOTE }));
 }
 
-// 键型分项（测试版）：叠 / 乱切 / 单手交互★ 与失分构成，单独一块，不和米 / 面分项混在一起
+// 键型分项（测试版）：叠 / 乱 / 切 / 单手交互★ 与失分构成，单独一块，不和米 / 面分项混在一起
 function patternPanel(result) {
   const v = patternItemView(result);
   if (!v) return null;
