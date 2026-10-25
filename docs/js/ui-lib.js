@@ -42,8 +42,8 @@ export function subRows(result) {
 
 export const ITEMS_NOTE =
   '测试版：只在 NoMod、非变速谱上检验过，读数可能调整。分项★ = 平均要多强才能在这张谱的【这类键】上打到 96%（和总星数同一刻度），' +
-  '不是加起来等于总星数。“叠”只算同列紧挨着、间隔 <200 ms 的连按，快切不算叠。长条★ 暂不显示。详见页面下方说明。';
-export const ITEMS_TECH_NOTE = '节奏不规则较多（tech）：串里的分音突然变化，比如 1/4 接 1/3';
+  '不是加起来等于总星数。“叠”只算同列紧挨着、间隔 <200 ms 的连按，对切、交互不算叠。长条★ 暂不显示。详见页面下方说明。';
+export const ITEMS_TECH_NOTE = '节奏不规则较多（多级乱）：乱、切里的分音突然变化，比如 1/4 接 1/3';
 
 const pctText = (x) => (Number.isFinite(x) ? `${Math.round(x * 100)}%` : '—');
 
@@ -51,10 +51,10 @@ const pctText = (x) => (Number.isFinite(x) ? `${Math.round(x * 100)}%` : '—');
 //   min：失分占比门槛，和卡片上显示的整数百分比比较（显示 45% 就算到了 45%）。
 //   叠还给“大约觉得难几星”：只在总星数（按卡片上显示的两位小数）落在 star 范围内（含两端）时给，
 //   数字 = k × 显示的占比，四舍五入到 0.1 星；k = 0.722 是检验斜率（份额每多 10 个百分点，两群差 0.072 星，区间 0.631–0.776）。
-//   速度、长条只给文字：方向检验过，但原始键占比比失分份额预测得更准，按判据不给数字。
+//   乱/切、长条只给文字：方向检验过，但原始键占比比失分份额预测得更准，按判据不给数字。
 export const PATTERN_HINTS = {
   jack: { name: '叠', min: 45, k: 0.722, star: [3, 7] },
-  speed: { name: '速度', min: 90 },
+  speed: { name: '乱/切', min: 90 },
   ln: { name: '长条', min: 30 },
 };
 export const HINT_GROUP_NOTE = '（群体平均，不是你个人的读数）';
@@ -63,7 +63,7 @@ const HINT_TITLES = {
     '按叠的倾向分出最弱和最强的各三分之一，看他们之后的成绩：叠占失分每多 10 个百分点，两群觉得的难度多差约 0.07 星（区间 0.063–0.078）；' +
     '叠占失分最高的一成谱里，97% 的谱方向一致。检验用的是 NoMod、谱面文件 OD、非变速、两群各至少 30 人打过的谱（总星数中位约 5 星），' +
     '数字只在 3–7 星内给，范围外没检验过差几星。这是群体平均，不是任何一个人的读数。',
-  speed: '速度占失分 ≥90% 时提示，只给文字。失分份额检验（2026-10-23）里方向成立：速度占失分最高的一成谱里，91% 方向一致（速度苦手的人比速度强的人更吃亏）；' +
+  speed: '乱/切占失分 ≥90% 时提示，只给文字。失分份额检验（2026-10-23）里方向成立：乱/切占失分最高的一成谱里，91% 方向一致（乱/切苦手的人比乱/切强的人更吃亏）；' +
     '但幅度小（份额每多 10 个百分点，两群约差 0.025 星），而且“快键占比”比失分份额预测得准一倍，所以不给数字。',
   ln: '长条占失分 ≥30% 时提示，只给文字。失分份额检验（2026-10-23）里这一项效应最大：长条占失分最高的一成谱，两群约差 0.57 星，283 张里 282 张方向一致；' +
     '但“长条物件占比”比失分份额略准，所以不给数字。长条很多的谱上几乎都会出现这条提示。',
@@ -73,7 +73,7 @@ const HINT_TITLES = {
  * 键型分项的“苦手要小心”提示（纯规则，不看 Mod / OD / 变速，这些由 patternItemView 决定显不显示）。
  * items：itemReadouts 的 items（用各类的 s = 失分占比）；star：总星数。
  * 返回 [{ key, tag, pct, text, delta (星，只有叠在范围内才有，否则 null), range ('in' | 'above' | 'below'，只有叠有，否则 null),
- *   note, title }]，顺序：叠、速度、长条。
+ *   note, title }]，顺序：叠、乱/切、长条。
  */
 export function patternHints(items, star) {
   const out = [];
@@ -124,10 +124,10 @@ export function patternItemView(result) {
     const ok = v.display && Number.isFinite(v.star);
     return { key, label, star: ok ? v.star : null, share: v.s, text: ok ? edge(v.flag) : few };
   };
-  const rows = [row('jack', '叠（jack）', '叠键太少'), row('speed', '速度', '快键太少'), row('trill_tA', '切（串里的同手来回）', '切太少')];
+  const rows = [row('jack', '叠（jack）', '叠键太少'), row('speed', '乱/切', '快键太少'), row('trill_tA', '单手交互（同一只手两指来回）', '单手交互太少')];
   const other = (Number.isFinite(x.other.s) ? x.other.s : 0) + (Number.isFinite(x.trill.s) ? x.trill.s : 0);
-  const mix = [['叠', x.jack.s], ['速度', x.speed.s], ['长条', x.ln.s], ['卡手', x.kashou.s], ['其他', other]];
-  const overlap = [['切', x.trill_tA.s], ['节奏不规则', x.tech_rA.s]];
+  const mix = [['叠', x.jack.s], ['乱/切', x.speed.s], ['长条', x.ln.s], ['锁列', x.kashou.s], ['其他', other]];
+  const overlap = [['单手交互', x.trill_tA.s], ['节奏不规则', x.tech_rA.s]];
   return {
     state: 'ok', rows, tech: !!it.techTag,
     mixText: '失分构成：' + mix.map(([k, v]) => `${k} ${pctText(v)}`).join(' · '),
@@ -141,7 +141,7 @@ export function patternItemCopyLines(result) {
   if (!v) return [];
   if (v.state !== 'ok') return [`键型分项（测试版）：${v.text}`];
   const one = (r) => `${r.star === null ? r.text : r.label.replace(/（.*）/, '') + ' ★' + fmtStar(r.star) + r.text}（失分 ${pctText(r.share)}）`;
-  return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；tech 较多' : ''}`,
+  return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；多级乱较多' : ''}`,
     ...v.hints.map((x) => `苦手提示：${x.tag}——${x.text}${x.note}`)];
 }
 

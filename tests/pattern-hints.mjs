@@ -28,7 +28,7 @@ function result({ star = 5.5, jack = 0.7, speed = 0.28, ln = 0, rate = 1, odOver
 test('constants: jack 45 % with 0.722 and 3–7 stars, speed 90 %, long notes 30 %', () => {
   assert.deepEqual(PATTERN_HINTS, {
     jack: { name: '叠', min: 45, k: 0.722, star: [3, 7] },
-    speed: { name: '速度', min: 90 },
+    speed: { name: '乱/切', min: 90 },
     ln: { name: '长条', min: 30 },
   });
 });
@@ -86,8 +86,8 @@ test('jack number only for a shown total star within 3–7 (both ends included)'
 test('speed and long notes: words only, at any star', () => {
   for (const star of [2, 5, 8]) {
     const s = one(shares(0, 0.95), star, 'speed');
-    assert.equal(s.tag, '速度苦手要小心');
-    assert.equal(s.text, '丢分 95% 在速度上。');
+    assert.equal(s.tag, '乱/切苦手要小心');
+    assert.equal(s.text, '丢分 95% 在乱/切上。');
     assert.equal(s.delta, null);
     assert.equal(s.range, null);
     assert.equal(s.note, '');
