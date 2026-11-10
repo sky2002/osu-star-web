@@ -36,15 +36,23 @@ export async function createPool(R, ports, timeoutMs = 20000) {
       if (e.data.type === 'done') q.res(e.data.S); else q.rej(new Error(e.data.message));
     };
   }
+  const post = (p, msg) => {
+    const id = ++job;
+    return new Promise((res, rej) => {
+      pending.set(id, { res, rej });
+      p.postMessage({ ...msg, job: id });
+    });
+  };
   return {
     size: live.length,
     run(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '', cal = null) {
-      const id = ++job;
-      const p = live[next++ % live.length];
-      return new Promise((res, rej) => {
-        pending.set(id, { res, rej });
-        p.postMessage({ type: 'run', job: id, l, comp, lnH, lnT, od, p0, p1, rate, hit, cal });
-      });
+      return post(live[next++ % live.length], { type: 'run', l, comp, lnH, lnT, od, p0, p1, rate, hit, cal });
     },
+    // any other job type the helpers know (answer: e.data.S)
+    call(msg) { return post(live[next++ % live.length], msg); },
+    // the same, on helper i (0 <= i < size): lets a caller keep every helper busy with its own queue
+    callOn(i, msg) { return post(live[i % live.length], msg); },
+    // the same message to every helper (e.g. tables they keep)
+    broadcast(msg) { return Promise.all(live.map(p => post(p, msg))); },
   };
 }

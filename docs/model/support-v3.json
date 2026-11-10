@@ -1,0 +1,16 @@
+{
+ "charts": 19745,
+ "rate": 1.0,
+ "definition": "usable ranked charts (parsed, >= 20 notes, no scroll-speed changes, no storyboard) at 1x; v3 readings",
+ "star": {
+  "min": -0.25791029173851054,
+  "max": 8.828956753206253,
+  "q999": 8.197985572978885,
+  "n": 19745
+ },
+ "th": {
+  "min": -2.238623403423419,
+  "max": 2.1382559206857574,
+  "n": 19745
+ }
+}

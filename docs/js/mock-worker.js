@@ -18,6 +18,18 @@ function lastObjectTimeS(text) {
   return last / 1000;
 }
 
+// 星数 v3：b % 17 === 0 时算失败；HT 或自定义 OD 时照给星数但标 untested；b % 13 === 0 时超出排名谱范围
+function mockV3(b, star, rate, odOverride) {
+  if (b % 17 === 0) return { ok: false, reason: 'run_error', text: '星数 v3 计算出错：模拟的失败' };
+  const v = star + ((b % 11) - 5) / 10;
+  const out = b % 13 === 0;
+  return {
+    ok: true, star: v, reading: v - 4.6, theta: (v - 4.6146) / 1.3714, thetaFlag: '',
+    untested: rate === 0.75 || Number.isFinite(odOverride),
+    outOfRange: out, outOfRangeReasons: out ? [`v3 读数高于所有排名谱的最高读数（${(v - 0.3).toFixed(2)}）`] : [], ms: 1,
+  };
+}
+
 async function score(msg) {
   const { id, bytes, name, oszHasOsb } = msg;
   const rate = msg.rate || 1;
@@ -60,7 +72,7 @@ async function score(msg) {
       outOfRangeReasons: [],
       jackHeavy: b % 7 === 0, jackShare: b % 7 === 0 ? 0.41 : 0.1,
     };
-    if (star > 8.9) flags.outOfRangeReasons.push(`星数 ${star.toFixed(2)} 高于排名谱最高读数约 8.9`);
+    if (star > 8.9) flags.outOfRangeReasons.push(`星数高于所有排名谱的最高读数（8.90）`);
     if (b % 11 === 0) flags.outOfRangeReasons.push('长条占比超出排名谱的范围');
     result = {
       ok: true, rate, ...meta, beatmapSetId: h.beatmapSetId,
@@ -90,6 +102,7 @@ async function score(msg) {
         ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
         : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: b % 13 === 0,
           outOfRangeReasons: b % 13 === 0 ? ['CNN36 读数超出排名谱范围'] : [], ms: 1 },
+      v3: msg.withV3 ? mockV3(b, star, rate, msg.odOverride) : undefined,
     };
   }
   self.postMessage({ type: 'result', id, result });
@@ -109,6 +122,12 @@ self.onmessage = async (ev) => {
       ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
       : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: false, outOfRangeReasons: [], ms: 1 };
     self.postMessage({ type: 'result', id: msg.id, result: { cnnOnly: true, cnn } });
+  } else if (msg.type === 'v3') {
+    await sleep(DELAY_MS);
+    const b = parseInt(md5Hex(msg.bytes).slice(0, 8), 16);
+    const rate = msg.rate || 1;
+    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : rate === 0.75 ? -1.1 : 0);
+    self.postMessage({ type: 'result', id: msg.id, result: { v3Only: true, v3: mockV3(b, star, rate, msg.odOverride) } });
   } else if (msg.type === 'score') {
     try {
       await score(msg);

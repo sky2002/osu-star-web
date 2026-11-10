@@ -12,6 +12,8 @@ import { cnnGrid, Cnn36 } from './cnn36.js';
 // new star (test, experimental switch only): the P1h recipe refitted with one more column, the CNN36 reading (research repo
 // docs/cnn36-web-r1 results; tree = mean of the 20 seeds of stack_eval arm ctrl+new@s29). Checked at NoMod and DT, file OD.
 import { CNN_RATES } from './new-star.js';
+// star v3 (test): computed from the same action tokens; model files load on first use
+import { V3, V3_RATES } from './v3.js';
 
 export const VERSION = '树星数 v1 (P1h)';
 export const FROZEN = '2026-10-14';
@@ -19,6 +21,7 @@ export const JACK_HEAVY = 0.42;   // jack180 share (same column, < 180 ms) at th
 export const JACK_MAX_LN = 0.3;   // the 'about one dan low' finding is from rice (REFORM) charts; no hint on LN-heavy charts
 export const SV_LIMIT = 0.10;
 export const MOD_NAME = { 1: 'NoMod', 0.75: 'HT', 1.5: 'DT' };
+export const V3_POOL_MIN_LN = 200;     // star v3: long notes dominate its time, so LN-heavy charts use the helpers too
 export const POOL_MIN_ACTIONS = 3000;   // shorter charts are fast enough on one thread     // research rule: > 10 % of notes with scroll speed off the main speed by > 10 %
 // rice / face items and the OD8 reading (research repo docs/rice-ln-od-r1-protocol-2026-10-15.md): conventions read off the
 // same reference player, not crowd answers; the total star is unchanged.
@@ -71,8 +74,9 @@ export class Engine {
   // withSub: the experimental items (rice / face / OD8-OD9 re-judge) -> result.sub; implies withV2.
   // withItems: the key-pattern items (beta; NoMod 1.0x, no hit mod, file OD only) -> result.items, else result.items = null.
   // withCnn: the new star (test) -> result.cnn ({ ok, star, ... } or { ok: false, reason, text }); never changes result.star.
+  // withV3: star v3 (test) -> result.v3 (same object as v3Only); never changes result.star.
   async scoreBytes(bytes, { oszHasOsb = false, onProgress = null, withSegments = true, rate = 1, withSub = true, withV2 = true, hit = '',
-    odOverride = null, withItems = true, withCnn = false } = {}) {
+    odOverride = null, withItems = true, withCnn = false, withV3 = false } = {}) {
     const t0 = performance.now();
     const text = new TextDecoder('utf-8').decode(bytes);
     const meta = metadata(text);
@@ -80,7 +84,7 @@ export class Engine {
       beatmapSetId: meta.beatmapSetId, md5: md5Hex(bytes), mode: meta.mode, keys: meta.keys };
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
-      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride, withItems, withCnn });
+      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride, withItems, withCnn, withV3 });
       return { ok: true, ...base, ...r, seconds: (performance.now() - t0) / 1000 };
     } catch (e) {
       const reason = e instanceof ChartError ? e.reason : 'parse_error';
@@ -93,7 +97,7 @@ export class Engine {
   }
 
   async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null, withItems = true,
-    withCnn = false }) {
+    withCnn = false, withV3 = false }) {
     // 1. hand features (same order as the reference: parse_osu checks mode / keys / note count first); times / rate, file OD
     const pf = parseOsuFeat(text);
     if (odOverride !== null) pf.od = odOverride;
@@ -124,6 +128,8 @@ export class Engine {
     // 5. key-pattern items (beta): only where they were checked (NoMod 1.0x, file OD)
     const items = withItems && rate === 1 && hit === '' && odOverride === null
       ? await this.patternItemReadings({ tk, notes, od, v1a, ls, star, pool: usePool ? this.pool : null }) : null;
+    // 6. star v3 (test): its own reading of the same tokens, independent of the steps above
+    const v3 = withV3 ? await this.v3Star({ tk, od, rate, hit, odOverride, onProgress }) : null;
     // flags
     const sv = svFracSafe(text);
     const sb = sbLines(text);
@@ -156,7 +162,7 @@ export class Engine {
     for (const n of notes) tmax = Math.max(tmax, n[1], n[0]);
     return { rate, hit, odOverride, star, reading, theta, thetaFlag: flag, nNotes: tk.nNotes, nActions: tk.nActions, od, durationS: tmax / 1000 / rate,
       features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub, items,
-      cnn };
+      cnn, v3 };
   }
 
   // only the new star, for a chart whose P1h result (theta*) the page already has: the same hand features and CNN grid as
@@ -173,6 +179,66 @@ export class Engine {
     } catch (e) {
       return { ok: false, reason: 'parse_error', text: '新星数计算出错：' + String(e && e.message || e) };
     }
+  }
+
+  // only star v3, from the chart bytes (no other model runs). -> the result.v3 object
+  async v3Only(bytes, { rate = 1, hit = '', odOverride = null } = {}) {
+    let tk, od;
+    try {
+      if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
+      const chart = loadChart(new TextDecoder('utf-8').decode(bytes));
+      od = odOverride !== null ? odOverride : chart.od;
+      tk = tokensFromNotes(chart.notes, rate);
+    } catch (e) {
+      return { ok: false, reason: 'run_error', text: '星数 v3 计算出错：' + String(e && e.message || e) };
+    }
+    return this.v3Star({ tk, od, rate, hit, odOverride });
+  }
+
+  ensureV3() {
+    if (!this.v3Load) {
+      const { ort, loadBytes, loadJson } = this.assets;
+      this.v3Load = (async () => {
+        const [model, support, supportDt] = await Promise.all([V3.create({ ort, loadBytes, loadJson }), loadJson('model/support-v3.json'),
+          loadJson('model/support-v3-dt.json')]);
+        let pool = null;   // helpers get the tables once; without them everything runs here
+        if (this.pool && this.pool.size) {
+          try { await this.pool.broadcast({ type: 'v3init', J: model.J, tab: model.tab }); pool = this.pool; } catch (e) { pool = null; }
+        }
+        return { model, support, supportDt, pool };
+      })();
+      this.v3Load.catch(() => { this.v3Load = null; });   // a failed download may be retried with the next chart
+    }
+    return this.v3Load;
+  }
+
+  // star v3 (test) of tokens tk at the OD used for the windows
+  async v3Star({ tk, od, rate = 1, hit = '', odOverride = null, onProgress = null }) {
+    const t0 = performance.now();
+    const untested = !V3_RATES.includes(rate) || hit !== '' || odOverride !== null;
+    let C, r;
+    try {
+      if (onProgress) onProgress('星数 v3', 0);
+      C = await this.ensureV3();
+    } catch (e) {
+      return { ok: false, reason: 'load_error', text: '星数 v3 模型加载失败：' + String(e && e.message || e) };
+    }
+    try {
+      const usePool = C.pool && (tk.nActions >= POOL_MIN_ACTIONS || tk.lnH.length >= V3_POOL_MIN_LN);
+      r = await C.model.run(tk, { od, rate, hit, pool: usePool ? C.pool : null, onProgress: onProgress ? p => onProgress('星数 v3', p) : null });
+      if (!Number.isFinite(r.star)) throw new Error('reading is not a number');
+    } catch (e) {
+      return { ok: false, reason: 'run_error', text: '星数 v3 计算出错：' + String(e && e.message || e) };
+    }
+    // DT ranges above 1.25x, the 1.0x ranges otherwise (same rule as the total star)
+    const dt = rate > 1.25;
+    const S = dt ? C.supportDt : C.support;
+    const reasons = [];
+    if (r.star > S.star.max) reasons.push(`v3 星数超过${dt ? '排名谱 DT 读数的最高值' : '排名谱最高读数'}（${S.star.max.toFixed(2)}）`);
+    if (r.flag.startsWith('censored')) reasons.push('v3 难度超出参照水平路径的两端（θ* 被截断）');
+    else if (r.theta < S.th.min || r.theta > S.th.max) reasons.push(`v3 的参照水平读数（θ*）超出${dt ? '排名谱 DT 读数' : '排名谱'}范围`);
+    return { ok: true, star: r.star, reading: r.mean, theta: r.theta, thetaFlag: r.flag, untested, outOfRange: reasons.length > 0,
+      outOfRangeReasons: reasons, ms: performance.now() - t0 };
   }
 
   ensureCnn36() {

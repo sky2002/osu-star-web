@@ -51,6 +51,18 @@ async function handle(m) {
     self.postMessage({ type: 'result', id: m.id, result: { cnnOnly: true, cnn } });
     return;
   }
+  if (m.type === 'v3') {   // star v3 only, for a chart the page already scored with P1h
+    let v3;
+    try {
+      if (!engine) throw new Error('model not loaded');
+      v3 = await engine.v3Only(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
+        rate: m.rate || 1, hit: m.hit || '', odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null });
+    } catch (e) {
+      v3 = { ok: false, reason: 'run_error', text: '星数 v3 计算出错：' + String(e && e.message || e) };
+    }
+    self.postMessage({ type: 'result', id: m.id, result: { v3Only: true, v3 } });
+    return;
+  }
   if (m.type === 'score') {
     const id = m.id;
     let result;
@@ -64,7 +76,8 @@ async function handle(m) {
         odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
         withSub: !!m.withSub,
         withItems: !!m.withItems,   // key-pattern items (beta): the web page asks for them; the tosu counter does not
-        withCnn: !!m.withCnn,       // new star (test): only with the experimental switch on
+        withCnn: !!m.withCnn,       // CNN36 star (test): only when the page's model switch is on CNN36
+        withV3: !!m.withV3,         // star v3 (default on the page): result.v3; the tosu counter does not ask for it
         onProgress: (stage, pct) => {
           const p = Math.round(pct);
           if (p !== last) { last = p; self.postMessage({ type: 'progress', id, stage, pct: p }); }
