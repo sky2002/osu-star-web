@@ -5,8 +5,8 @@ import {
 } from './dan-reference.js';
 import {
   listOsz, parseOsuHeader, decodeText, skipReason, mergeMeta, displayName,
-  unreliableReasons, buildSegmentsSvg, fmtStar, fmtTime, SEG_CAPTION,
-  MOD_SHORT, HT_NOTE, modLabel, subRows, SUB_NOTE, patternItemView, ITEMS_NOTE, ITEMS_TECH_NOTE,
+  unreliableReasons, buildSegmentsSvg, fmtStar, fmtTime, segmentCaption,
+  MOD_SHORT, HT_NOTE, modLabel, subRows, SUB_NOTE, patternItemView, ITEMS_NOTE, ITEMS_TECH_NOTE, V4_ITEMS_NOTE,
 } from './ui-lib.js';
 import {
   validateLadder, ladder, parseAcc, reverseNote, reverseCaption, lnNote, fmtLadderStar, ladderCopyLine,
@@ -14,10 +14,11 @@ import {
 } from './acc-ladder.js';
 import { danEstimate, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_TITLE } from './dan-estimate.js';
 import { needsCnn, CNN_REFERENCES } from './new-star.js';
+import { V3_REFERENCES, V3_VERSION, V3_FROZEN, V3_UNTESTED_NOTE, fmtDelta } from './v3-star.js';
 import {
-  STAR_MODELS, needsV3, loadStarModel as loadModelFrom, saveStarModel as saveModelTo, cardView, oldStarView, cardCopyText, fmtDelta,
-  V3_REFERENCES, V3_VERSION, V3_FROZEN, V3_UNTESTED_NOTE, loadingText, MODEL_NOTE,
-} from './v3-star.js';
+  STAR_MODELS, needsV3, needsV4, loadStarModel as loadModelFrom, saveStarModel as saveModelTo,
+  cardView, comparisonView, cardCopyText, scoreRequest, V4_REFERENCES, V4_VERSION, V4_FROZEN, V4_UNTESTED_NOTE, loadingText, MODEL_NOTE,
+} from './v4-star.js';
 
 const RATES = [1, 0.75, 1.5];
 const MOD_KEY = 'osu-star-web.mod';
@@ -64,11 +65,13 @@ const state = {
   referencesPhase: 'loading',
   ladder: null,
   ladderPhase: 'loading',
-  starModel: loadStarModel(), // 页面最上面的星数模型开关：v3 | p1h | cnn36 | both
+  starModel: loadStarModel(),
   cnnReferences: null,   // CNN36 的段位参照，第一次选 CNN36 时才加载
   cnnReferencesPhase: 'idle', // idle | loading | ready | error
-  v3References: null,   // 星数 v3 的段位参照，第一次选 v3 或“两个都看”时才加载
+  v3References: null,
   v3ReferencesPhase: 'idle', // idle | loading | ready | error
+  v4References: null,
+  v4ReferencesPhase: 'idle',
 };
 
 function storage() { try { return localStorage; } catch { return null; } }
@@ -116,15 +119,9 @@ function activeOd() { return state.experimental && state.odCustom ? state.odValu
 function settingKey(rate = state.mod, od = activeOd()) { return `${rate}|${od === null ? 'file' : od.toFixed(1)}`; }
 function resultFor(it, key) { return it.rejectAll || it.results.get(key) || null; }
 
-// 该设置的结果是否已经够用：开着实验性功能时，没有分项（关着时算的）的结果要重算
 function hasUsableResult(it, key) {
   const res = resultFor(it, key);
-  if (!res) return false;
-  if (!res.ok) return true;
-  if (needsCnn(state.starModel) && !res.cnnComputed) return false;   // 选了 CNN36：补算 CNN36（不重跑 P1h）
-  if (needsV3(state.starModel) && !res.v3Computed) return false;     // 选了 v3 / 两个都看：补算 v3（不重跑 P1h）
-  if (!state.experimental) return true;
-  return !!res.subComputed;   // 关着开关时算出的结果没有分项，开着时要重算
+  return !!res && !scoreRequest(res, state.starModel, state.experimental);
 }
 
 async function loadDanReferences() {
@@ -165,6 +162,13 @@ async function loadModelReferences(prefix, file, expect) {
 }
 const loadCnnReferences = () => loadModelReferences('cnn', 'dan-references-cnn36.json', CNN_REFERENCES);
 const loadV3References = () => loadModelReferences('v3', 'dan-references-v3.json', V3_REFERENCES);
+const loadV4References = () => loadModelReferences('v4', 'dan-references-v4.json', V4_REFERENCES);
+
+function loadSelectedReferences() {
+  if (needsCnn(state.starModel)) loadCnnReferences();
+  if (needsV3(state.starModel)) loadV3References();
+  if (needsV4(state.starModel)) loadV4References();
+}
 
 async function loadLadder() {
   try {
@@ -191,8 +195,9 @@ function setStatus(kind, text) {
 function syncReadyStatus() {
   if (state.phase !== 'ready' || !state.ver) return;
   const p1h = `${state.ver.version}，冻结 ${state.ver.frozen}`;
-  const text = needsV3(state.starModel) ? `${V3_VERSION}，冻结 ${V3_FROZEN}（旧版 ${p1h}）` : p1h;
-  setStatus('ready', `模型已就绪（加载 ${state.loadSec} 秒）· ${text}`);
+  const text = needsV4(state.starModel) ? `${V4_VERSION}，冻结 ${V4_FROZEN}`
+    : needsV3(state.starModel) ? `${V3_VERSION}，冻结 ${V3_FROZEN}` : p1h;
+  setStatus('ready', `可以选择文件 · ${text}`);
 }
 
 const BROWSER_HINT = '请换用新版 Chrome、Edge 或 Firefox 再试。';
@@ -237,7 +242,6 @@ function onWorkerMessage(ev) {
   if (m.type === 'ready') {
     state.phase = 'ready';
     state.ver = { version: m.version, frozen: m.frozen };
-    state.loadSec = typeof m.loadMs === 'number' ? (m.loadMs / 1000).toFixed(1) : '?';
     syncReadyStatus();
     pump();
   } else if (m.type === 'error') {
@@ -267,34 +271,18 @@ function pump() {
   const next = state.items.find((x) => x.bytes && !x.failed && !hasUsableResult(x, key));
   if (!next) return;
   const job = ++state.job;
-  const withCnn = needsCnn(state.starModel);
-  const withV3 = needsV3(state.starModel);
-  // P1h 结果已经够用、只差 CNN36 或 v3：只补算缺的那一个（不重跑逐动作模型）
   const have = resultFor(next, key);
-  const p1hOk = !!(have && have.ok && (!state.experimental || have.subComputed));
-  const kind = p1hOk && withCnn && !have.cnnComputed ? 'cnn' : p1hOk && withV3 && !have.v3Computed ? 'v3' : 'score';
-  state.current = kind === 'score'
-    ? { it: next, rate, od, key, job, withSub: state.experimental, withCnn, withV3, kind }
-    : { it: next, rate, od, key, job, withSub: !!have.subComputed, withCnn: kind === 'cnn' || !!have.cnnComputed,
-      withV3: kind === 'v3' || !!have.v3Computed, kind };
+  const request = scoreRequest(have, state.starModel, state.experimental);
+  if (request.withV3 || request.type === 'v3') loadV3References();
+  state.current = { it: next, key, job, request };
   next.status = 'running';
-  next.stage = kind === 'cnn' ? 'CNN36' : kind === 'v3' ? '星数 v3' : '开始';
+  next.result = null;
+  next.stage = { cnn: 'CNN36', v3: '星数 v3', v4: '星数 v4' }[request.type] || '开始';
   next.pct = 0;
   renderItem(next);
   const bytes = next.bytes.slice();
-  if (kind === 'cnn') {
-    state.worker.postMessage({ type: 'cnn', id: job, bytes, rate, odOverride: od, theta: have.theta }, [bytes.buffer]);
-    return;
-  }
-  if (kind === 'v3') {
-    state.worker.postMessage({ type: 'v3', id: job, bytes, rate, hit: '', odOverride: od }, [bytes.buffer]);
-    return;
-  }
-  state.worker.postMessage(
-    { type: 'score', id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb, rate, odOverride: od, withSub: state.experimental, withItems: true,
-      withCnn, withV3 },
-    [bytes.buffer],
-  );
+  state.worker.postMessage({ ...request, id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb,
+    rate, odOverride: od, theta: have?.theta }, [bytes.buffer]);
 }
 
 function finishCurrent(result) {
@@ -302,21 +290,32 @@ function finishCurrent(result) {
   state.current = null;
   if (cur) {
     const it = cur.it;
-    if (cur.kind === 'cnn') {
-      const res = it.results.get(cur.key);
-      if (res) {
-        res.cnn = (result && result.cnn) || { ok: false, reason: 'run_error', text: (result && result.message) || '新星数没有算出来' };
-        res.cnnComputed = true;
-      }
-    } else if (cur.kind === 'v3') {
-      const res = it.results.get(cur.key);
-      if (res) {
-        res.v3 = (result && result.v3) || { ok: false, reason: 'run_error', text: (result && result.message) || '星数 v3 没有算出来' };
-        res.v3Computed = true;
+    const { request } = cur;
+    const prev = it.results.get(cur.key);
+    if (request.type !== 'score') {
+      if (prev) {
+        const model = request.type;
+        const text = { cnn: '新星数没有算出来', v3: '星数 v3 没有算出来', v4: '星数 v4 计算失败。' }[model];
+        prev[model] = result?.[model] || { ok: false, reason: 'run_error', text };
+        prev[model + 'Computed'] = true;
       }
     } else {
       const res = result || { ok: false, reason: 'parse_error', message: '没有收到计算结果' };
-      if (res.ok) { res.subComputed = !!cur.withSub; res.cnnComputed = !!cur.withCnn; res.v3Computed = !!cur.withV3; }
+      if (res.ok) {
+        for (const [model, requested] of [['cnn', request.withCnn], ['v3', request.withV3], ['v4', request.withV4]]) {
+          const field = model + 'Computed';
+          if (!requested && prev?.[field]) res[model] = prev[model];
+          res[field] = requested || !!prev?.[field];
+        }
+        if (!request.withSub && prev?.subComputed) res.sub = prev.sub;
+        if (!request.withSegments && prev?.legacyComputed) {
+          res.segments = prev.segments;
+          res.hardest = prev.hardest;
+          res.items = prev.items;
+        }
+        res.subComputed = request.withSub || !!prev?.subComputed;
+        res.legacyComputed = request.withSegments || !!prev?.legacyComputed;
+      }
       if (!res.ok && RATE_FREE_REJECT.includes(res.reason)) it.rejectAll = res;
       else it.results.set(cur.key, res);
     }
@@ -345,8 +344,7 @@ function applySetting() {
     if (it.status === 'skipped' || it.failed) continue;
     const cur = state.current;
     if (hasUsableResult(it, key)) { it.status = 'done'; it.result = resultFor(it, key); }
-    else if (cur && cur.it === it && cur.key === key && (cur.withSub || !state.experimental) && (cur.withCnn || !needsCnn(state.starModel))
-      && (cur.withV3 || !needsV3(state.starModel))) {
+    else if (cur && cur.it === it && cur.key === key) {
       it.status = 'running'; it.result = null;
     }
     else { it.status = 'queued'; it.result = null; }
@@ -373,15 +371,13 @@ function setExperimental(on) {
   applySetting();
 }
 
-// 星数模型：v3（默认）/ P1h 旧版 / CNN36 / 两个都看。切过去时已算好的谱只补算缺的那个模型
 function setStarModel(mode) {
   if (!STAR_MODELS.includes(mode)) return;
   state.starModel = mode;
   saveStarModel(mode);
   syncModelButtons();
   syncReadyStatus();
-  if (needsCnn(mode)) loadCnnReferences();
-  if (needsV3(mode)) loadV3References();
+  loadSelectedReferences();
   applySetting();
 }
 
@@ -501,7 +497,6 @@ function updateProgress(it) {
 function renderItem(it) {
   const header = it.header || {};
   const raw = it.result;
-  // 选 v3 / CNN36：总星数和挂在它上面的读数换成那个模型的版本；它没算出来时整卡显示原因。“两个都看”另加一块旧版星数
   const cv = it.status === 'done' ? cardView(raw, state.starModel) : { r: raw };
   const r = cv.r;
   const meta = mergeMeta(header, r && !it.skip ? r : null);
@@ -541,7 +536,8 @@ function renderItem(it) {
     const tag = MOD_SHORT[r.rate || 1];
     side = h('div', { class: 'star' }, '★ ' + fmtStar(r.star), tag ? h('span', { class: 'mod-tag', text: tag }) : null,
       r.model === 'cnn36' ? h('span', { class: 'mod-tag', title: '树星数 v2 测试版（CNN36）', text: 'CNN36' }) : null,
-      r.model === 'v3' ? h('span', { class: 'mod-tag', title: V3_VERSION, text: 'v3' }) : null);
+      r.model === 'v3' ? h('span', { class: 'mod-tag', title: V3_VERSION, text: 'v3' }) : null,
+      r.model === 'v4' ? h('span', { class: 'mod-tag', title: V4_VERSION, text: 'v4' }) : null);
     if (state.experimental && r.sub && r.sub.v2 && Number.isFinite(r.sub.v2.star)) {
       side.append(h('span', { class: 'star-alt', title: `整谱按 97% ScoreV2（LN 段位口径，${odSource(r)}）读出的星数，约定换算，仅供参考`,
         text: 'LN 口径 ★ ' + fmtStar(r.sub.v2.star) }));
@@ -549,17 +545,15 @@ function renderItem(it) {
     const de = danEstimateRow(r);
     if (de) extra.push(de);
     if (r.model === 'v3' && r.untested) extra.push(h('div', { class: 'note', text: V3_UNTESTED_NOTE }));
+    if (r.model === 'v4' && r.untested) extra.push(h('div', { class: 'note', text: V4_UNTESTED_NOTE }));
     if (cv.notice) extra.push(h('div', { class: 'note', text: cv.notice }));
-    if (cv.old) {
-      const op = oldStarPanel(raw, r);
-      if (op) extra.push(op);
-    }
+    if (cv.comparison || cv.comparisonMessage) extra.push(comparisonPanel(cv));
     if (reasons.length) {
       extra.push(h('div', { class: 'warn' },
         h('span', { class: 'tag', text: '不可靠' }),
         h('ul', null, reasons.map((x) => h('li', { text: x })))));
     }
-    if (r.rate === 0.75) extra.push(h('div', { class: 'note', text: HT_NOTE }));
+    if (r.rate === 0.75 && r.model !== 'v4') extra.push(h('div', { class: 'note', text: HT_NOTE }));
     const pp = patternPanel(r);
     if (pp) extra.push(pp);
     if (state.experimental) {
@@ -577,7 +571,7 @@ function renderItem(it) {
       if (r.hardest && Number.isFinite(r.hardest.star)) {
         box.append(h('div', { class: 'seg-hard', text: `最难的一段：${fmtTime(r.hardest.startS)}–${fmtTime(r.hardest.endS)}（高亮处）` }));
       }
-      box.append(h('div', { class: 'seg-cap muted', text: SEG_CAPTION }));
+      box.append(h('div', { class: 'seg-cap muted', text: segmentCaption(r) }));
       extra.push(box);
     }
   } else {
@@ -599,6 +593,7 @@ function referencesFor(result) {
   });
   if (result && result.model === 'cnn36') return other('cnn');
   if (result && result.model === 'v3') return other('v3');
+  if (result && result.model === 'v4') return other('v4');
   return { data: referencesForModel(state.references, state.ver), loading: state.referencesPhase === 'loading' };
 }
 
@@ -628,20 +623,23 @@ function danEstimateRow(result) {
     notes.length ? h('div', { class: est.unreliable ? 'dan-est-caution' : 'dan-est-sub muted', text: notes.join(' ') }) : null);
 }
 
-// “两个都看”：上面是 v3，这里并排旧版（P1h）总星数和它的米段位（按 P1h 自己的段位参照）
-function oldStarPanel(raw, main) {
-  const { data, loading } = referencesFor(raw);
-  const v = oldStarView(raw, main, data);
-  if (!v) return null;
+function comparisonPanel(cv) {
+  const { data, loading } = referencesFor(cv.comparison);
+  const v = comparisonView(cv, data);
+  const panel = h('section', { class: 'sub-items new-star', 'aria-label': '星数 v3 对比' }, h('h3', { text: '星数 v3 对比' }));
+  if (!v) {
+    panel.append(h('p', { class: 'muted sub-caption', text: cv.comparisonMessage }));
+    return panel;
+  }
   const row = (label, star, text) => h('li', null,
     h('span', { class: 'sub-label', text: label }), h('strong', { class: 'sub-star', text: star }), text ? h('span', { class: 'sub-text muted', text }) : null);
   const list = h('ul', { class: 'sub-list' },
     row('总星数', '★ ' + fmtStar(v.star), fmtDelta(v.delta) + (v.reliable ? '' : '（不可靠）')));
-  if (v.dan && v.dan.rice) list.append(row('米段位', v.dan.rice.text, ''));
+  if (v.dan && v.dan.rice) list.append(row('米段位（按整段）', v.dan.rice.text, ''));
   if (v.dan && v.dan.single) list.append(row('米段位（按单曲）', v.dan.single.text, v.dan.single.note));
   if (!v.dan) list.append(row('米段位', '—', loading ? '正在加载段位参照…' : '段位参照暂不可用'));
-  return h('section', { class: 'sub-items new-star', 'aria-label': '旧版星数（P1h）' },
-    h('h3', { text: '旧版星数（P1h）' }), list);
+  panel.append(list);
+  return panel;
 }
 
 // 键型分项（测试版）：叠 / 乱 / 切 / 单手交互★ 与失分构成，单独一块，不和米 / 面分项混在一起
@@ -653,11 +651,17 @@ function patternPanel(result) {
     return h('section', { class: 'sub-items pattern-items off', 'aria-label': '键型分项（测试版）' }, head, h('p', { class: 'muted sub-caption', text: v.text }));
   }
   const list = h('ul', { class: 'sub-list' });
-  for (const r of v.rows) {
-    list.append(h('li', { class: r.star === null ? 'none' : null },
+  const row = (r) => {
+    const share = `占失分 ${Number.isFinite(r.share) ? Math.round(r.share * 100) + '%' : '—'}`;
+    return h('li', { class: r.star === null ? 'none' : null },
       h('span', { class: 'sub-label', text: r.label }),
       h('strong', { class: 'sub-star', text: r.star === null ? '—' : '★ ' + fmtStar(r.star) }),
-      h('span', { class: 'sub-text muted', text: (r.text ? r.text + ' · ' : '') + `占失分 ${Number.isFinite(r.share) ? Math.round(r.share * 100) + '%' : '—'}` })));
+      h('span', { class: 'sub-text muted', text: v.stamina ? [share, r.text].filter(Boolean).join(' · ') : [r.text, share].filter(Boolean).join(' · ') }));
+  };
+  list.append(...v.rows.map(row));
+  if (v.stamina) {
+    return h('section', { class: 'sub-items pattern-items', 'aria-label': '六维键型分项（测试版）' },
+      head, list, h('ul', { class: 'sub-list stamina-list' }, row(v.stamina)), h('p', { class: 'muted sub-caption', text: V4_ITEMS_NOTE }));
   }
   return h('section', { class: 'sub-items pattern-items', 'aria-label': '键型分项（测试版）' },
     head, list,
@@ -814,7 +818,7 @@ function copyRow(it) {
   const row = h('div', { class: 'actions' }, btn);
   btn.addEventListener('click', async () => {
     const cv = cardView(it.result, state.starModel);
-    const text = cardCopyText(cv, referencesFor(cv.r).data, referencesFor(cv.raw).data, {
+    const text = cardCopyText(cv, referencesFor(cv.r).data, state.v3References, {
       header: it.header, name: it.name, p1hVer: state.ver,
       ladderLine: state.experimental ? ladderCopyLine(state.ladder, cv.r) : null, withSub: state.experimental,
     });
@@ -856,7 +860,6 @@ async function copyText(text) {
 // ---------------------------------------------------------------- 初始化
 function setupUi() {
   for (const a of document.querySelectorAll('a[data-feedback]')) a.href = FEEDBACK_URL;
-  // 下载体积等文字只在 v3-star.js 里写一处
   if (state.phase === 'loading') setStatus('loading', loadingText());
   const note = $('#model-note');
   if (note) note.textContent = MODEL_NOTE();
@@ -933,5 +936,4 @@ setupUi();
 startWorker();
 loadDanReferences();
 loadLadder();
-if (needsCnn(state.starModel)) loadCnnReferences();
-if (needsV3(state.starModel)) loadV3References();
+loadSelectedReferences();

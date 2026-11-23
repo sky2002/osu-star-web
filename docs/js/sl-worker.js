@@ -7,7 +7,9 @@ import { V3Core } from './v3.js';
 
 let reader = null;
 let v3 = null;
-function handle(port, m) {
+let V4Score = null;
+const modulePath = './v4-score.js';
+async function handle(port, m) {
   try {
     if (m.type === 'init') {
       reader = new Reader(m.R, buildTable(m.R.t_nus, m.R.t_grid, m.R.t_c), null, null);
@@ -20,6 +22,13 @@ function handle(port, m) {
       port.postMessage({ type: 'done', job: m.job, S: null });
     } else if (m.type === 'v3run') {
       const S = v3.readoutRange(m.xs, m.comp, m.lnH, m.lnT, m.w, m.rate, m.p0, m.p1);
+      port.postMessage({ type: 'done', job: m.job, S }, [S.buffer]);
+    } else if (m.type === 'v4init') {
+      ({ V4Score } = await import(modulePath));
+      port.postMessage({ type: 'done', job: m.job, S: null });
+    } else if (m.type === 'v4run') {
+      const score = new V4Score(m.outputs, m.layout, m.od, m.rate, m.hit);
+      const S = score.run(m.levels);
       port.postMessage({ type: 'done', job: m.job, S }, [S.buffer]);
     }
   } catch (e) {

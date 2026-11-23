@@ -1,0 +1,826 @@
+{
+  "version": "v4-test",
+  "modelVersion": "星数 v4 测试版",
+  "frozen": "2026-11-23",
+  "starV2Line": "97% ScoreV2，整谱，OD 用谱面文件；旧版的这项读数按 v4 与旧版总星数之差平移",
+  "groups": [
+    {
+      "id": "reform",
+      "label": "REFORM 整段",
+      "entries": [
+        {
+          "id": "reform-intro-1st",
+          "label": "REFORM INTRO-1st",
+          "star": 1.015930072145462,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259508"
+        },
+        {
+          "id": "reform-intro-2nd",
+          "label": "REFORM INTRO-2nd",
+          "star": 1.5572332836341851,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259509"
+        },
+        {
+          "id": "reform-intro-3rd",
+          "label": "REFORM INTRO-3rd",
+          "star": 2.175607307875156,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259510"
+        },
+        {
+          "id": "reform-1st",
+          "label": "REFORM 1st",
+          "star": 2.5199286877083775,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259503"
+        },
+        {
+          "id": "reform-2nd",
+          "label": "REFORM 2nd",
+          "star": 2.8599355820775028,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259504"
+        },
+        {
+          "id": "reform-3rd",
+          "label": "REFORM 3rd",
+          "star": 2.9398011668872828,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259505"
+        },
+        {
+          "id": "reform-4th",
+          "label": "REFORM 4th",
+          "star": 3.727034077541828,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259506"
+        },
+        {
+          "id": "reform-5th",
+          "label": "REFORM 5th",
+          "star": 4.13387004099369,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259507"
+        },
+        {
+          "id": "reform-6th",
+          "label": "REFORM 6th",
+          "star": 4.560498662399053,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2588623"
+        },
+        {
+          "id": "reform-7th",
+          "label": "REFORM 7th",
+          "star": 4.944006254999935,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259541"
+        },
+        {
+          "id": "reform-8th",
+          "label": "REFORM 8th",
+          "star": 5.307979015981257,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259542"
+        },
+        {
+          "id": "reform-9th",
+          "label": "REFORM 9th",
+          "star": 5.6107492877689,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259543"
+        },
+        {
+          "id": "reform-10th",
+          "label": "REFORM 10th",
+          "star": 5.882955240451097,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259539"
+        },
+        {
+          "id": "reform-alpha",
+          "label": "REFORM Alpha",
+          "star": 6.150043145492076,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259544"
+        },
+        {
+          "id": "reform-beta",
+          "label": "REFORM Beta",
+          "star": 6.394673849887847,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259545"
+        },
+        {
+          "id": "reform-gamma",
+          "label": "REFORM Gamma",
+          "star": 6.793522284371853,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259548"
+        },
+        {
+          "id": "reform-delta",
+          "label": "REFORM Delta",
+          "star": 7.440890812447071,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259546"
+        },
+        {
+          "id": "reform-epsilon",
+          "label": "REFORM Epsilon",
+          "star": 8.173727166330814,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2259547"
+        },
+        {
+          "id": "reform-zeta",
+          "label": "REFORM Zeta",
+          "star": 8.653342510929107,
+          "reliable": false,
+          "url": "https://osu.ppy.sh/beatmaps/4123991"
+        },
+        {
+          "id": "reform-eta",
+          "label": "REFORM Eta",
+          "star": 9.328930572624206,
+          "reliable": false,
+          "url": "https://osu.ppy.sh/beatmaps/2738787"
+        }
+      ]
+    },
+    {
+      "id": "ln",
+      "label": "LN Dan Courses v2",
+      "entries": [
+        {
+          "id": "ln-1",
+          "label": "LN 1st Dan",
+          "star": 3.417988284687995,
+          "starV2": 4.391569761200346,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862813"
+        },
+        {
+          "id": "ln-3",
+          "label": "LN 3rd Dan",
+          "star": 4.4237209747141595,
+          "starV2": 5.299768462595516,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862815"
+        },
+        {
+          "id": "ln-2",
+          "label": "LN 2nd Dan",
+          "star": 4.262789422148465,
+          "starV2": 5.013177461084962,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862814"
+        },
+        {
+          "id": "ln-5",
+          "label": "LN 5th Dan",
+          "star": 4.470718211545944,
+          "starV2": 5.29089025178573,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862832"
+        },
+        {
+          "id": "ln-4",
+          "label": "LN 4th Dan",
+          "star": 4.6861553855788705,
+          "starV2": 5.416227133887116,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862816"
+        },
+        {
+          "id": "ln-6",
+          "label": "LN 6th Dan",
+          "star": 4.851816508135199,
+          "starV2": 5.5809349525430045,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862833"
+        },
+        {
+          "id": "ln-7",
+          "label": "LN 7th Dan",
+          "star": 5.168662484992817,
+          "starV2": 5.869658868384033,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862834"
+        },
+        {
+          "id": "ln-8",
+          "label": "LN 8th Dan",
+          "star": 5.405789186089039,
+          "starV2": 6.05138334679771,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862842"
+        },
+        {
+          "id": "ln-9",
+          "label": "LN 9th Dan",
+          "star": 5.581377866777479,
+          "starV2": 6.231093231810296,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862843"
+        },
+        {
+          "id": "ln-10",
+          "label": "LN 10th Dan",
+          "star": 5.89295503368616,
+          "starV2": 6.477971631459915,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862841"
+        },
+        {
+          "id": "ln-11",
+          "label": "LN 11th Dan - Yoake",
+          "star": 6.239903018996715,
+          "starV2": 6.802497533404086,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862874"
+        },
+        {
+          "id": "ln-12",
+          "label": "LN 12th Dan - Yuugure",
+          "star": 6.5498322617840765,
+          "starV2": 7.1133174261732,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862875"
+        },
+        {
+          "id": "ln-13",
+          "label": "LN 13th Dan - Yoru",
+          "star": 6.8563831745338435,
+          "starV2": 7.415300499768507,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/1862876"
+        },
+        {
+          "id": "ln-14",
+          "label": "LN 14th Dan - Yami",
+          "star": 7.428826931712627,
+          "starV2": 7.95777654005724,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2332319"
+        },
+        {
+          "id": "ln-15",
+          "label": "LN 15th Dan - Yume",
+          "star": 7.866183786900043,
+          "starV2": 8.381744229564454,
+          "reliable": true,
+          "url": "https://osu.ppy.sh/beatmaps/2332320"
+        }
+      ]
+    }
+  ],
+  "reformSingles": {
+    "label": "REFORM 官方单曲",
+    "line": "96% ScoreV1，NoMod，OD 用谱面文件；星数 v4 测试版读数",
+    "entries": [
+      {
+        "id": "single-1st-tech",
+        "dan": "1st",
+        "label": "REFORM TechMap Pack [Want U 2 ~ 1st ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 7.5,
+        "star": 2.450979123973846,
+        "url": "https://osu.ppy.sh/beatmaps/4961239"
+      },
+      {
+        "id": "single-1st-stamina",
+        "dan": "1st",
+        "label": "REFORM StaminaMap Pack [Tommorow Perfume ~ 1st ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 7.5,
+        "star": 2.751306223812103,
+        "url": "https://osu.ppy.sh/beatmaps/4961718"
+      },
+      {
+        "id": "single-1st-speed",
+        "dan": "1st",
+        "label": "REFORM SpeedMap Pack [Shelter ~ 1st ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 7.5,
+        "star": 2.587977578244209,
+        "url": "https://osu.ppy.sh/beatmaps/4969885"
+      },
+      {
+        "id": "single-1st-jack",
+        "dan": "1st",
+        "label": "REFORM JackMap Pack [Miracle Chance ~ 1st ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 7.5,
+        "star": 2.012666895418167,
+        "url": "https://osu.ppy.sh/beatmaps/4961192"
+      },
+      {
+        "id": "single-2nd-tech",
+        "dan": "2nd",
+        "label": "REFORM TechMap Pack [Vermillion ~ 2nd ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 7.5,
+        "star": 2.845176432960033,
+        "url": "https://osu.ppy.sh/beatmaps/4961238"
+      },
+      {
+        "id": "single-2nd-stamina",
+        "dan": "2nd",
+        "label": "REFORM StaminaMap Pack [Eternal Drain ~ 2nd ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 7.5,
+        "star": 2.9302649249839776,
+        "url": "https://osu.ppy.sh/beatmaps/4961710"
+      },
+      {
+        "id": "single-2nd-speed",
+        "dan": "2nd",
+        "label": "REFORM SpeedMap Pack [Snow Storm ~ 2nd ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 7.5,
+        "star": 2.6771220916771887,
+        "url": "https://osu.ppy.sh/beatmaps/4969886"
+      },
+      {
+        "id": "single-2nd-jack",
+        "dan": "2nd",
+        "label": "REFORM JackMap Pack [Flashes ~ 2nd ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 7.5,
+        "star": 2.946705202875137,
+        "url": "https://osu.ppy.sh/beatmaps/4961190"
+      },
+      {
+        "id": "single-3rd-tech",
+        "dan": "3rd",
+        "label": "REFORM TechMap Pack [Kirlian Shores ~ 3rd ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 7.5,
+        "star": 2.5255799900794025,
+        "url": "https://osu.ppy.sh/beatmaps/4961233"
+      },
+      {
+        "id": "single-3rd-stamina",
+        "dan": "3rd",
+        "label": "REFORM StaminaMap Pack [True Blue ~ 3rd ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 7.5,
+        "star": 3.1532559200835224,
+        "url": "https://osu.ppy.sh/beatmaps/4961719"
+      },
+      {
+        "id": "single-3rd-speed",
+        "dan": "3rd",
+        "label": "REFORM SpeedMap Pack [Entelechia ~ 3rd ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 7.5,
+        "star": 2.959039362287521,
+        "url": "https://osu.ppy.sh/beatmaps/4969876"
+      },
+      {
+        "id": "single-3rd-jack",
+        "dan": "3rd",
+        "label": "REFORM JackMap Pack [Dimension Tripper!!!! ~ 3rd ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 7.5,
+        "star": 2.7371505027222627,
+        "url": "https://osu.ppy.sh/beatmaps/4961188"
+      },
+      {
+        "id": "single-4th-tech",
+        "dan": "4th",
+        "label": "REFORM TechMap Pack [Ephemera ~ 4th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8,
+        "star": 3.778392569249868,
+        "url": "https://osu.ppy.sh/beatmaps/4961230"
+      },
+      {
+        "id": "single-4th-tech-2",
+        "dan": "4th",
+        "label": "REFORM SpeedMap Pack [Shannon's Theorem ~ 4th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8,
+        "star": 3.681904462155103,
+        "url": "https://osu.ppy.sh/beatmaps/4969884"
+      },
+      {
+        "id": "single-4th-jack",
+        "dan": "4th",
+        "label": "REFORM JackMap Pack [CrossOver ~ 4th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8,
+        "star": 3.2626228483772275,
+        "url": "https://osu.ppy.sh/beatmaps/4961185"
+      },
+      {
+        "id": "single-5th-tech",
+        "dan": "5th",
+        "label": "REFORM TechMap Pack [Brainfog ~ 5th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8,
+        "star": 4.079976046825647,
+        "url": "https://osu.ppy.sh/beatmaps/4961227"
+      },
+      {
+        "id": "single-5th-stamina",
+        "dan": "5th",
+        "label": "REFORM StaminaMap Pack [Elektric U-Phoria ~ 5th ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 8,
+        "star": 4.3599221166551105,
+        "url": "https://osu.ppy.sh/beatmaps/4961709"
+      },
+      {
+        "id": "single-5th-speed",
+        "dan": "5th",
+        "label": "REFORM SpeedMap Pack [Palette GAMMA ~ 5th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8,
+        "star": 4.444344770289659,
+        "url": "https://osu.ppy.sh/beatmaps/4969882"
+      },
+      {
+        "id": "single-5th-speed-2",
+        "dan": "5th",
+        "label": "REFORM SpeedMap Pack [TDPDG ~ 5th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8,
+        "star": 4.2265767974817745,
+        "url": "https://osu.ppy.sh/beatmaps/4969888"
+      },
+      {
+        "id": "single-5th-jack",
+        "dan": "5th",
+        "label": "REFORM JackMap Pack [Energy Flower 3007 ~ 5th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8,
+        "star": 3.8635638019931315,
+        "url": "https://osu.ppy.sh/beatmaps/4961189"
+      },
+      {
+        "id": "single-6th-tech",
+        "dan": "6th",
+        "label": "REFORM TechMap Pack [The Bird's Midair Heatstroke ~ 6th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8,
+        "star": 4.2329090325736995,
+        "url": "https://osu.ppy.sh/beatmaps/4961237"
+      },
+      {
+        "id": "single-6th-speed",
+        "dan": "6th",
+        "label": "REFORM SpeedMap Pack [Luv Lab 22ate! ~ 6th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8,
+        "star": 4.893827264467477,
+        "url": "https://osu.ppy.sh/beatmaps/4969878"
+      },
+      {
+        "id": "single-6th-speed-2",
+        "dan": "6th",
+        "label": "REFORM SpeedMap Pack [SOS ~ 6th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8,
+        "star": 4.53831561470747,
+        "url": "https://osu.ppy.sh/beatmaps/4969887"
+      },
+      {
+        "id": "single-6th-jack",
+        "dan": "6th",
+        "label": "REFORM JackMap Pack [Sweet Cherry X ~ 6th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8,
+        "star": 4.377291990555524,
+        "url": "https://osu.ppy.sh/beatmaps/4961195"
+      },
+      {
+        "id": "single-7th-tech",
+        "dan": "7th",
+        "label": "REFORM TechMap Pack [WAVE ~ 7th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8.5,
+        "star": 4.912646994939744,
+        "url": "https://osu.ppy.sh/beatmaps/4961240"
+      },
+      {
+        "id": "single-7th-stamina",
+        "dan": "7th",
+        "label": "REFORM StaminaMap Pack [Hymn ~ 7th ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 8.5,
+        "star": 5.023237753219306,
+        "url": "https://osu.ppy.sh/beatmaps/4961714"
+      },
+      {
+        "id": "single-7th-jack",
+        "dan": "7th",
+        "label": "REFORM JackMap Pack [Last Chance ~ 7th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8.5,
+        "star": 4.643002571411133,
+        "url": "https://osu.ppy.sh/beatmaps/4961191"
+      },
+      {
+        "id": "single-8th-tech",
+        "dan": "8th",
+        "label": "REFORM TechMap Pack [RATO ~ 8th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8,
+        "star": 5.238638615507483,
+        "url": "https://osu.ppy.sh/beatmaps/4961235"
+      },
+      {
+        "id": "single-8th-stamina",
+        "dan": "8th",
+        "label": "REFORM StaminaMap Pack [Anguish ~ 8th ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 8.5,
+        "star": 5.400707112152427,
+        "url": "https://osu.ppy.sh/beatmaps/4961707"
+      },
+      {
+        "id": "single-8th-speed",
+        "dan": "8th",
+        "label": "REFORM SpeedMap Pack [Trickstarz ~ 8th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8.5,
+        "star": 5.391741781691908,
+        "url": "https://osu.ppy.sh/beatmaps/4969889"
+      },
+      {
+        "id": "single-8th-jack",
+        "dan": "8th",
+        "label": "REFORM JackMap Pack [To The Limit ~ 8th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8.5,
+        "star": 5.114883504787981,
+        "url": "https://osu.ppy.sh/beatmaps/4961197"
+      },
+      {
+        "id": "single-9th-tech",
+        "dan": "9th",
+        "label": "REFORM TechMap Pack [Cicadidae ~ 9th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8.5,
+        "star": 5.531764995189607,
+        "url": "https://osu.ppy.sh/beatmaps/4961228"
+      },
+      {
+        "id": "single-9th-stamina",
+        "dan": "9th",
+        "label": "REFORM StaminaMap Pack [Firmament Castle \"Velier\" ~ 9th ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 8.5,
+        "star": 5.6604415196746585,
+        "url": "https://osu.ppy.sh/beatmaps/4961711"
+      },
+      {
+        "id": "single-9th-speed",
+        "dan": "9th",
+        "label": "REFORM SpeedMap Pack [Disconnected Trance ~ 9th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8.5,
+        "star": 5.3349022016134855,
+        "url": "https://osu.ppy.sh/beatmaps/4969875"
+      },
+      {
+        "id": "single-9th-jack",
+        "dan": "9th",
+        "label": "REFORM JackMap Pack [Can't Take my Eyes ~ 9th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8.5,
+        "star": 5.638543068219423,
+        "url": "https://osu.ppy.sh/beatmaps/4961184"
+      },
+      {
+        "id": "single-10th-tech",
+        "dan": "10th",
+        "label": "REFORM TechMap Pack [Rave 7 1.1x ~ 10th ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 8.5,
+        "star": 5.996494581450819,
+        "url": "https://osu.ppy.sh/beatmaps/4961236"
+      },
+      {
+        "id": "single-10th-stamina",
+        "dan": "10th",
+        "label": "REFORM StaminaMap Pack [Chandelier ~ 10th ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 8.5,
+        "star": 5.8650223115444176,
+        "url": "https://osu.ppy.sh/beatmaps/4961708"
+      },
+      {
+        "id": "single-10th-speed",
+        "dan": "10th",
+        "label": "REFORM SpeedMap Pack [Oh Curry! ~ 10th ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 8.5,
+        "star": 5.728959159209132,
+        "url": "https://osu.ppy.sh/beatmaps/4969881"
+      },
+      {
+        "id": "single-10th-jack",
+        "dan": "10th",
+        "label": "REFORM JackMap Pack [The Lost Dedicated ~ 10th ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 8.5,
+        "star": 5.852039958958626,
+        "url": "https://osu.ppy.sh/beatmaps/4961196"
+      },
+      {
+        "id": "single-alpha-stamina",
+        "dan": "alpha",
+        "label": "REFORM StaminaMap Pack [LazorBeamz ~ Alpha ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 9,
+        "star": 6.149991859288216,
+        "url": "https://osu.ppy.sh/beatmaps/4961715"
+      },
+      {
+        "id": "single-alpha-speed",
+        "dan": "alpha",
+        "label": "REFORM SpeedMap Pack [Makiba ~ Alpha ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 9,
+        "star": 6.184884103950262,
+        "url": "https://osu.ppy.sh/beatmaps/4969879"
+      },
+      {
+        "id": "single-alpha-jack",
+        "dan": "alpha",
+        "label": "REFORM JackMap Pack [Dark Sambaland ~ Alpha ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 9,
+        "star": 6.044476939183474,
+        "url": "https://osu.ppy.sh/beatmaps/4961186"
+      },
+      {
+        "id": "single-beta-tech",
+        "dan": "beta",
+        "label": "REFORM TechMap Pack [Blue Planet ~ Beta ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 9,
+        "star": 6.382798696246146,
+        "url": "https://osu.ppy.sh/beatmaps/4961226"
+      },
+      {
+        "id": "single-beta-stamina",
+        "dan": "beta",
+        "label": "REFORM StaminaMap Pack [Time to Say Goodbye ~ Beta ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 9,
+        "star": 6.382164350731372,
+        "url": "https://osu.ppy.sh/beatmaps/4961717"
+      },
+      {
+        "id": "single-beta-speed",
+        "dan": "beta",
+        "label": "REFORM SpeedMap Pack [Amber Starlight ~ Beta ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 9,
+        "star": 6.441666723364591,
+        "url": "https://osu.ppy.sh/beatmaps/4969874"
+      },
+      {
+        "id": "single-beta-jack",
+        "dan": "beta",
+        "label": "REFORM JackMap Pack [Paradigm Shift ~ Beta ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 9,
+        "star": 6.291345172044038,
+        "url": "https://osu.ppy.sh/beatmaps/4961193"
+      },
+      {
+        "id": "single-gamma-stamina",
+        "dan": "gamma",
+        "label": "REFORM StaminaMap Pack [We Luv Lama ~ Gamma ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 9,
+        "star": 6.709559077638387,
+        "url": "https://osu.ppy.sh/beatmaps/4961720"
+      },
+      {
+        "id": "single-gamma-speed",
+        "dan": "gamma",
+        "label": "REFORM SpeedMap Pack [Reflec Streamz ~ Gamma ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 9,
+        "star": 6.952360452625751,
+        "url": "https://osu.ppy.sh/beatmaps/4969883"
+      },
+      {
+        "id": "single-gamma-jack",
+        "dan": "gamma",
+        "label": "REFORM JackMap Pack [Break ~ Gamma ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 9,
+        "star": 6.749439049472809,
+        "url": "https://osu.ppy.sh/beatmaps/4961183"
+      },
+      {
+        "id": "single-delta-tech",
+        "dan": "delta",
+        "label": "REFORM TechMap Pack [Crescent Moon Boss Battle ~ Delta ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 9,
+        "star": 7.36327069644928,
+        "url": "https://osu.ppy.sh/beatmaps/4961229"
+      },
+      {
+        "id": "single-delta-speed",
+        "dan": "delta",
+        "label": "REFORM SpeedMap Pack [Volcanic ~ Delta ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 9,
+        "star": 7.420242495775222,
+        "url": "https://osu.ppy.sh/beatmaps/4969890"
+      },
+      {
+        "id": "single-delta-jack",
+        "dan": "delta",
+        "label": "REFORM JackMap Pack [Aquaris ~ Delta ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 9,
+        "star": 7.2794836541819565,
+        "url": "https://osu.ppy.sh/beatmaps/4961182"
+      },
+      {
+        "id": "single-epsilon-stamina",
+        "dan": "epsilon",
+        "label": "REFORM StaminaMap Pack [Hitsugi to Futago ~ Epsilon ~ (Marathon)]",
+        "pattern": "stamina",
+        "od": 9,
+        "star": 8.099371722164154,
+        "url": "https://osu.ppy.sh/beatmaps/4961713"
+      },
+      {
+        "id": "single-epsilon-speed",
+        "dan": "epsilon",
+        "label": "REFORM SpeedMap Pack [Mario Paint ~ Epsilon ~ (Marathon)]",
+        "pattern": "speed",
+        "od": 9,
+        "star": 8.14409609215021,
+        "url": "https://osu.ppy.sh/beatmaps/4969880"
+      },
+      {
+        "id": "single-epsilon-jack",
+        "dan": "epsilon",
+        "label": "REFORM JackMap Pack [Rose Quartz ~ Epsilon ~ (Marathon)]",
+        "pattern": "jack",
+        "od": 9,
+        "star": 7.922376971890927,
+        "url": "https://osu.ppy.sh/beatmaps/4961194"
+      },
+      {
+        "id": "single-epsilon-speed-2",
+        "dan": "epsilon",
+        "label": "REFORM SAMPLE Pack 4 (Epsilon Training) [Moon Gate 1.25x (Speed)]",
+        "pattern": "speed",
+        "od": 9,
+        "star": 8.251229021022318,
+        "url": "https://osu.ppy.sh/beatmaps/5255749"
+      },
+      {
+        "id": "single-epsilon-tech",
+        "dan": "epsilon",
+        "label": "REFORM Missing Map Pack [Odoru Mizushibuki 1.35x ~ Epsilon ~ (Marathon)]",
+        "pattern": "tech",
+        "od": 9,
+        "star": 7.87609671580553,
+        "url": "https://osu.ppy.sh/beatmaps/3168876"
+      },
+      {
+        "id": "single-epsilon-tech-2",
+        "dan": "epsilon",
+        "label": "REFORM SAMPLE Pack 4 (Epsilon Training) [Future Candy 1.5x (Tech)]",
+        "pattern": "tech",
+        "od": 9,
+        "star": 8.36995197986126,
+        "url": "https://osu.ppy.sh/beatmaps/5255752"
+      },
+      {
+        "id": "single-zeta-tech",
+        "dan": "zeta",
+        "label": "REFORM Finalmaps [Analepsy - Apocalyptic Premonition ( 1.05x // cut ) ~ Zeta Tech ~]",
+        "pattern": "tech",
+        "od": 9.2,
+        "star": 8.5270371342659,
+        "url": "https://osu.ppy.sh/beatmaps/4490035"
+      },
+      {
+        "id": "single-zeta-speed",
+        "dan": "zeta",
+        "label": "REFORM Finalmaps [Manabu Namiki - ]-[|/34<#! ~ Zeta Speed ~]",
+        "pattern": "speed",
+        "od": 9.2,
+        "star": 8.602123512325287,
+        "url": "https://osu.ppy.sh/beatmaps/4490041"
+      }
+    ]
+  }
+}

@@ -30,6 +30,21 @@ function mockV3(b, star, rate, odOverride) {
   };
 }
 
+function mockV4(b, star, rate, odOverride, durationS) {
+  if (b % 17 === 0) return { ok: false, reason: 'run_error', text: '星数 v4 计算失败。' };
+  const v = star + .3;
+  const show = rate === 1 && !Number.isFinite(odOverride) && b % 5 !== 0;
+  const item = (id, delta, share, display = true) => ({ id, star: v + delta, share, display });
+  const hardest = { startS: 0, endS: Math.min(durationS, 10), star: v + .5 };
+  return {
+    ok: true, star: v, untested: ![1, 1.5].includes(rate) || Number.isFinite(odOverride),
+    items: show ? [item('stream', .4, .38), item('jack', .7, .27), item('chordstream', .2, .24),
+      item('tech', -.1, .19), item('ln', 0, .05, false)] : null,
+    stamina: show ? item('stamina', .5, .42, durationS >= 25) : null,
+    segments: [{ ...hardest, nObj: 60, sparse: false }], hardest,
+  };
+}
+
 async function score(msg) {
   const { id, bytes, name, oszHasOsb } = msg;
   const rate = msg.rate || 1;
@@ -103,7 +118,12 @@ async function score(msg) {
         : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: b % 13 === 0,
           outOfRangeReasons: b % 13 === 0 ? ['CNN36 读数超出排名谱范围'] : [], ms: 1 },
       v3: msg.withV3 ? mockV3(b, star, rate, msg.odOverride) : undefined,
+      v4: msg.withV4 ? mockV4(b, star, rate, msg.odOverride, durationS) : undefined,
     };
+    if (msg.withSegments === false) { result.segments = []; result.hardest = null; }
+    if (!msg.withItems) result.items = null;
+    if (!msg.withSub) result.sub = null;
+    result.odOverride = msg.odOverride;
   }
   self.postMessage({ type: 'result', id, result });
 }
@@ -128,6 +148,13 @@ self.onmessage = async (ev) => {
     const rate = msg.rate || 1;
     const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : rate === 0.75 ? -1.1 : 0);
     self.postMessage({ type: 'result', id: msg.id, result: { v3Only: true, v3: mockV3(b, star, rate, msg.odOverride) } });
+  } else if (msg.type === 'v4') {
+    await sleep(DELAY_MS);
+    const b = parseInt(md5Hex(msg.bytes).slice(0, 8), 16);
+    const rate = msg.rate || 1;
+    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : rate === 0.75 ? -1.1 : 0);
+    const durationS = Math.max(lastObjectTimeS(decodeText(msg.bytes)) / rate, 10);
+    self.postMessage({ type: 'result', id: msg.id, result: { v4Only: true, v4: mockV4(b, star, rate, msg.odOverride, durationS) } });
   } else if (msg.type === 'score') {
     try {
       await score(msg);

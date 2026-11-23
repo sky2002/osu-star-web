@@ -146,6 +146,7 @@ h2 { font-size: 1.1rem; margin: 0; }
 .sub-label { min-width: 5.5em; }
 .sub-star { font-variant-numeric: tabular-nums; color: var(--star); }
 .sub-list li.none .sub-star { color: var(--muted); }
+.stamina-list { margin-top: 6px; padding-top: 5px; border-top: 1px solid var(--line); }
 .sub-text { font-size: 0.8rem; }
 .sub-caption { margin: 6px 0 0; font-size: 0.8rem; line-height: 1.5; }
 .pattern-items h3 { display: flex; align-items: center; gap: 8px; }

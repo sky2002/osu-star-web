@@ -5,6 +5,8 @@ import { danEstimateCopyLines } from './dan-estimate.js';
 
 export const SEG_CAPTION =
   '分段曲线：每 10 秒一段，按旧公共星数刻度，只用来看起伏，不等于总星数';
+export const V4_SEG_CAPTION = '分段曲线：每 10 秒一段，与星数 v4 同一刻度';
+export function segmentCaption(result) { return result?.model === 'v4' ? V4_SEG_CAPTION : SEG_CAPTION; }
 
 const MODE_NAMES = ['std', 'taiko', 'catch', 'mania'];
 
@@ -45,6 +47,10 @@ export const ITEMS_NOTE =
   '不是加起来等于总星数。“叠”只算同列紧挨着、间隔 <200 ms 的连按，对切、交互不算叠。乱、切按社区的习惯整段归类（每一行看前后各 1 秒），' +
   '叠段里的快键只算进乱/切合计。长条★ 暂不显示。详见页面下方说明。';
 export const ITEMS_TECH_NOTE = '节奏不规则较多（多级乱）：乱、切里的分音突然变化，比如 1/4 接 1/3';
+export const V4_ITEMS_NOTE = '星数看这类键最难有多难。失分占比看整首刚好打到 96% 时，多少分丢在这类键上。各项占比可以重叠，且不含慢速或零散过渡音符，所以加起来不必刚好等于 100%。';
+const V4_ITEM_LABELS = {
+  jack: '叠（jack）', stream: '乱', chordstream: '切（双押切、三押切）', tech: '技（节奏变化、协调）', ln: '面（长条）', stamina: '耐力（高疲劳段）',
+};
 
 const pctText = (x) => (Number.isFinite(x) ? `${Math.round(x * 100)}%` : '—');
 
@@ -117,6 +123,7 @@ export function patternHints(items, star) {
  */
 export function patternItemView(result) {
   if (!result || !result.ok) return null;
+  if (result.model === 'v4') return v4PatternItemView(result);
   if ((result.rate || 1) !== 1) return { state: 'off', text: 'HT / DT 下不给键型分项：分项只在 NoMod 下检验过。切回 NoMod 可以看到。' };
   if (Number.isFinite(result.odOverride)) return { state: 'off', text: '自定义 OD 下不给键型分项：分项只按谱面文件 OD 检验过。' };
   const it = result.items;
@@ -146,10 +153,28 @@ export function patternItemView(result) {
   };
 }
 
+function v4PatternItemView(result) {
+  if ((result.rate || 1) !== 1) return { state: 'off', text: '六维分项可在 NoMod 下查看。' };
+  if (Number.isFinite(result.odOverride)) return { state: 'off', text: '六维分项可在使用谱面文件 OD 时查看。' };
+  if (result.hit) return { state: 'off', text: '六维分项可在关闭 HR 和 EZ 后查看。' };
+  if (result.flags?.sv) return { state: 'off', text: '六维分项适用于非变速谱。' };
+  const { items, stamina } = result.v4 || {};
+  if (!items || !stamina) return null;
+  const row = (item, few) => {
+    const star = item.display && Number.isFinite(item.star) ? item.star : null;
+    return { label: V4_ITEM_LABELS[item.id], star, share: item.share, text: star === null ? few : '' };
+  };
+  return { state: 'ok', rows: items.map((item) => row(item, '这类键太少')), stamina: row(stamina, '耐力段较短') };
+}
+
 export function patternItemCopyLines(result) {
   const v = patternItemView(result);
   if (!v) return [];
   if (v.state !== 'ok') return [`键型分项（测试版）：${v.text}`];
+  if (v.stamina) {
+    const line = (r) => [r.label, r.star === null ? '—' : `★ ${fmtStar(r.star)}`, `占失分 ${pctText(r.share)}`, r.text].filter(Boolean).join(' · ');
+    return ['六维键型分项（测试版）', ...v.rows.map(line), line(v.stamina)];
+  }
   const one = (r) => `${r.star === null ? r.text : r.label.replace(/（.*）/, '') + ' ★' + fmtStar(r.star) + r.text}（失分 ${pctText(r.share)}）`;
   return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；多级乱较多' : ''}`,
     ...v.hints.map((x) => `苦手提示：${x.tag}——${x.text}${x.note}`)];
@@ -267,12 +292,14 @@ export function unreliableReasons(result) {
   const out = [];
   if (f.sv) {
     const pct = typeof f.svFrac === 'number' ? `（约 ${Math.round(f.svFrac * 100)}% 的物件处变速）` : '';
-    out.push('有变速（SV），训练时排除了这类谱，读数未经检验' + pct);
+    const note = result.model === 'v4' ? '有变速（SV），这类谱的读数未经检验' : '有变速（SV），训练时排除了这类谱，读数未经检验';
+    out.push(note + pct);
   }
   if (f.storyboard) out.push('带 storyboard（可能是观赏/特效谱），读数未经检验');
   if (f.outOfRange) {
     const rs = Array.isArray(f.outOfRangeReasons) ? f.outOfRangeReasons.filter(Boolean) : [];
-    out.push('超出排名谱训练范围：' + (rs.length ? rs.join('；') : '具体项目未给出'));
+    const label = result.model === 'v4' ? '超出已检验的排名谱范围' : '超出排名谱训练范围';
+    out.push(`${label}：${rs.length ? rs.join('；') : '具体项目未给出'}`);
   }
   if (!out.length) out.push('读数未经检验');
   return out;
@@ -308,7 +335,7 @@ export function buildCopyText(result, header, fileName, ver, references, ladderL
   if (result && result.ok) lines.push(...danEstimateCopyLines(dan));
   lines.push(...patternItemCopyLines(result));
   if (withSub) for (const r of subRows(result)) lines.push(`${r.label}：${r.star === null ? r.text : fmtStar(r.star) + (r.text ? `（${r.text}）` : '')}`);
-  if (result && result.ok && result.rate === 0.75) lines.push(`提示：${HT_NOTE}`);
+  if (result && result.ok && result.rate === 0.75 && result.model !== 'v4') lines.push(`提示：${HT_NOTE}`);
   if (result && result.ok && ladderLine) lines.push(ladderLine);
   if (result && result.ok) lines.push(...danReferenceCopyLines(references));
   return lines.join('\n');

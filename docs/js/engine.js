@@ -76,7 +76,7 @@ export class Engine {
   // withCnn: the new star (test) -> result.cnn ({ ok, star, ... } or { ok: false, reason, text }); never changes result.star.
   // withV3: star v3 (test) -> result.v3 (same object as v3Only); never changes result.star.
   async scoreBytes(bytes, { oszHasOsb = false, onProgress = null, withSegments = true, rate = 1, withSub = true, withV2 = true, hit = '',
-    odOverride = null, withItems = true, withCnn = false, withV3 = false } = {}) {
+    odOverride = null, withItems = true, withCnn = false, withV3 = false, withV4 = false } = {}) {
     const t0 = performance.now();
     const text = new TextDecoder('utf-8').decode(bytes);
     const meta = metadata(text);
@@ -84,7 +84,8 @@ export class Engine {
       beatmapSetId: meta.beatmapSetId, md5: md5Hex(bytes), mode: meta.mode, keys: meta.keys };
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
-      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit, odOverride, withItems, withCnn, withV3 });
+      const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit,
+        odOverride, withItems, withCnn, withV3, withV4 });
       return { ok: true, ...base, ...r, seconds: (performance.now() - t0) / 1000 };
     } catch (e) {
       const reason = e instanceof ChartError ? e.reason : 'parse_error';
@@ -97,7 +98,7 @@ export class Engine {
   }
 
   async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null, withItems = true,
-    withCnn = false, withV3 = false }) {
+    withCnn = false, withV3 = false, withV4 = false }) {
     // 1. hand features (same order as the reference: parse_osu checks mode / keys / note count first); times / rate, file OD
     const pf = parseOsuFeat(text);
     if (odOverride !== null) pf.od = odOverride;
@@ -131,8 +132,7 @@ export class Engine {
     // 6. star v3 (test): its own reading of the same tokens, independent of the steps above
     const v3 = withV3 ? await this.v3Star({ tk, od, rate, hit, odOverride, onProgress }) : null;
     // flags
-    const sv = svFracSafe(text);
-    const sb = sbLines(text);
+    const baseFlags = chartFlags(text, oszHasOsb);
     const reasons = [];
     // DT: ranges of the ranked charts played at 1.5x (support-dt.json); HT has no rate-specific answers -> the 1.0x ranges.
     // Other rates take the nearer of the two answered rates (above 1.25x -> the DT ranges).
@@ -148,9 +148,9 @@ export class Engine {
       const v = F[c];
       if (r && Number.isFinite(v) && (v < r.min || v > r.max)) reasons.push(`${FEATURE_LABEL[c] || c} 超出${onWhat}范围`);
     }
-    const flags = { sv: sv !== null && sv > SV_LIMIT, svFrac: sv === null ? 0 : sv, storyboard: sb >= 1 || !!oszHasOsb, sbLines: sb,
-      oszHasOsb: !!oszHasOsb, outOfRange: reasons.length > 0, outOfRangeReasons: reasons, jackHeavy: F.jack180 >= JACK_HEAVY && F.ln_frac < JACK_MAX_LN,
+    const flags = { ...baseFlags, outOfRange: reasons.length > 0, outOfRangeReasons: reasons, jackHeavy: F.jack180 >= JACK_HEAVY && F.ln_frac < JACK_MAX_LN,
       jackShare: F.jack180, thetaFlag: flag };
+    const v4 = withV4 ? await this.v4Star(notes, { od, rate, hit, odOverride, flags, onProgress, tokens: tk }) : null;
     let segments = [], hardest = null;
     if (withSegments) {
       segments = this.reader.segments(v1a, tk);
@@ -162,7 +162,65 @@ export class Engine {
     for (const n of notes) tmax = Math.max(tmax, n[1], n[0]);
     return { rate, hit, odOverride, star, reading, theta, thetaFlag: flag, nNotes: tk.nNotes, nActions: tk.nActions, od, durationS: tmax / 1000 / rate,
       features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub, items,
-      cnn, v3 };
+      cnn, v3, ...(withV4 ? { v4 } : {}) };
+  }
+
+  async v4Only(bytes, { oszHasOsb = false, onProgress = null, rate = 1, hit = '', odOverride = null } = {}) {
+    try {
+      if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error('rate out of range');
+      const text = new TextDecoder('utf-8').decode(bytes);
+      prepareFeatureNotes(parseOsuFeat(text));
+      const chart = loadChart(text);
+      return await this.v4Star(chart.notes, { od: odOverride ?? chart.od, rate, hit, odOverride, flags: chartFlags(text, oszHasOsb), onProgress });
+    } catch (e) {
+      return { ok: false, reason: e instanceof ChartError ? e.reason : 'run_error', text: '星数 v4 计算失败。' };
+    }
+  }
+
+  ensureV4() {
+    if (!this.v4Load) {
+      const { ort, loadBytes, loadJson } = this.assets;
+      this.v4Load = (async () => {
+        const modulePath = './v4.js';
+        const { V4 } = await import(modulePath);
+        const [model, support, supportDt] = await Promise.all([
+          V4.create({ ort, loadBytes, loadJson }), loadJson('model/support-v4.json'), loadJson('model/support-v4-dt.json'),
+        ]);
+        return { model, support, supportDt };
+      })();
+      this.v4Load.catch(() => { this.v4Load = null; });
+    }
+    return this.v4Load;
+  }
+
+  async v4Star(notes, { od, rate, hit, odOverride, flags, onProgress, tokens = null }) {
+    const t0 = performance.now();
+    const report = onProgress && (p => onProgress('星数 v4', p));
+    let settings;
+    try {
+      if (report) report(0);
+      settings = await this.ensureV4();
+    } catch {
+      return { ok: false, reason: 'load_error', text: '星数 v4 加载失败。' };
+    }
+    try {
+      const { model, support, supportDt } = settings;
+      const r = await model.run(notes, { od, rate, hit, odOverride, flags, pool: this.pool, onProgress: report, tokens });
+      if (!Number.isFinite(r.star) || !Number.isFinite(r.theta)) throw new Error('invalid result');
+      const dt = rate > 1.25;
+      const range = dt ? supportDt : support;
+      const scope = dt ? '排名谱的 DT 读数' : '排名谱读数';
+      const reasons = [];
+      if (r.star > range.star.max) reasons.push(`星数高于${scope}的最高值（${range.star.max.toFixed(2)}）`);
+      if (r.theta < range.th.min || r.theta > range.th.max || String(r.flag || '').startsWith('censored')) {
+        reasons.push(`难度超出${scope}的范围`);
+      }
+      const outOfRange = reasons.length > 0;
+      return { ...r, ok: true, thetaFlag: r.flag, outOfRange, outOfRangeReasons: reasons, timing: r.ms,
+        reliable: !(flags.sv || flags.storyboard || outOfRange), ms: performance.now() - t0 };
+    } catch {
+      return { ok: false, reason: 'run_error', text: '星数 v4 计算失败。' };
+    }
   }
 
   // only the new star, for a chart whose P1h result (theta*) the page already has: the same hand features and CNN grid as
@@ -347,6 +405,13 @@ export class Engine {
     const odItem = { od: odUsed, fileOd: od, theta: odTheta, flag: odFlag, star: subStar(star, theta, odTheta, b), changed: odUsed !== od };
     return { rice, face, od: odItem, v2, ms: performance.now() - t0 };
   }
+}
+
+function chartFlags(text, oszHasOsb) {
+  const sv = svFracSafe(text);
+  const sb = sbLines(text);
+  return { sv: sv !== null && sv > SV_LIMIT, svFrac: sv ?? 0, storyboard: sb >= 1 || !!oszHasOsb, sbLines: sb,
+    oszHasOsb: !!oszHasOsb };
 }
 
 function svFracSafe(text) {

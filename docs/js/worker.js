@@ -63,12 +63,19 @@ async function handle(m) {
     self.postMessage({ type: 'result', id: m.id, result: { v3Only: true, v3 } });
     return;
   }
+  if (m.type === 'v4') {
+    const v4 = engine ? await engine.v4Only(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
+      oszHasOsb: !!m.oszHasOsb, rate: m.rate || 1, hit: m.hit || '', odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
+      onProgress: progressFor(m.id),
+    }) : { ok: false, reason: 'load_error', text: '星数 v4 加载失败。' };
+    self.postMessage({ type: 'result', id: m.id, result: { v4Only: true, v4 } });
+    return;
+  }
   if (m.type === 'score') {
     const id = m.id;
     let result;
     try {
       if (!engine) throw new Error('model not loaded');
-      let last = -1;
       result = await engine.scoreBytes(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
         oszHasOsb: !!m.oszHasOsb,
         rate: m.rate || 1,
@@ -76,12 +83,11 @@ async function handle(m) {
         odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
         withSub: !!m.withSub,
         withItems: !!m.withItems,   // key-pattern items (beta): the web page asks for them; the tosu counter does not
+        withSegments: m.withSegments !== false,
         withCnn: !!m.withCnn,       // CNN36 star (test): only when the page's model switch is on CNN36
-        withV3: !!m.withV3,         // star v3 (default on the page): result.v3; the tosu counter does not ask for it
-        onProgress: (stage, pct) => {
-          const p = Math.round(pct);
-          if (p !== last) { last = p; self.postMessage({ type: 'progress', id, stage, pct: p }); }
-        },
+        withV3: !!m.withV3,
+        withV4: !!m.withV4,
+        onProgress: progressFor(id),
       });
     } catch (e) {
       result = { ok: false, reason: 'parse_error', message: '计算出错：' + String(e && e.message || e) };
@@ -89,4 +95,15 @@ async function handle(m) {
     if (result.ok) { result.lnFrac = result.features.ln_frac; delete result.features; delete result.acc; }   // keep the message small; the page only needs the LN share
     self.postMessage({ type: 'result', id, result });
   }
+}
+
+function progressFor(id) {
+  let last = -1, previousStage;
+  return (stage, pct) => {
+    const p = Math.round(pct);
+    if (p === last && stage === previousStage) return;
+    last = p;
+    previousStage = stage;
+    self.postMessage({ type: 'progress', id, stage, pct: p });
+  };
 }

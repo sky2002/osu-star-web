@@ -16,7 +16,9 @@
     "test:hints": "node --test tests/pattern-hints.mjs",
     "test:tosu": "node tools/build-tosu.mjs && node --test tests/tosu-player.mjs",
     "test:cnn36": "node tests/cnn36.mjs",
-    "test:cnn36-star": "node tests/compare_cnn36_star.mjs --every 6"
+    "test:cnn36-star": "node tests/compare_cnn36_star.mjs --every 6",
+    "test:v4": "node --test tests/v4-star.mjs tests/v4-references.mjs",
+    "test:unit": "node --test tests/acc-ladder.mjs tests/dan-reference.mjs tests/dan-estimate.mjs tests/pattern-hints.mjs tests/v3-star.mjs tests/v3-references.mjs tests/v4-star.mjs tests/v4-references.mjs"
   },
   "dependencies": {
     "fflate": "0.8.3",
