@@ -1,7 +1,7 @@
 // 22 hand features, ported from analysis/star-cnn-r1/baseline_feat.feats with the note preparation of
 // analysis/tree-topend-r3/score_osu.Scorer.features (sorted (t, col, end), shift by the first start).
 import { ssLeft, quantileSorted, median } from './pyutil.js';
-import { ChartError } from './osu.js';
+import { ChartError, MIN_NOTES } from './osu.js';
 
 export function prepareFeatureNotes(parsed) {
   const { od, cs, mode, notes } = parsed;
@@ -9,8 +9,8 @@ export function prepareFeatureNotes(parsed) {
   if (cs !== null && pyRoundHalfEven(cs) !== 4) {
     throw new ChartError('not_4k', `not a 4K chart (keys ${cs})`);
   }
+  if (notes.length < MIN_NOTES) throw new ChartError('too_few_notes', `only ${notes.length} notes (< ${MIN_NOTES})`);
   const a = notes.slice().sort((p, q) => (p[0] - q[0]) || (p[1] - q[1]) || (p[2] - q[2]));
-  if (a.length < 20) throw new ChartError('too_few_notes', `only ${a.length} notes (< 20)`);
   const o = a[0][0];
   const s = new Float64Array(a.length), c = new Int32Array(a.length), e = new Float64Array(a.length);
   for (let i = 0; i < a.length; i++) { s[i] = a[i][0] - o; c[i] = a[i][1]; e[i] = a[i][2] >= 0 ? a[i][2] - o : a[i][2]; }

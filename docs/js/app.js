@@ -6,21 +6,26 @@ import {
 import {
   listOsz, parseOsuHeader, decodeText, skipReason, mergeMeta, displayName,
   unreliableReasons, buildSegmentsSvg, fmtStar, fmtTime, segmentCaption,
-  MOD_SHORT, HT_NOTE, modLabel, subRows, SUB_NOTE, patternItemView, ITEMS_NOTE, ITEMS_TECH_NOTE, V4_ITEMS_NOTE,
+  HT_NOTE, subRows, SUB_NOTE, patternItemView, ITEMS_NOTE, ITEMS_TECH_NOTE, V4_ITEMS_NOTE,
 } from './ui-lib.js';
 import {
-  validateLadder, ladder, parseAcc, reverseNote, reverseCaption, lnNote, fmtLadderStar, ladderCopyLine,
-  LADDER_TITLE, LADDER_CAPTION, LADDER_LABEL, LADDER_UNRELIABLE_NOTE,
+  validateLadder, ladderCopyLine,
 } from './acc-ladder.js';
-import { danEstimate, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_TITLE } from './dan-estimate.js';
-import { needsCnn, CNN_REFERENCES } from './new-star.js';
+import { danEstimate, danBadge, fmtDanPos, DAN_ESTIMATE_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_TITLE } from './dan-estimate.js';
+import { needsCnn, CNN_REFERENCES, CNN_VERSION, CNN_FROZEN } from './new-star.js';
 import { V3_REFERENCES, V3_VERSION, V3_FROZEN, V3_UNTESTED_NOTE, fmtDelta } from './v3-star.js';
 import {
   STAR_MODELS, needsV3, needsV4, loadStarModel as loadModelFrom, saveStarModel as saveModelTo,
   cardView, comparisonView, cardCopyText, scoreRequest, V4_REFERENCES, V4_VERSION, V4_FROZEN, V4_UNTESTED_NOTE, loadingText, MODEL_NOTE,
 } from './v4-star.js';
 
+import { createAccChart, createRatePanel } from './charts.js';
+import { normalizeRate, settingKey, createRateCurveState } from './rate-curve.js';
+import { droppedRecords, fileRecords } from './app-import.js';
+
+const EXP_KEY = 'osu-star-experimental';
 const RATES = [1, 0.75, 1.5];
+const MODEL_NAMES = { v4: '星数 v4', v3: '星数 v3', p1h: 'P1h 旧版', cnn36: 'CNN36', both: '对比 v3' };
 const MOD_KEY = 'osu-star-web.mod';
 const OD_KEY = 'osu-star-web.od';   // 只记住滑条上的值；是否自定义不记，每次打开都从谱面文件 OD 开始
 const OD_RANGE = [0, 10];
@@ -51,10 +56,14 @@ function h(tag, attrs, ...kids) {
 // ---------------------------------------------------------------- 状态
 const state = {
   worker: null,
+  helpers: [],
   phase: 'loading', // loading | ready | error
   ver: null, // {version, frozen}
   items: [],
   current: null, // { it, rate, job }
+  jobs: [],
+  loadErrors: new Map(),
+  importEpoch: 0,
   uid: 0,
   job: 0,
   mod: loadMod(),
@@ -89,8 +98,8 @@ function saveMod(rate) {
   try { localStorage.setItem(MOD_KEY, String(rate)); } catch { /* 无痕模式等：不记住也没关系 */ }
 }
 
-// 实验性功能开关（达成水平表、米 / 面分项、OD 口径）：默认关；关着时不渲染这些面板，计算模块也不算分项
-const EXP_KEY = 'osu-star-experimental';
+// 旧版分项开关。准确率曲线始终可见。
+
 function loadExperimental() {
   try { return localStorage.getItem(EXP_KEY) === '1'; } catch { return false; }
 }
@@ -115,15 +124,7 @@ function parseOd(text) {
 }
 // 当前生效的 OD：只有开着实验性功能且选了"自定义"时才覆盖谱面文件 OD
 function activeOd() { return state.experimental && state.odCustom ? state.odValue : null; }
-// 结果按 (倍速, OD) 分开记住，来回切换不用重算
-function settingKey(rate = state.mod, od = activeOd()) { return `${rate}|${od === null ? 'file' : od.toFixed(1)}`; }
 function resultFor(it, key) { return it.rejectAll || it.results.get(key) || null; }
-
-function hasUsableResult(it, key) {
-  const res = resultFor(it, key);
-  return !!res && !scoreRequest(res, state.starModel, state.experimental);
-}
-
 async function loadDanReferences() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
@@ -185,180 +186,296 @@ async function loadLadder() {
   }
 }
 
-function setStatus(kind, text) {
-  const box = $('#status');
-  box.className = 'status ' + kind;
-  $('#status-text').textContent = text;
+
+function setStatus(kind, message, progress = null, retry = false) {
+  $('#status').className = 'status ' + kind;
+  $('#status-text').textContent = message;
+  const bar = $('#load-progress');
+  bar.hidden = !progress;
+  if (progress?.totalBytes > 0) {
+    bar.max = progress.totalBytes;
+    bar.value = progress.loadedBytes;
+  } else bar.removeAttribute('value');
+  $('#retry-load').hidden = !retry;
 }
 
-// 就绪后的状态条：写当前开关下卡片上主星数的版本
 function syncReadyStatus() {
   if (state.phase !== 'ready' || !state.ver) return;
-  const p1h = `${state.ver.version}，冻结 ${state.ver.frozen}`;
-  const text = needsV4(state.starModel) ? `${V4_VERSION}，冻结 ${V4_FROZEN}`
-    : needsV3(state.starModel) ? `${V3_VERSION}，冻结 ${V3_FROZEN}` : p1h;
-  setStatus('ready', `可以选择文件 · ${text}`);
+  const error = [...state.loadErrors.values()].find(e => e.phase === 'init'
+    || (e.phase === 'v4' && needsV4(state.starModel)) || (e.phase === 'v3' && needsV3(state.starModel))
+    || (e.phase === 'cnn' && needsCnn(state.starModel)));
+  if (error) {
+    setStatus('error', error.message, null, true);
+    return;
+  }
+  const source = needsV4(state.starModel) ? [V4_VERSION, V4_FROZEN]
+    : needsV3(state.starModel) ? [V3_VERSION, V3_FROZEN]
+    : needsCnn(state.starModel) ? [CNN_VERSION, CNN_FROZEN] : [state.ver.version, state.ver.frozen];
+  setStatus('ready', `可以选择文件 · ${source[0]}，冻结 ${source[1]}`);
 }
 
-const BROWSER_HINT = '请换用新版 Chrome、Edge 或 Firefox 再试。';
-
-// ---------------------------------------------------------------- worker
+const BROWSER_HINT = '请升级到新版 Chrome、Edge 或 Firefox 后重新打开页面。';
 function startWorker() {
-  const mock = new URLSearchParams(location.search).get('mock') === '1';
-  let w;
-  try {
-    w = new Worker(new URL(mock ? './mock-worker.js' : './worker.js', import.meta.url), { type: 'module' });
-  } catch (e) {
-    return initFailed('当前浏览器无法启动计算模块。' + BROWSER_HINT);
+  if (typeof Worker !== 'function' || typeof WebAssembly !== 'object') {
+    initFailed('当前浏览器缺少计算所需的 Worker 或 WebAssembly 支持。' + BROWSER_HINT, false);
+    return;
   }
-  state.worker = w;
-  w.onmessage = onWorkerMessage;
-  w.onerror = (ev) => {
-    const msg = ev && ev.message ? ev.message : '计算模块文件无法加载';
-    if (state.phase === 'loading') return initFailed(`模型加载失败：${msg}。${BROWSER_HINT}`);
-    if (state.current) finishCurrent({ ok: false, reason: 'parse_error', message: '计算时出错：' + msg });
-  };
-  w.onmessageerror = () => {
-    if (state.phase === 'loading') initFailed('与计算模块通信失败。' + BROWSER_HINT);
-  };
-  // helper workers for long charts (second layer in parallel); the compute worker gets their ports
-  const nHelpers = mock ? 0 : Math.max(0, Math.min(8, (navigator.hardwareConcurrency || 2) - 2));
-  const ports = nHelpers >= 2 ? spawnHelpers(nHelpers) : [];
-  w.postMessage({ type: 'init', ports }, ports);
+  const mock = new URLSearchParams(location.search).get('mock') === '1';
+  try {
+    const w = new Worker(new URL(mock ? './mock-worker.js' : './worker.js', import.meta.url), { type: 'module' });
+    state.worker = w;
+    w.onmessage = onWorkerMessage;
+    const shutdown = message => {
+      if (state.worker !== w) return;
+      stopWorkers();
+      initFailed(message);
+    };
+    w.onerror = ev => shutdown(`计算模块无法运行（${ev.message || '加载失败'}）。${BROWSER_HINT}`);
+    w.onmessageerror = () => shutdown('与计算模块通信失败。' + BROWSER_HINT);
+    const n = mock ? 0 : Math.max(0, Math.min(4, (navigator.hardwareConcurrency || 2) - 2));
+    const ports = n >= 2 ? spawnHelpers(n, helper => state.helpers.push(helper)) : [];
+    w.postMessage({ type: 'init', ports }, ports);
+  } catch (e) {
+    stopWorkers();
+    initFailed('当前浏览器无法启动计算模块。' + BROWSER_HINT);
+  }
 }
 
-function initFailed(message) {
+function stopWorkers() {
+  state.worker?.terminate();
+  for (const helper of state.helpers) helper.terminate();
+  state.helpers = [];
+  state.worker = null;
+}
+
+function initFailed(message, retry = true) {
+  state.initError = message;
   state.phase = 'error';
-  setStatus('error', message);
-  // 已排队的谱面全部标为失败
-  for (const it of state.items) {
-    if (it.status === 'queued' || it.status === 'running') failItem(it, '计算模块没有启动，无法计算。');
+  if (state.current) {
+    const job = state.current;
+    state.current = null;
+    if (!job.cancelled) state.jobs.unshift(job);
   }
-  state.current = null;
+  setStatus('error', message, null, retry);
+  for (const item of state.items) {
+    if (item.status === 'queued' || item.status === 'running') { item.status = 'queued'; renderItem(item); }
+  }
+}
+
+function retryLoad() {
+  state.loadErrors.clear();
+  if (state.phase === 'error') {
+    state.phase = 'loading';
+    setStatus('loading', loadingText());
+    if (state.worker) state.worker.postMessage({ type: 'init' });
+    else startWorker();
+    return;
+  }
+  for (const it of state.items) {
+    for (const raw of it.results.values()) {
+      for (const model of ['v4','v3','cnn']) {
+        if (raw[model]?.ok === false && raw[model].reason !== 'untested') raw[model + 'Computed'] = false;
+      }
+    }
+  }
+  syncReadyStatus();
+  applySetting();
 }
 
 function onWorkerMessage(ev) {
   const m = ev.data || {};
-  if (m.type === 'ready') {
+  if (m.type === 'load_progress') {
+    const mb = bytes => (bytes / 1000000).toFixed(1);
+    const count = mb(m.loadedBytes) + (m.totalBytes > 0 ? ' / ' + mb(m.totalBytes) : '');
+    setStatus('loading', `正在下载计算资源 ${count} MB · ${m.file}…`, m);
+  } else if (m.type === 'load_error') {
+    const error = { ...m, message: [m.file, m.message].filter(Boolean).join(' · ') };
+    state.loadErrors.set(m.phase, error);
+    setStatus('error', error.message, null, true);
+  } else if (m.type === 'load_done') {
+    state.loadErrors.delete(m.phase);
+    syncReadyStatus();
+  } else if (m.type === 'ready') {
     state.phase = 'ready';
     state.ver = { version: m.version, frozen: m.frozen };
     syncReadyStatus();
     pump();
-  } else if (m.type === 'error') {
-    if (m.id !== undefined && state.current && state.current.job === m.id) {
-      finishCurrent({ ok: false, reason: 'parse_error', message: m.message || '计算出错' });
-    } else if (state.phase === 'loading') {
-      initFailed(`模型加载失败：${m.message || '未知错误'}。${BROWSER_HINT}`);
+  } else if (m.type === 'error' && m.id === undefined) {
+    if (m.restart) stopWorkers();
+    initFailed(m.message || '计算资源加载失败。');
+  } else {
+    const job = state.current;
+    if (!job || job.id !== m.id) return;
+    if (m.type === 'progress') {
+      if (!job.cancelled && job.kind === 'display' && isVisible(job.it)) {
+        job.it.stage = m.stage || '计算中';
+        job.it.pct = Math.max(0, Math.min(100, Number(m.pct) || 0));
+        updateProgress(job.it);
+      }
+      return;
     }
-  } else if (m.type === 'progress') {
-    const cur = state.current;
-    const it = cur && cur.job === m.id && cur.key === settingKey() ? cur.it : null;
-    if (it && it.status === 'running') {
-      it.stage = m.stage || '';
-      it.pct = Math.max(0, Math.min(100, Number(m.pct) || 0));
-      updateProgress(it);
+    if (!['error', 'result', 'cancelled'].includes(m.type)) return;
+    state.current = null;
+    if (!job.cancelled) {
+      if (m.type === 'cancelled') job.reject(cancelError());
+      else if (m.type === 'error') job.reject(new Error(m.message || '计算出错'));
+      else {
+        mergeResult(job, m.result);
+        state.jobs.unshift(job);
+      }
     }
-  } else if (m.type === 'result') {
-    if (state.current && state.current.job === m.id) finishCurrent(m.result);
-    else { state.current = null; pump(); }
+    pump();
   }
 }
 
-// 只算当前 Mod / OD 还没有结果的谱；谱面字节留在页面里，换设置时再送一份副本
+const cancelError = () => new DOMException('已取消计算', 'AbortError');
+const isVisible = it => !it.group || it.group.active === it;
+const selectionKey = it => settingKey(it.rate, activeOd());
+
+function enqueue(it, rate, kind) {
+  const key = settingKey(rate, activeOd());
+  const have = resultFor(it, key);
+  if (have && !scoreRequest(have, state.starModel, state.experimental)) return Promise.resolve(have);
+  return new Promise((resolve, reject) => {
+    const job = { it, rate, od: activeOd(), key, kind, mode: state.starModel, sub: state.experimental, resolve, reject };
+    const firstBackground = state.jobs.findIndex(x => x.kind !== 'display');
+    if (kind === 'display' && firstBackground >= 0) state.jobs.splice(firstBackground, 0, job);
+    else state.jobs.push(job);
+    pump();
+  });
+}
+
+function cancelJobs(test) {
+  for (const job of state.jobs.filter(test)) job.reject(cancelError());
+  state.jobs = state.jobs.filter(job => !test(job));
+  const cur = state.current;
+  if (cur && !cur.cancelled && test(cur)) {
+    cur.cancelled = true;
+    cur.reject(cancelError());
+    state.worker?.postMessage({ type: 'cancel', id: cur.id });
+  }
+}
+
 function pump() {
   if (state.phase !== 'ready' || state.current) return;
-  const rate = state.mod, od = activeOd(), key = settingKey(rate, od);
-  const next = state.items.find((x) => x.bytes && !x.failed && !hasUsableResult(x, key));
-  if (!next) return;
-  const job = ++state.job;
-  const have = resultFor(next, key);
-  const request = scoreRequest(have, state.starModel, state.experimental);
-  if (request.withV3 || request.type === 'v3') loadV3References();
-  state.current = { it: next, key, job, request };
-  next.status = 'running';
-  next.result = null;
-  next.stage = { cnn: 'CNN36', v3: '星数 v3', v4: '星数 v4' }[request.type] || '开始';
-  next.pct = 0;
-  renderItem(next);
-  const bytes = next.bytes.slice();
-  state.worker.postMessage({ ...request, id: job, bytes, name: next.name, oszHasOsb: next.oszHasOsb,
-    rate, odOverride: od, theta: have?.theta }, [bytes.buffer]);
-}
-
-function finishCurrent(result) {
-  const cur = state.current;
-  state.current = null;
-  if (cur) {
-    const it = cur.it;
-    const { request } = cur;
-    const prev = it.results.get(cur.key);
-    if (request.type !== 'score') {
-      if (prev) {
-        const model = request.type;
-        const text = { cnn: '新星数没有算出来', v3: '星数 v3 没有算出来', v4: '星数 v4 计算失败。' }[model];
-        prev[model] = result?.[model] || { ok: false, reason: 'run_error', text };
-        prev[model + 'Computed'] = true;
-      }
-    } else {
-      const res = result || { ok: false, reason: 'parse_error', message: '没有收到计算结果' };
-      if (res.ok) {
-        for (const [model, requested] of [['cnn', request.withCnn], ['v3', request.withV3], ['v4', request.withV4]]) {
-          const field = model + 'Computed';
-          if (!requested && prev?.[field]) res[model] = prev[model];
-          res[field] = requested || !!prev?.[field];
-        }
-        if (!request.withSub && prev?.subComputed) res.sub = prev.sub;
-        if (!request.withSegments && prev?.legacyComputed) {
-          res.segments = prev.segments;
-          res.hardest = prev.hardest;
-          res.items = prev.items;
-        }
-        res.subComputed = request.withSub || !!prev?.subComputed;
-        res.legacyComputed = request.withSegments || !!prev?.legacyComputed;
-      }
-      if (!res.ok && RATE_FREE_REJECT.includes(res.reason)) it.rejectAll = res;
-      else it.results.set(cur.key, res);
+  while (state.jobs.length) {
+    const job = state.jobs.shift();
+    const have = resultFor(job.it, job.key);
+    const request = scoreRequest(have, job.mode, job.sub);
+    if (!request) { job.resolve(have); continue; }
+    job.request = request;
+    job.id = ++state.job;
+    state.current = job;
+    if (request.withV3 || request.type === 'v3') loadV3References();
+    if (job.kind === 'display' && isVisible(job.it)) {
+      Object.assign(job.it, { status: 'running', pct: 0, stage: '正在计算' });
+      renderItem(job.it);
     }
-    // 算的过程中设置变了（换了 Mod / OD / 星数模型，或刚打开实验性功能）就不显示，pump 会按新设置排队
-    if (cur.key === settingKey() && hasUsableResult(it, cur.key)) {
-      it.status = 'done';
-      it.result = resultFor(it, cur.key);
-      renderItem(it);
+    try {
+      const bytes = job.it.bytes.slice();
+      state.worker.postMessage({ ...request, id: job.id, bytes, name: job.it.name, oszHasOsb: job.it.oszHasOsb,
+        rate: job.rate, odOverride: job.od, theta: have?.theta }, [bytes.buffer]);
+      return;
+    } catch (e) {
+      state.current = null;
+      job.reject(e);
     }
   }
-  pump();
 }
 
-function failItem(it, message) {
-  it.status = 'done';
-  it.bytes = null;
-  it.failed = true;
-  it.result = { ok: false, reason: 'parse_error', message };
-  renderItem(it);
-}
-
-// 设置（Mod、OD、实验性功能）变了以后：有结果的直接显示，没有的排队；正在算的那一局符合新设置就继续显示进度
-function applySetting() {
-  const key = settingKey();
-  for (const it of state.items) {
-    if (it.status === 'skipped' || it.failed) continue;
-    const cur = state.current;
-    if (hasUsableResult(it, key)) { it.status = 'done'; it.result = resultFor(it, key); }
-    else if (cur && cur.it === it && cur.key === key) {
-      it.status = 'running'; it.result = null;
+function mergeResult(job, result) {
+  const { it, request, key } = job;
+  const prev = it.results.get(key);
+  // 文件读取或运行环境本身也可能在网络已完成后才返回加载错误。
+  for (const model of ['v4', 'v3', 'cnn']) {
+    const failure = result?.[model];
+    if (failure?.reason !== 'load_error') continue;
+    state.loadErrors.set(model, { phase: model, message: failure.text || '计算资源加载失败。' });
+    syncReadyStatus();
+  }
+  if (request.type !== 'score') {
+    const model = request.type;
+    prev[model] = result?.[model] || { ok: false, reason: 'run_error', text: result?.message || '计算未返回读数' };
+    prev[model + 'Computed'] = true;
+    return;
+  }
+  const raw = result || { ok: false, reason: 'parse_error', message: '没有收到计算结果' };
+  if (raw.ok) {
+    for (const [model, wanted] of [['cnn', request.withCnn], ['v3', request.withV3], ['v4', request.withV4]]) {
+      const field = model + 'Computed';
+      if (!wanted && prev?.[field]) raw[model] = prev[model];
+      raw[field] = wanted || !!prev?.[field];
     }
-    else { it.status = 'queued'; it.result = null; }
+    if (!request.withSub && prev?.subComputed) raw.sub = prev.sub;
+    if (!request.withSegments && prev?.legacyComputed) {
+      raw.segments = prev.segments;
+      raw.hardest = prev.hardest;
+      raw.items = prev.items;
+    }
+    raw.subComputed = request.withSub || !!prev?.subComputed;
+    raw.legacyComputed = request.withSegments || !!prev?.legacyComputed;
+  }
+  if (!raw.ok && RATE_FREE_REJECT.includes(raw.reason)) it.rejectAll = raw;
+  else it.results.set(key, raw);
+}
+
+function cancelDisplay(it) {
+  it.rev++;
+  cancelJobs(job => job.it === it && job.kind === 'display');
+  it.status = 'cancelled';
+  it.result = null;
+}
+function displayScore(it) {
+  const rev = ++it.rev;
+  const have = resultFor(it, selectionKey(it));
+  if (have && !scoreRequest(have, state.starModel, state.experimental)) {
+    Object.assign(it, { status: 'done', result: have });
     renderItem(it);
+    return;
   }
-  pump();
+  Object.assign(it, { status: 'queued', result: null, error: null });
+  renderItem(it);
+  enqueue(it, it.rate, 'display').then(result => {
+    if (it.rev !== rev) return;
+    Object.assign(it, { result, status: 'done' });
+    renderItem(it);
+  }, e => {
+    if (it.rev !== rev) return;
+    it.status = e.name === 'AbortError' ? 'cancelled' : 'failed';
+    it.error = e.message;
+    renderItem(it);
+  });
 }
 
+function dismissCurve(it) {
+  for (const curve of it.curves.values()) curve.dismiss();
+}
+function applySetting() {
+  for (const it of state.items) {
+    dismissCurve(it);
+    if (it.group) stopPack(it.group);
+    cancelDisplay(it);
+  }
+  for (const it of state.items.filter(isVisible)) displayScore(it);
+  syncAdvanced();
+}
 function setMod(rate) {
   if (!RATES.includes(rate)) return;
   state.mod = rate;
   saveMod(rate);
   syncModButtons();
+  for (const it of state.items) it.rate = rate;
   applySetting();
+}
+function syncAdvanced() {
+  const label = $('#advanced-state');
+  const tags = [];
+  if (state.starModel !== 'v4') tags.push(MODEL_NAMES[state.starModel]);
+  if (activeOd() !== null) tags.push('OD ' + activeOd().toFixed(1));
+  if (state.experimental && activeOd() === null) tags.push('旧版分项');
+  if (state.mod !== 1) tags.push('默认 ' + state.mod.toFixed(2) + '×');
+  label.textContent = tags.length ? '当前：' + tags.join(' · ') : '';
+  label.hidden = !tags.length;
 }
 
 // 关掉时结果保留，只是不再显示分项；自定义 OD 不再生效，回到谱面文件 OD 的结果
@@ -429,159 +546,286 @@ function resultsEl() { return $('#results'); }
 
 function showResultsSec() { $('#results-sec').hidden = false; }
 
-function addGroup(title, note) {
-  showResultsSec();
-  resultsEl().append(h('div', { class: 'group' }, h('strong', { text: title }), note ? h('span', { class: 'muted', text: ' ' + note }) : null));
-}
 
 function addNotice(text) {
   showResultsSec();
-  resultsEl().append(h('div', { class: 'card skipped' }, h('div', { class: 'body' }, h('div', { class: 'muted', text: text }))));
+  resultsEl().append(h('p', { class: 'card skipped', text }));
 }
-
-function addItem({ name, header, bytes, oszHasOsb, skip }) {
+function makeItem(entry, oszHasOsb, group = null) {
   const it = {
-    uid: ++state.uid, name, header, bytes, oszHasOsb: !!oszHasOsb, results: new Map(), failed: false,
-    status: skip ? 'skipped' : 'queued', skip, result: null, stage: '', pct: 0, el: h('article', { class: 'card' }),
+    ...entry, oszHasOsb, group, rate: state.mod, rev: 0, curves: new Map(), results: new Map(),
+    status: 'idle', result: null, stage: '', pct: 0, el: h('article', { class: 'card' }),
   };
   state.items.push(it);
-  showResultsSec();
-  resultsEl().append(it.el);
-  if (skip) it.bytes = null;
-  if (!skip && state.phase === 'error') failItem(it, '计算模块没有启动，无法计算。');
-  else renderItem(it);
   return it;
 }
-
-async function handleFiles(fileList) {
-  const files = Array.from(fileList || []);
-  for (const f of files) {
-    const lower = f.name.toLowerCase();
-    try {
-      if (lower.endsWith('.osz')) {
-        const u8 = new Uint8Array(await f.arrayBuffer());
-        let parsed;
-        try { parsed = listOsz(u8); } catch (e) { addNotice(`${f.name}：无法解压（${e && e.message ? e.message : '文件损坏'}）。`); continue; }
-        if (!parsed.entries.length) { addNotice(`${f.name}：压缩包里没有 .osu 难度。`); continue; }
-        const ok = parsed.entries.filter((e) => !e.skip).length;
-        addGroup(f.name, `${parsed.entries.length} 个难度，${ok} 个可计算${parsed.hasOsb ? '；含 .osb（storyboard）' : ''}`);
-        for (const e of parsed.entries) {
-          addItem({
-            name: e.name, header: e.header, skip: e.skip,
-            bytes: e.skip ? null : e.bytes.slice(), oszHasOsb: parsed.hasOsb,
-          });
-        }
-      } else if (lower.endsWith('.osu')) {
-        const u8 = new Uint8Array(await f.arrayBuffer());
-        const header = parseOsuHeader(decodeText(u8));
-        // 非 mania 4K 也交给 worker 拒绝一次，保证 .osu 的提示口径与 worker 一致
-        addItem({ name: f.name, header, bytes: u8, oszHasOsb: false, skip: null });
-      } else {
-        addNotice(`${f.name}：只支持 .osu 和 .osz 文件。`);
-      }
-    } catch (e) {
-      addNotice(`${f.name}：读取失败（${e && e.message ? e.message : '未知错误'}）。`);
-    }
+function currentRaw(it) {
+  const raw = resultFor(it, selectionKey(it));
+  return raw && !scoreRequest(raw, state.starModel, state.experimental) ? raw : null;
+}
+function syncTabs(group) {
+  if (!group) return;
+  for (const it of group.items) {
+    const { r, fail } = cardView(currentRaw(it), state.starModel);
+    const value = it.tab.querySelector('.tab-star');
+    value.textContent = r?.ok && !fail ? '★ ' + fmtStar(r.star) : '—';
+    value.classList.toggle('known', !!r?.ok && !fail);
+    it.tab.setAttribute('aria-selected', String(it === group.active));
+    it.tab.tabIndex = it === group.active ? 0 : -1;
   }
-  pump();
+  group.button.textContent = group.batch ? '停止计算本包' : '计算本包全部 4K 难度';
+  group.button.disabled = !group.batch && group.items.every(it => currentRaw(it));
+}
+function stopPack(group) {
+  if (!group.batch) return;
+  group.batch = null;
+  cancelJobs(job => job.it.group === group && job.kind === 'batch');
+  syncTabs(group);
+}
+function chooseTab(group, it) {
+  if (group.active === it) return;
+  stopPack(group);
+  if (group.active) {
+    dismissCurve(group.active);
+    cancelDisplay(group.active);
+    group.active.el.replaceChildren();
+  }
+  group.active = it;
+  group.body.replaceChildren(it.el);
+  syncTabs(group);
+  displayScore(it);
+}
+async function calculatePack(group) {
+  if (group.batch) { stopPack(group); return; }
+  const missing = group.items.filter(it => !currentRaw(it));
+  if (!missing.length) return;
+  if (missing.length >= 5 && !window.confirm(`本包还有 ${missing.length} 个 4K 难度需要逐张计算，可能较耗时。现在开始吗？`)) return;
+  const token = {};
+  group.batch = token;
+  syncTabs(group);
+  try {
+    for (const it of missing) {
+      if (group.batch !== token) break;
+      await enqueue(it, it.rate, 'batch');
+      if (group.batch !== token) break;
+      if (it === group.active) displayScore(it);
+      else syncTabs(group);
+    }
+  } catch (e) {
+    if (e.name !== 'AbortError') addNotice('曲包计算中断：' + e.message);
+  } finally {
+    if (group.batch === token) { group.batch = null; syncTabs(group); }
+  }
+}
+function addPack(title, entries, hasOsb) {
+  const playable = entries.filter(entry => !entry.skip);
+  const skipped = entries.filter(entry => entry.skip);
+  const group = { items: [], active: null, body: h('div', { class: 'pack-body', role: 'tabpanel' }), batch: null };
+  group.button = h('button', { class: 'btn small', type: 'button', text: '计算本包全部 4K 难度' });
+  group.button.addEventListener('click', () => calculatePack(group));
+  const tabs = h('div', { class: 'difficulty-tabs', role: 'tablist', 'aria-label': '曲包难度' });
+  const box = h('section', { class: 'pack-card' },
+    h('div', { class: 'pack-head' }, h('div', null, h('h3', { text: title }),
+      h('small', { class: 'muted', text: `${playable.length} 个 4K 难度 · ${hasOsb ? '含 .osb' : '无 .osb'}` })), group.button), tabs, group.body);
+  if (skipped.length) box.append(h('details', { class: 'pack-skips' },
+    h('summary', { text: `${skipped.length} 个非 4K 难度已跳过` }), h('ul', null, skipped.map(e => h('li', { text: e.name + ' · ' + e.skip })))));
+  showResultsSec();
+  resultsEl().append(box);
+  for (const entry of playable) {
+    const it = makeItem(entry, hasOsb, group);
+    it.tab = h('button', { class: 'difficulty-tab', type: 'button', role: 'tab' },
+      h('span', { class: 'tab-star', text: '—' }), h('span', { text: '[' + (it.header.version || it.name) + ']' }));
+    it.tab.addEventListener('click', () => chooseTab(group, it));
+    it.tab.addEventListener('keydown', e => {
+      const index = group.items.indexOf(it), n = group.items.length;
+      const target = { ArrowLeft: (index + n - 1) % n, ArrowRight: (index + 1) % n, Home: 0, End: n - 1 }[e.key];
+      if (target === undefined) return;
+      e.preventDefault();
+      chooseTab(group, group.items[target]);
+      group.items[target].tab.focus();
+    });
+    tabs.append(it.tab);
+    group.items.push(it);
+  }
+  syncTabs(group);
+  if (group.items.length) chooseTab(group, group.items[0]);
 }
 
-// ---------------------------------------------------------------- 渲染
+async function readSingle(file) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const header = parseOsuHeader(decodeText(bytes));
+  return { name: file.name, bytes, header, skip: skipReason(header) };
+}
+async function handleFiles(records, epoch) {
+  if (epoch !== state.importEpoch) return;
+  const folders = new Map();
+  for (const { file, directory } of records) {
+    if (epoch !== state.importEpoch) return;
+    try {
+      if (/\.osz$/i.test(file.name)) {
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        if (epoch !== state.importEpoch) return;
+        const parsed = listOsz(bytes);
+        if (parsed.entries.length) addPack(file.name, parsed.entries, parsed.hasOsb);
+        else addNotice(file.name + '：压缩包里没有 .osu 难度。');
+      } else if (directory && /\.(osu|osb)$/i.test(file.name)) {
+        if (!folders.has(directory)) folders.set(directory, { entries: [], hasOsb: false });
+        const folder = folders.get(directory);
+        if (/\.osb$/i.test(file.name)) folder.hasOsb = true;
+        else folder.entries.push(await readSingle(file));
+      } else if (/\.osu$/i.test(file.name)) {
+        const entry = await readSingle(file);
+        if (epoch !== state.importEpoch) return;
+        const it = makeItem(entry, false);
+        showResultsSec();
+        resultsEl().append(it.el);
+        displayScore(it);
+      } else if (!/\.osb$/i.test(file.name)) {
+        addNotice(file.name + '：请选择 .osu、.osz 或曲包文件夹。');
+      }
+    } catch (e) {
+      if (epoch === state.importEpoch) addNotice(`${file.name}：读取失败（${e.message || '文件可能损坏'}）。`);
+    }
+  }
+  if (epoch !== state.importEpoch) return;
+  for (const [name, folder] of folders) if (folder.entries.length) addPack(name, folder.entries, folder.hasOsb);
+  if (records.every(({ file }) => /\.osb$/i.test(file.name))) addNotice('这个位置没有可读取的 .osu 或 .osz 文件。');
+}
+
 function updateProgress(it) {
-  const bar = it.el.querySelector('.bar > i');
-  const lbl = it.el.querySelector('.stage');
-  if (bar) bar.style.width = it.pct + '%';
-  if (lbl) lbl.textContent = `${it.stage || '计算中'} ${Math.round(it.pct)}%`;
+  const bar = it.el.querySelector('.bar');
+  if (bar) {
+    bar.setAttribute('aria-valuenow', Math.round(it.pct));
+    bar.firstElementChild.style.width = it.pct + '%';
+  }
+  const label = it.el.querySelector('.stage');
+  if (label) label.textContent = `${it.stage} ${Math.round(it.pct)}%`;
+}
+function exactReading(raw) {
+  if (!raw?.ok) return null;
+  const cv = cardView(raw, state.starModel);
+  const expected = state.starModel === 'both' ? 'v4' : state.starModel;
+  if (cv.fail || !Number.isFinite(cv.r?.star) || (cv.r.model || 'p1h') !== expected) return null;
+  return cv.r;
+}
+function ratePanel(it, result, onPreview) {
+  const curveKey = state.starModel + '|' + String(activeOd());
+  if (!it.curves.has(curveKey)) it.curves.set(curveKey, createRateCurveState());
+  const counts = result || it.header;
+  return createRatePanel({
+    state: it.curves.get(curveKey), rate: it.rate, references: referencesFor(result || { model: state.starModel === 'both' ? 'v4' : state.starModel }).data,
+    nActions: counts.nActions ?? ((counts.nObjects || 0) + (counts.nLongNotes || 0)), nLongNotes: counts.nLongNotes ?? Math.round(counts.nNotes * counts.lnFrac || 0),
+    seconds: result?.seconds, onPreview,
+    getPoints() {
+      const points = [];
+      for (const [key, raw] of it.results) {
+        if (key !== settingKey(raw.rate ?? 1, activeOd())) continue;
+        const r = exactReading(raw);
+        if (r) points.push({ rate: raw.rate || 1, star: r.star });
+      }
+      return points;
+    },
+    onSelect(rate) {
+      if (it.group) stopPack(it.group);
+      cancelDisplay(it);
+      it.rate = normalizeRate(rate);
+      displayScore(it);
+    },
+    async computeAnchor(rate) {
+      const raw = await enqueue(it, rate, 'anchor');
+      const r = exactReading(raw);
+      if (!r) throw new Error(raw?.v4?.text || cardView(raw, state.starModel).fail || raw?.message || '这个倍速未能读出所选模型的星数。');
+      return r.star;
+    },
+    cancelAnchor() { cancelJobs(job => job.it === it && job.kind === 'anchor'); },
+  });
 }
 
 function renderItem(it) {
-  const header = it.header || {};
-  const raw = it.result;
-  const cv = it.status === 'done' ? cardView(raw, state.starModel) : { r: raw };
-  const r = cv.r;
-  const meta = mergeMeta(header, r && !it.skip ? r : null);
-  const title = displayName(meta, it.name);
+  if (!isVisible(it)) { syncTabs(it.group); return; }
+  const cv = it.status === 'done' ? cardView(it.result, state.starModel) : {};
+  const r = cv.r?.ok && !cv.fail ? cv.r : null;
+  const meta = mergeMeta(it.header, r);
   const el = it.el;
   el.className = 'card';
-  el.replaceChildren();
-
-  const info = h('div', { class: 'info' },
-    h('div', { class: 'name', text: title }),
-    h('div', { class: 'sub muted' }, subline(it, meta)));
-
-  let side;
-  const extra = [];
-  if (it.status === 'skipped') {
-    el.classList.add('skipped');
-    side = h('div', { class: 'star none', text: '—' });
-    extra.push(h('div', { class: 'msg muted', text: it.skip }));
-  } else if (it.status === 'queued') {
-    el.classList.add('pending');
-    side = h('div', { class: 'star none', text: '…' });
-    extra.push(h('div', { class: 'msg muted', text: state.phase === 'ready' ? '排队中' : '等待模型加载' }));
-  } else if (it.status === 'running') {
-    el.classList.add('pending');
-    side = h('div', { class: 'star none', text: '…' });
-    extra.push(
-      h('div', { class: 'bar', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100' }, h('i', { style: `width:${it.pct}%` })),
-      h('div', { class: 'stage muted', text: `${it.stage || '计算中'} ${Math.round(it.pct)}%` }),
-    );
-  } else if (cv.fail) {
-    el.classList.add('skipped');
-    side = h('div', { class: 'star none', text: '—' });
-    extra.push(h('div', { class: 'msg muted', text: cv.fail }));
-  } else if (r && r.ok) {
-    const reasons = unreliableReasons(r);
-    if (reasons.length) el.classList.add('unreliable');
-    const tag = MOD_SHORT[r.rate || 1];
-    side = h('div', { class: 'star' }, '★ ' + fmtStar(r.star), tag ? h('span', { class: 'mod-tag', text: tag }) : null,
-      r.model === 'cnn36' ? h('span', { class: 'mod-tag', title: '树星数 v2 测试版（CNN36）', text: 'CNN36' }) : null,
-      r.model === 'v3' ? h('span', { class: 'mod-tag', title: V3_VERSION, text: 'v3' }) : null,
-      r.model === 'v4' ? h('span', { class: 'mod-tag', title: V4_VERSION, text: 'v4' }) : null);
-    if (state.experimental && r.sub && r.sub.v2 && Number.isFinite(r.sub.v2.star)) {
-      side.append(h('span', { class: 'star-alt', title: `整谱按 97% ScoreV2（LN 段位口径，${odSource(r)}）读出的星数，约定换算，仅供参考`,
-        text: 'LN 口径 ★ ' + fmtStar(r.sub.v2.star) }));
-    }
+  const score = h('div', { class: 'score-block' },
+    h('div', { class: 'star' + (r ? '' : ' none'), text: r ? '★ ' + fmtStar(r.star) : '—' }),
+    h('span', { class: 'mod-tag', text: MODEL_NAMES[r?.model || (r ? 'p1h' : state.starModel)] + ' · ' + it.rate.toFixed(2) + '×' }));
+  if (cv.comparison) score.append(h('small', { class: 'star-alt', text: 'v3 ★ ' + fmtStar(cv.comparison.star) + ' · ' + fmtDelta(cv.comparison.star - r.star) }));
+  if (state.experimental && Number.isFinite(r?.sub?.v2?.star)) score.append(h('small', { class: 'star-alt', text: 'LN 口径 ★ ' + fmtStar(r.sub.v2.star) }));
+  const head = h('div', { class: 'card-head' },
+    h('div', { class: 'info' }, h('span', { class: 'key-badge', text: it.header.circleSize ? it.header.circleSize + 'K' : '谱面' }),
+      h('h3', { class: 'name', text: displayName(meta, it.name) }),
+      meta.creator ? h('p', { class: 'sub muted', text: '谱师 ' + meta.creator }) : null), score);
+  const strip = h('div', { class: 'meta-strip' });
+  function stat(label, text) {
+    const value = h('strong', { text });
+    strip.append(h('div', { class: 'meta-stat' }, h('small', { text: label }), value));
+    return value;
+  }
+  const bpmCell = stat('主 BPM', '—');
+  const timeCell = stat('时长', '—');
+  const n = r?.nNotes ?? it.header.nObjects;
+  const ln = r?.nLongNotes ?? (Number.isFinite(r?.lnFrac) ? Math.round(n * r.lnFrac) : it.header.nLongNotes);
+  stat('物件与长条', Number.isFinite(ln) && n ? `${n} · ${ln} 长条（${Math.round(100 * ln / n)}%）` : String(n ?? '—'));
+  const od = activeOd() ?? r?.od ?? it.header.od;
+  stat('OD', Number.isFinite(od) ? od.toFixed(1) + (activeOd() === null ? '' : ' 自定义') : '—');
+  stat('计算耗时', Number.isFinite(r?.seconds) ? r.seconds.toFixed(1) + ' 秒' : '—');
+  function preview(rate) {
+    const bpm = it.header.bpm ?? r?.bpm;
+    const baseS = Number.isFinite(r?.durationS) ? r.durationS * (r.rate || 1) : it.header.durationS;
+    bpmCell.textContent = Number.isFinite(bpm) ? String(Math.round(bpm * rate * 10) / 10) : '—';
+    timeCell.textContent = Number.isFinite(baseS) ? fmtTime(baseS / rate) : '—';
+  }
+  preview(it.rate);
+  const body = h('div', { class: 'body' });
+  el.replaceChildren(head, strip, body);
+  const append = node => { if (node) body.append(node); };
+  if (r?.repairs?.length) append(h('p', { class: 'note repairs', text: r.repairs.join('。') }));
+  if (r) {
     const de = danEstimateRow(r);
-    if (de) extra.push(de);
-    if (r.model === 'v3' && r.untested) extra.push(h('div', { class: 'note', text: V3_UNTESTED_NOTE }));
-    if (r.model === 'v4' && r.untested) extra.push(h('div', { class: 'note', text: V4_UNTESTED_NOTE }));
-    if (cv.notice) extra.push(h('div', { class: 'note', text: cv.notice }));
-    if (cv.comparison || cv.comparisonMessage) extra.push(comparisonPanel(cv));
-    if (reasons.length) {
-      extra.push(h('div', { class: 'warn' },
-        h('span', { class: 'tag', text: '不可靠' }),
-        h('ul', null, reasons.map((x) => h('li', { text: x })))));
-    }
-    if (r.rate === 0.75 && r.model !== 'v4') extra.push(h('div', { class: 'note', text: HT_NOTE }));
-    const pp = patternPanel(r);
-    if (pp) extra.push(pp);
-    if (state.experimental) {
-      extra.push(ladderPanel(r, it));
-      const sp = subPanel(r);
-      if (sp) extra.push(sp);
-    }
-    extra.push(danReferencePanel(r));
+    if (de) head.append(h('div', { class: 'score-details' }, de));
+    if (r.untested && ['v3', 'v4'].includes(r.model)) append(h('p', { class: 'note', text: r.model === 'v3' ? V3_UNTESTED_NOTE : V4_UNTESTED_NOTE }));
+    if (cv.notice) append(h('p', { class: 'note', text: cv.notice }));
+    if (it.result?.v4?.ok === false && needsV4(state.starModel)) append(button('重试星数 v4', retryLoad));
+    if (cv.comparison || cv.comparisonMessage) append(comparisonPanel(cv));
+    const reasons = unreliableReasons(r);
+    if (reasons.length) append(h('div', { class: 'warn' }, h('span', { class: 'tag', text: '不可靠' }),
+      h('ul', null, reasons.map(text => h('li', { text })))));
+    if (r.rate === 0.75 && r.model !== 'v4') append(h('p', { class: 'note', text: HT_NOTE }));
+    append(patternPanel(r));
+  } else if (it.status === 'running' || it.status === 'queued') {
+    append(h('div', { class: 'run-state' },
+      h('div', { class: 'bar', role: 'progressbar', 'aria-label': '计算进度', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': it.pct }, h('i', { style: 'width:' + it.pct + '%' })),
+      h('span', { class: 'stage muted', text: it.status === 'running' ? (it.stage + ' ' + Math.round(it.pct) + '%')
+        : state.phase === 'error' ? state.initError : state.phase === 'ready' ? '排队中' : '等待计算资源' }),
+      button('取消', () => { if (it.group) stopPack(it.group); cancelDisplay(it); renderItem(it); }, 'cancel')));
+  } else {
+    append(h('p', { class: 'msg muted', text: cv.fail || it.result?.message || (it.status === 'cancelled' ? '已取消计算。' : it.error || '没有读数') }));
+    if (it.status === 'failed' || it.status === 'cancelled') append(button('重新计算', () => displayScore(it)));
+  }
+  if (!it.rejectAll && !it.skip) append(ratePanel(it, r, preview));
+  if (r) {
+    if (state.ladder) append(createAccChart({ params: state.ladder, result: r, references: referencesFor(r).data, acc: it.ladderT ?? 96, onAcc(acc) { it.ladderT = acc; } }));
+    else append(h('p', { class: 'muted', text: state.ladderPhase === 'loading' ? '正在加载准确率曲线…' : '准确率曲线数据暂不可用。' }));
     const svg = buildSegmentsSvg(r.segments, r.hardest);
     if (svg) {
-      const box = h('div', { class: 'seg' });
       const holder = h('div', { class: 'seg-svg' });
       holder.innerHTML = svg;
-      box.append(holder);
-      if (r.hardest && Number.isFinite(r.hardest.star)) {
-        box.append(h('div', { class: 'seg-hard', text: `最难的一段：${fmtTime(r.hardest.startS)}–${fmtTime(r.hardest.endS)}（高亮处）` }));
-      }
-      box.append(h('div', { class: 'seg-cap muted', text: segmentCaption(r) }));
-      extra.push(box);
+      append(h('section', { class: 'seg' }, h('h3', { text: '10 秒分段难度' }), holder,
+        Number.isFinite(r.hardest?.star) ? h('p', { class: 'seg-hard', text: `最难的一段：${fmtTime(r.hardest.startS)}–${fmtTime(r.hardest.endS)}` }) : null,
+        h('p', { class: 'seg-cap muted', text: segmentCaption(r) })));
     }
-  } else {
-    el.classList.add('rejected');
-    side = h('div', { class: 'star none', text: '—' });
-    extra.push(h('div', { class: 'msg muted', text: (r && r.message) || '没有读数' }));
+    append(danReferencePanel(r));
+    if (state.experimental) append(subPanel(r));
   }
-
-  if (it.status === 'done') extra.push(copyRow(it));
-  el.append(side, h('div', { class: 'body' }, info, extra));
+  if (it.status === 'done') append(copyRow(it));
+  syncTabs(it.group);
+}
+function button(text, action, cls = '') {
+  const element = h('button', { type: 'button', class: 'btn small ' + cls, text });
+  element.addEventListener('click', action);
+  return element;
 }
 
 // 米 / 面段位：紧跟在谱名下面，和主读数并排
@@ -609,7 +853,8 @@ function danEstimateRow(result) {
     const muted = x.muted || est.unreliable;
     return h('div', { class: 'dan-est-item' + (muted ? ' muted-item' : ''), title: `${title}段位位置 ${fmtDanPos(x.loc, x.group)}` },
       h('span', { class: 'dan-est-label', text: label }),
-      h('strong', { class: 'dan-est-text', text: x.text }),
+      h('strong', { class: 'dan-badge' + (x.loc?.extrapolated ? ' extrapolated' : ''), text: danBadge(x), title: x.text }),
+      h('span', { class: 'dan-est-text', text: x.text }),
       x.note ? h('span', { class: 'dan-est-note', text: x.note }) : null);
   };
   const notes = [];
@@ -650,18 +895,20 @@ function patternPanel(result) {
   if (v.state !== 'ok') {
     return h('section', { class: 'sub-items pattern-items off', 'aria-label': '键型分项（测试版）' }, head, h('p', { class: 'muted sub-caption', text: v.text }));
   }
-  const list = h('ul', { class: 'sub-list' });
+  const list = h('ul', { class: v.stamina ? 'sub-list pattern-grid' : 'sub-list' });
   const row = (r) => {
     const share = `占失分 ${Number.isFinite(r.share) ? Math.round(r.share * 100) + '%' : '—'}`;
     return h('li', { class: r.star === null ? 'none' : null },
       h('span', { class: 'sub-label', text: r.label }),
       h('strong', { class: 'sub-star', text: r.star === null ? '—' : '★ ' + fmtStar(r.star) }),
-      h('span', { class: 'sub-text muted', text: v.stamina ? [share, r.text].filter(Boolean).join(' · ') : [r.text, share].filter(Boolean).join(' · ') }));
+      h('span', { class: 'sub-text muted', text: [share, r.text].filter(Boolean).join(' · ') }),
+      v.stamina ? h('span', { class: 'share-track', 'aria-hidden': true }, h('i', { style: 'width:' + Math.max(0, Math.min(100, (r.share || 0) * 100)) + '%' })) : null);
   };
   list.append(...v.rows.map(row));
   if (v.stamina) {
     return h('section', { class: 'sub-items pattern-items', 'aria-label': '六维键型分项（测试版）' },
-      head, list, h('ul', { class: 'sub-list stamina-list' }, row(v.stamina)), h('p', { class: 'muted sub-caption', text: V4_ITEMS_NOTE }));
+      head, list, h('ul', { class: 'sub-list stamina-list' }, row(v.stamina)), h('p', { class: 'muted sub-caption', text: V4_ITEMS_NOTE }),
+      v.untestedNote ? h('p', { class: 'note items-untested', text: v.untestedNote }) : null);
   }
   return h('section', { class: 'sub-items pattern-items', 'aria-label': '键型分项（测试版）' },
     head, list,
@@ -689,8 +936,8 @@ function subPanel(result) {
 }
 
 function danReferencePanel(result) {
-  const panel = h('section', { class: 'dan-reference', 'aria-label': '附近段位参考谱' },
-    h('h3', { text: '附近段位参考谱' }));
+  const panel = h('details', { class: 'dan-reference', 'aria-label': '附近段位参考谱' },
+    h('summary', { text: '附近段位参考谱' }));
   const refs = referencesFor(result);
   const view = selectDanReferences(result, refs.data);
   if (!view?.available) {
@@ -723,96 +970,6 @@ function danReferencePanel(result) {
   return panel;
 }
 
-// 达成水平：四条预设线 + 自定义 acc（每张卡各自记住输入值）；只依赖总星数，不需要重新计算
-function ladderPanel(result, it) {
-  const panel = h('section', { class: 'ladder', 'aria-label': LADDER_TITLE }, h('h3', { text: LADDER_TITLE }));
-  const P = state.ladder;
-  if (!P) {
-    panel.append(h('p', { class: 'muted dan-caption', text: state.ladderPhase === 'loading' ? '正在加载达成水平参数…' : '达成水平暂不可用；星数计算不受影响。' }));
-    return panel;
-  }
-  const rate = result.rate || 1;
-  const tag = (row) => {
-    const L = LADDER_LABEL[row.label];
-    return h('span', { class: 'ladder-tag ' + row.label, title: L.title, text: L.text });
-  };
-  const tbody = h('tbody');
-  for (const t of P.presets) {
-    const row = ladder(P, result.star, t, rate);
-    tbody.append(h('tr', t === 96 ? { class: 'is96' } : null,
-      h('td', { text: `${t}%` }), h('td', { class: 'ladder-star', text: fmtLadderStar(row) }), h('td', null, tag(row))));
-  }
-  const input = h('input', {
-    type: 'number', min: String(P.input_range[0]), max: String(P.input_range[1]), step: '0.1', inputmode: 'decimal',
-    value: String(it.ladderT ?? 96), 'aria-label': '自定义 acc（%）',
-  });
-  const slider = h('input', {
-    type: 'range', min: String(P.input_range[0]), max: String(P.input_range[1]), step: '0.1',
-    value: String(it.ladderT ?? 96), 'aria-label': '自定义 acc（%，滑条）',
-  });
-  const outStar = h('td', { class: 'ladder-star' });
-  const outTag = h('td');
-  const outNote = h('p', { class: 'ladder-rev muted' });
-  const update = () => {
-    const t = parseAcc(P, input.value);
-    outTag.replaceChildren();
-    outNote.className = 'ladder-rev muted';
-    if (t === null) {
-      outStar.textContent = `请输入 ${P.input_range[0]}–${P.input_range[1]}`;
-      outNote.textContent = '';
-      return;
-    }
-    it.ladderT = t;
-    slider.value = String(t);
-    const row = ladder(P, result.star, t, rate);
-    outStar.textContent = fmtLadderStar(row);
-    outTag.append(tag(row));
-    const rn = reverseNote(P, t);
-    outNote.textContent = rn ? rn.text : '';
-    if (rn) outNote.className = 'ladder-rev ' + (rn.level === 'bad' ? 'dan-caution' : 'muted');
-  };
-  input.addEventListener('input', update);
-  // 滑条只改输入框的数字，换算仍走同一个 update（只依赖总星数，拖动时实时更新）
-  slider.addEventListener('input', () => { input.value = Number(slider.value).toFixed(1); update(); });
-  tbody.append(h('tr', { class: 'custom' }, h('td', null, input, '%'), outStar, outTag),
-    h('tr', { class: 'custom-slider' }, h('td', { colspan: '3' }, slider)));
-  update();
-  panel.append(
-    h('p', { class: 'muted dan-caption', text: LADDER_CAPTION }),
-    h('table', { class: 'ladder-tab' },
-      h('thead', null, h('tr', null, h('th', { text: 'acc' }), h('th', { text: '需要的水平' }), h('th', { text: '依据' }))),
-      tbody),
-    outNote,
-    h('p', { class: 'muted dan-caption', text: reverseCaption(P) }),
-  );
-  if (!result.reliable) panel.append(h('p', { class: 'dan-caution', text: LADDER_UNRELIABLE_NOTE }));
-  const ln = lnNote(result);
-  if (ln) panel.append(h('p', { class: 'dan-caution', text: ln }));
-  return panel;
-}
-
-function subline(it, meta) {
-  const r = it.result;
-  const bits = [];
-  if (meta.creator) bits.push('mapper：' + meta.creator);
-  const n = r && r.ok ? r.nNotes : (it.header && it.header.nObjects);
-  if (n) bits.push(`物件 ${n}`);
-  if (r && r.ok) {
-    if ((r.rate || 1) !== 1) bits.push(modLabel(r.rate));
-    if (Number.isFinite(r.durationS)) bits.push(`时长 ${fmtTime(r.durationS)}`);
-    if (Number.isFinite(r.odOverride)) {
-      const fileOd = it.header && Number.isFinite(it.header.od) ? `；谱面 ${Number(it.header.od).toFixed(1)}` : '';
-      bits.push(`OD ${Number(r.odOverride).toFixed(1)}（自定义${fileOd}）`);
-    } else if (Number.isFinite(r.od)) bits.push(`OD ${Number(r.od).toFixed(1)}`);
-    if (Number.isFinite(r.seconds)) bits.push(`计算 ${r.seconds.toFixed(1)} 秒`);
-  }
-  return bits.join(' · ');
-}
-
-function odSource(r) {
-  return Number.isFinite(r.odOverride) ? `自定义 OD ${Number(r.odOverride).toFixed(1)}` : 'OD 用谱面文件';
-}
-
 function copyRow(it) {
   const btn = h('button', { type: 'button', class: 'btn small', text: '复制读数信息' });
   const row = h('div', { class: 'actions' }, btn);
@@ -820,7 +977,7 @@ function copyRow(it) {
     const cv = cardView(it.result, state.starModel);
     const text = cardCopyText(cv, referencesFor(cv.r).data, state.v3References, {
       header: it.header, name: it.name, p1hVer: state.ver,
-      ladderLine: state.experimental ? ladderCopyLine(state.ladder, cv.r) : null, withSub: state.experimental,
+      ladderLine: state.ladder && cv.r?.ok ? ladderCopyLine(state.ladder, cv.r) : null, withSub: state.experimental,
     });
     const ok = await copyText(text);
     row.querySelector('textarea')?.remove();
@@ -866,27 +1023,41 @@ function setupUi() {
 
   const input = $('#file-input');
   const drop = $('#drop');
-  $('#pick').addEventListener('click', (e) => { e.preventDefault(); input.click(); });
+  drop.addEventListener('click', e => { if (e.target !== input) { e.preventDefault(); input.click(); } });
   input.addEventListener('change', () => {
     const files = Array.from(input.files);
     input.value = '';
-    handleFiles(files);
+    handleFiles(fileRecords(files), state.importEpoch);
   });
 
+  $('#retry-load').addEventListener('click', retryLoad);
+  const overlay = $('#drop-overlay');
+  const isFiles = e => Array.from(e.dataTransfer?.types || []).includes('Files');
   let depth = 0;
-  drop.addEventListener('dragenter', (e) => { e.preventDefault(); depth++; drop.classList.add('over'); });
-  drop.addEventListener('dragleave', () => { depth = Math.max(0, depth - 1); if (!depth) drop.classList.remove('over'); });
-  drop.addEventListener('dragover', (e) => e.preventDefault());
-  drop.addEventListener('drop', (e) => {
+  window.addEventListener('dragenter', e => {
+    if (!isFiles(e)) return;
+    e.preventDefault();
+    depth++;
+    overlay.hidden = false;
+  });
+  window.addEventListener('dragleave', e => {
+    if (!depth) return;
+    e.preventDefault();
+    if (--depth === 0) overlay.hidden = true;
+  });
+  window.addEventListener('dragover', e => {
+    if (!isFiles(e)) return;
+    e.preventDefault();
+  });
+  window.addEventListener('drop', async e => {
+    if (!depth && !isFiles(e) && !e.dataTransfer?.files?.length) return;
     e.preventDefault();
     depth = 0;
-    drop.classList.remove('over');
-    handleFiles(Array.from(e.dataTransfer.files));
+    overlay.hidden = true;
+    const epoch = state.importEpoch;
+    try { await handleFiles(await droppedRecords(e.dataTransfer), epoch); }
+    catch (err) { if (epoch === state.importEpoch) addNotice('读取拖入的文件失败：' + err.message); }
   });
-  // 拖偏了也别让浏览器直接打开文件
-  window.addEventListener('dragover', (e) => e.preventDefault());
-  window.addEventListener('drop', (e) => e.preventDefault());
-
   for (const b of document.querySelectorAll('#mods [data-rate]')) {
     b.addEventListener('click', () => setMod(Number(b.dataset.rate)));
   }
@@ -925,10 +1096,18 @@ function setupUi() {
   });
   syncOdUi();
 
+  syncAdvanced();
   $('#clear').addEventListener('click', () => {
-    state.items = state.items.filter((x) => state.current && x === state.current.it);
-    resultsEl().replaceChildren(...state.items.map((x) => x.el));
-    if (!state.items.length) $('#results-sec').hidden = true;
+    state.importEpoch++;
+    for (const it of state.items) {
+      it.rev++;
+      dismissCurve(it);
+      if (it.group) stopPack(it.group);
+    }
+    cancelJobs(() => true);
+    state.items.length = 0;
+    resultsEl().replaceChildren();
+    $('#results-sec').hidden = true;
   });
 }
 

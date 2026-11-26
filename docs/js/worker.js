@@ -1,109 +1,111 @@
-// Module worker: loads the model once, then scores one .osu at a time (protocol in README / app.js).
 import * as ort from '../vendor/ort/ort.wasm.min.mjs';
 import { createEngine, VERSION, FROZEN } from './engine.js';
 import { createPool } from './pool.js';
+import { createResourceLoader } from './resources.js';
+import { CancelledError, checkCancelled, checkpoint } from './task-control.js';
 
 ort.env.wasm.wasmPaths = new URL('../vendor/ort/', import.meta.url).href;
 ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.min(4, navigator.hardwareConcurrency || 1) : 1;
 
-const base = new URL('../', import.meta.url);
-let engine = null;
-let queue = Promise.resolve();
+const send = m => self.postMessage(m);
+const assets = createResourceLoader(new URL('../', import.meta.url), send);
+const cancelledIds = new Set();
+const waiting = [];
+let active = null, engine = null, ports = [];
 
-async function loadBytes(p) {
-  const r = await fetch(new URL(p, base));
-  if (!r.ok) throw new Error(`${p}: HTTP ${r.status}`);
-  return new Uint8Array(await r.arrayBuffer());
-}
-async function loadJson(p) {
-  const r = await fetch(new URL(p, base));
-  if (!r.ok) throw new Error(`${p}: HTTP ${r.status}`);
-  return r.json();
-}
-
-self.onmessage = (ev) => {
-  const m = ev.data;
-  queue = queue.then(() => handle(m)).catch(err => {
-    self.postMessage({ type: 'error', id: m && m.id, message: String(err && err.message || err) });
-  });
+self.onmessage = ({ data: m }) => {
+  if (m.type === 'cancel') {
+    const at = waiting.findIndex(({ id }) => id === m.id);
+    if (at !== -1) {
+      waiting.splice(at, 1);
+      send({ type: 'cancelled', id: m.id });
+    } else if (active?.id === m.id && active.controller) {
+      cancelledIds.add(m.id);
+      active.controller.abort();
+    }
+    return;
+  }
+  waiting.push(m);
+  if (!active) void drain();
 };
 
-async function handle(m) {
-  if (m.type === 'init') {
+async function drain() {
+  while (waiting.length) {
+    const m = waiting.shift();
+    const controller = m.type === 'init' ? null : new AbortController();
+    active = { id: m.id, controller };
+    const isCancelled = controller && Object.assign(
+      () => controller.signal.aborted || cancelledIds.has(m.id), { signal: controller.signal });
     try {
-      const ports = m.ports || [];
-      engine = await createEngine({ ort, loadBytes, loadJson, makePool: ports.length ? R => createPool(R, ports) : null });
-      self.postMessage({ type: 'ready', version: VERSION, frozen: FROZEN, loadMs: engine.loadMs, helpers: engine.pool ? engine.pool.size : 0 });
+      if (m.type === 'init') {
+        if (m.ports?.length) ports = m.ports;
+        if (!engine) engine = await createEngine({
+          ort, ...assets, makePool: ports.length ? R => createPool(R, ports) : null,
+          loadRuntime: () => assets.loadBytes('vendor/ort/ort-wasm-simd-threaded.wasm'),
+        });
+        send({ type: 'ready', version: VERSION, frozen: FROZEN, loadMs: engine.loadMs, helpers: engine.pool?.size || 0 });
+      } else {
+        const result = await run(m, isCancelled);
+        await checkpoint(isCancelled);
+        if (result) {
+          for (const phase of ['v4', 'v3', 'cnn']) {
+            const reading = result[phase];
+            if (reading?.reason === 'load_error') send({ type: 'load_error', phase, file: reading.file || '', message: reading.text, id: m.id });
+          }
+          send({ type: 'result', id: m.id, result });
+        }
+      }
     } catch (e) {
-      self.postMessage({ type: 'error', message: '模型加载失败：' + String(e && e.message || e) });
+      if (e instanceof CancelledError || isCancelled?.()) {
+        send({ type: 'cancelled', id: m.id });
+      } else if (m.type === 'init') {
+        const message = '计算资源加载失败：' + (e?.message || e);
+        send({ type: 'load_error', phase: 'init', file: e?.file || '', message });
+        send({ type: 'error', message, restart: !e?.file });
+      } else {
+        send({ type: 'error', id: m.id, message: '计算出错：' + (e?.message || e) });
+      }
+    } finally {
+      cancelledIds.delete(m.id);
+      active = null;
     }
-    return;
-  }
-  if (m.type === 'cnn') {   // new star only, for a chart the page already scored with P1h (theta* comes from that result)
-    let cnn;
-    try {
-      if (!engine) throw new Error('model not loaded');
-      cnn = await engine.cnnOnly(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
-        rate: m.rate || 1, theta: m.theta, hit: m.hit || '', odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null });
-    } catch (e) {
-      cnn = { ok: false, reason: 'run_error', text: '新星数计算出错：' + String(e && e.message || e) };
-    }
-    self.postMessage({ type: 'result', id: m.id, result: { cnnOnly: true, cnn } });
-    return;
-  }
-  if (m.type === 'v3') {   // star v3 only, for a chart the page already scored with P1h
-    let v3;
-    try {
-      if (!engine) throw new Error('model not loaded');
-      v3 = await engine.v3Only(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
-        rate: m.rate || 1, hit: m.hit || '', odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null });
-    } catch (e) {
-      v3 = { ok: false, reason: 'run_error', text: '星数 v3 计算出错：' + String(e && e.message || e) };
-    }
-    self.postMessage({ type: 'result', id: m.id, result: { v3Only: true, v3 } });
-    return;
-  }
-  if (m.type === 'v4') {
-    const v4 = engine ? await engine.v4Only(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
-      oszHasOsb: !!m.oszHasOsb, rate: m.rate || 1, hit: m.hit || '', odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
-      onProgress: progressFor(m.id),
-    }) : { ok: false, reason: 'load_error', text: '星数 v4 加载失败。' };
-    self.postMessage({ type: 'result', id: m.id, result: { v4Only: true, v4 } });
-    return;
-  }
-  if (m.type === 'score') {
-    const id = m.id;
-    let result;
-    try {
-      if (!engine) throw new Error('model not loaded');
-      result = await engine.scoreBytes(m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes), {
-        oszHasOsb: !!m.oszHasOsb,
-        rate: m.rate || 1,
-        hit: m.hit || '',
-        odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
-        withSub: !!m.withSub,
-        withItems: !!m.withItems,   // key-pattern items (beta): the web page asks for them; the tosu counter does not
-        withSegments: m.withSegments !== false,
-        withCnn: !!m.withCnn,       // CNN36 star (test): only when the page's model switch is on CNN36
-        withV3: !!m.withV3,
-        withV4: !!m.withV4,
-        onProgress: progressFor(id),
-      });
-    } catch (e) {
-      result = { ok: false, reason: 'parse_error', message: '计算出错：' + String(e && e.message || e) };
-    }
-    if (result.ok) { result.lnFrac = result.features.ln_frac; delete result.features; delete result.acc; }   // keep the message small; the page only needs the LN share
-    self.postMessage({ type: 'result', id, result });
   }
 }
 
-function progressFor(id) {
+async function run(m, isCancelled) {
+  await checkpoint(isCancelled);
+  if (!engine) throw new Error('计算资源尚未就绪');
+  const bytes = m.bytes instanceof Uint8Array ? m.bytes : new Uint8Array(m.bytes);
+  const options = {
+    oszHasOsb: !!m.oszHasOsb, rate: m.rate || 1, hit: m.hit || '',
+    odOverride: Number.isFinite(m.odOverride) ? m.odOverride : null,
+    isCancelled, onProgress: progressFor(m.id, isCancelled),
+  };
+  if (m.type === 'cnn') return { cnnOnly: true, cnn: await engine.cnnOnly(bytes, { ...options, theta: m.theta }) };
+  if (m.type === 'v3') return { v3Only: true, v3: await engine.v3Only(bytes, options) };
+  if (m.type === 'v4') return { v4Only: true, v4: await engine.v4Only(bytes, options) };
+  if (m.type === 'score') {
+    const result = await engine.scoreBytes(bytes, {
+      ...options, withSub: !!m.withSub, withItems: !!m.withItems, withSegments: m.withSegments !== false,
+      withCnn: !!m.withCnn, withV3: !!m.withV3, withV4: !!m.withV4,
+    });
+    if (result.ok) {
+      result.lnFrac = result.features.ln_frac;
+      delete result.features;
+      delete result.acc;
+    }
+    return result;
+  }
+}
+
+function progressFor(id, isCancelled) {
   let last = -1, previousStage;
   return (stage, pct) => {
+    checkCancelled(isCancelled);
     const p = Math.round(pct);
     if (p === last && stage === previousStage) return;
     last = p;
     previousStage = stage;
-    self.postMessage({ type: 'progress', id, stage, pct: p });
+    send({ type: 'progress', id, stage, pct: p });
   };
 }

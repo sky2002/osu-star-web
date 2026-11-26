@@ -1,3 +1,4 @@
+import { checkpoint } from './task-control.js';
 // theta* reader of r2-final-s29, ported from analysis/public-star-r1/ps_engine.PublicStarEngine.per_action (v1 only),
 // dan-readout rules.py (expected ScoreV1 accuracy from per-action Student-t errors) and anchor.theta_star_grid.
 // The encoder runs in onnxruntime-web; everything after it is plain JS. Float32 steps of the PyTorch reference are
@@ -125,12 +126,12 @@ export class Reader {
 
   // ScoreV2 scores of the long-note heads and tails of one orientation, added (x 0.5) into V[p * 2L + j] (j < L heads, then
   // tails): ps_engine.per_action v2 restricted to the LN actions
-  lnV2Accumulate(l, comp, lnH, lnT, od, rate, V, hit = '') {
+  lnV2Accumulate(l, comp, lnH, lnT, od, rate, V, hit = '', first = 0, end = this.P) {
     const L = lnH.length;
     const w = v2Windows(od, rate, hit);
     const W = w.slice(0, 5).map(v => f32(v + 0.5));
     const C = this.v2TailConstants(w);
-    for (let p = 0; p < this.P; p++) {
+    for (let p = first; p < end; p++) {
       for (let j = 0; j < L; j++) {
         const [muH, sigH, piH] = this.msp(l, comp, lnH[j], p, rate);
         const [muT, sigT, piT] = this.msp(l, comp, lnT[j], p, rate);
@@ -143,11 +144,11 @@ export class Reader {
 
   // ScoreV2 head scores of the taps (not LN heads, not releases) of one orientation, summed per level into V[p] (x 0.5):
   // ps_engine.per_action v2 restricted to the taps; with lnV2 this gives the whole-chart acc_v2 (LN line, 97 % ScoreV2)
-  tapV2Accumulate(l, comp, head, od, rate, V, hit = '') {
+  tapV2Accumulate(l, comp, head, od, rate, V, hit = '', first = 0, end = this.P) {
     const w = v2Windows(od, rate, hit);
     const W = w.slice(0, 5).map(v => f32(v + 0.5));
     const A = comp.length;
-    for (let p = 0; p < this.P; p++) {
+    for (let p = first; p < end; p++) {
       let s = 0;
       for (let a = 0; a < A; a++) {
         if (comp[a] || head[a]) continue;
@@ -209,13 +210,14 @@ export class Reader {
   }
 
   // standardised tokens [A*17] f32 for one orientation -> l [A][2] (divided by the group scale)
-  async encode(xs, A, onProgress, progBase, progSpan) {
+  async encode(xs, A, onProgress, progBase, progSpan, isCancelled = null) {
     const { window: WIN, core: CORE, halo: HALO } = this.R;
     const la = this.R.lookahead;
     const nW = Math.ceil(A / CORE);
     const l = new Float32Array(A * 2);
     const CH = 16;
     for (let w0 = 0; w0 < nW; w0 += CH) {
+      await checkpoint(isCancelled);
       const nw = Math.min(CH, nW - w0);
       const xw = new Float32Array(nw * WIN * 17);
       const valid = new Uint8Array(nw * WIN);
@@ -331,22 +333,27 @@ export class Reader {
   }
 
   // all profiles of one orientation, locally or split over a helper pool (pool.run(l, comp, lnH, lnT, od, p0, p1, rate, hit, cal) -> S)
-  async secondLayer(l, tk, od, v1a, pool, rate = 1, hit = '', cal = null) {
+  async secondLayer(l, tk, od, v1a, pool, rate = 1, hit = '', cal = null, isCancelled = null) {
     const A = tk.nActions, P = this.P;
     if (!pool || !pool.size) {
-      Reader.accumulate(v1a, this.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, od, 0, P, rate, hit, cal), 0, A);
+      const step = isCancelled ? 1 : P;
+      for (let p = 0; p < P; p += step) {
+        await checkpoint(isCancelled);
+        const scores = this.secondLayerRange(l, tk.comp, tk.lnH, tk.lnT, od, p, p + step, rate, hit, cal);
+        Reader.accumulate(v1a, scores, p, A);
+      }
       return;
     }
     const k = Math.min(pool.size, P);
     const parts = [];
     for (let i = 0; i < k; i++) {
       const p0 = Math.floor(i * P / k), p1 = Math.floor((i + 1) * P / k);
-      parts.push(pool.run(l, tk.comp, tk.lnH, tk.lnT, od, p0, p1, rate, hit, cal).then(S => ({ S, p0 })));
+      parts.push(pool.run(l, tk.comp, tk.lnH, tk.lnT, od, p0, p1, rate, hit, cal, isCancelled).then(S => ({ S, p0 })));
     }
     for (const { S, p0 } of await Promise.all(parts)) Reader.accumulate(v1a, S, p0, A);
   }
 
-  async perAction(tk, od, onProgress, pool = null, rate = 1, withLn = true, hit = '') {
+  async perAction(tk, od, onProgress, pool = null, rate = 1, withLn = true, hit = '', isCancelled = null) {
     const A = tk.nActions;
     const { token_mean: mt, token_scale: st } = this.R;
     const xs = new Float32Array(A * 17);
@@ -364,22 +371,29 @@ export class Reader {
     for (const x of tk.lnH) head[x] = 1;
     const ls = [];
     const prog = onProgress || (() => {});
-    if (pool && pool.size) {
-      // overlap: helpers score orientation 0 while the encoder runs orientation 1
-      const l0 = await this.encode(xs, A, prog, 0, 30);
-      const s0 = this.secondLayer(l0, tk, od, v1a, pool, rate, hit);
-      if (withLn) { this.lnV2Accumulate(l0, tk.comp, tk.lnH, tk.lnT, od, rate, lnV2, hit); this.tapV2Accumulate(l0, tk.comp, head, od, rate, tapV2, hit); }
-      const l1 = await this.encode(xm, A, prog, 30, 30);
-      await s0; prog(75);
-      const s1 = this.secondLayer(l1, tk, od, v1a, pool, rate, hit);
-      if (withLn) { this.lnV2Accumulate(l1, tk.comp, tk.lnH, tk.lnT, od, rate, lnV2, hit); this.tapV2Accumulate(l1, tk.comp, head, od, rate, tapV2, hit); }
-      await s1; prog(95);
+    const addV2 = async l => {
+      if (!withLn) return;
+      const step = isCancelled ? 2 : this.P;
+      for (let p = 0; p < this.P; p += step) {
+        await checkpoint(isCancelled);
+        const end = Math.min(p + step, this.P);
+        this.lnV2Accumulate(l, tk.comp, tk.lnH, tk.lnT, od, rate, lnV2, hit, p, end);
+        this.tapV2Accumulate(l, tk.comp, head, od, rate, tapV2, hit, p, end);
+      }
+    };
+    const read = l => this.secondLayer(l, tk, od, v1a, pool, rate, hit, null, isCancelled);
+    if (pool?.size) {
+      const l0 = await this.encode(xs, A, prog, 0, 30, isCancelled);
+      const [, l1] = await Promise.all([read(l0), addV2(l0).then(() => this.encode(xm, A, prog, 30, 30, isCancelled))]);
+      prog(75);
+      await Promise.all([read(l1), addV2(l1)]);
+      prog(95);
       ls.push(l0, l1);
     } else {
       for (let mirror = 0; mirror < 2; mirror++) {
-        const l = await this.encode(mirror ? xm : xs, A, prog, mirror * 45, 40);
-        await this.secondLayer(l, tk, od, v1a, null, rate, hit);
-        if (withLn) { this.lnV2Accumulate(l, tk.comp, tk.lnH, tk.lnT, od, rate, lnV2, hit); this.tapV2Accumulate(l, tk.comp, head, od, rate, tapV2, hit); }
+        const l = await this.encode(mirror ? xm : xs, A, prog, mirror * 45, 40, isCancelled);
+        await read(l);
+        await addV2(l);
         ls.push(l);
         prog(mirror * 45 + 45);
       }
@@ -394,10 +408,10 @@ export class Reader {
   }
 
   // whole-chart ScoreV1 accuracy curve re-judged at another OD, reusing the encoder outputs ls (OD only enters the windows)
-  async accAtOd(ls, tk, od, pool = null, rate = 1, hit = '') {
+  async accAtOd(ls, tk, od, pool = null, rate = 1, hit = '', isCancelled = null) {
     const A = tk.nActions;
     const v = new Float64Array(this.P * A);
-    for (const l of ls) await this.secondLayer(l, tk, od, v, pool && pool.size ? pool : null, rate, hit);
+    for (const l of ls) await this.secondLayer(l, tk, od, v, pool && pool.size ? pool : null, rate, hit, null, isCancelled);
     const acc = new Float64Array(this.P);
     for (let p = 0; p < this.P; p++) {
       let s = 0;

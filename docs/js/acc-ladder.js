@@ -20,7 +20,7 @@ export function validateLadder(P) {
   return P;
 }
 
-function curveKey(rate) { return rate === 1.5 ? 'dt' : 'nomod'; }   // HT 没有人群成绩：沿用 NoMod 曲线与表
+function curveKey(rate) { return rate > 1.25 ? 'dt' : 'nomod'; }
 
 export function yOf(P, t) { return Math.log(1 - t / 100 + P.eps); }
 
@@ -68,6 +68,14 @@ export function ladderLabel(P, star96, t, rate = 1) {
 export function ladder(P, star96, t, rate = 1) {
   const star = ladderStar(P, star96, t, rate);
   return { star, below: star < P.below, label: ladderLabel(P, star96, t, rate) };
+}
+
+/** 半个百分点一格，包含准确的 96% 总星数锚点。 */
+export function ladderCurvePoints(P, star96, rate = 1) {
+  return Array.from({ length: 30 }, (_, i) => {
+    const acc = 85 + i / 2;
+    return { acc, ...ladder(P, star96, acc, rate) };
+  });
 }
 
 /** 输入框的 acc：合法返回数字，否则 null。 */

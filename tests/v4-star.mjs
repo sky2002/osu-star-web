@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import { validateDanReferences } from '../docs/js/dan-reference.js';
-import { patternItemView, segmentCaption, V4_SEG_CAPTION, SEG_CAPTION, V4_ITEMS_NOTE } from '../docs/js/ui-lib.js';
+import { patternItemView, segmentCaption, V4_SEG_CAPTION, SEG_CAPTION, V4_ITEMS_NOTE, V4_ITEMS_UNTESTED_NOTE } from '../docs/js/ui-lib.js';
 import { sortItems } from '../docs/js/v4-items.js';
 import { V3_REFERENCES } from '../docs/js/v3-star.js';
 import {
@@ -56,27 +56,38 @@ test('switching models and features requests only missing readings', () => {
   assert.equal(scoreRequest({ ok: false, reason: 'not_4k' }, 'v4', false), null);
 });
 
-test('v4 shows unmodified peak stars and sorts visible rows by loss share and both tie-breakers', () => {
+test('v4 displays all five rows by loss share, preserving the order of ties and the raw readings', () => {
   const result = raw();
+  const source = structuredClone(result.v4.items);
   const view = patternItemView(cardView(result, 'v4').r);
-  assert.deepEqual(view.rows.map((r) => r.label), ['乱', '叠（jack）', '切（双押切、三押切）', '技（节奏变化、协调）', '面（长条）']);
-  assert.deepEqual(view.rows.map((r) => r.star), [5.9, 6.5, 5.25, 5.25, null]);
-  assert.equal(view.rows.at(-1).text, '这类键太少');
-  assert.equal(view.rows.at(-1).share, .9);
+  assert.deepEqual(view.rows.map((r) => r.label), ['面（长条）', '乱', '叠（jack）', '切（双押切、三押切）', '技（节奏变化、协调）']);
+  assert.deepEqual(view.rows.map((r) => r.star), [null, 5.9, 6.5, 5.25, 5.25]);
+  assert.deepEqual(view.rows.map((r) => r.share), [.9, .45, .2, .2, .2]);
+  assert.equal(view.rows[0].text, '这类键太少');
+  assert.deepEqual(result.v4.items, source);
   assert.equal(view.stamina.label, '耐力（高疲劳段）');
   assert.equal(view.stamina.star, 6.7);
   assert.equal(view.stamina.share, .67);
+  assert.equal(view.untestedNote, '');
   assert.equal(view.hints, undefined);
   const short = raw({ v4: ok4({ stamina: item('stamina', null, 0, false) }) });
   assert.equal(patternItemView(cardView(short, 'v4').r).stamina.text, '耐力段较短');
 });
 
-test('ineligible settings explain how to view the six rows', () => {
-  for (const settings of [{ rate: 1.5 }, { rate: .75 }, { odOverride: 8 }, { hit: 'hr' }, { hit: 'ez' }, { flags: { sv: true } }]) {
-    const view = patternItemView(cardView(raw(settings), 'v4').r);
-    assert.equal(view.state, 'off');
-    assert.ok(view.text.length);
+test('all rates and OD settings expose six rows with a caveat, while SV keeps the rows off', () => {
+  for (const settings of [{ rate: 0.5 }, { rate: 0.75 }, { rate: 1.15 }, { rate: 1.5 }, { rate: 2 }, { odOverride: 8 }, { hit: 'hr' }, { hit: 'ez' }]) {
+    const cv = cardView(raw({ ...settings, v4: ok4({ itemsUntested: true }) }), 'v4');
+    const view = patternItemView(cv.r);
+    assert.equal(view.state, 'ok');
+    assert.equal(view.rows.length, 5);
+    assert.equal(view.stamina.star, 6.7);
+    assert.equal(view.untestedNote, '非原速或自定义 OD 下的六维分项未经检验，仅供参考');
+    assert.ok(cardCopyText(cv).includes(V4_ITEMS_UNTESTED_NOTE));
   }
+  const sv = cardView(raw({ flags: { sv: true }, v4: ok4({ itemsUntested: true }) }), 'v4');
+  assert.equal(patternItemView(sv.r).state, 'off');
+  assert.match(patternItemView(sv.r).text, /非变速谱/);
+  assert.ok(!cardCopyText(sv).includes(V4_ITEMS_UNTESTED_NOTE));
 });
 
 test('both the card and the six-item help explain why shares may not sum to 100 percent', () => {
@@ -149,6 +160,7 @@ test('copy uses the v4 version and exactly the card order, with stamina on its o
   const rows = patternItemView(cv.r).rows.map((r) => r.label);
   const lines = text.split('\n').filter((line) => line.includes('占失分'));
   assert.deepEqual(lines.map((line) => line.split(' · ')[0]), [...rows, '耐力（高疲劳段）']);
+  assert.match(lines[0], /^面（长条） · — · 占失分 90% · 这类键太少$/);
   assert.match(lines.at(-1), /★ 6\.70 · 占失分 67%$/);
   assert.doesNotMatch(text, /苦手提示/);
   assert.ok(cardCopyText(cardView(raw({ rate: .75, v4: ok4({ untested: true }) }), 'v4')).includes(V4_UNTESTED_NOTE));

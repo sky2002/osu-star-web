@@ -2,6 +2,7 @@
 import { unzipSync } from '../vendor/fflate/fflate.mjs';
 import { danReferenceCopyLines } from './dan-reference.js';
 import { danEstimateCopyLines } from './dan-estimate.js';
+import { decodeOsu, primaryBpm } from './osu.js';
 
 export const SEG_CAPTION =
   '分段曲线：每 10 秒一段，按旧公共星数刻度，只用来看起伏，不等于总星数';
@@ -10,12 +11,12 @@ export function segmentCaption(result) { return result?.model === 'v4' ? V4_SEG_
 
 const MODE_NAMES = ['std', 'taiko', 'catch', 'mania'];
 
-/** 倍速 → 显示名。只支持这三档。 */
+/** 倍速的显示名，常用三档带 Mod 名称。 */
 export const MOD_LABELS = { 1: 'NoMod', 0.75: 'HT（0.75 倍）', 1.5: 'DT（1.5 倍）' };
 export const MOD_SHORT = { 1: '', 0.75: 'HT', 1.5: 'DT' };
 export const HT_NOTE =
   'HT 读数未经检验：模型没有用 HT 成绩训练或检验，只是把谱面放慢到 0.75 倍后按同一方法计算';
-export function modLabel(rate) { return MOD_LABELS[rate] || `${rate} 倍`; }
+export function modLabel(rate) { return MOD_LABELS[rate] || `${Number(rate).toFixed(2)} 倍`; }
 
 export const SUB_NOTE =
   '分项与 OD 口径为约定换算，不参与总星数。LN 口径是整谱按 97% ScoreV2（LN 段位的计分口径，OD 同总星数）读出的星数；米分项只看单点（96% ScoreV1）；面分项只看长条头尾，按 97% ScoreV2，' +
@@ -48,6 +49,7 @@ export const ITEMS_NOTE =
   '叠段里的快键只算进乱/切合计。长条★ 暂不显示。详见页面下方说明。';
 export const ITEMS_TECH_NOTE = '节奏不规则较多（多级乱）：乱、切里的分音突然变化，比如 1/4 接 1/3';
 export const V4_ITEMS_NOTE = '星数看这类键最难有多难。失分占比看整首刚好打到 96% 时，多少分丢在这类键上。各项占比可以重叠，且不含慢速或零散过渡音符，所以加起来不必刚好等于 100%。';
+export const V4_ITEMS_UNTESTED_NOTE = '非原速或自定义 OD 下的六维分项未经检验，仅供参考';
 const V4_ITEM_LABELS = {
   jack: '叠（jack）', stream: '乱', chordstream: '切（双押切、三押切）', tech: '技（节奏变化、协调）', ln: '面（长条）', stamina: '耐力（高疲劳段）',
 };
@@ -117,7 +119,7 @@ export function patternHints(items, star) {
 }
 
 /**
- * 键型分项（测试版）的显示内容。只在 NoMod、谱面文件 OD、非变速谱上给读数；其余情况给一句说明（state 'off'）。
+ * 键型分项（测试版）的显示内容。v4 适用于非变速谱。旧版按原设置条件显示。
  * 返回 null 表示没有可说的（未算或失败）。rows: [{ key, label, star|null, share, text }]；hints：patternHints 的提示
  * （只在 state 'ok' 时有，和分项★ 同一套显示条件）。
  */
@@ -154,17 +156,18 @@ export function patternItemView(result) {
 }
 
 function v4PatternItemView(result) {
-  if ((result.rate || 1) !== 1) return { state: 'off', text: '六维分项可在 NoMod 下查看。' };
-  if (Number.isFinite(result.odOverride)) return { state: 'off', text: '六维分项可在使用谱面文件 OD 时查看。' };
-  if (result.hit) return { state: 'off', text: '六维分项可在关闭 HR 和 EZ 后查看。' };
   if (result.flags?.sv) return { state: 'off', text: '六维分项适用于非变速谱。' };
-  const { items, stamina } = result.v4 || {};
+  const { items, stamina, itemsUntested } = result.v4 || {};
   if (!items || !stamina) return null;
   const row = (item, few) => {
     const star = item.display && Number.isFinite(item.star) ? item.star : null;
     return { label: V4_ITEM_LABELS[item.id], star, share: item.share, text: star === null ? few : '' };
   };
-  return { state: 'ok', rows: items.map((item) => row(item, '这类键太少')), stamina: row(stamina, '耐力段较短') };
+  const rows = items.map((item) => row(item, '这类键太少')).sort((a, b) => b.share - a.share);
+  return {
+    state: 'ok', rows, stamina: row(stamina, '耐力段较短'),
+    untestedNote: itemsUntested ? V4_ITEMS_UNTESTED_NOTE : '',
+  };
 }
 
 export function patternItemCopyLines(result) {
@@ -173,7 +176,9 @@ export function patternItemCopyLines(result) {
   if (v.state !== 'ok') return [`键型分项（测试版）：${v.text}`];
   if (v.stamina) {
     const line = (r) => [r.label, r.star === null ? '—' : `★ ${fmtStar(r.star)}`, `占失分 ${pctText(r.share)}`, r.text].filter(Boolean).join(' · ');
-    return ['六维键型分项（测试版）', ...v.rows.map(line), line(v.stamina)];
+    const lines = ['六维键型分项（测试版）', ...v.rows.map(line), line(v.stamina)];
+    if (v.untestedNote) lines.push(`提示：${v.untestedNote}`);
+    return lines;
   }
   const one = (r) => `${r.star === null ? r.text : r.label.replace(/（.*）/, '') + ' ★' + fmtStar(r.star) + r.text}（失分 ${pctText(r.share)}）`;
   return [`键型分项（测试版，仅 NoMod）：${v.rows.map(one).join(' / ')}`, `${v.mixText}；${v.overlapText}${v.tech ? '；多级乱较多' : ''}`,
@@ -181,22 +186,38 @@ export function patternItemCopyLines(result) {
 }
 
 export function decodeText(u8) {
-  return new TextDecoder('utf-8').decode(u8); // 默认会去掉 BOM
+  return decodeOsu(u8);
 }
 
-/** 读 .osu 头部字段（Mode、CircleSize、Title、Artist、Version 等）并数物件行数。 */
+/** 读谱面头部和文件原速的元数据预览。 */
 export function parseOsuHeader(text) {
   const out = {
     mode: 0, circleSize: null, od: null, title: '', artist: '', version: '', creator: '',
-    beatmapId: null, beatmapSetId: null, nObjects: 0,
+    beatmapId: null, beatmapSetId: null, nObjects: 0, nLongNotes: 0, durationS: null, bpm: null,
   };
   let section = '';
+  let first = Infinity, last = -Infinity;
   const lines = text.split('\n');
   for (const raw of lines) {
     const t = raw.trim();
     if (!t || t.startsWith('//')) continue;
     if (t[0] === '[' && t[t.length - 1] === ']') { section = t.slice(1, -1); continue; }
-    if (section === 'HitObjects') { out.nObjects++; continue; }
+    if (section === 'HitObjects') {
+      out.nObjects++;
+      const fields = t.split(',', 6);
+      const kind = Number(fields[3]);
+      const start = fields[2]?.trim() ? Number(fields[2]) : NaN;
+      if (!(kind & (1 | 128)) || !Number.isFinite(start)) continue;
+      const tail = kind & 128 ? fields[5]?.split(':', 1)[0].trim() : '';
+      const end = tail ? Number(tail) : NaN;
+      first = Math.min(first, start);
+      last = Math.max(last, start);
+      if (Number.isFinite(end) && end > start) {
+        out.nLongNotes++;
+        last = Math.max(last, end);
+      }
+      continue;
+    }
     const ix = t.indexOf(':');
     if (ix < 0) continue;
     const k = t.slice(0, ix).trim();
@@ -215,6 +236,8 @@ export function parseOsuHeader(text) {
       else if (k === 'BeatmapSetID') { const n = parseInt(v, 10); out.beatmapSetId = n > 0 ? n : null; }
     }
   }
+  if (first <= last) out.durationS = (last - first) / 1000;
+  if (isMania4K(out)) out.bpm = primaryBpm(text);
   return out;
 }
 

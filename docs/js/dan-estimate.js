@@ -1,11 +1,11 @@
 // 米段位 / 面段位估计（纯函数，不碰 DOM，Node 里可直接 import 测试）。
 // 米段位：这张谱的总星数（96% ScoreV1）对 REFORM 1st…Eta 段位谱（Marathon 整段，不含 INTRO）的同标准读数。
-// 面段位：这张谱的整谱 97% ScoreV2 读数对 LN Dan Courses v2 6th…15th（Marathon 整段）的同标准读数；5 段及以下不用。
+// 面段位：这张谱的整谱 97% ScoreV2 读数对 LN Dan Courses v2 6th…15th（Marathon 整段）的同标准读数；低于实测档时外推。
 // 规则（研究仓库 docs/dan-estimate-r1-results-2026-10-15.md）：
 //   1. 参照读数按段位顺序做单调化（pool-adjacent-violators，违序的相邻段合并成一档，读数取平均）；
 //   2. 相邻两档读数差 < DAN_MERGE_GAP（重训波动量级）时合并成一档，例如 REFORM 2nd 2.88 / 3rd 2.90 → “2nd–3rd”；
 //   3. 谱面读数落在两档之间：线性插值位置，离某档 15% 以内写“≈ 该档”，否则前三分之一“偏下一档”、后三分之一“偏上一档”、中间“居中”；
-//   4. 高于最高档：“高于 Eta（外推）”；低于最低档：“低于 1st”/“LN 6 段以下”。
+//   4. 高于最高档按最高两档外推；低于最低档时，米显示“低于 1st”，面按 LN 6–10 段的平均斜率外推。
 // 米段位第二行“按单曲换算”：同一张谱的总星数对 REFORM 官方单曲（data.reformSingles，60 首，1st–Zeta 每段 2–6 首）
 // 按段取平均的读数，再走上面同一套规则 1–4。Eta 没有单曲，高于 Zeta 的部分按最后两档外推。主读数仍是整段那一行。
 // 依据：研究仓库 analysis/bias-multidim-r1/A（实验 A 的 S4 单曲尺子，同一套 PAV + 线性插值 / 外推）。
@@ -20,11 +20,13 @@ export const DAN_AT = 0.15;
 
 export const REFORM_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta'];
 const REFORM_SHORT = { alpha: 'Alpha', beta: 'Beta', gamma: 'Gamma', delta: 'Delta', epsilon: 'Epsilon', zeta: 'Zeta', eta: 'Eta' };
+const REFORM_BADGES = { Alpha: 'α', Beta: 'β', Gamma: 'γ', Delta: 'δ', Epsilon: 'ε', Zeta: 'ζ', Eta: 'η' };
 const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
 
+export const LN_EXTRAPOLATION_NOTE = 'LN 6–15 段为实测对照。低于 6 段时，按 6–10 段的斜率线性外推，并标注“外推”。';
 export const DAN_ESTIMATE_NOTE =
-  '米 / 面段位：把这张谱和 REFORM / LN 段位谱用同一模型、同一标准比较，看它排在哪两段之间；不代表能通过对应段位。' +
-  '米按总星数（96% ScoreV1）和 REFORM 1st–Eta 比；面按整张谱 97% ScoreV2 的读数和 LN 6th–15th 比（LN 5 段及以下社区没有定论，不用）。';
+  '米、面段位给出这张谱与段位谱在同一模型下的相对位置，段位通过还取决于整段发挥。' +
+  '米按总星数（96% ScoreV1）和 REFORM 1st–Eta 比。面按整张谱 97% ScoreV2 的读数比较。' + LN_EXTRAPOLATION_NOTE;
 export const DAN_RATE_NOTE = (mod) => `${mod}：用这个倍速下的读数和 NoMod 段位谱比较，段位谱本身不变速。`;
 export const DAN_FEW_LN_NOTE = '长条很少，仅供参考';
 export const DAN_UNRELIABLE_NOTE = '星数不可靠，段位也不可靠';
@@ -65,7 +67,7 @@ export function danPoints(data, group) {
       pts.push({ pos: i + 1, label: REFORM_SHORT[k] || k, star: e.star });
     } else if (group === 'ln') {
       const n = Number(e.id.slice('ln-'.length));
-      if (!(n >= LN_MIN_DAN) || !Number.isFinite(e.starV2)) continue;
+      if (!Number.isInteger(n) || n < LN_MIN_DAN || n > 15 || !Number.isFinite(e.starV2)) continue;
       pts.push({ pos: n, label: ordinal(n), star: e.starV2 });
     }
   }
@@ -108,6 +110,27 @@ export function danTiers(points, gap = DAN_MERGE_GAP) {
   return out;
 }
 
+const slopeAt = (a, b) => (b.pos - a.pos) / (b.star - a.star);
+const danLean = (frac) => frac < 1 / 3 ? 'lo' : frac > 2 / 3 ? 'hi' : 'mid';
+
+/** 对 LN 6–10 段实测档拟合每星跨过的段数。 */
+export function lnBelowSlope(tiers) {
+  const local = tiers.filter((t) => t.pos <= 10);
+  const n = local.length;
+  if (n >= 2) {
+    const meanStar = local.reduce((sum, t) => sum + t.star, 0) / n;
+    const meanPos = local.reduce((sum, t) => sum + t.pos, 0) / n;
+    let cov = 0, variance = 0;
+    for (const t of local) {
+      const centeredStar = t.star - meanStar;
+      cov += centeredStar * (t.pos - meanPos);
+      variance += centeredStar ** 2;
+    }
+    if (variance > 0) return cov / variance;
+  }
+  return tiers.length >= 2 ? slopeAt(tiers[0], tiers[1]) : null;
+}
+
 /**
  * 读数在段位档里的位置。返回
  *   { kind: 'below' | 'between' | 'above', lo, hi (档), frac (0–1，between 时), lean: 'lo' | 'mid' | 'hi',
@@ -116,7 +139,6 @@ export function danTiers(points, gap = DAN_MERGE_GAP) {
 export function locateDan(star, tiers) {
   if (!Number.isFinite(star) || !tiers || !tiers.length) return null;
   const first = tiers[0], last = tiers[tiers.length - 1];
-  const slopeAt = (a, b) => (b.pos - a.pos) / (b.star - a.star);
   if (tiers.length === 1) {
     if (star === first.star) return { kind: 'between', lo: first, hi: first, frac: 0, lean: 'mid', pos: first.pos, extrapolated: false };
     return { kind: star < first.star ? 'below' : 'above', lo: first, hi: first, pos: first.pos, extrapolated: true };
@@ -131,8 +153,19 @@ export function locateDan(star, tiers) {
   while (i < tiers.length - 2 && star > tiers[i + 1].star) i++;
   const lo = tiers[i], hi = tiers[i + 1];
   const frac = (star - lo.star) / (hi.star - lo.star);
-  const lean = frac < 1 / 3 ? 'lo' : frac > 2 / 3 ? 'hi' : 'mid';
-  return { kind: 'between', lo, hi, frac, lean, pos: lo.pos + frac * (hi.pos - lo.pos), extrapolated: false };
+  return { kind: 'between', lo, hi, frac, lean: danLean(frac), pos: lo.pos + frac * (hi.pos - lo.pos), extrapolated: false };
+}
+
+function locateLnDan(star, tiers) {
+  const first = tiers[0];
+  if (star >= first.star || tiers.length < 2) return locateDan(star, tiers);
+  const pos = first.pos - (first.star - star) * lnBelowSlope(tiers);
+  const tier = (pos) => ({ pos, label: ordinal(pos), merged: false });
+  if (pos < 1) return { kind: 'below', lo: null, hi: tier(1), pos, extrapolated: true };
+  const loPos = Math.floor(pos);
+  const hiPos = Math.min(Math.ceil(pos), Math.round(first.pos));
+  const frac = pos - loPos;
+  return { kind: 'between', lo: tier(loPos), hi: tier(hiPos), frac, lean: danLean(frac), pos, extrapolated: true };
 }
 
 /** 位置 → 一句白话，例如“7th–8th 之间（偏 8th）”。prefix：'' 或 'LN '。 */
@@ -141,12 +174,33 @@ export function danText(loc, { prefix = '', belowText = null } = {}) {
   const L = (t) => prefix + t.label;
   if (loc.kind === 'below') return belowText || `低于 ${L(loc.hi)}`;
   if (loc.kind === 'above') return `高于 ${L(loc.lo)}（外推）`;
-  if (loc.frac <= DAN_AT) return `≈ ${L(loc.lo)}`;
-  if (loc.frac >= 1 - DAN_AT) return `≈ ${L(loc.hi)}`;
+  const mark = loc.extrapolated ? '（外推）' : '';
+  if (loc.frac <= DAN_AT) return `≈ ${L(loc.lo)}${mark}`;
+  if (loc.frac >= 1 - DAN_AT) return `≈ ${L(loc.hi)}${mark}`;
   const single = !loc.lo.merged && !loc.hi.merged;
   const span = single ? `${prefix}${loc.lo.label}–${loc.hi.label} 之间` : `${L(loc.lo)} 与 ${L(loc.hi)} 之间`;
   const lean = loc.lean === 'mid' ? '居中' : `偏 ${(loc.lean === 'lo' ? loc.lo : loc.hi).label}`;
-  return `${span}（${lean}）`;
+  return `${span}（${lean}${loc.extrapolated ? '，外推' : ''}）`;
+}
+
+/** 结果卡徽章短标签。完整读法由 item.text 提供。 */
+export function danBadge(item) {
+  const loc = item?.loc;
+  if (!loc) return '';
+  const ln = item.group === 'ln';
+  const shortName = (label, bare) => label.split('–').map((part) =>
+    REFORM_BADGES[part] || ((ln || bare) ? part.replace(/(?:st|nd|rd|th)$/, '') : part)).join('–');
+  const label = (tier, bare = false) => shortName(tier.label, bare);
+  const prefix = ln ? 'LN ' : '';
+  const mark = ln && loc.extrapolated ? '~' : '';
+  if (loc.kind === 'below') return `<${prefix}${label(loc.hi)}${mark}`;
+  if (loc.kind === 'above') return `${prefix}${label(loc.lo, true)}+${mark}`;
+  if (loc.frac <= DAN_AT) return `${prefix}${label(loc.lo)}${mark}`;
+  if (loc.frac >= 1 - DAN_AT) return `${prefix}${label(loc.hi)}${mark}`;
+  if (loc.lean === 'lo') return `${prefix}${label(loc.lo, true)}+${mark}`;
+  if (loc.lean === 'hi') return `${prefix}${label(loc.hi, true)}-${mark}`;
+  const low = loc.lo.label.split('–')[0], high = loc.hi.label.split('–').at(-1);
+  return `${prefix}${shortName(`${low}–${high}`, true)}${mark}`;
 }
 
 /** 小数位置的显示：REFORM 11–17 = Alpha–Eta；LN 直接用段数。 */
@@ -176,9 +230,10 @@ export function danEstimate(result, data) {
   const v2 = result.v2 && Number.isFinite(result.v2.star) ? result.v2.star : null;
   const lnFrac = Number.isFinite(result.lnFrac) ? result.lnFrac : (result.features && Number.isFinite(result.features.ln_frac) ? result.features.ln_frac : null);
   if (v2 !== null && lnTiers.length) {
-    const loc = locateDan(v2, lnTiers);
+    const loc = locateLnDan(v2, lnTiers);
     const few = lnFrac !== null && lnFrac < DAN_LN_FEW;
-    face = { group: 'ln', label: '面', text: danText(loc, { prefix: 'LN ', belowText: `LN ${LN_MIN_DAN} 段以下` }), loc, muted: few, note: few ? DAN_FEW_LN_NOTE : '' };
+    const belowText = lnTiers.length >= 2 ? '低于 LN 1st（外推）' : `LN ${LN_MIN_DAN} 段以下`;
+    face = { group: 'ln', label: '面', text: danText(loc, { prefix: 'LN ', belowText }), loc, muted: few, note: few ? DAN_FEW_LN_NOTE : '' };
   }
   const rate = result.rate || 1;
   const rateNote = rate === 1 ? '' : DAN_RATE_NOTE(rate === 1.5 ? 'DT' : rate === 0.75 ? 'HT' : `${rate} 倍`);
@@ -196,5 +251,6 @@ export function danEstimateCopyLines(est) {
   if (est.face) lines.push(`面段位：${est.face.text}${est.face.note ? `（${est.face.note}）` : ''}${tag}；位置 ${fmtDanPos(est.face.loc, 'ln')}`);
   else lines.push('面段位：暂无（没有整谱 97% ScoreV2 读数）');
   if (est.rateNote) lines.push(est.rateNote);
+  if (est.face) lines.push(LN_EXTRAPOLATION_NOTE);
   return lines;
 }

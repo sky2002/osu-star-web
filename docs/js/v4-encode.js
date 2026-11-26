@@ -1,3 +1,4 @@
+import { checkpoint } from './task-control.js';
 import { tokensFromNotes } from './tokens.js';
 import { rint, f32 } from './pyutil.js';
 
@@ -178,13 +179,14 @@ export class V4Actions {
     return new this.ort.Tensor('float32', data, [data.length / width, width]);
   }
 
-  async apply(stage, times, range, layer, onProgress) {
+  async apply(stage, times, range, layer, onProgress, isCancelled = null) {
     const result = new Float32Array(times.length * W);
     const { begin, end } = range;
     const A = times.length;
     const q = arrange(stage.o1.data, A), k = arrange(stage.o2.data, A), v = arrange(stage.o3.data, A);
     let first = 0;
     while (first < A) {
+      await checkpoint(isCancelled);
       let stop = Math.min(first + 192, A);
       const left = begin[first];
       while (stop - first > 1 && (stop - first) * (end[stop - 1] - left) > 131072) {
@@ -208,25 +210,27 @@ export class V4Actions {
     return this.matrix(result, W);
   }
 
-  async run(tk, onProgress = null, trace = false) {
+  async run(tk, onProgress = null, trace = false, isCancelled = null) {
     const { times, x, heads, lnH, lnT, duration } = tk;
     const { a, c, d, e, f, g, i } = this.sessions;
     const range = ranges(times, 0);
     let stage = await a.run({ x: this.matrix(x, 7) });
-    stage = await c.run({ x: stage.o0, y: await this.apply(stage, times, range, 0, onProgress) });
+    stage = await c.run({ x: stage.o0, y: await this.apply(stage, times, range, 0, onProgress, isCancelled) });
     const blocks = trace ? [stage.o0.data] : null;
     const { pre, next } = states(stage.o1.data, times);
     stage = await d.run({ x: stage.o0, p: this.matrix(next, C) });
-    stage = await e.run({ x: stage.o0, y: await this.apply(stage, times, range, 1, onProgress) });
+    stage = await e.run({ x: stage.o0, y: await this.apply(stage, times, range, 1, onProgress, isCancelled) });
     if (blocks) blocks.push(stage.o0.data);
-    const y = await this.apply(stage, times, ranges(times, 1000), 2, onProgress);
+    const y = await this.apply(stage, times, ranges(times, 1000), 2, onProgress, isCancelled);
     const output = await f.run({ x: stage.o0, y }, trace ? ['o0', 'o1'] : ['o0']);
     stage = null;
     const h = output.o0.data;
     if (blocks) blocks.push(output.o1.data);
+    await checkpoint(isCancelled);
     const p = await g.run({ x: this.matrix(selectRows(h, heads), W) });
     let Ar = new Float32Array(0), Br = Ar, rho = Ar;
     if (lnH.length) {
+      await checkpoint(isCancelled);
       const x = this.matrix(selectRows(h, lnH), W), y = this.matrix(selectRows(h, lnT), W);
       const r = await i.run({ x, y, d: new this.ort.Tensor('float32', duration, [lnH.length]) });
       Ar = r.o0.data;

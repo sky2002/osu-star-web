@@ -5,8 +5,8 @@ export const DAN_REFERENCE_NOTE = '只比较本模型的谱面读数，不代表
 export const REFORM_SINGLES_COUNT = 60;
 const SINGLE_PATTERNS = ['jack', 'speed', 'stamina', 'tech'];
 const BEATMAP_URL = /^https:\/\/osu\.ppy\.sh\/beatmaps\/[1-9]\d*$/;
-export const LN_REFERENCE_NOTE = '这一列按 LN 段位的标准（97% ScoreV2）读数：这张谱和 LN 段位谱都按这个标准算，和面段位同一标准，不和总星数直接比。LN 5 段及以下不列。';
-export const LN_REFERENCE_MIN_DAN = 6;   // 与面段位一致：LN 5 段及以下社区没有定论，不列
+export const LN_REFERENCE_NOTE = '附近的 LN 参考谱来自 LN 6–15 段，采用与面段位相同的 97% ScoreV2 读数。';
+export const LN_REFERENCE_MIN_DAN = 6;
 export const DAN_REFERENCE_WARNING = '当前谱面读数不可靠，附近参考也请谨慎看待。';
 
 // expect: the model the file must belong to (the new-star test file data/dan-references-cnn36.json passes its own)

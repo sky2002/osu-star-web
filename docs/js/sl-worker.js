@@ -4,35 +4,56 @@
 import { Reader } from './reader.js';
 import { buildTable } from './tdist.js';
 import { V3Core } from './v3.js';
+import { CancelledError, checkpoint } from './task-control.js';
 
 let reader = null;
 let v3 = null;
 let V4Score = null;
 const modulePath = './v4-score.js';
+const running = new Map();
 async function handle(port, m) {
+  if (m.type === 'cancel') {
+    const task = running.get(m.job);
+    if (task) task.cancelled = true;
+    return;
+  }
+  const task = { cancelled: false };
+  const isCancelled = () => task.cancelled;
+  if (m.job != null) running.set(m.job, task);
   try {
     if (m.type === 'init') {
       reader = new Reader(m.R, buildTable(m.R.t_nus, m.R.t_grid, m.R.t_c), null, null);
       port.postMessage({ type: 'ready' });
     } else if (m.type === 'run') {
-      const S = reader.secondLayerRange(m.l, m.comp, m.lnH, m.lnT, m.od, m.p0, m.p1, m.rate || 1, m.hit || '', m.cal || null);
+      const A = m.comp.length;
+      const S = new Float32Array((m.p1 - m.p0) * A);
+      for (let p = m.p0; p < m.p1; p++) {
+        await checkpoint(isCancelled);
+        S.set(reader.secondLayerRange(m.l, m.comp, m.lnH, m.lnT, m.od, p, p + 1, m.rate || 1, m.hit || '', m.cal || null), (p - m.p0) * A);
+      }
       port.postMessage({ type: 'done', job: m.job, S }, [S.buffer]);
     } else if (m.type === 'v3init') {
       v3 = new V3Core(m.J, m.tab);
       port.postMessage({ type: 'done', job: m.job, S: null });
     } else if (m.type === 'v3run') {
-      const S = v3.readoutRange(m.xs, m.comp, m.lnH, m.lnT, m.w, m.rate, m.p0, m.p1);
+      const S = new Float64Array(m.p1 - m.p0);
+      for (let p = m.p0; p < m.p1; p++) {
+        await checkpoint(isCancelled);
+        S.set(v3.readoutRange(m.xs, m.comp, m.lnH, m.lnT, m.w, m.rate, p, p + 1), p - m.p0);
+      }
       port.postMessage({ type: 'done', job: m.job, S }, [S.buffer]);
     } else if (m.type === 'v4init') {
       ({ V4Score } = await import(modulePath));
       port.postMessage({ type: 'done', job: m.job, S: null });
     } else if (m.type === 'v4run') {
       const score = new V4Score(m.outputs, m.layout, m.od, m.rate, m.hit);
-      const S = score.run(m.levels);
+      const S = await score.readRows(m.levels, isCancelled);
       port.postMessage({ type: 'done', job: m.job, S }, [S.buffer]);
     }
   } catch (e) {
-    port.postMessage({ type: 'fail', job: m.job, message: String(e && e.message || e) });
+    if (!(e instanceof CancelledError)) port.postMessage({ type: 'fail', job: m.job, message: String(e?.message || e) });
+  } finally {
+    running.delete(m.job);
   }
 }
 self.onmessage = (ev) => {

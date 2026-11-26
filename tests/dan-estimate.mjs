@@ -4,12 +4,14 @@ import fs from 'node:fs';
 import test from 'node:test';
 import {
   danPoints, poolAdjacent, danTiers, locateDan, danText, danEstimate, danEstimateCopyLines, fmtDanPos, singlePoints,
+  danBadge, lnBelowSlope, LN_EXTRAPOLATION_NOTE,
   DAN_MERGE_GAP, DAN_LN_FEW, DAN_FEW_LN_NOTE, DAN_UNRELIABLE_NOTE, DAN_SINGLE_LABEL, DAN_SINGLE_NOTE,
 } from '../docs/js/dan-estimate.js';
 import { validateDanReferences } from '../docs/js/dan-reference.js';
 import { buildCopyText } from '../docs/js/ui-lib.js';
 
 const data = validateDanReferences(JSON.parse(fs.readFileSync(new URL('../docs/data/dan-references.json', import.meta.url), 'utf8')));
+const v4Data = JSON.parse(fs.readFileSync(new URL('../docs/data/dan-references-v4.json', import.meta.url), 'utf8'));
 const pt = (pos, star, label = String(pos)) => ({ pos, star, label });
 const ok = (star, extra = {}) => ({ ok: true, star, reliable: true, rate: 1, v2: { star: star + 0.6 }, lnFrac: 0.7, ...extra });
 
@@ -87,7 +89,7 @@ test('danEstimate on the live references: rice and face, LN below 6th, few long 
   assert.equal(e.face.muted, false);
   assert.equal(e.unreliable, false);
   assert.equal(e.rateNote, '');
-  assert.equal(danEstimate(ok(3, { v2: { star: 4.0 } }), data).face.text, 'LN 6 段以下');
+  assert.equal(danEstimate(ok(3, { v2: { star: 4.0 } }), data).face.text, '低于 LN 1st（外推）');
   assert.equal(danEstimate(ok(11, { v2: { star: 12 } }), data).rice.text, '高于 Eta（外推）');
   assert.match(danEstimate(ok(11, { v2: { star: 12 } }), data).face.text, /^高于 LN 14th–15th（外推）$|^高于 LN 15th（外推）$/);
   assert.equal(danEstimate(ok(1.0), data).rice.text, '低于 1st');
@@ -103,6 +105,62 @@ test('danEstimate on the live references: rice and face, LN below 6th, few long 
   assert.equal(danEstimate(ok(5.35), null), null);
 });
 
+test('LN below 6th uses the fitted 6th–10th slope and marks every extrapolated reading', () => {
+  const tiers = danTiers(danPoints(v4Data, 'ln'));
+  const slope = 4.603840041925729;
+  assert.ok(Math.abs(lnBelowSlope(tiers) - slope) < 1e-12);
+  assert.ok(Math.abs(tiers[0].star - (tiers[0].pos - 1) / slope - 4.494885056268033) < 1e-12);
+  assert.equal(lnBelowSlope(danTiers([pt(6, 5), pt(11, 7)])), 2.5);
+
+  const faceAt = (pos) => {
+    const star = tiers[0].star - (tiers[0].pos - pos) / slope;
+    const face = danEstimate(ok(star, { v2: { star } }), v4Data).face;
+    assert.ok(Math.abs(face.loc.pos - pos) < 1e-12);
+    assert.equal(face.loc.extrapolated, true);
+    return face;
+  };
+  for (const [pos, label] of [[1.01, '1st'], [2, '2nd'], [3, '3rd'], [4, '4th'], [5, '5th'], [5.99, '6th']]) {
+    const face = faceAt(pos);
+    assert.equal(face.text, `≈ LN ${label}（外推）`);
+    assert.equal(danBadge(face), `LN ${Math.round(pos)}~`);
+  }
+  assert.equal(faceAt(4.2).text, 'LN 4th–5th 之间（偏 4th，外推）');
+  assert.equal(faceAt(4.5).text, 'LN 4th–5th 之间（居中，外推）');
+  assert.equal(faceAt(4.8).text, 'LN 4th–5th 之间（偏 5th，外推）');
+  const below = faceAt(0.99);
+  assert.equal(below.text, '低于 LN 1st（外推）');
+  assert.equal(danBadge(below), '<LN 1~');
+});
+
+test('LN measured interval and upper extrapolation retain their existing positions and text', () => {
+  for (const refs of [data, v4Data]) {
+    const tiers = danTiers(danPoints(refs, 'ln'));
+    const readings = tiers.flatMap((t, i) => i ? [t.star, (t.star + tiers[i - 1].star) / 2] : [t.star]);
+    readings.push(tiers.at(-1).star + 0.3);
+    for (const star of readings) {
+      const loc = locateDan(star, tiers);
+      const face = danEstimate(ok(star, { v2: { star } }), refs).face;
+      assert.deepEqual(face.loc, loc);
+      assert.equal(face.text, danText(loc, { prefix: 'LN ' }));
+    }
+  }
+});
+
+test('dan badges compress the REFORM labels and show the LN anchor', () => {
+  const tiers = danTiers(danPoints(v4Data, 'reform'));
+  const star = (label) => tiers.find((t) => t.label === label).star;
+  const at = (s) => danBadge(danEstimate(ok(s), v4Data).rice);
+  const between = (lo, hi, f) => at(star(lo) + (star(hi) - star(lo)) * f);
+  assert.equal(at(star('8th')), '8th');
+  assert.equal(between('8th', '9th', 0.25), '8+');
+  assert.equal(at(star('Alpha')), 'α');
+  assert.equal(between('Gamma', 'Delta', 0.75), 'δ-');
+  assert.equal(at(star('1st') - 0.1), '<1st');
+  assert.equal(at(star('Eta') + 0.1), 'η+');
+  const ln9 = danPoints(v4Data, 'ln').find((t) => t.pos === 9).star;
+  assert.equal(danBadge(danEstimate(ok(5, { v2: { star: ln9 } }), v4Data).face), 'LN 9');
+});
+
 test('copy lines carry the decimal position and the caveats', () => {
   const lines = danEstimateCopyLines(danEstimate(ok(5.35, { reliable: false, lnFrac: 0.01, rate: 1.5 }), data));
   assert.match(lines[0], /^米段位：7th–8th 之间（偏 8th）（不可靠）；位置 [0-9.]+（1st=1/);
@@ -114,6 +172,11 @@ test('copy lines carry the decimal position and the caveats', () => {
   assert.match(text, /\n米段位：7th–8th 之间（偏 8th）；位置/);
   assert.match(text, /\n米段位（按单曲换算）：≈ 8th；误差约 ±0\.15 段；位置 8\.\d\d（1st=1/);
   assert.match(text, /\n面段位：LN /);
+  assert.ok(text.includes(LN_EXTRAPOLATION_NOTE));
+  const low = ok(4, { v2: { star: 4 }, rate: 1.15 });
+  const extrapCopy = buildCopyText(low, {}, 'x.osu', null, null, null, false, danEstimate(low, v4Data));
+  assert.match(extrapCopy, /\nMod：1\.15 倍/);
+  assert.match(extrapCopy, /\n面段位：低于 LN 1st（外推）/);
   assert.equal(DAN_UNRELIABLE_NOTE.length > 0, true);
 });
 

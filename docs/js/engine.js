@@ -1,11 +1,12 @@
 // Tree star v1 (P1h) for one .osu: 22 hand features + s29 theta* -> HistGBDT -> star = a + b * reading.
 // Reference: analysis/tree-topend-r3/score_osu.py (research repository), Scorer('P1h').score.
-import { metadata, loadChart, parseOsuFeat, svFrac, sbLines, ChartError } from './osu.js';
+import { metadata, decodeOsu, primaryBpm, loadChart, parseOsuFeat, svFrac, sbLines, ChartError } from './osu.js';
 import { tokensFromNotes } from './tokens.js';
 import { buildTable } from './tdist.js';
 import { prepareFeatureNotes, feats } from './features.js';
 import { predictTree } from './tree.js';
 import { Reader, RATE_MIN, RATE_MAX } from './reader.js';
+import { CancelledError, checkpoint, untilCancelled } from './task-control.js';
 import { md5Hex } from './md5.js';
 import { classifyNotes, calibInputs, itemReadouts } from './pattern-items.js';
 import { cnnGrid, Cnn36 } from './cnn36.js';
@@ -45,11 +46,18 @@ const FEATURE_LABEL = {
   gap_any_med: '间隔中位数', col_imbalance: '列分布不均',
 };
 
-export async function createEngine({ ort, loadBytes, loadJson, makePool = null }) {
+export async function createEngine({ ort, loadBytes, loadJson, makePool = null, loadRuntime = null }) {
   const t0 = performance.now();
-  const [R, tree, support, supportDt, onnx, patternItems] = await Promise.all([loadJson('model/reader.json'), loadJson('model/tree.json'),
+  const files = Promise.all([loadJson('model/reader.json'), loadJson('model/tree.json'),
     loadJson('model/support.json'), loadJson('model/support-dt.json'), loadBytes('model/encoder.onnx'), loadJson('model/pattern-items.json')]);
-  const session = await ort.InferenceSession.create(onnx, { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });
+  const [[R, tree, support, supportDt, onnx, patternItems], runtime] = await Promise.all([files, loadRuntime?.()]);
+  let session;
+  if (runtime) ort.env.wasm.wasmBinary = runtime;
+  try {
+    session = await ort.InferenceSession.create(onnx, { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });
+  } finally {
+    if (runtime) delete ort.env.wasm.wasmBinary;
+  }
   const table = buildTable(R.t_nus, R.t_grid, R.t_c);
   const reader = new Reader(R, table, session, ort);
   const pool = makePool ? await makePool(R) : null;
@@ -59,6 +67,22 @@ export async function createEngine({ ort, loadBytes, loadJson, makePool = null }
   eng.pool = pool;
   eng.assets = { ort, loadBytes, loadJson };   // the new-star model loads on first use (cnn36.onnx is about 11 MB)
   return eng;
+}
+
+function v4Failure(e, reason) {
+  if (e instanceof CancelledError) throw e;
+  const detail = e?.message || String(e);
+  const memory = /out of memory|insufficient memory|memory access out of bounds|cannot enlarge memory|allocation failed|allocate memory|failed to allocate|array buffer allocation|invalid (typed )?array length/i.test(detail);
+  const cause = memory ? '浏览器可用内存不足' : reason === 'load_error' ? '计算资源加载失败' : '谱面计算异常';
+  const text = '星数 v4 ' + cause + '：' + detail;
+  console.warn(text, e);
+  return { ok: false, reason, text, ...(e?.file && { file: e.file }) };
+}
+
+function appliedRepairs(chart, parsed, odOverride) {
+  const repairs = [...new Set([...chart.repairs, ...parsed.repairs])];
+  if (odOverride === null) return repairs;
+  return repairs.map(note => note.startsWith('缺少 OD 定义') ? `缺少 OD 定义，本次已按自定义 OD ${odOverride.toFixed(1)} 计算` : note);
 }
 
 export class Engine {
@@ -76,18 +100,19 @@ export class Engine {
   // withCnn: the new star (test) -> result.cnn ({ ok, star, ... } or { ok: false, reason, text }); never changes result.star.
   // withV3: star v3 (test) -> result.v3 (same object as v3Only); never changes result.star.
   async scoreBytes(bytes, { oszHasOsb = false, onProgress = null, withSegments = true, rate = 1, withSub = true, withV2 = true, hit = '',
-    odOverride = null, withItems = true, withCnn = false, withV3 = false, withV4 = false } = {}) {
+    odOverride = null, withItems = true, withCnn = false, withV3 = false, withV4 = false, isCancelled = null } = {}) {
     const t0 = performance.now();
-    const text = new TextDecoder('utf-8').decode(bytes);
+    const text = decodeOsu(bytes);
     const meta = metadata(text);
     const base = { title: meta.title, artist: meta.artist, version: meta.version, creator: meta.creator, beatmapId: meta.beatmapId,
       beatmapSetId: meta.beatmapSetId, md5: md5Hex(bytes), mode: meta.mode, keys: meta.keys };
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
       const r = await this.score(text, { oszHasOsb, onProgress, withSegments, rate, withSub, withV2: withV2 || withSub, hit,
-        odOverride, withItems, withCnn, withV3, withV4 });
+        odOverride, withItems, withCnn, withV3, withV4, isCancelled });
       return { ok: true, ...base, ...r, seconds: (performance.now() - t0) / 1000 };
     } catch (e) {
+      if (e instanceof CancelledError) throw e;
       const reason = e instanceof ChartError ? e.reason : 'parse_error';
       const msg = {
         not_mania: '不是 osu!mania 谱面，无法计算。', not_4k: '不是 4K 谱面，无法计算（只支持 4 键）。',
@@ -98,7 +123,7 @@ export class Engine {
   }
 
   async score(text, { oszHasOsb, onProgress, withSegments, rate, withSub = true, withV2 = true, hit = '', odOverride = null, withItems = true,
-    withCnn = false, withV3 = false, withV4 = false }) {
+    withCnn = false, withV3 = false, withV4 = false, isCancelled = null }) {
     // 1. hand features (same order as the reference: parse_osu checks mode / keys / note count first); times / rate, file OD
     const pf = parseOsuFeat(text);
     if (odOverride !== null) pf.od = odOverride;
@@ -114,7 +139,7 @@ export class Engine {
     const tk = tokensFromNotes(notes, rate);
     const usePool = this.pool && tk.nActions >= POOL_MIN_ACTIONS;
     const { acc, v1a, lnV2, tapV2, ls } = await this.reader.perAction(tk, od, onProgress ? p => onProgress('encode', p) : null,
-      usePool ? this.pool : null, rate, withSub || withV2, hit);
+      usePool ? this.pool : null, rate, withSub || withV2, hit, isCancelled);
     const { theta, flag } = this.reader.theta(acc);
     // 3. tree
     const row = this.tree.columns.map(c => (c === 's29' ? theta : F[c]));
@@ -122,15 +147,15 @@ export class Engine {
     const star = this.tree.star_scale.a + this.tree.star_scale.b * reading;
     const cnn = !withCnn ? null
       : cnnUntested ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
-        : await this.cnnStar({ grid, F, theta, rate, onProgress });
+        : await this.cnnStar({ grid, F, theta, rate, onProgress, isCancelled });
     // 4. whole-chart 97 % ScoreV2 reading (LN dan estimate), then the experimental rice / face items and the OD8 (OD9) reading
     const v2 = withSub || withV2 ? this.v2Reading({ tk, lnV2, tapV2, theta, star }) : null;
-    const sub = withSub ? await this.subReadings({ tk, od, v1a, lnV2, tapV2, ls, theta, flag, star, rate, hit, pool: usePool ? this.pool : null, v2 }) : null;
+    const sub = withSub ? await this.subReadings({ tk, od, v1a, lnV2, tapV2, ls, theta, flag, star, rate, hit, pool: usePool ? this.pool : null, v2, isCancelled }) : null;
     // 5. key-pattern items (beta): only where they were checked (NoMod 1.0x, file OD)
     const items = withItems && rate === 1 && hit === '' && odOverride === null
-      ? await this.patternItemReadings({ tk, notes, od, v1a, ls, star, pool: usePool ? this.pool : null }) : null;
+      ? await this.patternItemReadings({ tk, notes, od, v1a, ls, star, pool: usePool ? this.pool : null, isCancelled }) : null;
     // 6. star v3 (test): its own reading of the same tokens, independent of the steps above
-    const v3 = withV3 ? await this.v3Star({ tk, od, rate, hit, odOverride, onProgress }) : null;
+    const v3 = withV3 ? await this.v3Star({ tk, od, rate, hit, odOverride, onProgress, isCancelled }) : null;
     // flags
     const baseFlags = chartFlags(text, oszHasOsb);
     const reasons = [];
@@ -150,7 +175,7 @@ export class Engine {
     }
     const flags = { ...baseFlags, outOfRange: reasons.length > 0, outOfRangeReasons: reasons, jackHeavy: F.jack180 >= JACK_HEAVY && F.ln_frac < JACK_MAX_LN,
       jackShare: F.jack180, thetaFlag: flag };
-    const v4 = withV4 ? await this.v4Star(notes, { od, rate, hit, odOverride, flags, onProgress, tokens: tk }) : null;
+    const v4 = withV4 ? await this.v4Star(notes, { od, rate, hit, odOverride, flags, onProgress, tokens: tk, isCancelled }) : null;
     let segments = [], hardest = null;
     if (withSegments) {
       segments = this.reader.segments(v1a, tk);
@@ -161,19 +186,22 @@ export class Engine {
     let tmax = 0;
     for (const n of notes) tmax = Math.max(tmax, n[1], n[0]);
     return { rate, hit, odOverride, star, reading, theta, thetaFlag: flag, nNotes: tk.nNotes, nActions: tk.nActions, od, durationS: tmax / 1000 / rate,
+      repairs: appliedRepairs(chart, pf, odOverride), bpm: primaryBpm(text), nLongNotes: tk.lnH.length,
       features: F, acc: Array.from(acc), reliable: !(flags.sv || flags.storyboard || flags.outOfRange), flags, segments, hardest, v2, sub, items,
       cnn, v3, ...(withV4 ? { v4 } : {}) };
   }
 
-  async v4Only(bytes, { oszHasOsb = false, onProgress = null, rate = 1, hit = '', odOverride = null } = {}) {
+  async v4Only(bytes, { oszHasOsb = false, onProgress = null, rate = 1, hit = '', odOverride = null, isCancelled = null } = {}) {
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error('rate out of range');
-      const text = new TextDecoder('utf-8').decode(bytes);
-      prepareFeatureNotes(parseOsuFeat(text));
+      const text = decodeOsu(bytes);
+      const parsed = parseOsuFeat(text);
+      prepareFeatureNotes(parsed);
       const chart = loadChart(text);
-      return await this.v4Star(chart.notes, { od: odOverride ?? chart.od, rate, hit, odOverride, flags: chartFlags(text, oszHasOsb), onProgress });
+      const r = await this.v4Star(chart.notes, { od: odOverride ?? chart.od, rate, hit, odOverride, flags: chartFlags(text, oszHasOsb), onProgress, isCancelled });
+      return { ...r, repairs: appliedRepairs(chart, parsed, odOverride) };
     } catch (e) {
-      return { ok: false, reason: e instanceof ChartError ? e.reason : 'run_error', text: '星数 v4 计算失败。' };
+      return v4Failure(e, e instanceof ChartError ? e.reason : 'run_error');
     }
   }
 
@@ -193,19 +221,20 @@ export class Engine {
     return this.v4Load;
   }
 
-  async v4Star(notes, { od, rate, hit, odOverride, flags, onProgress, tokens = null }) {
+  async v4Star(notes, { od, rate, hit, odOverride, flags, onProgress, tokens = null, isCancelled = null }) {
     const t0 = performance.now();
     const report = onProgress && (p => onProgress('星数 v4', p));
     let settings;
     try {
       if (report) report(0);
-      settings = await this.ensureV4();
-    } catch {
-      return { ok: false, reason: 'load_error', text: '星数 v4 加载失败。' };
+      settings = await untilCancelled(this.ensureV4(), isCancelled);
+      await checkpoint(isCancelled);
+    } catch (e) {
+      return v4Failure(e, 'load_error');
     }
     try {
       const { model, support, supportDt } = settings;
-      const r = await model.run(notes, { od, rate, hit, odOverride, flags, pool: this.pool, onProgress: report, tokens });
+      const r = await model.run(notes, { od, rate, hit, odOverride, flags, pool: this.pool, onProgress: report, tokens, isCancelled });
       if (!Number.isFinite(r.star) || !Number.isFinite(r.theta)) throw new Error('invalid result');
       const dt = rate > 1.25;
       const range = dt ? supportDt : support;
@@ -218,39 +247,41 @@ export class Engine {
       const outOfRange = reasons.length > 0;
       return { ...r, ok: true, thetaFlag: r.flag, outOfRange, outOfRangeReasons: reasons, timing: r.ms,
         reliable: !(flags.sv || flags.storyboard || outOfRange), ms: performance.now() - t0 };
-    } catch {
-      return { ok: false, reason: 'run_error', text: '星数 v4 计算失败。' };
+    } catch (e) {
+      return v4Failure(e, 'run_error');
     }
   }
 
   // only the new star, for a chart whose P1h result (theta*) the page already has: the same hand features and CNN grid as
   // score(), without the encoder. -> the result.cnn object.
-  async cnnOnly(bytes, { rate = 1, theta, hit = '', odOverride = null }) {
+  async cnnOnly(bytes, { rate = 1, theta, hit = '', odOverride = null, isCancelled = null }) {
     if (!CNN_RATES.includes(rate) || hit !== '' || odOverride !== null) {
       return { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' };
     }
     try {
-      const fn = prepareFeatureNotes(parseOsuFeat(new TextDecoder('utf-8').decode(bytes)));
+      const fn = prepareFeatureNotes(parseOsuFeat(decodeOsu(bytes)));
       const grid = cnnGrid(fn.s, fn.c, fn.e, fn.od, rate);
       if (rate !== 1) for (let i = 0; i < fn.s.length; i++) { fn.s[i] /= rate; fn.e[i] = fn.e[i] >= 0 ? fn.e[i] / rate : -1; }
-      return await this.cnnStar({ grid, F: feats(fn.s, fn.c, fn.e, fn.od), theta, rate });
+      return await this.cnnStar({ grid, F: feats(fn.s, fn.c, fn.e, fn.od), theta, rate, isCancelled });
     } catch (e) {
+      if (e instanceof CancelledError) throw e;
       return { ok: false, reason: 'parse_error', text: '新星数计算出错：' + String(e && e.message || e) };
     }
   }
 
   // only star v3, from the chart bytes (no other model runs). -> the result.v3 object
-  async v3Only(bytes, { rate = 1, hit = '', odOverride = null } = {}) {
+  async v3Only(bytes, { rate = 1, hit = '', odOverride = null, isCancelled = null } = {}) {
     let tk, od;
     try {
       if (!Number.isFinite(rate) || rate < RATE_MIN || rate > RATE_MAX) throw new Error(`rate must be between ${RATE_MIN} and ${RATE_MAX}`);
-      const chart = loadChart(new TextDecoder('utf-8').decode(bytes));
+      const chart = loadChart(decodeOsu(bytes));
       od = odOverride !== null ? odOverride : chart.od;
       tk = tokensFromNotes(chart.notes, rate);
     } catch (e) {
+      if (e instanceof CancelledError) throw e;
       return { ok: false, reason: 'run_error', text: '星数 v3 计算出错：' + String(e && e.message || e) };
     }
-    return this.v3Star({ tk, od, rate, hit, odOverride });
+    return this.v3Star({ tk, od, rate, hit, odOverride, isCancelled });
   }
 
   ensureV3() {
@@ -271,21 +302,24 @@ export class Engine {
   }
 
   // star v3 (test) of tokens tk at the OD used for the windows
-  async v3Star({ tk, od, rate = 1, hit = '', odOverride = null, onProgress = null }) {
+  async v3Star({ tk, od, rate = 1, hit = '', odOverride = null, onProgress = null, isCancelled = null }) {
     const t0 = performance.now();
     const untested = !V3_RATES.includes(rate) || hit !== '' || odOverride !== null;
     let C, r;
     try {
       if (onProgress) onProgress('星数 v3', 0);
-      C = await this.ensureV3();
+      C = await untilCancelled(this.ensureV3(), isCancelled);
+      await checkpoint(isCancelled);
     } catch (e) {
-      return { ok: false, reason: 'load_error', text: '星数 v3 模型加载失败：' + String(e && e.message || e) };
+      if (e instanceof CancelledError) throw e;
+      return { ok: false, reason: 'load_error', file: e?.file, text: '星数 v3 模型加载失败：' + String(e && e.message || e) };
     }
     try {
       const usePool = C.pool && (tk.nActions >= POOL_MIN_ACTIONS || tk.lnH.length >= V3_POOL_MIN_LN);
-      r = await C.model.run(tk, { od, rate, hit, pool: usePool ? C.pool : null, onProgress: onProgress ? p => onProgress('星数 v3', p) : null });
+      r = await C.model.run(tk, { od, rate, hit, pool: usePool ? C.pool : null, isCancelled, onProgress: onProgress ? p => onProgress('星数 v3', p) : null });
       if (!Number.isFinite(r.star)) throw new Error('reading is not a number');
     } catch (e) {
+      if (e instanceof CancelledError) throw e;
       return { ok: false, reason: 'run_error', text: '星数 v3 计算出错：' + String(e && e.message || e) };
     }
     // DT ranges above 1.25x, the 1.0x ranges otherwise (same rule as the total star)
@@ -314,18 +348,21 @@ export class Engine {
   }
 
   // new star (test): the 20-tree mean on the 22 hand features, theta* and the CNN36 reading (mean of 10 models x original / mirrored)
-  async cnnStar({ grid, F, theta, rate, onProgress }) {
+  async cnnStar({ grid, F, theta, rate, onProgress, isCancelled }) {
     const t0 = performance.now();
     let C, cnnReading;
     try {
       if (onProgress) onProgress('新星数', 0);
-      C = await this.ensureCnn36();
+      C = await untilCancelled(this.ensureCnn36(), isCancelled);
+      await checkpoint(isCancelled);
     } catch (e) {
-      return { ok: false, reason: 'load_error', text: '新星数模型加载失败：' + String(e && e.message || e) };
+      if (e instanceof CancelledError) throw e;
+      return { ok: false, reason: 'load_error', file: e?.file, text: '新星数模型加载失败：' + String(e && e.message || e) };
     }
     try {
       cnnReading = await C.model.reading(grid);
     } catch (e) {
+      if (e instanceof CancelledError) throw e;
       return { ok: false, reason: 'run_error', text: '新星数计算出错：' + String(e && e.message || e) };
     }
     if (onProgress) onProgress('新星数', 100);
@@ -342,13 +379,13 @@ export class Engine {
 
   // key-pattern items (route A, arm C2; research repo analysis/web-items-r1/wi_ref.py): a second pass of the second layer with
   // the jack and burst-trill calibration terms on the same encoder outputs, then per-class readouts (pattern-items.js)
-  async patternItemReadings({ tk, notes, od, v1a, ls, star, pool }) {
+  async patternItemReadings({ tk, notes, od, v1a, ls, star, pool, isCancelled }) {
     const t0 = performance.now();
     const PI = this.patternItems;
     const cls = classifyNotes(notes);
     const cal = calibInputs(tk, PI);
     const v1c = new Float64Array(this.reader.P * tk.nActions);
-    for (const l of ls) await this.reader.secondLayer(l, tk, od, v1c, pool, 1, '', cal);
+    for (const l of ls) await this.reader.secondLayer(l, tk, od, v1c, pool, 1, '', cal, isCancelled);
     const r = itemReadouts({ PI, reader: this.reader, tk, cls, v1a, v1c, star });
     return { ...r, version: PI.version, ms: performance.now() - t0 };
   }
@@ -368,7 +405,7 @@ export class Engine {
     return { theta: v2Theta, flag: v2Flag, star: subStar(star, theta, v2Theta, b) };
   }
 
-  async subReadings({ tk, od, v1a, lnV2, tapV2, ls, theta, flag, star, rate, hit = '', pool, v2 = null }) {
+  async subReadings({ tk, od, v1a, lnV2, tapV2, ls, theta, flag, star, rate, hit = '', pool, v2 = null, isCancelled }) {
     const t0 = performance.now();
     const P = this.reader.P, A = tk.nActions, L = tk.lnH.length, b = this.tree.star_scale.b;
     const head = new Uint8Array(A);
@@ -401,7 +438,7 @@ export class Engine {
     if (!v2) v2 = this.v2Reading({ tk, lnV2, tapV2, theta, star });
     const odUsed = star >= OD9_FROM ? 9 : 8;
     let odTheta = theta, odFlag = flag;
-    if (odUsed !== od) ({ theta: odTheta, flag: odFlag } = this.reader.theta(await this.reader.accAtOd(ls, tk, odUsed, pool, rate, hit)));
+    if (odUsed !== od) ({ theta: odTheta, flag: odFlag } = this.reader.theta(await this.reader.accAtOd(ls, tk, odUsed, pool, rate, hit, isCancelled)));
     const odItem = { od: odUsed, fileOd: od, theta: odTheta, flag: odFlag, star: subStar(star, theta, odTheta, b), changed: odUsed !== od };
     return { rice, face, od: odItem, v2, ms: performance.now() - t0 };
   }

@@ -1,4 +1,5 @@
 import { v1Windows } from './reader.js';
+import { checkpoint } from './task-control.js';
 
 const round = Math.fround;
 const P = 402;
@@ -166,6 +167,19 @@ export class V4Score {
       const t = round(levels[j]);
       const offset = j * this.n;
       for (let i = 0; i < this.n; i++) scores[offset + i] = this.at(i, t);
+    }
+    return scores;
+  }
+
+  async readRows(levels, isCancelled, precise = false) {
+    if (!isCancelled) return precise ? this.fixed() : this.run(levels);
+    const scores = precise ? new Float64Array(this.n) : new Float32Array(this.n * levels.length);
+    for (let j = 0; j < levels.length; j++) {
+      const t = round(levels[j]);
+      for (let i = 0; i < this.n; i++) {
+        if (i % 256 === 0) await checkpoint(isCancelled);
+        scores[j * this.n + i] = this.at(i, t, precise);
+      }
     }
     return scores;
   }

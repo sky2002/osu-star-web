@@ -25,7 +25,7 @@ function mockV3(b, star, rate, odOverride) {
   const out = b % 13 === 0;
   return {
     ok: true, star: v, reading: v - 4.6, theta: (v - 4.6146) / 1.3714, thetaFlag: '',
-    untested: rate === 0.75 || Number.isFinite(odOverride),
+    untested: ![1, 1.5].includes(rate) || Number.isFinite(odOverride),
     outOfRange: out, outOfRangeReasons: out ? [`v3 读数高于所有排名谱的最高读数（${(v - 0.3).toFixed(2)}）`] : [], ms: 1,
   };
 }
@@ -33,11 +33,11 @@ function mockV3(b, star, rate, odOverride) {
 function mockV4(b, star, rate, odOverride, durationS) {
   if (b % 17 === 0) return { ok: false, reason: 'run_error', text: '星数 v4 计算失败。' };
   const v = star + .3;
-  const show = rate === 1 && !Number.isFinite(odOverride) && b % 5 !== 0;
+  const show = b % 5 !== 0;
   const item = (id, delta, share, display = true) => ({ id, star: v + delta, share, display });
   const hardest = { startS: 0, endS: Math.min(durationS, 10), star: v + .5 };
   return {
-    ok: true, star: v, untested: ![1, 1.5].includes(rate) || Number.isFinite(odOverride),
+    ok: true, star: v, itemsUntested: rate !== 1 || Number.isFinite(odOverride), untested: ![1, 1.5].includes(rate) || Number.isFinite(odOverride),
     items: show ? [item('stream', .4, .38), item('jack', .7, .27), item('chordstream', .2, .24),
       item('tech', -.1, .19), item('ln', 0, .05, false)] : null,
     stamina: show ? item('stamina', .5, .42, durationS >= 25) : null,
@@ -45,6 +45,12 @@ function mockV4(b, star, rate, odOverride, durationS) {
   };
 }
 
+function mockStar(b, rate) {
+  const change = rate <= 1 ? (rate - 1) * 4.4 : (rate - 1) * 3.2;
+  return 1.5 + (b % 7500) / 1000 + change;
+}
+
+const running = new Set();
 async function score(msg) {
   const { id, bytes, name, oszHasOsb } = msg;
   const rate = msg.rate || 1;
@@ -57,9 +63,11 @@ async function score(msg) {
   };
   const steps = [['读取谱面', 10], ['整理物件', 40], ['估算难度', 80], ['汇总', 100]];
   for (const [stage, pct] of steps) {
+    if (!running.has(id)) return;
     self.postMessage({ type: 'progress', id, stage, pct });
     await sleep(DELAY_MS / steps.length);
   }
+  if (!running.has(id)) return;
   let result;
   if (h.mode !== 3) {
     result = { ok: false, reason: 'not_mania', message: '这不是 mania 谱面。', mode: h.mode, ...meta };
@@ -69,7 +77,7 @@ async function score(msg) {
     result = { ok: false, reason: 'too_few_notes', message: '物件少于 20 个，不计算。', nNotes: h.nObjects, ...meta };
   } else {
     const b = parseInt(md5.slice(0, 8), 16);
-    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : rate === 0.75 ? -1.1 : 0); // 1.5 ~ 9.0 at 1.0x
+    const star = mockStar(b, rate); // 1.5 ~ 9.0 at 1.0x
     const durationS = Math.max(lastObjectTimeS(text) / rate, 10);
     const nSeg = Math.max(1, Math.ceil(durationS / 10));
     const segments = [];
@@ -113,7 +121,7 @@ async function score(msg) {
           },
         };
       })(),
-      cnn: !msg.withCnn ? null : rate === 0.75
+      cnn: !msg.withCnn ? null : ![1, 1.5].includes(rate) || Number.isFinite(msg.odOverride)
         ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
         : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: b % 13 === 0,
           outOfRangeReasons: b % 13 === 0 ? ['CNN36 读数超出排名谱范围'] : [], ms: 1 },
@@ -128,31 +136,33 @@ async function score(msg) {
   self.postMessage({ type: 'result', id, result });
 }
 
-self.onmessage = async (ev) => {
-  const msg = ev.data;
+async function handle(msg) {
   if (msg.type === 'init') {
     await sleep(500);
     self.postMessage({ type: 'ready', version: '树星数 v1 (P1h)', frozen: '2026-10-14', loadMs: 500 });
   } else if (msg.type === 'cnn') {
     await sleep(DELAY_MS);
+    if (!running.has(msg.id)) return;
     const b = parseInt(md5Hex(msg.bytes).slice(0, 8), 16);
     const rate = msg.rate || 1;
-    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : 0);
-    const cnn = rate === 0.75 || Number.isFinite(msg.odOverride)
+    const star = mockStar(b, rate);
+    const cnn = ![1, 1.5].includes(rate) || Number.isFinite(msg.odOverride)
       ? { ok: false, reason: 'untested', text: '新星数只核过 NoMod 和 DT（谱面文件 OD），这个设置下不给' }
       : { ok: true, star: star + ((b % 9) - 4) / 10, reading: 0, cnnReading: 0, outOfRange: false, outOfRangeReasons: [], ms: 1 };
     self.postMessage({ type: 'result', id: msg.id, result: { cnnOnly: true, cnn } });
   } else if (msg.type === 'v3') {
     await sleep(DELAY_MS);
+    if (!running.has(msg.id)) return;
     const b = parseInt(md5Hex(msg.bytes).slice(0, 8), 16);
     const rate = msg.rate || 1;
-    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : rate === 0.75 ? -1.1 : 0);
+    const star = mockStar(b, rate);
     self.postMessage({ type: 'result', id: msg.id, result: { v3Only: true, v3: mockV3(b, star, rate, msg.odOverride) } });
   } else if (msg.type === 'v4') {
     await sleep(DELAY_MS);
+    if (!running.has(msg.id)) return;
     const b = parseInt(md5Hex(msg.bytes).slice(0, 8), 16);
     const rate = msg.rate || 1;
-    const star = 1.5 + (b % 7500) / 1000 + (rate === 1.5 ? 1.6 : rate === 0.75 ? -1.1 : 0);
+    const star = mockStar(b, rate);
     const durationS = Math.max(lastObjectTimeS(decodeText(msg.bytes)) / rate, 10);
     self.postMessage({ type: 'result', id: msg.id, result: { v4Only: true, v4: mockV4(b, star, rate, msg.odOverride, durationS) } });
   } else if (msg.type === 'score') {
@@ -165,4 +175,14 @@ self.onmessage = async (ev) => {
       });
     }
   }
+}
+
+self.onmessage = async ({ data: msg }) => {
+  if (msg.type === 'cancel') {
+    if (running.delete(msg.id)) self.postMessage({ type: 'cancelled', id: msg.id });
+    return;
+  }
+  running.add(msg.id);
+  try { await handle(msg); }
+  finally { running.delete(msg.id); }
 };

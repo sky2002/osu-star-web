@@ -2,14 +2,17 @@
 // compute worker with MessagePorts, so no nested workers are needed. Results are identical to the single-thread path:
 // every profile row is computed by the same code and accumulated in the same order.
 
-// main thread: start `size` helpers, return the ports to hand to the compute worker
-export function spawnHelpers(size) {
+import { CancelledError, checkCancelled } from './task-control.js';
+
+// main thread: start helpers, return the ports to hand to the compute worker
+export function spawnHelpers(size, onSpawn = null) {
   const ports = [];
-  for (let i = 0; i < size; i++) {
+  for (let i = 0; i < Math.min(4, size); i++) {
     try {
       const w = new Worker(new URL('./sl-worker.js', import.meta.url), { type: 'module' });
       const ch = new MessageChannel();
       w.postMessage({ type: 'port', port: ch.port1 }, [ch.port1]);
+      onSpawn?.(w);
       ports.push(ch.port2);
     } catch (e) { break; }
   }
@@ -19,12 +22,14 @@ export function spawnHelpers(size) {
 // compute worker: a pool over the helper ports (null if none answer)
 export async function createPool(R, ports, timeoutMs = 20000) {
   if (!ports || !ports.length) return null;
-  const ok = await Promise.all(ports.map(p => new Promise(res => {
+  const ok = await Promise.all(ports.slice(0, 4).map(p => new Promise(res => {
     const timer = setTimeout(() => res(false), timeoutMs);
     p.onmessage = e => { clearTimeout(timer); res(e.data.type === 'ready'); };
-    p.postMessage({ type: 'init', R });
+    try { p.postMessage({ type: 'init', R }); }
+    catch { clearTimeout(timer); res(false); }
   })));
   const live = ports.filter((_, i) => ok[i]);
+  ports.forEach((p, i) => { if (!ok[i]) p.close(); });
   if (!live.length) return null;
   let job = 0, next = 0;
   const pending = new Map();
@@ -33,25 +38,36 @@ export async function createPool(R, ports, timeoutMs = 20000) {
       const q = pending.get(e.data.job);
       pending.delete(e.data.job);
       if (!q) return;
+      q.detach();
       if (e.data.type === 'done') q.res(e.data.S); else q.rej(new Error(e.data.message));
     };
   }
-  const post = (p, msg) => {
+  const post = (p, msg, isCancelled) => {
     const id = ++job;
     return new Promise((res, rej) => {
-      pending.set(id, { res, rej });
-      p.postMessage({ ...msg, job: id });
+      checkCancelled(isCancelled);
+      const signal = isCancelled?.signal;
+      const stop = () => {
+        pending.delete(id);
+        p.postMessage({ type: 'cancel', job: id });
+        rej(new CancelledError());
+      };
+      const detach = () => signal?.removeEventListener('abort', stop);
+      pending.set(id, { res, rej, detach });
+      signal?.addEventListener('abort', stop, { once: true });
+      try { p.postMessage({ ...msg, job: id }); }
+      catch (e) { pending.delete(id); detach(); rej(e); }
     });
   };
   return {
     size: live.length,
-    run(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '', cal = null) {
-      return post(live[next++ % live.length], { type: 'run', l, comp, lnH, lnT, od, p0, p1, rate, hit, cal });
+    run(l, comp, lnH, lnT, od, p0, p1, rate = 1, hit = '', cal = null, isCancelled = null) {
+      return post(live[next++ % live.length], { type: 'run', l, comp, lnH, lnT, od, p0, p1, rate, hit, cal }, isCancelled);
     },
     // any other job type the helpers know (answer: e.data.S)
     call(msg) { return post(live[next++ % live.length], msg); },
     // the same, on helper i (0 <= i < size): lets a caller keep every helper busy with its own queue
-    callOn(i, msg) { return post(live[i % live.length], msg); },
+    callOn(i, msg, isCancelled) { return post(live[i % live.length], msg, isCancelled); },
     // the same message to every helper (e.g. tables they keep)
     broadcast(msg) { return Promise.all(live.map(p => post(p, msg))); },
   };

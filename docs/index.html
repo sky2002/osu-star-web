@@ -6,63 +6,78 @@
 <meta name="color-scheme" content="light dark">
 <title>osu!mania 4K 星数 v4 测试版</title>
 <meta name="description" content="在浏览器本地计算 osu!mania 4K 谱面的社区星数，文件不会上传。">
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="top">
   <div class="wrap top-in">
-    <h1>osu!mania 4K 星数 v4 测试版</h1>
+    <h1>osu!mania 4K 星数 <small>v4 测试版</small></h1>
     <a class="fb" data-feedback href="#" target="_blank" rel="noopener">反馈 / 报告读数不对</a>
   </div>
 </header>
 
 <main class="wrap">
-  <p class="lead">在你的浏览器本地计算，文件不会上传到任何服务器。</p>
-
-  <div id="status" class="status loading" role="status" aria-live="polite">
-    <span class="dot" aria-hidden="true"></span><span id="status-text">正在加载模型…</span>
+  <div id="status" class="status loading">
+    <span class="status-copy"><span class="dot" aria-hidden="true"></span><span id="status-text" role="status">正在加载计算资源…</span></span>
+    <progress id="load-progress" aria-label="计算资源下载进度" hidden></progress>
+    <button type="button" id="retry-load" class="btn small" hidden>重试加载</button>
   </div>
 
-  <div id="star-model" class="mods" role="group" aria-label="星数模型">
-    <span class="mods-label">模型</span>
-    <button type="button" class="mod" data-model="v4" aria-pressed="true">星数 v4 <small>测试版</small></button>
-    <button type="button" class="mod" data-model="v3" aria-pressed="false">星数 v3</button>
-    <button type="button" class="mod" data-model="p1h" aria-pressed="false">P1h 旧版</button>
-    <button type="button" class="mod" data-model="cnn36" aria-pressed="false">CNN36 <small>测试版</small></button>
-    <button type="button" class="mod" data-model="both" aria-pressed="false">对比 v3</button>
-  </div>
-  <p class="model-note muted"><small id="model-note"></small></p>
-
-  <div id="mods" class="mods" role="group" aria-label="Mod（倍速）">
-    <span class="mods-label">Mod</span>
-    <button type="button" class="mod" data-rate="1" aria-pressed="true">NoMod</button>
-    <button type="button" class="mod" data-rate="0.75" aria-pressed="false">HT <small>0.75×</small></button>
-    <button type="button" class="mod" data-rate="1.5" aria-pressed="false">DT <small>1.5×</small></button>
-  </div>
-
-  <label class="exp" for="experimental">
-    <input id="experimental" type="checkbox">
-    <span>实验性功能</span>
-    <small>可调 OD、达成水平表（可调 acc）、米 / 面分项、OD8 口径（约定换算；开启后已算好的谱会补算）</small>
-  </label>
-
-  <div id="od-ctl" class="mods od-ctl" role="group" aria-label="OD（实验性功能）" data-custom="false" hidden>
-    <span class="mods-label">OD</span>
-    <button type="button" class="mod" data-od="file" aria-pressed="true">谱面文件</button>
-    <button type="button" class="mod" data-od="custom" aria-pressed="false">自定义</button>
-    <span class="slider-pair">
-      <input id="od-range" type="range" min="0" max="10" step="0.1" value="8" aria-label="自定义 OD（滑条）">
-      <input id="od-num" type="number" min="0" max="10" step="0.1" value="8" inputmode="decimal" aria-label="自定义 OD">
-    </span>
-    <small>自定义 OD 会按所选判定设置重新计算。关闭实验性功能后，网页会改用谱面文件里的 OD。</small>
-  </div>
-
-  <label id="drop" class="drop" for="file-input">
+  <div id="drop" class="drop">
     <input id="file-input" type="file" accept=".osu,.osz" multiple hidden>
-    <span class="drop-title">把 .osu 或 .osz 文件拖到这里</span>
-    <span class="drop-sub">可以一次放多个；.osz 会列出里面的全部难度</span>
+    <div class="drop-copy">
+      <span class="drop-title">拖入 .osu、.osz 或曲包文件夹</span>
+      <span class="drop-sub">支持多份文件。计算在你的浏览器里完成，文件不会上传。</span>
+    </div>
     <button type="button" id="pick" class="btn primary">选择文件</button>
-  </label>
+  </div>
+  <div id="drop-overlay" class="drop-overlay" aria-hidden="true" hidden>
+    <div>松开鼠标即可计算 .osu / .osz 或曲包文件夹</div>
+  </div>
+
+  <details id="advanced-panel" class="advanced">
+    <summary>
+      <span class="advanced-title">更多设置</span>
+      <span class="advanced-caption">切换旧版模型 / 对比 v3 / 自定义 OD 与旧版分项</span>
+      <span id="advanced-state" class="setting-badge" hidden></span>
+    </summary>
+    <div class="advanced-body">
+      <div id="star-model" class="mods" role="group" aria-label="星数模型">
+        <span class="mods-label">模型</span>
+        <button type="button" class="mod" data-model="v4" aria-pressed="true">星数 v4 <small>测试版</small></button>
+        <button type="button" class="mod" data-model="v3" aria-pressed="false">星数 v3</button>
+        <button type="button" class="mod" data-model="p1h" aria-pressed="false">P1h 旧版</button>
+        <button type="button" class="mod" data-model="cnn36" aria-pressed="false">CNN36 <small>测试版</small></button>
+        <button type="button" class="mod" data-model="both" aria-pressed="false">对比 v3</button>
+      </div>
+      <p class="model-note muted"><small id="model-note"></small></p>
+
+      <div id="mods" class="mods" role="group" aria-label="所有谱面的倍速">
+        <span class="mods-label">全局倍速</span>
+        <button type="button" class="mod" data-rate="1" aria-pressed="true">NoMod</button>
+        <button type="button" class="mod" data-rate="0.75" aria-pressed="false">HT <small>0.75×</small></button>
+        <button type="button" class="mod" data-rate="1.5" aria-pressed="false">DT <small>1.50×</small></button>
+      </div>
+
+      <label class="exp" for="experimental">
+        <input id="experimental" type="checkbox">
+        <span>实验性功能</span>
+        <small>开启后可调 OD，也可查看旧版米 / 面分项与 OD8 约定换算。网页会补算已出结果的谱。</small>
+      </label>
+
+      <div id="od-ctl" class="mods od-ctl" role="group" aria-label="OD（实验性功能）" data-custom="false" hidden>
+        <span class="mods-label">OD</span>
+        <button type="button" class="mod" data-od="file" aria-pressed="true">谱面文件</button>
+        <button type="button" class="mod" data-od="custom" aria-pressed="false">自定义</button>
+        <span class="slider-pair">
+          <input id="od-range" type="range" min="0" max="10" step="0.1" value="8" aria-label="自定义 OD（滑条）">
+          <input id="od-num" type="number" min="0" max="10" step="0.1" value="8" inputmode="decimal" aria-label="自定义 OD">
+        </span>
+        <small>自定义 OD 会按所选判定设置重新计算。关闭实验性功能后，网页会改用谱面文件里的 OD。</small>
+      </div>
+    </div>
+  </details>
 
   <section id="results-sec" class="results-sec" hidden>
     <div class="results-head">
@@ -74,29 +89,29 @@
 
   <section class="help" aria-label="说明">
     <h2>说明</h2>
-    <details open>
+    <details>
       <summary>星数是什么意思</summary>
       <p>平均要多强的玩家，才能在这张谱上打到 96% 的准确率（stable ScoreV1 口径，默认用谱面文件里的 OD）。数越大越难。</p>
     </details>
-    <details open>
+    <details>
       <summary>米段位 / 面段位</summary>
       <p>把这张谱和 REFORM / LN 段位谱用同一模型、同一标准比较，看它排在哪两段之间；不代表能通过对应段位。</p>
       <ul>
         <li>米段位：用总星数（96% 准确率，ScoreV1）和 REFORM 1st … 10th、Alpha … Eta 的整段（Marathon）读数比较。</li>
-        <li>面段位：用整张谱按 LN 段位的标准（97% 准确率，ScoreV2）读出的星数，和 LN Dan Courses v2 6th … 15th 的整段读数比较。LN 5 段及以下社区没有公认的标准，所以不用，低于 6 段一律显示“LN 6 段以下”。</li>
+        <li>面段位用 97% 准确率（ScoreV2）的谱面读数与 LN Dan Courses v2 6th 到 15th 的整段实测读数比较。低于 6th 时，以 6th 到 10th 的斜率线性外推至 1st，并注明“外推”。</li>
         <li>“偏 8th”表示更靠近 8th，“居中”表示落在两段之间的中间三分之一。两段读数非常接近时，网页会合成一档，例如“2nd–3rd”。</li>
         <li>长条占物件不到 15% 的谱，面段位变灰，只作参考。总星数标了“不可靠”时，段位也不可靠。</li>
-        <li>HT / DT 下，用这个倍速的读数和 NoMod 段位谱比较。</li>
+        <li>调速后，用当前倍速的读数和 NoMod 段位谱比较。</li>
         <li>主读数和四首连起来的整段（Marathon）比。整段比单曲长、读数偏高，所以单曲按整段换算会显得低一点。下面另给一行“米段位（按单曲）”：用 REFORM 官方单曲换算，每段只有 2–6 首，误差约 ±0.15 段；Eta 没有单曲，高于 Zeta 的部分是外推。另外，段位谱标注的 OD 常比谱面文件里的高（Alpha 以上多为 OD 9），按文件 OD 读，段位还会再显得低约 0.1 段。</li>
       </ul>
     </details>
-    <details open>
+    <details>
       <summary>星数 v4（测试版）</summary>
       <p>默认的星数 v4 和 v3 都按 stable ScoreV1 的 96% 准确率读难度。选“对比 v3”，可以同时看两个版本的星数、差值和 v3 的米段位。</p>
       <p>在开发测试里，用同一玩家两小时内打的两张谱比较表现，v4 判断哪张更难的判对率是 81.48%，v3 是 80.93%。每个 10 秒段也用 v4 的星数刻度，可以直接看这张谱哪段最吃力。</p>
-      <p>v4 的总星数已检验 NoMod 和 DT，均使用谱面文件 OD。HT、自定义 OD、HR 和 EZ 设置下的读数未经检验。页面可选择 NoMod、HT 和 DT。</p>
+      <p>v4 的总星数已检验 NoMod 和 DT，均使用谱面文件 OD。其他倍速和自定义 OD 的读数未经检验。</p>
     </details>
-    <details open>
+    <details>
       <summary>六维键型分项（测试版）</summary>
       <p>分项星数看这类键最难有多难，直接显示峰值。失分占比看整首刚好打到 96% 时，丢掉的分有多少落在这类键上。能显示星数的项目排在前面，再按失分占比排序。最容易拖低整首准确率的键型会先出现。各项占比可以重叠，且不含慢速或零散过渡音符，所以加起来不必刚好等于 100%。</p>
       <ul>
@@ -107,7 +122,7 @@
         <li>面看长条，例如反面长条中夹单点的协调难度。</li>
         <li>耐力看打到容易累的部分时有多难，例如四首连打后半段。它可以和前五种键型重叠，所以单独显示。</li>
       </ul>
-      <p>星数 v4 的六维分项适用于 NoMod、谱面文件 OD 和非变速谱。谱面中的某类键很少时，该项以“—”显示。选择星数 v3、P1h 或 CNN36 时，结果卡会显示各版本的旧分项。</p>
+      <p>v4 的六维分项已在使用文件 OD 的原速非变速谱上检验。调速或自定义 OD 后，分项会注明“未经检验”。变速谱不显示六维分项，谱面中某类键很少时，该项以“—”显示。选择星数 v3、P1h 或 CNN36 时，结果卡会显示各版本的旧分项。</p>
     </details>
     <details>
       <summary>版本</summary>
@@ -118,19 +133,21 @@
       <p>这不是 osu! 官方星数，也不会和它一一对应。除 HT / DT 外，不计算其他 mod（HR、EZ、HD 等）。</p>
     </details>
     <details>
-      <summary>HT / DT</summary>
-      <p>在上方选 Mod 后，所有谱面会按这个倍速重新计算（算过的会记住，来回切换不用重算）。DT/NC 固定 1.5 倍，HT 固定 0.75 倍；判定窗口按 stable 的 DT / HT 规则换算，OD 用谱面文件里的值（或实验性功能里自定义的 OD）。</p>
+      <summary>倍速与全倍速曲线</summary>
+      <p>每张谱可在 0.50× 到 2.00× 之间按 0.01× 调速。拖动时先预览 BPM 和时长，松开滑条或确认数字后才计算星数。算过的倍速会保留，可以直接切回。</p>
       <ul>
+        <li>“更多设置”里仍可给所有谱面切换到 HT、NoMod 或 DT。</li>
+        <li>全倍速曲线需要多次本地计算。两次确认后才开始，计算时可以随时取消。曲线实心点是实算值，连线是插值，点击连线可实算对应倍速。</li>
         <li>分段曲线显示所选倍速下的实际时间。段位估计和附近段位参考谱均以段位谱的 NoMod 读数为参照。</li>
       </ul>
     </details>
     <details>
-      <summary>自定义 OD / acc（实验性功能）</summary>
+      <summary>自定义 OD 与准确率曲线</summary>
       <ul>
         <li>打开实验性功能后，可以用滑条或输入框自定义 OD（0–10，一位小数），也可以和 HT / DT 同时使用。</li>
         <li>结果卡和复制的文字会显示自定义 OD 和谱面文件 OD，便于对照。</li>
         <li>选回“谱面文件”或关掉实验性功能，就回到谱面文件里的 OD。算过的 OD 会记住，来回切换不用重算。</li>
-        <li>达成水平表最下面一行的 acc 也可以拖滑条或输入（85–99.5%），不用重算，拖动时直接更新。</li>
+        <li>结果卡上的准确率曲线使用 ScoreV1。拖动图或输入 85% 到 99.5% 的准确率，就能即时查看对应星数和米段位。</li>
       </ul>
     </details>
     <details>

@@ -1,3 +1,4 @@
+import { checkpoint } from './task-control.js';
 // Star v3 (test): the reading of one chart from model/v3a.onnx, model/v3b.onnx, model/v3.json and model/v3-0.bin.
 // Steps marked float32 round every operation with Math.fround so the readings match the published values.
 import { f32 } from './pyutil.js';
@@ -260,7 +261,7 @@ export class V3 extends V3Core {
   }
 
   // one orientation: windows of 256 actions (192 kept), two look-ahead masks -> l [A*2], e [A*4], h [A*128] (raw outputs)
-  async encode(z, gap, A, onProgress = null) {
+  async encode(z, gap, A, onProgress = null, isCancelled = null) {
     const [WIN, CORE, HALO] = this.J.win;
     const { lay, tol } = this.J.clk;
     const L1 = lay[0] + tol, L2 = lay[1] + tol;
@@ -270,6 +271,7 @@ export class V3 extends V3Core {
     const tm = new Float64Array(WIN);
     const T = this.ort.Tensor;
     for (let w0 = 0; w0 < nW; w0 += CH) {
+      await checkpoint(isCancelled);
       const nw = Math.min(CH, nW - w0);
       const xw = new Float32Array(nw * WIN * 17), valid = new Uint8Array(nw * WIN);
       const m1 = new Uint8Array(nw * WIN * WIN), m2 = new Uint8Array(nw * WIN * WIN);
@@ -329,18 +331,25 @@ export class V3 extends V3Core {
   }
 
   // accuracy curve over the 37 levels (sum over actions / number of notes), locally or split over a helper pool
-  async readout(xs, tk, w, rate, pool = null) {
+  async readout(xs, tk, w, rate, pool = null, isCancelled = null) {
     const P = this.P, sums = new Float64Array(P);
-    if (!pool || !pool.size) sums.set(this.readoutRange(xs, tk.comp, tk.lnH, tk.lnT, w, rate, 0, P));
-    else {
+    if (!pool?.size) {
+      const step = isCancelled ? 1 : P;
+      for (let p = 0; p < P; p += step) {
+        await checkpoint(isCancelled);
+        sums.set(this.readoutRange(xs, tk.comp, tk.lnH, tk.lnT, w, rate, p, p + step), p);
+      }
+    } else {
       // small blocks of levels; each helper takes the next block when it finishes one (the cost per level is uneven)
       const B = 2;
       let next = 0;
       const lane = async (i) => {
         while (next < P) {
+          await checkpoint(isCancelled);
+          if (next >= P) break;
           const p0 = next, p1 = Math.min(P, p0 + B);
           next = p1;
-          sums.set(await pool.callOn(i, { type: 'v3run', xs, comp: tk.comp, lnH: tk.lnH, lnT: tk.lnT, w, rate, p0, p1 }), p0);
+          sums.set(await pool.callOn(i, { type: 'v3run', xs, comp: tk.comp, lnH: tk.lnH, lnT: tk.lnT, w, rate, p0, p1 }, isCancelled), p0);
         }
       };
       await Promise.all(Array.from({ length: Math.min(pool.size, P) }, (_, i) => lane(i)));
@@ -417,17 +426,18 @@ export class V3 extends V3Core {
   }
 
   // whole chart: tk = tokensFromNotes(notes, rate); od = the OD used for the windows
-  async run(tk, { od, rate = 1, hit = '', pool = null, onProgress = null }) {
+  async run(tk, { od, rate = 1, hit = '', pool = null, onProgress = null, isCancelled = null }) {
     const A = tk.nActions;
     const prog = onProgress || (() => {});
     const t0 = performance.now();
     const w = v1Windows(od, rate, hit);
     const { z, zm, gap } = this.standardise(tk);
-    const e0 = await this.encode(z, gap, A, f => prog(30 * f));
-    const e1 = await this.encode(zm, gap, A, f => prog(30 + 30 * f));
+    const e0 = await this.encode(z, gap, A, f => prog(30 * f), isCancelled);
+    const e1 = await this.encode(zm, gap, A, f => prog(30 + 30 * f), isCancelled);
     const xs = [this.columns(e0, tk.comp), this.columns(e1, tk.comp)];
     const t1 = performance.now();
-    const acc = await this.readout(xs, tk, w, rate, pool);
+    const acc = await this.readout(xs, tk, w, rate, pool, isCancelled);
+    await checkpoint(isCancelled);
     const { theta, flag } = this.theta(acc);
     prog(90);
     const t2 = performance.now();
